@@ -1,0 +1,58 @@
+  [
+  {
+     "bodyPart":"core",
+     "equipment":"body weight",
+     "gifUrl":"http://d205bpvrqc9yn1.cloudfront.net/0001.gif",
+     "id":"0001",
+     "name":"3/4 sit-up",
+     "target":"abs"
+  },
+  {
+     "bodyPart":"core",
+     "equipment":"body weight",
+     "gifUrl":"http://d205bpvrqc9yn1.cloudfront.net/0002.gif",
+     "id":"0002",
+     "name":"45° side bend",
+     "target":"abs"
+  },
+  {
+     "bodyPart":"core",
+     "equipment":"body weight",
+     "gifUrl":"http://d205bpvrqc9yn1.cloudfront.net/0003.gif",
+     "id":"0003",
+     "name":"air bike",
+     "target":"abs"
+  },
+  {
+     "bodyPart":"upper legs",
+     "equipment":"body weight",
+     "gifUrl":"http://d205bpvrqc9yn1.cloudfront.net/1512.gif",
+     "id":"1512",
+     "name":"all fours quads stretch",
+     "target":"quads"
+  },
+  {
+     "bodyPart":"core",
+     "equipment":"body weight",
+     "gifUrl":"http://d205bpvrqc9yn1.cloudfront.net/0006.gif",
+     "id":"0006",
+     "name":"alternate heel touchers",
+     "target":"abs"
+  },
+  {
+     "bodyPart":"back",
+     "equipment":"cable",
+     "gifUrl":"http://d205bpvrqc9yn1.cloudfront.net/0007.gif",
+     "id":"0007",
+     "name":"alternate lateral pulldown",
+     "target":"lats"
+  },
+  {
+     "bodyPart":"lower legs",
+     "equipment":"body weight",
+     "gifUrl":"http://d205bpvrqc9yn1.cloudfront.net/1368.gif",
+     "id":"1368",
+     "name":"ankle circles",
+     "target":"calves"
+  }
+]
