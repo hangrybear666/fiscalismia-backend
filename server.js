@@ -3,8 +3,11 @@ const cors = require('cors')
 const express = require('express')
 const morgan = require('morgan')
 
-// Local Dependencies
+// Routes
 const exerciseRouter = require('./routes/exerciseRoutes')
+const postgresRouter = require('./routes/postgresRouter')
+
+// Local Dependencies
 const config = require('./utils/config')
 const errorHandler = require('./middleware/errorHandler')
 
@@ -43,6 +46,9 @@ app.use(express.json())
  * 
  */
 app.use('/api/exercises', exerciseRouter)
+app.use('/api/postgres', postgresRouter)
 app.use( errorHandler )
+
+
 
 app.listen(config.PORT, () => console.log(`Server is running on port ${config.PORT}`))

@@ -1,1 +1,45 @@
 {"level":"info","message":"controller received GET"}
+{"level":"info","message":"controller received POST"}
+{"level":"info","message":"controller received GET"}
+{"level":"info","message":"controller received GET"}
+{"level":"info","message":"controller received GET"}
+{"level":"info","message":"controller received GET to /api/postgres"}
+{"level":"error"}
+{"level":"info","message":"controller received GET to /api/postgres"}
+{"level":"error"}
+{"level":"info","message":"controller received GET to /api/postgres"}
+{"level":"error"}
+{"level":"info","message":"controller received GET to /api/postgres"}
+{"level":"error"}
+{"level":"info","message":"controller received GET to /api/postgres"}
+{"level":"error"}
+{"level":"info","message":"controller received GET to /api/postgres"}
+{"level":"error"}
+{"level":"info","message":"controller received GET to /api/postgres"}
+{"level":"error"}
+{"level":"info","message":"controller received GET to /api/postgres"}
+{"level":"info","message":"controller received GET to /api/postgres"}
+{"level":"info","message":"controller received GET to /api/postgres"}
+{"level":"error"}
+{"level":"info","message":"controller received GET to /api/postgres"}
+{"level":"error"}
+{"level":"info","message":"controller received GET to /api/postgres"}
+{"level":"error"}
+{"level":"info","message":"controller received GET to /api/postgres"}
+{"level":"error"}
+{"level":"info","message":"controller received GET to /api/postgres"}
+{"level":"error"}
+{"level":"info","message":"controller received GET to /api/postgres"}
+{"level":"error"}
+{"level":"info","message":"controller received GET to /api/postgres"}
+{"level":"error"}
+{"level":"info","message":"controller received GET to /api/postgres"}
+{"level":"error"}
+{"level":"info","message":"controller received GET to /api/postgres"}
+{"level":"error"}
+{"level":"info","message":"controller received GET to /api/postgres"}
+{"level":"error"}
+{"level":"info","message":"controller received GET to /api/postgres"}
+{"code":"ERR_HTTP_INVALID_STATUS_CODE","level":"error"}
+{"level":"info","message":"controller received GET to /api/postgres"}
+{"level":"info","message":"controller received GET to /api/postgres"}
