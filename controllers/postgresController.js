@@ -9,7 +9,7 @@ const { Pool } = require('pg');
  */
  const pool = new Pool({
   connectionString: process.env.DATABASE_URL || `postgresql://postgres:${process.env.POSTGRES_PW}@localhost:5432/postgres`,
-  ssl: process.env.DATABASE_URL ? true : false
+  ssl: process.env.DATABASE_URL ? {rejectUnauthorized: false} : false
 })
 
 /**
@@ -26,6 +26,7 @@ const getAll = asyncHandler(async (request, response) => {
     const client = await pool.connect();
     const result = await client.query('SELECT * FROM test_table');
     const results = { 'results': (result) ? result.rows : null};
+    logger.debug(results)
     response.send(200, results );
     client.release();
   } catch (err) {
