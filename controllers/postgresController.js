@@ -5,15 +5,17 @@ const logger = require('../utils/logger')
 const { Pool } = require('pg');
 
 /**
- * Heroku Postgres Connectivity Test
+ * When deployed DATABASE_URL is fetched from heroku config
+ * When testing locally the database URL is constructed from environment variables pointing to a local windows installation
  */
  const pool = new Pool({
-  connectionString: process.env.DATABASE_URL || `postgresql://postgres:${process.env.POSTGRES_PW}@localhost:5432/postgres`,
+  connectionString: process.env.DATABASE_URL ||
+    `postgresql://${process.env.POSTGRES_USER_LOCAL}:${process.env.POSTGRES_PW_LOCAL}@localhost:${process.env.POSTGRES_PORT_LOCAL}/postgres`,
   ssl: process.env.DATABASE_URL ? {rejectUnauthorized: false} : false
 })
 
 /**
- * @description test query against postgres cloud db within HEROKU
+ * @description test query against postgres db
  * @type HTTP GET
  * @route /api/postgres
  * @param {*} request
@@ -21,12 +23,10 @@ const { Pool } = require('pg');
  */
 const getAll = asyncHandler(async (request, response) => {
   logger.info("controller received GET to /api/postgres")
-  logger.debug(process.env.DATABASE_URL)
   try {
     const client = await pool.connect();
     const result = await client.query('SELECT * FROM test_table');
     const results = { 'results': (result) ? result.rows : null};
-    logger.debug(results)
     response.send(200, results );
     client.release();
   } catch (err) {
