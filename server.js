@@ -5,7 +5,7 @@ const morgan = require('morgan')
 
 // Routes
 const exerciseRouter = require('./routes/exerciseRoutes')
-const postgresRouter = require('./routes/postgresRouter')
+const postgresRouter = require('./routes/postgresRoutes')
 
 // Local Dependencies
 const config = require('./utils/config')
@@ -46,7 +46,7 @@ app.use(express.json())
  * 
  */
 app.use('/api/exercises', exerciseRouter)
-app.use('/api/postgres', postgresRouter)
+app.use('/api/fiscalismia', postgresRouter)
 app.use( errorHandler )
 
 

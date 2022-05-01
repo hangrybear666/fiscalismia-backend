@@ -6,6 +6,9 @@ const errorHandler = (error, request, response, next) => {
     .status(statusCode)
     .json({
       name: error.name,
+      severity: error.severity,
+      code: error.code,
+      routine: error.routine,
       message: error.message,
       stack: process.env.NODE_ENV === 'production' ? null : error.stack
     })
