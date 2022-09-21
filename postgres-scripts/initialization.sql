@@ -34,6 +34,16 @@ DROP TABLE IF EXISTS public.variable_expenses;
 DROP TABLE IF EXISTS public.category;
 DROP TABLE IF EXISTS public.store;
 DROP TABLE IF EXISTS public.sensitivity;
+DROP TABLE IF EXISTS public.test_table;
+
+CREATE TABLE IF NOT EXISTS public.test_table
+(
+    id integer,
+    name text COLLATE pg_catalog."default"
+)
+TABLESPACE pg_default;
+ALTER TABLE IF EXISTS public.test_table
+    OWNER to fiscalismia_api;
 
 CREATE TABLE public.category
 (
