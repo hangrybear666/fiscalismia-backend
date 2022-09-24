@@ -38,10 +38,10 @@ DROP TABLE IF EXISTS public.test_table;
 
 CREATE TABLE IF NOT EXISTS public.test_table
 (
-    id integer,
-    name text COLLATE pg_catalog."default"
-)
-TABLESPACE pg_default;
+    id serial NOT NULL,
+    description character varying(100) NOT NULL,
+    PRIMARY KEY (id)
+);
 ALTER TABLE IF EXISTS public.test_table
     OWNER to fiscalismia_api;
 
@@ -126,6 +126,10 @@ ALTER TABLE IF EXISTS public.link_var_exp_sensitivity
 --          __   ___  __  ___           ___  __      __  ___      ___  ___        ___      ___  __
 --  | |\ | /__` |__  |__)  |     | |\ |  |  /  \    /__`  |   /\   |  |__   |\/| |__  |\ |  |  /__`
 --  | | \| .__/ |___ |  \  |     | | \|  |  \__/    .__/  |  /~~\  |  |___  |  | |___ | \|  |  .__/
+
+
+INSERT INTO public.test_table (description) VALUES ('Hello from pg 14.5 database');
+INSERT INTO public.test_table (description) VALUES ('This is a local Windows pgsql db');
 
 INSERT INTO public.category (description) VALUES ('Groceries');
 INSERT INTO public.category (description) VALUES ('Medical Expenses');

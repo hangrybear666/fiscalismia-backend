@@ -4,12 +4,15 @@ const express = require('express')
 const morgan = require('morgan')
 
 // Routes
-const exerciseRouter = require('./routes/exerciseRoutes')
 const postgresRouter = require('./routes/postgresRoutes')
 
 // Local Dependencies
 const config = require('./utils/config')
 const errorHandler = require('./middleware/errorHandler')
+
+// Constants
+const PG_API_ADDRESS = '/api/fiscalismia';
+const SERVER_ADDRESS = `http://${process.env.PG_HOST}:${config.PORT}${PG_API_ADDRESS}`;
 
 const app = express()
 
@@ -38,17 +41,14 @@ app.use(cors())
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :postBody'))
 
 /**
- * 
+ *
  */
 app.use(express.json())
 
 /**
- * 
+ *
  */
-app.use('/api/exercises', exerciseRouter)
-app.use('/api/fiscalismia', postgresRouter)
+app.use(PG_API_ADDRESS, postgresRouter)
 app.use( errorHandler )
 
-
-
-app.listen(config.PORT, () => console.log(`Server is running on port ${config.PORT}`))
+app.listen(config.PORT, () => console.log(`Server is running on address \r\n${SERVER_ADDRESS}`))
