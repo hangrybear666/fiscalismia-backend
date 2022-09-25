@@ -2,7 +2,6 @@ const asyncHandler = require('express-async-handler')
 const logger = require('../utils/logger')
 const { pool } = require('../utils/pgDbService')
 
-
 /***
  *    ______ _   _ _____    ______ _____ _____ _   _ _____ _____ _____ _____
  *    | ___ \ | | |_   _|   | ___ \  ___|  _  | | | |  ___/  ___|_   _/  ___|

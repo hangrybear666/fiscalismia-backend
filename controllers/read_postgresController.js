@@ -95,7 +95,7 @@ const getTestData = asyncHandler(async (request, response) => {
  const getAllSensitivitiesOfPurchase = asyncHandler(async (request, response) => {
   logger.info("read_postgresController received GET to /api/fiscalismia/sensitivities_of_purchase")
   const client = await pool.connect();
-  const result = await client.query('SELECT * FROM link_var_exp_sensitivity ORDER BY id');
+  const result = await client.query('SELECT * FROM bridge_var_exp_sensitivity ORDER BY id');
   const results = { 'results': (result) ? result.rows : null};
   response.status(200).send(results);
   client.release();
@@ -167,7 +167,7 @@ const getTestData = asyncHandler(async (request, response) => {
 })
 
 /**
- * @description query fetching specific data from link_var_exp_sensitivity table
+ * @description query fetching specific data from bridge_var_exp_sensitivity table
  * @type HTTP GET
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/sensitivities_of_purchase/sensitivity/:id
@@ -176,14 +176,14 @@ const getTestData = asyncHandler(async (request, response) => {
   logger.info("read_postgresController received GET to /api/fiscalismia/sensitivities_of_purchase/sensitivity/" + request.params.id)
   const id = request.params.id;
   const client = await pool.connect();
-  const result = await client.query('SELECT * FROM link_var_exp_sensitivity WHERE sensitivity_id = $1', [id]);
+  const result = await client.query('SELECT * FROM bridge_var_exp_sensitivity WHERE sensitivity_id = $1', [id]);
   const results = { 'results': (result) ? result.rows : null};
   response.status(200).send(results);
   client.release();
 })
 
 /**
- * @description query fetching specific data from link_var_exp_sensitivity table
+ * @description query fetching specific data from bridge_var_exp_sensitivity table
  * @type HTTP GET
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/sensitivities_of_purchase/var_expense/:id
@@ -192,7 +192,7 @@ const getTestData = asyncHandler(async (request, response) => {
   logger.info("read_postgresController received GET to /api/fiscalismia/sensitivities_of_purchase/var_expense/" + request.params.id)
   const id = request.params.id;
   const client = await pool.connect();
-  const result = await client.query('SELECT * FROM link_var_exp_sensitivity WHERE variable_expense_id = $1', [id]);
+  const result = await client.query('SELECT * FROM bridge_var_exp_sensitivity WHERE variable_expense_id = $1', [id]);
   const results = { 'results': (result) ? result.rows : null};
   response.status(200).send(results);
   client.release();

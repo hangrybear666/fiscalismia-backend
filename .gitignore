@@ -22,4 +22,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # relevant logs are generated while deployed
-logs
+logs/combined.log
+logs/info.log
+logs/error.log
+logs/debug.log

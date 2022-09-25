@@ -18,7 +18,7 @@ const { pool } = require('../utils/pgDbService')
  * @route /api/fiscalismia/:id
  */
  const deleteTestData = asyncHandler(async (request, response) => {
-  logger.info("delete_postgresController received PUT to /api/fiscalismia/" + request.params.id)
+  logger.info("delete_postgresController received DELETE to /api/fiscalismia/" + request.params.id)
   const sql = 'DELETE FROM test_table  WHERE id = $1 RETURNING description'
   const parameters =  [request.params.id]
   const client = await pool.connect()
