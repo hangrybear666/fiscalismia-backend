@@ -33,4 +33,10 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 
+logger.add(new transports.File({ filename: 'logs/jsonToETL.log', level: 'warn' ,
+  format: format.combine(
+    format.printf(info => `${info.message}`)
+    )
+}));
+
 module.exports = logger

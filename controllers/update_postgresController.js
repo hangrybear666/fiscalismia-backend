@@ -30,7 +30,7 @@ const { pool } = require('../utils/pgDbService')
     response.status(200).send(results)
   } catch (error) {
     await client.query('ROLLBACK')
-    response.status(400)
+    response.status(400).send()
     throw error
   } finally {
     client.release();

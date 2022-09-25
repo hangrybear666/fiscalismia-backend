@@ -1,0 +1,3652 @@
+[
+  {
+    "description": "Salat, Energy Zero, Putenbrust",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 11.31,
+    "date": "20.04.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "caffeine, aspartame/saccharin"
+  },
+  {
+    "description": "Bärlauch, Soft Drinks",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 7.2,
+    "date": "20.04.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "caffeine, aspartame/saccharin"
+  },
+  {
+    "description": "Bärlauch, Soft Drinks, Rind, Hähnchen",
+    "category": "Groceries",
+    "store": "Aldi Süd",
+    "cost": 14.61,
+    "date": "21.04.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "caffeine, aspartame/saccharin"
+  },
+  {
+    "description": "Käse, Kaffee",
+    "category": "Groceries",
+    "store": "Edeka",
+    "cost": 11.14,
+    "date": "21.04.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "cow's milk product"
+  },
+  {
+    "description": "ESN Flavor Drops Vanilla",
+    "category": "Supplements",
+    "store": "Müller",
+    "cost": 4.99,
+    "date": "23.04.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Riesling, Trocken",
+    "category": "Groceries",
+    "store": "Rossmann",
+    "cost": 5.49,
+    "date": "23.04.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "alcohol"
+  },
+  {
+    "description": "Ketchup light, Blumenkohl",
+    "category": "Groceries",
+    "store": "Kaufland",
+    "cost": 3.91,
+    "date": "23.04.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "nightshades"
+  },
+  {
+    "description": "Kondome, Kaugummi",
+    "category": "Leisure",
+    "store": "Gas Station",
+    "cost": 5.28,
+    "date": "24.04.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Vitamin K2 200mcg 365x",
+    "category": "Supplements",
+    "store": "Amazon",
+    "cost": 17.9,
+    "date": "25.04.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Gym Nutrition Flavor Drops Haselnuss",
+    "category": "Supplements",
+    "store": "Amazon",
+    "cost": 7.99,
+    "date": "25.04.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Gym Nutrition Flavor Drops Vanilla",
+    "category": "Supplements",
+    "store": "Amazon",
+    "cost": 6.99,
+    "date": "25.04.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Passierte Tomaten, Eiklar, Oatly Hafer",
+    "category": "Groceries",
+    "store": "dm",
+    "cost": 11.2,
+    "date": "25.04.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "nightshades"
+  },
+  {
+    "description": "Filter Kaffee aus Mexico",
+    "category": "Leisure",
+    "store": "Café",
+    "cost": 8.9,
+    "date": "26.04.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "caffeine"
+  },
+  {
+    "description": "Rind, Hähnchen, Salat",
+    "category": "Groceries",
+    "store": "Aldi Süd",
+    "cost": 21.53,
+    "date": "26.04.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Kräuter, Energy Zero, Hähnchen",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 12.11,
+    "date": "26.04.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "caffeine, aspartame/saccharin"
+  },
+  {
+    "description": "Softdrinks, Erithrit",
+    "category": "Groceries",
+    "store": "Rewe",
+    "cost": 9.97,
+    "date": "26.04.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin"
+  },
+  {
+    "description": "Espresso",
+    "category": "Groceries",
+    "store": "Café",
+    "cost": 1.8,
+    "date": "27.04.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "caffeine"
+  },
+  {
+    "description": "Ibus, Cetirizin",
+    "category": "Supplements",
+    "store": "Apotheke",
+    "cost": 6.76,
+    "date": "27.04.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Buchweizen Flakes, Käse, Pizzaboden",
+    "category": "Groceries",
+    "store": "ebl Biomarkt",
+    "cost": 9.82,
+    "date": "27.04.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "cow's milk product, buckwheat"
+  },
+  {
+    "description": "Käse, Lasagnaplatten, Softdrinks",
+    "category": "Groceries",
+    "store": "Edeka",
+    "cost": 15.97,
+    "date": "27.04.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "cow's milk product"
+  },
+  {
+    "description": "Softdrinks",
+    "category": "Groceries",
+    "store": "Edeka",
+    "cost": 2.48,
+    "date": "28.04.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "caffeine, aspartame/saccharin"
+  },
+  {
+    "description": "Energy Zero",
+    "category": "Groceries",
+    "store": "Rewe",
+    "cost": 1.13,
+    "date": "28.04.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "caffeine"
+  },
+  {
+    "description": "Pizzaboden",
+    "category": "Groceries",
+    "store": "ebl Biomarkt",
+    "cost": 3.47,
+    "date": "28.04.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "gluten"
+  },
+  {
+    "description": "Passierte Tomaten, Softdrinks",
+    "category": "Groceries",
+    "store": "Rewe",
+    "cost": 3.83,
+    "date": "28.04.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "caffeine, aspartame/saccharin, nightshades"
+  },
+  {
+    "description": "Salat, Kräuter, Hähnchen, Zwiebeln",
+    "category": "Groceries",
+    "store": "Aldi Süd",
+    "cost": 13.32,
+    "date": "29.04.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Energy Zero",
+    "category": "Groceries",
+    "store": "Rewe",
+    "cost": 1.13,
+    "date": "29.04.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "caffeine"
+  },
+  {
+    "description": "Bronchipret, 20 Stück Hustentabletten",
+    "category": "Medical Expenses",
+    "store": "Apotheke",
+    "cost": 11.15,
+    "date": "29.04.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Hähnchen, Gemüse, Eier",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 16.18,
+    "date": "30.04.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Hafer Flakes, Buchweizen gepufft, Soft Drinks",
+    "category": "Groceries",
+    "store": "Rossmann",
+    "cost": 8.61,
+    "date": "30.04.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "caffeine, aspartame/saccharin, buckwheat"
+  },
+  {
+    "description": "Kräuter, Softdrinks",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 5.31,
+    "date": "01.05.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "caffeine, aspartame/saccharin"
+  },
+  {
+    "description": "Kräuter, Hähnchen, Softdrinks",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 12.62,
+    "date": "02.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "caffeine, aspartame/saccharin"
+  },
+  {
+    "description": "Gemüse, Softdrinks",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 6.47,
+    "date": "03.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "caffeine, aspartame/saccharin"
+  },
+  {
+    "description": "Hygiene, Reinigung, Softdrinks",
+    "category": "Hygiene",
+    "store": "Rewe",
+    "cost": 10,
+    "date": "03.05.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "caffeine, aspartame/saccharin"
+  },
+  {
+    "description": "Softdrinks",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 2.81,
+    "date": "04.05.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "caffeine, aspartame/saccharin"
+  },
+  {
+    "description": "Gemüse, RInderhack, Softdrinks",
+    "category": "Groceries",
+    "store": "Aldi Süd",
+    "cost": 13.07,
+    "date": "04.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin"
+  },
+  {
+    "description": "Gemüse, Früchte, Softdrinks",
+    "category": "Groceries",
+    "store": "Rewe",
+    "cost": 10.37,
+    "date": "05.05.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "sugar, caffeine, aspartame/saccharin"
+  },
+  {
+    "description": "Kaffee",
+    "category": "Leisure",
+    "store": "Café",
+    "cost": 3.2,
+    "date": "05.05.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "caffeine"
+  },
+  {
+    "description": "Oatly, Softdrinks",
+    "category": "Groceries",
+    "store": "Rewe",
+    "cost": 8.28,
+    "date": "06.05.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "caffeine, aspartame/saccharin"
+  },
+  {
+    "description": "Hähnchen, Gemüse, Kräuter, Salat",
+    "category": "Groceries",
+    "store": "Aldi Süd",
+    "cost": 27.85,
+    "date": "06.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Descent Figur, Acrylfarbe",
+    "category": "Leisure",
+    "store": "Spieleladen",
+    "cost": 16.5,
+    "date": "07.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Eier, Softdrinks",
+    "category": "Groceries",
+    "store": "Rewe",
+    "cost": 10.81,
+    "date": "07.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "caffeine, aspartame/saccharin"
+  },
+  {
+    "description": "Pute, Gemüse, Käse, Softdrinks",
+    "category": "Groceries",
+    "store": "Kaufland",
+    "cost": 20.62,
+    "date": "07.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "caffeine, aspartame/saccharin, cow's milk product"
+  },
+  {
+    "description": "Batterien, Seife, Reinigung",
+    "category": "Groceries",
+    "store": "Norma",
+    "cost": 9.33,
+    "date": "09.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Kräuter, Salat, Hähnchen, Softdrinks",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 17.48,
+    "date": "09.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "caffeine, aspartame/saccharin"
+  },
+  {
+    "description": "Holzpfeife",
+    "category": "Leisure",
+    "store": "Amazon",
+    "cost": 11.95,
+    "date": "10.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Leinsamen, Hanfsamen, Muskat",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 5.75,
+    "date": "10.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Haferflocken",
+    "category": "Groceries",
+    "store": "Rossmann",
+    "cost": 7.17,
+    "date": "10.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Bier",
+    "category": "Groceries",
+    "store": "Kiosk",
+    "cost": 2.2,
+    "date": "10.05.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "alcohol"
+  },
+  {
+    "description": "Freibad",
+    "category": "Leisure",
+    "store": "Freibad",
+    "cost": 4.7,
+    "date": "11.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Softdrinks, Käse, Oatly",
+    "category": "Groceries",
+    "store": "Aldi Süd",
+    "cost": 6.37,
+    "date": "11.05.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "cow's milk product, aspartame/saccharin"
+  },
+  {
+    "description": "Softdrinks, Pute, Tomate, Hafer",
+    "category": "Groceries",
+    "store": "Kaufland",
+    "cost": 14.38,
+    "date": "11.05.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "alcohol, nightshades, aspartame/saccharin"
+  },
+  {
+    "description": "Käse, Eier, Softdrinks",
+    "category": "Groceries",
+    "store": "Edeka",
+    "cost": 11.31,
+    "date": "12.05.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "caffeine, aspartame/saccharin, cow's milk product"
+  },
+  {
+    "description": "Softdrinks",
+    "category": "Groceries",
+    "store": "Rewe",
+    "cost": 2.44,
+    "date": "12.05.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "caffeine, aspartame/saccharin"
+  },
+  {
+    "description": "Tomate, Sirup, Hafer",
+    "category": "Groceries",
+    "store": "Müller",
+    "cost": 6.61,
+    "date": "12.05.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "nightshades, sugar"
+  },
+  {
+    "description": "Pute, Salat, Softdrinks",
+    "category": "Groceries",
+    "store": "Aldi Süd",
+    "cost": 10.56,
+    "date": "13.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin"
+  },
+  {
+    "description": "Bier",
+    "category": "Leisure",
+    "store": "Kiosk",
+    "cost": 4.5,
+    "date": "14.05.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "alcohol"
+  },
+  {
+    "description": "Zug Sulzbach, Kräuter abholen",
+    "category": "Travel",
+    "store": "Deutsche Bahn",
+    "cost": 12.09,
+    "date": "14.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Käse, Softdrinks, Proteinriegel",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 13.39,
+    "date": "14.05.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "caffeine, aspartame/saccharin, cow's milk product, soy"
+  },
+  {
+    "description": "Geschenk, Honig, Kaffee",
+    "category": "Gift",
+    "store": "Café",
+    "cost": 18.1,
+    "date": "14.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Rennrad Schlauch",
+    "category": "Leisure",
+    "store": "Fahrradladen",
+    "cost": 17,
+    "date": "14.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Cookies, Proteinriegel",
+    "category": "Groceries",
+    "store": "Müller",
+    "cost": 5.18,
+    "date": "14.05.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "sugar"
+  },
+  {
+    "description": "Koro Fischöl",
+    "category": "Groceries",
+    "store": "Amazon",
+    "cost": 21.4,
+    "date": "15.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "ESN Vitamin D3",
+    "category": "Groceries",
+    "store": "Amazon",
+    "cost": 9.4,
+    "date": "15.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Gemüse, Softdrinks, Käse, Oatly",
+    "category": "Groceries",
+    "store": "Edeka",
+    "cost": 29.55,
+    "date": "16.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "caffeine, aspartame/saccharin, cow's milk product"
+  },
+  {
+    "description": "Gemüse, Käse, Hähnchen",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 16.14,
+    "date": "16.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "cow's milk product"
+  },
+  {
+    "description": "Buchweizenpasta, Hafer",
+    "category": "Groceries",
+    "store": "Müller",
+    "cost": 5.18,
+    "date": "16.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Kanülen, Spritzen",
+    "category": "Medical Expenses",
+    "store": "Apotheke",
+    "cost": 13.79,
+    "date": "17.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Buchweizenbrot",
+    "category": "Groceries",
+    "store": "Rossmann",
+    "cost": 1.99,
+    "date": "17.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Softdrinks",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 1.53,
+    "date": "17.05.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "caffeine, aspartame/saccharin"
+  },
+  {
+    "description": "Gemüse, Käse, Hafer",
+    "category": "Groceries",
+    "store": "Kaufland",
+    "cost": 19.59,
+    "date": "17.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "cow's milk product"
+  },
+  {
+    "description": "Cetirizin 100Stk",
+    "category": "Medical Expenses",
+    "store": "Apotheke",
+    "cost": 12.95,
+    "date": "17.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Ketchup, Softdrinks, Eier, Käse, Oatly",
+    "category": "Groceries",
+    "store": "Edeka",
+    "cost": 14.51,
+    "date": "17.05.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "cow's milk product, aspartame/saccharin, caffeine, nightshades"
+  },
+  {
+    "description": "Flavor Drops, EAAs, Energy Shot",
+    "category": "Groceries",
+    "store": "Rossmann",
+    "cost": 14.47,
+    "date": "18.05.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Mandelmehl, entölt",
+    "category": "Groceries",
+    "store": "Amazon",
+    "cost": 29.98,
+    "date": "18.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Gemüse, Buchweizen",
+    "category": "Groceries",
+    "store": "Rewe",
+    "cost": 10.52,
+    "date": "19.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Softdrinks",
+    "category": "Groceries",
+    "store": "Rewe",
+    "cost": 2.48,
+    "date": "19.05.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Gemüse, Softdrinks",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 5.04,
+    "date": "19.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "caffeine, aspartame/saccharin"
+  },
+  {
+    "description": "Zug Forchheim, Wandern",
+    "category": "Travel",
+    "store": "Deutsche Bahn",
+    "cost": 7.75,
+    "date": "21.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "KFC Fried Chicken",
+    "category": "Fast Food",
+    "store": "KFC",
+    "cost": 10.5,
+    "date": "21.05.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "gluten"
+  },
+  {
+    "description": "Kaffee, Soft Drink",
+    "category": "Leisure",
+    "store": "Yormas",
+    "cost": 4,
+    "date": "21.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "caffeine, aspartame/saccharin"
+  },
+  {
+    "description": "Hähnchen, Mayo, Käse, Softdrinks, Vodka",
+    "category": "Groceries",
+    "store": "Edeka",
+    "cost": 19.54,
+    "date": "21.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "cow's milk product, aspartame/saccharin, caffeine, alcohol"
+  },
+  {
+    "description": "Computerspiel, Wasteland 3",
+    "category": "Leisure",
+    "store": "Steam",
+    "cost": 9.5,
+    "date": "22.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Gemüse, Käse, Softdrinks, Hähnchen",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 10.65,
+    "date": "22.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "cow's milk product, aspartame/saccharin"
+  },
+  {
+    "description": "Gemüse, Eier, Käse, Hähnchen",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 16.75,
+    "date": "23.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "cow's milk product"
+  },
+  {
+    "description": "Gemüse, Rinderhack",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 9.86,
+    "date": "24.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Weißwein, Kakao, Haferflocken",
+    "category": "Groceries",
+    "store": "bio und nah",
+    "cost": 10.35,
+    "date": "25.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "alcohol"
+  },
+  {
+    "description": "Taxi, Sulzbach zu Bahnhof",
+    "category": "Travel",
+    "store": "Taxi",
+    "cost": 5,
+    "date": "26.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Zug, Neukirchen",
+    "category": "Travel",
+    "store": "Deutsche Bahn",
+    "cost": 21.5,
+    "date": "26.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Kanufahren",
+    "category": "Leisure",
+    "store": "-",
+    "cost": 35,
+    "date": "26.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Süßigkeiten",
+    "category": "Leisure",
+    "store": "Yormas",
+    "cost": 8.8,
+    "date": "26.05.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "sugar"
+  },
+  {
+    "description": "Salat, Oatly, Wurst, Softdrinks",
+    "category": "Groceries",
+    "store": "Edeka",
+    "cost": 22.29,
+    "date": "27.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aged meat"
+  },
+  {
+    "description": "Eiklar, Haferflocken",
+    "category": "Groceries",
+    "store": "dm",
+    "cost": 6.2,
+    "date": "27.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Olivenöl, Buchweizenmehl",
+    "category": "Groceries",
+    "store": "ebl Biomarkt",
+    "cost": 21.8,
+    "date": "27.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Biergarten",
+    "category": "Leisure",
+    "store": "Biergarten",
+    "cost": 24,
+    "date": "28.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "alcohol"
+  },
+  {
+    "description": "Käse, Bier, Tomaten, Oatly",
+    "category": "Groceries",
+    "store": "Edeka",
+    "cost": 16.94,
+    "date": "28.05.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "alcohol, cow's milk product, nightshades"
+  },
+  {
+    "description": "Schafkopf-Karten",
+    "category": "Leisure",
+    "store": "Spieleladen",
+    "cost": 4,
+    "date": "28.05.2022",
+    "is_planned": "N",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Wasser, Proteinriegel",
+    "category": "Groceries",
+    "store": "Müller",
+    "cost": 8.36,
+    "date": "28.05.2022",
+    "is_planned": "N",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Gemüse, Veganer Käse",
+    "category": "Groceries",
+    "store": "Aldi Süd",
+    "cost": 10.34,
+    "date": "30.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Hähnchen, Gemüse",
+    "category": "Groceries",
+    "store": "Aldi Süd",
+    "cost": 10.77,
+    "date": "31.05.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "9-Euro Ticket Juni 2022",
+    "category": "Travel",
+    "store": "Deutsche Bahn",
+    "cost": 9,
+    "date": "01.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Lipton leichte Erfrischung",
+    "category": "Groceries",
+    "store": "Tankstelle",
+    "cost": 3.5,
+    "date": "01.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Wasser, Feuerzeug",
+    "category": "Groceries",
+    "store": "Müller",
+    "cost": 2.98,
+    "date": "01.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Hähnchen, veganer Käse, Vodka, Softdrinks",
+    "category": "Groceries",
+    "store": "Kaufland",
+    "cost": 18.1,
+    "date": "01.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "alcohol, aspartame/saccharin"
+  },
+  {
+    "description": "Reinigung, Haferflocken",
+    "category": "Groceries",
+    "store": "Müller",
+    "cost": 3.85,
+    "date": "02.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Hähnchen, Eier",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 14.76,
+    "date": "02.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Bilderrahmen Puzzle und Wanderung",
+    "category": "Leisure",
+    "store": "Woolworth",
+    "cost": 11.98,
+    "date": "02.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Haferbrot, Wurst, Käse, Gemüse",
+    "category": "Groceries",
+    "store": "Kaufland",
+    "cost": 23.09,
+    "date": "02.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Coke Zero",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 1,
+    "date": "03.06.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "caffeine, aspartame/saccharin"
+  },
+  {
+    "description": "Alkohol, HT Suro",
+    "category": "Leisure",
+    "store": "Kneipe",
+    "cost": 15,
+    "date": "03.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "alcohol"
+  },
+  {
+    "description": "Sekt, Wasser",
+    "category": "Groceries",
+    "store": "Müller",
+    "cost": 4.92,
+    "date": "03.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "alcohol"
+  },
+  {
+    "description": "Softdrinks",
+    "category": "Groceries",
+    "store": "Netto",
+    "cost": 1.34,
+    "date": "04.06.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "caffeine, aspartame/saccharin"
+  },
+  {
+    "description": "Mandelmus, Proteinriegel",
+    "category": "Groceries",
+    "store": "Müller",
+    "cost": 9.93,
+    "date": "04.06.2022",
+    "is_planned": "N",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Gemüse, Käse, Hähnchen, Rinderhack",
+    "category": "Groceries",
+    "store": "Aldi Süd",
+    "cost": 34.87,
+    "date": "04.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "cow's milk product"
+  },
+  {
+    "description": "Mundwasser, Heftpflaster, Bartöl, Mizellenwasser",
+    "category": "Hygiene",
+    "store": "Rossmann",
+    "cost": 25.61,
+    "date": "07.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Gemüse, Hähnchen, IronMaxx EAA",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 50.38,
+    "date": "07.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "C8 Öl, Druckerpapier, Kleber, Tee",
+    "category": "Leisure",
+    "store": "Amazon",
+    "cost": 70.77,
+    "date": "08.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Kräuter, Erbsenpasta, veganer Käse, Haferflocken",
+    "category": "Groceries",
+    "store": "Aldi Süd",
+    "cost": 14.92,
+    "date": "08.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "lentils"
+  },
+  {
+    "description": "Bluetooth headset Empfänger",
+    "category": "Leisure",
+    "store": "Amazon",
+    "cost": 16.35,
+    "date": "08.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Calisthenics Parallettes",
+    "category": "Leisure",
+    "store": "Ebay",
+    "cost": 28,
+    "date": "08.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Rinderhack, Mozzarella, Gemüse",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 11.49,
+    "date": "09.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "cow's milk product"
+  },
+  {
+    "description": "Rtx 2060 super Lüfter",
+    "category": "Leisure",
+    "store": "Ebay",
+    "cost": 18.99,
+    "date": "09.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Hafer Crunchy, Gewürze",
+    "category": "Groceries",
+    "store": "Unverpackt",
+    "cost": 7.35,
+    "date": "09.06.2022",
+    "is_planned": "N",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "buchweizen pasta, Haferriegel",
+    "category": "Groceries",
+    "store": "Müller",
+    "cost": 4.57,
+    "date": "09.06.2022",
+    "is_planned": "N",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Sonnenmilch",
+    "category": "Hygiene",
+    "store": "dm",
+    "cost": 7.2,
+    "date": "10.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Gin Bombay Dry",
+    "category": "Groceries",
+    "store": "Rewe",
+    "cost": 14.49,
+    "date": "10.06.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "alcohol"
+  },
+  {
+    "description": "Vodka, Haferriegel",
+    "category": "Groceries",
+    "store": "Rewe",
+    "cost": 7.1,
+    "date": "11.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "alcohol"
+  },
+  {
+    "description": "Softdrinks",
+    "category": "Groceries",
+    "store": "Rewe",
+    "cost": 3.76,
+    "date": "11.06.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin"
+  },
+  {
+    "description": "Haferriegel, Wasser",
+    "category": "Groceries",
+    "store": "dm",
+    "cost": 3.75,
+    "date": "11.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Riesling, Trocken",
+    "category": "Groceries",
+    "store": "Tankstelle",
+    "cost": 5.9,
+    "date": "11.06.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "alcohol"
+  },
+  {
+    "description": "Süßkartoffel, Käse, Eier, Tomaten, Erbsen, Rinderhack",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 20.03,
+    "date": "12.06.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "nightshades, cow's milk product, legumes"
+  },
+  {
+    "description": "Mozzarella, Erbsen, Sekt, Softdrinks, Tomaten",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 16.13,
+    "date": "14.06.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "nightshades, cow's milk product, legumes, aspartame/saccharin, alcohol"
+  },
+  {
+    "description": "3 Bundeswehr Unterhemden",
+    "category": "Clothing",
+    "store": "Army Shop Fürth",
+    "cost": 48,
+    "date": "15.06.2022",
+    "is_planned": "N",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Aufklärungsweste, 3 MOLLE Taschen",
+    "category": "Clothing",
+    "store": "Army Shop Erlangen",
+    "cost": 50,
+    "date": "15.06.2022",
+    "is_planned": "N",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Sekt, Käse, Hafermilch, Gemüse, Rinderhack",
+    "category": "Groceries",
+    "store": "Kaufland",
+    "cost": 30.09,
+    "date": "15.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "alcohol, cow's milk product"
+  },
+  {
+    "description": "Sporthose",
+    "category": "Clothing",
+    "store": "Amazon",
+    "cost": 17.95,
+    "date": "16.06.2022",
+    "is_planned": "N",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Amazon Basics Gaming Maus",
+    "category": "Electronics",
+    "store": "Amazon",
+    "cost": 18.07,
+    "date": "16.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "3x3m USB 2.0 Verlängerungskabel",
+    "category": "Electronics",
+    "store": "Amazon",
+    "cost": 5.79,
+    "date": "16.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Softdrinks",
+    "category": "Groceries",
+    "store": "Müller",
+    "cost": 4.12,
+    "date": "16.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin"
+  },
+  {
+    "description": "Gemüse, Kräuter, Eier, Softdrinks, Rinderhack",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 28.1,
+    "date": "17.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin"
+  },
+  {
+    "description": "Gemüse, Salat, Grillkäse, Holzkohle",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 17.81,
+    "date": "17.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "cow's milk product"
+  },
+  {
+    "description": "Bouldern Steinbock",
+    "category": "Leisure",
+    "store": "Steinbock",
+    "cost": 12,
+    "date": "18.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Ketchup, Wiener, Lasagneblätter",
+    "category": "Groceries",
+    "store": "Edeka",
+    "cost": 12.3,
+    "date": "18.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "gluten, aspartame/saccharin"
+  },
+  {
+    "description": "Gemüse, Käse, Salat, Tomaten, Softdrinks, Hähnchen",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 15.4,
+    "date": "18.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine, nightshades, cow's milk product"
+  },
+  {
+    "description": "Softdrinks, Hafermilch, Käse",
+    "category": "Groceries",
+    "store": "Edeka",
+    "cost": 13.3,
+    "date": "18.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine, cow's milk product"
+  },
+  {
+    "description": "Haferriegel",
+    "category": "Groceries",
+    "store": "dm",
+    "cost": 3.5,
+    "date": "18.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Kompressionsstrümpfe",
+    "category": "Leisure",
+    "store": "Absolute Run",
+    "cost": 25,
+    "date": "21.06.2022",
+    "is_planned": "N",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Softdrinks",
+    "category": "Groceries",
+    "store": "Rewe",
+    "cost": 2.38,
+    "date": "21.06.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Haferriegel, Softdrinks, Gummibären Low Carb",
+    "category": "Groceries",
+    "store": "Rewe",
+    "cost": 8.41,
+    "date": "21.06.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, sugar"
+  },
+  {
+    "description": "Softdrinks, RInderhack, Hafermilch",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 9.96,
+    "date": "22.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin"
+  },
+  {
+    "description": "Bouldern Steinbock",
+    "category": "Leisure",
+    "store": "Steinbock",
+    "cost": 12,
+    "date": "23.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Underrail + Underrail: Expeditions",
+    "category": "Leisure",
+    "store": "GOG",
+    "cost": 14.09,
+    "date": "23.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Holzpfeife",
+    "category": "Leisure",
+    "store": "high time",
+    "cost": 8.65,
+    "date": "23.06.2022",
+    "is_planned": "N",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Eier, Hähnchen, Wein, Softdrinks",
+    "category": "Groceries",
+    "store": "Edeka",
+    "cost": 20.73,
+    "date": "23.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine, alcohol"
+  },
+  {
+    "description": "Underrail + Underrail: Expeditions",
+    "category": "Leisure",
+    "store": "Steam",
+    "cost": 11.26,
+    "date": "24.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Altstadtfest 2022",
+    "category": "Leisure",
+    "store": "Suro",
+    "cost": 80,
+    "date": "24.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "alcohol, caffeine"
+  },
+  {
+    "description": "Wasser, Spezi Zero",
+    "category": "Groceries",
+    "store": "Müller",
+    "cost": 2.87,
+    "date": "25.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "caffeine, aspartame/saccharin"
+  },
+  {
+    "description": "Haferriegel",
+    "category": "Groceries",
+    "store": "Müller",
+    "cost": 3.2,
+    "date": "25.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "sugar"
+  },
+  {
+    "description": "Sekt",
+    "category": "Groceries",
+    "store": "Rewe",
+    "cost": 5.27,
+    "date": "25.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "alcohol"
+  },
+  {
+    "description": "Wiener, Softdrinks, Haferriegel, Proteinriegel",
+    "category": "Groceries",
+    "store": "Rewe",
+    "cost": 17.65,
+    "date": "25.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine, cow's milk product"
+  },
+  {
+    "description": "Dresden Shuang Besuch 2022",
+    "category": "Leisure",
+    "store": "Dresden",
+    "cost": 110,
+    "date": "25.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "alcohol, caffeine"
+  },
+  {
+    "description": "Käse, Frikadellen",
+    "category": "Groceries",
+    "store": "Rewe to Go",
+    "cost": 7.37,
+    "date": "26.06.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "cow's milk product"
+  },
+  {
+    "description": "Wasser, Softdrinks",
+    "category": "Groceries",
+    "store": "Rewe to Go",
+    "cost": 3.61,
+    "date": "26.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Mountainman Pommelsbrunn 04.12",
+    "category": "Leisure",
+    "store": "Mountainman",
+    "cost": 40,
+    "date": "27.06.2022",
+    "is_planned": "N",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Pizza, Mozzarella, Tomaten, Rinderhack",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 11.33,
+    "date": "27.06.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "cow's milk product, gluten, nightshades"
+  },
+  {
+    "description": "Softdrinks",
+    "category": "Leisure",
+    "store": "Edeka",
+    "cost": 2.5,
+    "date": "27.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin"
+  },
+  {
+    "description": "Glutenfreies Fried Chicken, Reis, Eat Lean Käse",
+    "category": "Groceries",
+    "store": "Kaufland",
+    "cost": 16.68,
+    "date": "28.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "cow's milk product, rice"
+  },
+  {
+    "description": "Eier, Softdrinks, Rinderhack",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 14.27,
+    "date": "28.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin"
+  },
+  {
+    "description": "Bluetooth Radio Transmitter Car",
+    "category": "Gift",
+    "store": "Amazon",
+    "cost": 23.79,
+    "date": "29.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "RInderhack, Softdrinks",
+    "category": "Groceries",
+    "store": "Edeka",
+    "cost": 14,
+    "date": "29.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Veganer Käse, Erbsen, Volvic Limo",
+    "category": "Groceries",
+    "store": "tegut",
+    "cost": 7.31,
+    "date": "29.06.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "legumes"
+  },
+  {
+    "description": "Red Bull Zero",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 1.84,
+    "date": "29.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Proteinriegel, Haferriegel, Fanta Zero",
+    "category": "Groceries",
+    "store": "Rewe",
+    "cost": 3.64,
+    "date": "30.06.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, soy"
+  },
+  {
+    "description": "Garnelen, veganer Käse, Gemüse, Berner Würstchen",
+    "category": "Groceries",
+    "store": "Aldi Süd",
+    "cost": 19.07,
+    "date": "30.06.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "9-Euro Ticket Juli 2022",
+    "category": "Travel",
+    "store": "Deutsche Bahn",
+    "cost": 9,
+    "date": "01.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Proteinriegel, Haferriegel, Limo",
+    "category": "Groceries",
+    "store": "dm",
+    "cost": 3.55,
+    "date": "01.07.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "sugar"
+  },
+  {
+    "description": "Hähnchen, Gemüse, Erbsenpasta",
+    "category": "Groceries",
+    "store": "Aldi Süd",
+    "cost": 13.46,
+    "date": "01.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "legumes"
+  },
+  {
+    "description": "Softdrinks",
+    "category": "Groceries",
+    "store": "Müller",
+    "cost": 2.82,
+    "date": "02.07.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Eier, Sekt, Wein, Rinderhack",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 20.02,
+    "date": "02.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "alcohol"
+  },
+  {
+    "description": "Hähnchen, Dijon Mayo",
+    "category": "Groceries",
+    "store": "Penny",
+    "cost": 5.66,
+    "date": "02.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Spanngurt Klima Retoure",
+    "category": "Leisure",
+    "store": "Bauhaus",
+    "cost": 2.5,
+    "date": "02.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Softdrinks, veganer Käse, Käse, Kokos Hafer Yogurt",
+    "category": "Groceries",
+    "store": "Kaufland",
+    "cost": 17.01,
+    "date": "02.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin,cow's milk product"
+  },
+  {
+    "description": "Rindfleisch, Ketchup, Mayo, Softdrinks",
+    "category": "Groceries",
+    "store": "Edeka",
+    "cost": 29.3,
+    "date": "04.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine, sugar, nightshades"
+  },
+  {
+    "description": "Softdrinks, Käse, Kokosyogurt",
+    "category": "Groceries",
+    "store": "Kaufland",
+    "cost": 9.18,
+    "date": "05.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "cow's milk product,aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "2 Dönerbox mit Salat",
+    "category": "Groceries",
+    "store": "Döner",
+    "cost": 10,
+    "date": "05.07.2022",
+    "is_planned": "N",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Kräuter, Gemüse, Schinken, Eier, Rinderhack",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 19.53,
+    "date": "06.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Proteinriegel, Haferriegel, Softdrinks",
+    "category": "Groceries",
+    "store": "Kaufland",
+    "cost": 8.39,
+    "date": "06.07.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine, sugar"
+  },
+  {
+    "description": "Käse, Wein, Hafermilch",
+    "category": "Groceries",
+    "store": "Edeka",
+    "cost": 15.04,
+    "date": "07.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "alcohol, aspartame/saccharin, cow's milk product"
+  },
+  {
+    "description": "Haferriegel, Softdrinks",
+    "category": "Groceries",
+    "store": "Müller",
+    "cost": 10.2,
+    "date": "08.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine, sugar"
+  },
+  {
+    "description": "Vodka, Softdrinks, Desperado",
+    "category": "Leisure",
+    "store": "Tankstelle-Wandern",
+    "cost": 13,
+    "date": "09.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "alcohol, aspartame/saccharin"
+  },
+  {
+    "description": "Aperol Spritz",
+    "category": "Leisure",
+    "store": "Café",
+    "cost": 8,
+    "date": "09.07.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "alcohol"
+  },
+  {
+    "description": "Sekt trocken",
+    "category": "Leisure",
+    "store": "Rewe to Go",
+    "cost": 4,
+    "date": "09.07.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "alcohol"
+  },
+  {
+    "description": "Rinderhack, Softdrinks, Käse, Gemüse, Kräuter",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 30.76,
+    "date": "10.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine, cow's milk product"
+  },
+  {
+    "description": "Rinderhack, Hafer, Gemüse",
+    "category": "Groceries",
+    "store": "Edeka",
+    "cost": 18.9,
+    "date": "11.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Gemüse, Rinderhack, Eier, Oatly",
+    "category": "Groceries",
+    "store": "Edeka",
+    "cost": 30.45,
+    "date": "11.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Gewürze",
+    "category": "Groceries",
+    "store": "Asienfood Center",
+    "cost": 7.99,
+    "date": "12.07.2022",
+    "is_planned": "N",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Putenschnitzel",
+    "category": "Groceries",
+    "store": "Metzger",
+    "cost": 5,
+    "date": "12.07.2022",
+    "is_planned": "N",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "ESN Vit D3",
+    "category": "Supplements",
+    "store": "Amazon",
+    "cost": 9.99,
+    "date": "12.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Mandelmehl, Kakao, Oregano",
+    "category": "Groceries",
+    "store": "Amazon",
+    "cost": 67.72,
+    "date": "12.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Haferriegel",
+    "category": "Groceries",
+    "store": "dm",
+    "cost": 2.8,
+    "date": "12.07.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "sugar"
+  },
+  {
+    "description": "Wein, Wasser",
+    "category": "Groceries",
+    "store": "Aldi Süd",
+    "cost": 3.37,
+    "date": "12.07.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "alcohol"
+  },
+  {
+    "description": "bluetooth transmitter",
+    "category": "Electronics",
+    "store": "Amazon",
+    "cost": 14.81,
+    "date": "13.07.2022",
+    "is_planned": "N",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Schokolade, Agavendicksaft",
+    "category": "Groceries",
+    "store": "dm",
+    "cost": 10.1,
+    "date": "13.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "sugar"
+  },
+  {
+    "description": "Einzeltherapie",
+    "category": "Health",
+    "store": "Dick und Dünn",
+    "cost": 15,
+    "date": "14.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Mittagessen Arbeit",
+    "category": "Groceries",
+    "store": "ebl Biomarkt",
+    "cost": 22.61,
+    "date": "14.07.2022",
+    "is_planned": "N",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Softdrinks",
+    "category": "Groceries",
+    "store": "Müller",
+    "cost": 1.88,
+    "date": "14.07.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Hähnchen, Wurst, Kokosjohurt",
+    "category": "Groceries",
+    "store": "Edeka",
+    "cost": 11.44,
+    "date": "14.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Softdrinks, Wein",
+    "category": "Groceries",
+    "store": "Müller",
+    "cost": 7.27,
+    "date": "15.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine, alcohol"
+  },
+  {
+    "description": "Gemüse, Softdrinks, Rinderhack, Lachs",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 18.1,
+    "date": "15.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Gemüse,Oatly, Rinderhack, Softdrinks",
+    "category": "Groceries",
+    "store": "Edeka",
+    "cost": 20.77,
+    "date": "16.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Tomaten, Softdrinks, Nudeln, Käse, Mandeljoghurt",
+    "category": "Groceries",
+    "store": "Aldi Süd",
+    "cost": 10.54,
+    "date": "16.07.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, gluten, cow's milk product"
+  },
+  {
+    "description": "Fahrrad Lenkergriff",
+    "category": "Leisure",
+    "store": "Fahrradladen",
+    "cost": 16,
+    "date": "16.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "4.5kg Bisonhack 1.5%",
+    "category": "Groceries",
+    "store": "Büffel Bill",
+    "cost": 83.7,
+    "date": "17.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Käse",
+    "category": "Groceries",
+    "store": "Tankstelle",
+    "cost": 2.78,
+    "date": "17.07.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "cow's milk product"
+  },
+  {
+    "description": "Softdrinks, Tomaten",
+    "category": "Groceries",
+    "store": "Tankstelle",
+    "cost": 5.7,
+    "date": "17.07.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine, nightshades"
+  },
+  {
+    "description": "Gemüse, Rinderhack, Eier, Softdrinks",
+    "category": "Groceries",
+    "store": "Aldi Süd",
+    "cost": 17.59,
+    "date": "18.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin"
+  },
+  {
+    "description": "Softdrinks, Kaugummis",
+    "category": "Groceries",
+    "store": "Aldi Süd",
+    "cost": 4.68,
+    "date": "19.07.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin"
+  },
+  {
+    "description": "Rinderhack, Gemüse, Käse, Softdrinks",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 25.53,
+    "date": "19.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, cow's milk product"
+  },
+  {
+    "description": "Ketchup, Softdrinks",
+    "category": "Groceries",
+    "store": "Rewe",
+    "cost": 3.93,
+    "date": "20.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine, nightshades"
+  },
+  {
+    "description": "Ketchup, Senf",
+    "category": "Groceries",
+    "store": "Marktkauf",
+    "cost": 4.77,
+    "date": "20.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "nightshades"
+  },
+  {
+    "description": "Curry Paste, Sriracha",
+    "category": "Groceries",
+    "store": "Asienfood Center",
+    "cost": 9.67,
+    "date": "20.07.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "nightshade, sugar"
+  },
+  {
+    "description": "Softdrinks",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 1.95,
+    "date": "20.07.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Rinderhack, Softdrinks, Oatly",
+    "category": "Groceries",
+    "store": "Edeka",
+    "cost": 43.47,
+    "date": "20.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Softdrinks",
+    "category": "Groceries",
+    "store": "Rewe",
+    "cost": 2.24,
+    "date": "20.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Mundspülung, Toilettenpapier, Mizellenwasser",
+    "category": "Hygiene",
+    "store": "dm",
+    "cost": 9.65,
+    "date": "20.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Kaugummi, Sonnenmilch",
+    "category": "Groceries",
+    "store": "Aldi Süd",
+    "cost": 9.04,
+    "date": "20.07.2022",
+    "is_planned": "N",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Mer-Cafe Fleischplatte, Kalb, Hähnchen, Weißwein",
+    "category": "Restaurant",
+    "store": "Mer-Cafe",
+    "cost": 45.5,
+    "date": "22.07.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "alcohol"
+  },
+  {
+    "description": "Haferflocken",
+    "category": "Groceries",
+    "store": "Müller",
+    "cost": 2.49,
+    "date": "22.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Haferriegel",
+    "category": "Groceries",
+    "store": "dm",
+    "cost": 6.6,
+    "date": "22.07.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "sugar"
+  },
+  {
+    "description": "Rakete Vodka",
+    "category": "Leisure",
+    "store": "Die Rakete",
+    "cost": 39,
+    "date": "23.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "alcohol"
+  },
+  {
+    "description": "Hähnchen, Gemüse, Softdrinks, Sekt, Eier, Haferflocken",
+    "category": "Groceries",
+    "store": "Edeka",
+    "cost": 24.52,
+    "date": "23.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine, alcohol"
+  },
+  {
+    "description": "Bouldern Steinbock, Clif Bar",
+    "category": "Leisure",
+    "store": "Steinbock",
+    "cost": 14.5,
+    "date": "24.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Gemüse, Softdrinks",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 3.03,
+    "date": "24.07.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin"
+  },
+  {
+    "description": "Buscopan, Nachtapotheke Gebühr",
+    "category": "Medical Expenses",
+    "store": "Apotheke",
+    "cost": 13.58,
+    "date": "24.07.2022",
+    "is_planned": "N",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Hähnchen, Schokolade, Softrinks, Oatly, Berries",
+    "category": "Groceries",
+    "store": "Edeka",
+    "cost": 18.18,
+    "date": "25.07.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine, sugar"
+  },
+  {
+    "description": "Käsekrainer, Hähnchen, Softdrinks, Geflügel Berner",
+    "category": "Groceries",
+    "store": "Rewe",
+    "cost": 21.87,
+    "date": "26.07.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, cow's milk product, caffeine"
+  },
+  {
+    "description": "Schokolade, Agavendicksaft",
+    "category": "Groceries",
+    "store": "Müller",
+    "cost": 7.87,
+    "date": "26.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "sugar"
+  },
+  {
+    "description": "KFC Fried Chicken",
+    "category": "Groceries",
+    "store": "KFC",
+    "cost": 9.98,
+    "date": "26.07.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "gluten"
+  },
+  {
+    "description": "Hähnchen, Eier, Wein",
+    "category": "Groceries",
+    "store": "Aldi Süd",
+    "cost": 9.39,
+    "date": "28.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "alcohol"
+  },
+  {
+    "description": "Eier, Softdrinks, Kokosjoghurt",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 5.62,
+    "date": "28.07.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "3x Leggings (w)",
+    "category": "Clothing",
+    "store": "Second Hand",
+    "cost": 17.7,
+    "date": "28.07.2022",
+    "is_planned": "N",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Bartöl, Waschgel",
+    "category": "Hygiene",
+    "store": "Müller",
+    "cost": 10.68,
+    "date": "29.07.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Haferriegel, Wein",
+    "category": "Groceries",
+    "store": "Müller",
+    "cost": 12.65,
+    "date": "29.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "alcohol, sugar"
+  },
+  {
+    "description": "Softdrinks",
+    "category": "Groceries",
+    "store": "Rewe",
+    "cost": 3.62,
+    "date": "29.07.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Rakete Vodka",
+    "category": "Leisure",
+    "store": "Die Rakete",
+    "cost": 45,
+    "date": "30.07.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "alcohol"
+  },
+  {
+    "description": "Eier, Mandeljoghurt, Softdrinks",
+    "category": "Groceries",
+    "store": "Aldi Süd",
+    "cost": 8.06,
+    "date": "30.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin"
+  },
+  {
+    "description": "Wein, Hähnchen, Tomaten, Softdrinks",
+    "category": "Groceries",
+    "store": "Rewe to Go",
+    "cost": 13.55,
+    "date": "30.07.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "nightshades, aspartame/saccharin, alcohol"
+  },
+  {
+    "description": "Haferflocken, Softdrinks",
+    "category": "Groceries",
+    "store": "Müller",
+    "cost": 3.82,
+    "date": "30.07.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Rinderhack, Wein, Softdrinks, Haferflocken, Gemüse",
+    "category": "Groceries",
+    "store": "Kaufland",
+    "cost": 24.34,
+    "date": "30.07.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, alcohol"
+  },
+  {
+    "description": "Haferriegel, Buchweizen",
+    "category": "Groceries",
+    "store": "Müller",
+    "cost": 6.16,
+    "date": "31.07.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "sugar"
+  },
+  {
+    "description": "Hähnchen, Eier, Tomaten",
+    "category": "Groceries",
+    "store": "Rewe to Go",
+    "cost": 6.27,
+    "date": "31.07.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "nightshades"
+  },
+  {
+    "description": "Softdrinks, Alcohol",
+    "category": "Groceries",
+    "store": "Yormas",
+    "cost": 5.15,
+    "date": "31.07.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, alcohol, caffeine"
+  },
+  {
+    "description": "Softdrinks,, Haferriegel, Oatly",
+    "category": "Groceries",
+    "store": "Rewe",
+    "cost": 6.6,
+    "date": "01.08.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine, sugar"
+  },
+  {
+    "description": "Käsekrainer, Hähnchen, Softdrinks, Geflügel Berner",
+    "category": "Groceries",
+    "store": "Rewe",
+    "cost": 16.23,
+    "date": "01.08.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, cow's milk product"
+  },
+  {
+    "description": "Eier, Hähnchen, Nudeln, Softdrinks",
+    "category": "Groceries",
+    "store": "Aldi Süd",
+    "cost": 13.26,
+    "date": "02.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, gluten"
+  },
+  {
+    "description": "Acnatac, Momecutan",
+    "category": "Medical Expenses",
+    "store": "Apotheke",
+    "cost": 10.17,
+    "date": "02.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Haferflocken, Softdrinks",
+    "category": "Groceries",
+    "store": "Müller",
+    "cost": 3.92,
+    "date": "02.08.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Hähnchen, Rinderhack, Softdrinks",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 12.46,
+    "date": "03.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin"
+  },
+  {
+    "description": "Hähnchen, Rinderhack, Softdrinks, Gemüse",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 25.73,
+    "date": "04.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Eier, Hähnchen, Wein, Softdrinks",
+    "category": "Groceries",
+    "store": "Aldi Süd",
+    "cost": 19.53,
+    "date": "05.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, alcohol"
+  },
+  {
+    "description": "Hähnchen, Softdrinks, Rinderhack, Oatly",
+    "category": "Groceries",
+    "store": "Edeka",
+    "cost": 41.46,
+    "date": "05.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Softdrinks, Essen für Gäste",
+    "category": "Groceries",
+    "store": "Norma",
+    "cost": 18.08,
+    "date": "06.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Mandelmehl, Flavor Drops, Xucker",
+    "category": "Groceries",
+    "store": "Amazon",
+    "cost": 65.94,
+    "date": "07.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Bouldern Steinbock",
+    "category": "Leisure",
+    "store": "Steinbock",
+    "cost": 12,
+    "date": "07.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Tomaten",
+    "category": "Groceries",
+    "store": "Tankstelle",
+    "cost": 1.99,
+    "date": "07.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "nightshades"
+  },
+  {
+    "description": "Softdrinks, Haferriegel",
+    "category": "Groceries",
+    "store": "Tankstelle",
+    "cost": 5.62,
+    "date": "07.08.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine, sugar"
+  },
+  {
+    "description": "Eier, Softdrinks, Aioli, Haferriegel",
+    "category": "Groceries",
+    "store": "Edeka",
+    "cost": 14.25,
+    "date": "08.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine, sugar"
+  },
+  {
+    "description": "Softdrinks",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 1.49,
+    "date": "08.08.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Einzeltherapie",
+    "category": "Health",
+    "store": "Dick und Dünn",
+    "cost": 15,
+    "date": "09.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Hähnchen, Softdrinks, Eier, Rinderhack",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 21.49,
+    "date": "09.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "1.5l Weinschorle",
+    "category": "Leisure",
+    "store": "Felsenkeller",
+    "cost": 17,
+    "date": "10.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "alcohol"
+  },
+  {
+    "description": "Salat, Hähnchen, Softdrinks, Eier",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 11.05,
+    "date": "10.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Salat, Hähnchen, Softdrinks, Rinderhack",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 12.59,
+    "date": "11.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "0.2l Rotwein",
+    "category": "Leisure",
+    "store": "Brückenfestival",
+    "cost": 4.5,
+    "date": "12.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "alcohol"
+  },
+  {
+    "description": "Salat, Hähnchen, Softdrinks",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 19.29,
+    "date": "12.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Eier, Sekt, Wein, Softdrinks",
+    "category": "Groceries",
+    "store": "Aldi Süd",
+    "cost": 5.72,
+    "date": "12.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, alcohol"
+  },
+  {
+    "description": "Bartöl, Aftershave, Zahnpasta",
+    "category": "Hygiene",
+    "store": "Rossmann",
+    "cost": 15.64,
+    "date": "13.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Softdrinks,, Ketchup, Mayo, Tomaten",
+    "category": "Groceries",
+    "store": "Rewe",
+    "cost": 23.16,
+    "date": "13.08.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine, nightshades"
+  },
+  {
+    "description": "Rinderhack, Eier, Softdrinks, Erbsenpasta",
+    "category": "Groceries",
+    "store": "Edeka",
+    "cost": 53.74,
+    "date": "13.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Koro Fischöl",
+    "category": "Supplements",
+    "store": "Amazon",
+    "cost": 21.4,
+    "date": "15.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Geflügel Berner, Haferriegel, Softdrinks,Hafer-Gemüse Bällchen",
+    "category": "Groceries",
+    "store": "Rewe",
+    "cost": 13.78,
+    "date": "15.08.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, sugar, caffeine, cow's milk product"
+  },
+  {
+    "description": "Gemüse, Eier, Softdrinks, Hähnchen",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 23.66,
+    "date": "15.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Monster",
+    "category": "Groceries",
+    "store": "Müller",
+    "cost": 1.96,
+    "date": "16.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "caffeine"
+  },
+  {
+    "description": "Eier, Hähnchen, Softdrinks, Wein",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 16.64,
+    "date": "16.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine, alcohol"
+  },
+  {
+    "description": "Senf, Proteinriegel, Kaugummis",
+    "category": "Groceries",
+    "store": "Rewe to Go",
+    "cost": 5.86,
+    "date": "16.08.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "cow's milk product"
+  },
+  {
+    "description": "Geflügel Berner, Käse, Softdrinks",
+    "category": "Groceries",
+    "store": "Rewe",
+    "cost": 8.5,
+    "date": "17.08.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, cow's milk product"
+  },
+  {
+    "description": "Softdrinks, Hafer-Gemüse Bällchen",
+    "category": "Groceries",
+    "store": "Rewe",
+    "cost": 5.15,
+    "date": "17.08.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin"
+  },
+  {
+    "description": "Tape, Liquid Chalk",
+    "category": "Leisure",
+    "store": "Sport Scheck",
+    "cost": 14.9,
+    "date": "17.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Salat,Eier, Hähnchen, Softdrinks",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 18.83,
+    "date": "18.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Softdrinks, Haferriegel, Sekt",
+    "category": "Leisure",
+    "store": "Müller",
+    "cost": 10.54,
+    "date": "19.08.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine, sugar, alcohol"
+  },
+  {
+    "description": "Eier, Salat, Oatly",
+    "category": "Groceries",
+    "store": "Edeka",
+    "cost": 11.83,
+    "date": "20.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Jod 100mcg",
+    "category": "Supplements",
+    "store": "Apotheke",
+    "cost": 4.34,
+    "date": "20.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Hähnchen, Kokosjoghurt, Softdrinks",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 23.04,
+    "date": "20.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Koro Fischöl",
+    "category": "Groceries",
+    "store": "Amazon",
+    "cost": 21.4,
+    "date": "22.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Haarschneider, Softdrinks",
+    "category": "Electronics",
+    "store": "Lidl",
+    "cost": 11.51,
+    "date": "22.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Ketchup, Eier, Haferriegel, Low Carb Saucen",
+    "category": "Groceries",
+    "store": "Marktkauf",
+    "cost": 19.21,
+    "date": "23.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, nightshades"
+  },
+  {
+    "description": "2x Sporthose, T-Shirt",
+    "category": "Groceries",
+    "store": "Decathlon",
+    "cost": 17.97,
+    "date": "25.08.2022",
+    "is_planned": "N",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Senf, Ketchup, Burger Sauce",
+    "category": "Groceries",
+    "store": "Rewe",
+    "cost": 5.97,
+    "date": "25.08.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "nightshades"
+  },
+  {
+    "description": "Spritzen, Kanülen",
+    "category": "Supplements",
+    "store": "Apotheke",
+    "cost": 7.79,
+    "date": "25.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Eier, Hähnchen, Softdrinks",
+    "category": "Groceries",
+    "store": "Aldi Süd",
+    "cost": 11.54,
+    "date": "25.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin"
+  },
+  {
+    "description": "ESN Riegel, Haferriegel, Softdrinks",
+    "category": "Groceries",
+    "store": "Müller",
+    "cost": 17.26,
+    "date": "26.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "sugar, cow's milk product, aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Back to the Woods Techno Festival München",
+    "category": "Leisure",
+    "store": "Techno",
+    "cost": 100,
+    "date": "27.08.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "alcohol, sugar, caffeine"
+  },
+  {
+    "description": "Ersatzkarte Girokonto",
+    "category": "Banking",
+    "store": "DKB",
+    "cost": 10,
+    "date": "29.08.2022",
+    "is_planned": "N",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Kniekissen",
+    "category": "Leisure",
+    "store": "Amazon",
+    "cost": 19.99,
+    "date": "29.08.2022",
+    "is_planned": "N",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Kreditkartenhüllen",
+    "category": "Banking",
+    "store": "Amazon",
+    "cost": 4.97,
+    "date": "29.08.2022",
+    "is_planned": "N",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Kokoschips. Kokosmehl, Jackfruit",
+    "category": "Groceries",
+    "store": "dm",
+    "cost": 8.05,
+    "date": "29.08.2022",
+    "is_planned": "N",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Karottentortillas, high oleic Sonnenblumenöl",
+    "category": "Groceries",
+    "store": "ebl Biomarkt",
+    "cost": 14.5,
+    "date": "29.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Oatly Hafercreme, Mandeljoghurt, Salat, Feta",
+    "category": "Groceries",
+    "store": "Edeka",
+    "cost": 14.68,
+    "date": "29.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Gemüse, Eier, Putenschnitzel",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 21.42,
+    "date": "29.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Maniok Pommes, Softdrinks, Hafercookies",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 7.84,
+    "date": "30.08.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Creme, Bartconditioner",
+    "category": "Hygiene",
+    "store": "Rossmann",
+    "cost": 12.06,
+    "date": "30.08.2022",
+    "is_planned": "N",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Haferflocken, Geflügel Wiener, Eier, Softdrinks",
+    "category": "Groceries",
+    "store": "Rewe",
+    "cost": 9.42,
+    "date": "30.08.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Reifenheber",
+    "category": "Leisure",
+    "store": "pedalkraft",
+    "cost": 6,
+    "date": "30.08.2022",
+    "is_planned": "N",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Ketchup, Softdrinks, Leichte Mayo",
+    "category": "Groceries",
+    "store": "Edeka",
+    "cost": 6.01,
+    "date": "30.08.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine, nightshades"
+  },
+  {
+    "description": "Kreidetafel",
+    "category": "Career",
+    "store": "Amazon",
+    "cost": 24.99,
+    "date": "31.08.2022",
+    "is_planned": "N",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Geflügel Wiener, Leichte Mayo",
+    "category": "Groceries",
+    "store": "Netto",
+    "cost": 14.75,
+    "date": "31.08.2022",
+    "is_planned": "N",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Salat, Buchweizenpasta, Erbsen, Burger Sauce",
+    "category": "Groceries",
+    "store": "Kaufland",
+    "cost": 8.24,
+    "date": "31.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "legumes, buckwheat"
+  },
+  {
+    "description": "Gemüse, Geflügel Bratwurst, Eier, Rinderhack, Softdrinks",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 18.61,
+    "date": "31.08.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "2x Bahn Röthenbach Steinberg",
+    "category": "Travel",
+    "store": "Vgn",
+    "cost": 7.24,
+    "date": "02.09.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "U-Bahn Peterskirche Cmdr",
+    "category": "Travel",
+    "store": "Vgn",
+    "cost": 2.75,
+    "date": "03.09.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Geflügel Berner, Softdrinks",
+    "category": "Groceries",
+    "store": "Rewe",
+    "cost": 16.75,
+    "date": "03.09.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine, cow's milk product"
+  },
+  {
+    "description": "Haferriegel, Proteinriegel",
+    "category": "Groceries",
+    "store": "Rossmann",
+    "cost": 8.63,
+    "date": "03.09.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "sugar"
+  },
+  {
+    "description": "Lachs, Gemüse, Eier, Pute, Softdrinks",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 54.15,
+    "date": "05.09.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Einzeltherapie",
+    "category": "Health",
+    "store": "Dick und Dünn",
+    "cost": 15,
+    "date": "06.09.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Ketchup Zero, Leichte Mayo",
+    "category": "Groceries",
+    "store": "Rewe",
+    "cost": 11,
+    "date": "07.09.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "sugar, nightshades"
+  },
+  {
+    "description": "Eier, Rinderhack, Haferreis",
+    "category": "Groceries",
+    "store": "Aldi Süd",
+    "cost": 14.75,
+    "date": "07.09.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Haferriegel, Proteinriegel",
+    "category": "Groceries",
+    "store": "Rossmann",
+    "cost": 3.17,
+    "date": "07.09.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "sugar"
+  },
+  {
+    "description": "Reinigungsmittel, Küchenpapier, Müllbeutel",
+    "category": "Household",
+    "store": "dm",
+    "cost": 18.9,
+    "date": "09.09.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Haferriegel",
+    "category": "Groceries",
+    "store": "Müller",
+    "cost": 2.58,
+    "date": "09.09.2022",
+    "is_planned": "N",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Magic Set Booster",
+    "category": "Leisure",
+    "store": "Ultra Comix",
+    "cost": 7,
+    "date": "09.09.2022",
+    "is_planned": "N",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Hähnchenbratwurst, Softdrinks",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 9.68,
+    "date": "09.09.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin"
+  },
+  {
+    "description": "FNM Modern",
+    "category": "Leisure",
+    "store": "Ultra Comix",
+    "cost": 6,
+    "date": "09.09.2022",
+    "is_planned": "N",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "U-Bahn Peterskirche Cmdr",
+    "category": "Travel",
+    "store": "Vgn",
+    "cost": 2.75,
+    "date": "10.09.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Haferriegel, Proteinriegel",
+    "category": "Groceries",
+    "store": "Rossmann",
+    "cost": 10.47,
+    "date": "10.09.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "sugar"
+  },
+  {
+    "description": "Haferflocken, Pute, Rinderhack, Haferflocken, Softdrinks",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 18.45,
+    "date": "10.09.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Oatly Hafercreme, Softdrinks",
+    "category": "Groceries",
+    "store": "Rewe",
+    "cost": 7.18,
+    "date": "10.09.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Sekt, Softdrinks, Haferriegel",
+    "category": "Groceries",
+    "store": "Rewe",
+    "cost": 15.96,
+    "date": "10.09.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine, alcohol"
+  },
+  {
+    "description": "Softdrinks, Eier, Hähnchen",
+    "category": "Groceries",
+    "store": "Tankstelle",
+    "cost": 7.51,
+    "date": "11.09.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin"
+  },
+  {
+    "description": "Hafercookie, Softdrinks, Hähnchenbratwurst",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 7.65,
+    "date": "12.09.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine, sugar"
+  },
+  {
+    "description": "Gemüse, Eier, Hähnchenbratwurst, Rinderhack,Softdrinks",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 19.41,
+    "date": "12.09.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Bierkrug Stein Antik",
+    "category": "Leisure",
+    "store": "Antiquitäten",
+    "cost": 20,
+    "date": "13.09.2022",
+    "is_planned": "N",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Abhebegebühr",
+    "category": "Banking",
+    "store": "DKB",
+    "cost": 3.9,
+    "date": "13.09.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Vintage Cube Dice d6 - d12",
+    "category": "Leisure",
+    "store": "Ultra Comix",
+    "cost": 12,
+    "date": "13.09.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Vintage Cube Wood and Felt",
+    "category": "Leisure",
+    "store": "idee creativ",
+    "cost": 15.16,
+    "date": "13.09.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Feta, Tomaten, Softdrinks, Rinderhack",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 15.32,
+    "date": "13.09.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "cow's milk product, nightshades, aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Vintage Cube Dice Box",
+    "category": "Leisure",
+    "store": "Etsy",
+    "cost": 30.22,
+    "date": "14.09.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Vintage Cube Storage Box",
+    "category": "Leisure",
+    "store": "Amazon",
+    "cost": 36.99,
+    "date": "14.09.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Hormonsupplements",
+    "category": "Supplements",
+    "store": "INT",
+    "cost": 320,
+    "date": "14.09.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Softdrinks",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 1.94,
+    "date": "14.09.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Haferflocken, Buchweizen gepufft",
+    "category": "Groceries",
+    "store": "Rossmann",
+    "cost": 6.78,
+    "date": "14.09.2022",
+    "is_planned": "N",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Eier, Hähnchenbratwürste, Haferreis",
+    "category": "Groceries",
+    "store": "Aldi Süd",
+    "cost": 31.04,
+    "date": "14.09.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Whiskey, Softdrinks",
+    "category": "Groceries",
+    "store": "Rewe",
+    "cost": 17.97,
+    "date": "14.09.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "alcohol, aspartame/saccharin"
+  },
+  {
+    "description": "Ketchup Zero, Leichte Mayo, Softdrinks",
+    "category": "Groceries",
+    "store": "Rewe",
+    "cost": 15.98,
+    "date": "14.09.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine, sugar, nightshades"
+  },
+  {
+    "description": "Leitz Tacker/Heftgerät",
+    "category": "Home Office",
+    "store": "Müller",
+    "cost": 13.99,
+    "date": "14.09.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Vintage Cube Wood and Felt",
+    "category": "Leisure",
+    "store": "idee creativ",
+    "cost": 17.06,
+    "date": "15.09.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Oatly Hafercreme, Softdrinks",
+    "category": "Groceries",
+    "store": "Edeka",
+    "cost": 11.3,
+    "date": "15.09.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Vintage Cube Werkzeug & Holz",
+    "category": "Leisure",
+    "store": "Bauhaus",
+    "cost": 63.99,
+    "date": "15.09.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Vintage Cube Wood and Felt",
+    "category": "Leisure",
+    "store": "idee creativ",
+    "cost": 6.97,
+    "date": "16.09.2022",
+    "is_planned": "J",
+    "contains_indulgence": "N",
+    "sensitivities": ""
+  },
+  {
+    "description": "Gemüse, Viel Leicht Würste, Softdrinks",
+    "category": "Groceries",
+    "store": "Edeka",
+    "cost": 12.49,
+    "date": "16.09.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Rinderhack, Hähnchen, Softdrinks",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 13.61,
+    "date": "16.09.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Rinderhack, Softdrinks",
+    "category": "Groceries",
+    "store": "Aldi Süd",
+    "cost": 10.99,
+    "date": "17.09.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin"
+  },
+  {
+    "description": "Proteinriegel, Softdrinks",
+    "category": "Groceries",
+    "store": "Rewe",
+    "cost": 10.74,
+    "date": "17.09.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Softdrinks",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 3.32,
+    "date": "17.09.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Gemüse, Rindergeschnetzeltes, Softdrinks",
+    "category": "Groceries",
+    "store": "Aldi Süd",
+    "cost": 11.86,
+    "date": "17.09.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin"
+  },
+  {
+    "description": "Softdrinks",
+    "category": "Groceries",
+    "store": "Edeka",
+    "cost": 2.18,
+    "date": "17.09.2022",
+    "is_planned": "N",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  },
+  {
+    "description": "Rindergulasch, Gemüse, Hähnchen, Softdrinks",
+    "category": "Groceries",
+    "store": "Lidl",
+    "cost": 18.23,
+    "date": "19.09.2022",
+    "is_planned": "J",
+    "contains_indulgence": "J",
+    "sensitivities": "aspartame/saccharin, caffeine"
+  }
+]
