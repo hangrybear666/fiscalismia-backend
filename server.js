@@ -1,6 +1,9 @@
 // Global Dependencies
 const cors = require('cors')
 const express = require('express')
+const bodyParser = require('body-parser')
+const fs = require('fs')
+const stringify = require('csv-stringify').stringify
 const morgan = require('morgan')
 
 // Routes
@@ -41,9 +44,13 @@ app.use(cors())
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :postBody'))
 
 /**
- *
+ * bodyParser enables reading data from HTTP POST requests such as:
+ * text/plain via bodyParser.text()
+ * application/json via bodyParser.json()
  */
-app.use(express.json())
+app.use(bodyParser.text())
+app.use(bodyParser.json())
+// app.use(express.json())
 
 /**
  *

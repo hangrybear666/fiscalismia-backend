@@ -1,6 +1,9 @@
 const asyncHandler = require('express-async-handler')
+const { parse } = require('csv-parse/sync');
 const logger = require('../utils/logger')
 const { pool } = require('../utils/pgDbService')
+const { escapeSingleQuotes,
+        buildInsertIntoStagingVariableBills } = require('../utils/SQL_UTILS')
 const csvjson = require('../postgres-scripts/csvjson.json')
 
 /***
@@ -39,30 +42,64 @@ const csvjson = require('../postgres-scripts/csvjson.json')
 })
 
 /**
- * @description receives json-file to transform into insert queries for ETL
+ * @description receives application/json body to transform into insert queries for ETL
+ * FALLBACK to local file system file otherwise
  * @type HTTP POST
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/json/variable_expenses
  */
  const postVariableExpensesJson = asyncHandler(async (request, response) => {
   logger.info("create_postgresController received POST to /api/fiscalismia/json/variable_expenses")
-  csvjson.forEach(e => {
-    logger.warn(`INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
-    VALUES (
-      '${e.description}',
-      INITCAP('${e.category}'),
-      INITCAP('${e.store}'),
-      ${e.cost},
-      TO_DATE('${e.date}','DD.MM.YYYY'),
-      '${e.is_planned}',
-      '${e.contains_indulgence}',
-      LOWER('${e.sensitivities}')
-    );`)
+  // Use request.body or a file system file as fallback.
+  const jsonData = request.body ? request.body : csvjson
+  let insertStatements = ''
+  let insertCount = 0
+  jsonData.forEach(e => {
+    const insertRow = buildInsertIntoStagingVariableBills(e)
+    insertStatements = insertStatements.concat(insertRow)
+    insertCount++
   });
-  response.status(200).json(csvjson).send()
+  logger.debug(`received json-data from body with length [${request.body ? request.body.length : 0 }] and transformed into [${insertCount}] INSERT STATEMENTS`)
+  response.status(200).send(insertStatements)
+})
+
+/**
+ * @description receives tab-separated value as text in the http post body to transform into insert queries for ETL
+ * MANDATORY HEADER STRUCTURE:
+ * description  category  store cost  date  is_planned  contains_indulgence sensitivities
+ * @type HTTP POST
+ * @async asyncHandler passes exceptions within routes to errorHandler middleware
+ * @route /api/fiscalismia/texttsv/variable_expenses
+ */
+ const postVariableExpensesTextTsv = asyncHandler(async (request, response) => {
+  logger.info("create_postgresController received POST to /api/fiscalismia/texttsv/variable_expenses")
+  try {
+    // Parse text/plain with mandatory headers into JSON
+    const result = parse(request.body, {
+      columns: true,
+      delimiter: '\t',
+      trim: true,
+      escape: '\'',
+      skip_empty_lines: true
+    })
+    let insertStatements = ''
+    let insertCount = 0
+    result.forEach(e => {
+      const insertRow = buildInsertIntoStagingVariableBills(e)
+      insertStatements = insertStatements.concat(insertRow)
+      insertCount++
+    })
+    logger.debug(`received tsv-data from body with [${request.body ? result.length : 0 }] rows and transformed into [${insertCount}] INSERT STATEMENTS`)
+    response.status(200).send(insertStatements)
+  } catch (error) {
+    response.status(400).send()
+    logger.error('the provided text/plain data could not be converted to .csv or the following INSERT Statements.')
+    throw error
+  }
 })
 
 module.exports = {
   postTestData,
-  postVariableExpensesJson
+  postVariableExpensesJson,
+  postVariableExpensesTextTsv
 }

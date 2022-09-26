@@ -14,7 +14,8 @@ const { getTestData,
         getSensitivitiesOfPurchaseyBySensitivityId,
         getSensitivitiesOfPurchaseyByVarExpenseId} = require('../controllers/read_postgresController')
 const { postTestData,
-  postVariableExpensesJson } = require('../controllers/create_postgresController')
+  postVariableExpensesJson,
+  postVariableExpensesTextTsv } = require('../controllers/create_postgresController')
 const { updateTestData } = require('../controllers/update_postgresController')
 const { deleteTestData } = require('../controllers/delete_postgresController')
 
@@ -48,6 +49,7 @@ postgresRoutes.get('/sensitivities_of_purchase/var_expense/:id', getSensitivitie
 //  /  ` |__) |__   /\   |  |__
 //  \__, |  \ |___ /~~\  |  |___
 postgresRoutes.post('/json/variable_expenses', postVariableExpensesJson)
+postgresRoutes.post('/texttsv/variable_expenses', postVariableExpensesTextTsv)
 //        __   __       ___  ___
 //  |  | |__) |  \  /\   |  |__
 //  \__/ |    |__/ /~~\  |  |___
