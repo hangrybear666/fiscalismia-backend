@@ -1,33 +1,57 @@
 const logger = require("./logger")
 
 /**
- * replaces all occurences of single quote ' with two single quotes ''
+ * @description replaces all occurences of single quote ' with two single quotes ''
  * @param {*} string
  * @returns escaped string unless the string contains multiple sequential single quotes
  */
-const escapeSingleQuotes = (string) => {
-  if (string.includes("''")) {
+const escapeSingleQuotes = (str) => {
+  const doubleQuote = '\'\''
+  if (str.includes(doubleQuote)) {
     logger.warn('double single quotes present. no escaping performed.')
-    return string
+    return str
   }
-  return string.replace(/'/g, "''")
+  return str.replace(/'/g, doubleQuote)
 }
 
 /**
- * constructs INSERT INTO statement while sanitizing values of provided json object by e.g.
- * 1) replacing all occurences of single quotes ' with two single quotes ''
- * 2) TODO
+ * @description constructs INSERT INTO statement for credential storage
+ * @param {*} param0 json object containing username and password keys
+ * @returns INSERT INTO SQL for public.um_users
+ */
+const buildInsertUmUsers = ({username, password}) => {
+  return `INSERT INTO public.um_users (username, password) VALUES (
+    '${username}',
+    crypt('${password}', gen_salt('bf',12))
+  );`
+}
+
+/**
+ * @description constructs INSERT INTO statement for credential storage
+ * @param {*} param0 json object containing username and password keys
+ * @returns INSERT INTO SQL for public.um_users
+ */
+ const buildVerifyUsername = ({username, password}) => {
+  return `SELECT * FROM public.um_users
+  WHERE username = '${username}'
+    AND password = crypt('${password}', password);`
+}
+
+/**
+ * @description constructs INSERT INTO statement while sanitizing values of provided json object by e.g.
+ * 1) casting all values within json to String for proper escaping via helper method
+ * 2) replacing all occurences of single quotes ' with two single quotes ''
  * @param {*} element json encoded single element containing the mandatory keys:
  * description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities
- * @returns
+ * @returns INSERT INTO SQL for staging.staging_variable_bills
  */
-const buildInsertIntoStagingVariableBills = (element) => {
+const buildInsertStagingVariableBills = (element) => {
   let e = element
 
   // loops through keys of json object and sanitizes inputs
   for (let key in e) {
       if (e.hasOwnProperty(key)) {
-        e[key] = escapeSingleQuotes(e[key])
+        e[key] = escapeSingleQuotes(String(e[key]))
       }
   }
   const insertRow = `INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
@@ -46,6 +70,7 @@ const buildInsertIntoStagingVariableBills = (element) => {
 }
 
 module.exports = {
-  escapeSingleQuotes,
-  buildInsertIntoStagingVariableBills
+  buildInsertStagingVariableBills,
+  buildInsertUmUsers,
+  buildVerifyUsername
 }

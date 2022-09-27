@@ -2,8 +2,9 @@ const asyncHandler = require('express-async-handler')
 const { parse } = require('csv-parse/sync');
 const logger = require('../utils/logger')
 const { pool } = require('../utils/pgDbService')
-const { escapeSingleQuotes,
-        buildInsertIntoStagingVariableBills } = require('../utils/SQL_UTILS')
+const { buildInsertStagingVariableBills,
+        buildInsertUmUsers,
+        buildVerifyUsername } = require('../utils/SQL_UTILS')
 const csvjson = require('../postgres-scripts/csvjson.json')
 
 /***
@@ -55,7 +56,7 @@ const csvjson = require('../postgres-scripts/csvjson.json')
   let insertStatements = ''
   let insertCount = 0
   jsonData.forEach(e => {
-    const insertRow = buildInsertIntoStagingVariableBills(e)
+    const insertRow = buildInsertStagingVariableBills(e)
     insertStatements = insertStatements.concat(insertRow)
     insertCount++
   });
@@ -79,13 +80,12 @@ const csvjson = require('../postgres-scripts/csvjson.json')
       columns: true,
       delimiter: '\t',
       trim: true,
-      escape: '\'',
       skip_empty_lines: true
     })
     let insertStatements = ''
     let insertCount = 0
     result.forEach(e => {
-      const insertRow = buildInsertIntoStagingVariableBills(e)
+      const insertRow = buildInsertStagingVariableBills(e)
       insertStatements = insertStatements.concat(insertRow)
       insertCount++
     })
@@ -98,8 +98,101 @@ const csvjson = require('../postgres-scripts/csvjson.json')
   }
 })
 
+/**
+ * @description receives comma-separated value as file in the http post body to transform into insert queries for ETL
+ * MANDATORY HEADER STRUCTURE:
+ * description  category  store cost  date  is_planned  contains_indulgence sensitivities
+ * @type HTTP POST
+ * @async asyncHandler passes exceptions within routes to errorHandler middleware
+ * @route /api/fiscalismia/csv/variable_expenses
+ */
+ const postVariableExpensesCsv = asyncHandler(async (request, response) => {
+  logger.info("create_postgresController received POST to /api/fiscalismia/csv/variable_expenses")
+  try {
+    // Parse csv file with mandatory headers into JSON
+    // const result = parse(request.body, {
+    //   columns: true,
+    //   delimiter: ',',
+    //   trim: true,
+    //   skip_empty_lines: true
+    // })
+    // let insertStatements = ''
+    // let insertCount = 0
+    // result.forEach(e => {
+    //   const insertRow = buildInsertIntoStagingVariableBills(e)
+    //   insertStatements = insertStatements.concat(insertRow)
+    //   insertCount++
+    // })
+    // logger.debug(`received csv-file from body with [${request.body ? result.length : 0 }] rows and transformed into [${insertCount}] INSERT STATEMENTS`)
+    // response.status(200).send(insertStatements)
+  } catch (error) {
+    response.status(400).send()
+    logger.error('the provided text/plain data could not be converted to .csv or the following INSERT Statements.')
+    throw error
+  }
+})
+
+/**
+ * @description expects a application/json request.body containing username and password keys
+ * destined for INSERTION into encrypted credential storage within database
+ * @type HTTP POST
+ * @async asyncHandler passes exceptions within routes to errorHandler middleware
+ * @route /api/fiscalismia/um/credentials
+ */
+const postUserCredentials = asyncHandler(async (request, response) => {
+  logger.info("create_postgresController received POST to /api/fiscalismia/um/credentials")
+  const credentials = {
+    username : request.body.username,
+    password : request.body.password
+  }
+  const regExOnlyLetters = /^[a-zA-Z]*$/g
+  const regExAlphaNumeric = /^[a-zA-Z0-9_-]*$/g
+  if (!credentials.username || !credentials.password) {
+    logger.error("username or password not provided in request.body")
+    response.status(400).send("username and/or password missing in POST request")
+    throw error
+  }
+  if (!regExOnlyLetters.test(credentials.username)) {
+    logger.error(`username did not match latin alphabet regex pattern ${regExOnlyLetters}`)
+    response.status(400).send("username must conform to the latin alphabet!")
+    throw error
+  }
+  if(!regExAlphaNumeric.test(credentials.password)) {
+    logger.error(`password did not match the alphanumeric regex pattern ${regExAlphaNumeric}`)
+    response.status(400).send("password must contain alphanumeric characters, hyphens or underscores only!")
+    throw error
+  }
+  const sqlInsertCredentials = buildInsertUmUsers(credentials)
+  const sqlVerifyCredentials = buildVerifyUsername(credentials)
+  const parameters = ''
+  const client = await pool.connect()
+  try {
+    await client.query('BEGIN')
+    await client.query(sqlInsertCredentials, parameters)
+    const result = await client.query(sqlVerifyCredentials, parameters)
+    const results = { 'rows': (result) ? result.rows : null};
+    if (results.rows
+      && results.rows.length > 0
+      && results.rows[0].username
+      && results.rows[0].username !== credentials.username) {
+      throw error
+    }
+    await client.query('COMMIT')
+    response.status(201).send(results)
+  } catch (error) {
+    await client.query('ROLLBACK')
+    logger.error('Transaction ROLLBACK: user credentials could not be stored in the database.')
+    response.status(400).send('user credentials could not be stored in the database.')
+    throw error
+  }
+})
+
 module.exports = {
   postTestData,
+
   postVariableExpensesJson,
-  postVariableExpensesTextTsv
+  postVariableExpensesTextTsv,
+  postVariableExpensesCsv,
+
+  postUserCredentials
 }

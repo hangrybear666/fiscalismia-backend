@@ -50,6 +50,7 @@ app.use(morgan(':method :url :status :res[content-length] - :response-time ms :p
  */
 app.use(bodyParser.text())
 app.use(bodyParser.json())
+// app.use(bodyParser.urlencoded({ extended: false }))
 // app.use(express.json())
 
 /**

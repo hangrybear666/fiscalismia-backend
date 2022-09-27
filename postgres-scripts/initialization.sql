@@ -30,6 +30,33 @@ COMMENT ON DATABASE fiscalismia IS 'db for the fiscalismia webservice';
 \c fiscalismia
 ALTER SCHEMA public OWNER TO fiscalismia_api;
 
+--        __   ___  __      __   __   ___  __   ___      ___              __
+--  |  | /__` |__  |__)    /  ` |__) |__  |  \ |__  |\ |  |  |  /\  |    /__`
+--  \__/ .__/ |___ |  \    \__, |  \ |___ |__/ |___ | \|  |  | /~~\ |___ .__/
+
+-- Documentation: https://www.postgresql.org/docs/current/pgcrypto.html
+-- ENCRYPT: crypt('PASSWORD', gen_salt('bf',ITER_COUNT))
+-- ITER_COUNT = difficulty of hashing. 6 is default and 31 is max but takes years to compute
+-- DECRYPT: crypt('ENTERED_PW', password_from_table)
+
+CREATE EXTENSION pgcrypto;
+
+DROP TABLE IF EXISTS public.um_users;
+CREATE TABLE IF NOT EXISTS public.um_users (
+	id serial NOT NULL,
+  	username character varying(255) NOT NULL UNIQUE,
+  	password TEXT NOT NULL,
+	PRIMARY KEY (id)
+);
+
+-- INSERT INTO public.um_users (username, password) VALUES
+-- ('admin',
+-- 	crypt('PLACEHOLDER', gen_salt('bf',12)));
+
+-- SELECT * FROM public.um_users
+-- WHERE username = 'admin'
+--   AND password = crypt('ENTERED_PW', password);
+
 -- QUIT OUT via  \q
 -- psql -U fiscalismia_api -d fiscalismia
 

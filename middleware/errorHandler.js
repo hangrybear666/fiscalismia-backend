@@ -1,5 +1,12 @@
 const logger = require("../utils/logger")
 
+/**
+ * @description
+ * @param {*} error
+ * @param {*} request
+ * @param {*} response
+ * @param {*} next
+ */
 const errorHandler = (error, request, response, next) => {
 
   // if statusCode is preset, use that, otherwise 500
