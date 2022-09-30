@@ -16,25 +16,36 @@ const escapeSingleQuotes = (str) => {
 
 /**
  * @description constructs INSERT INTO statement for credential storage
- * @param {*} param0 json object containing username and password keys
+ * @param {*} param0 json object containing username, email and password keys
  * @returns INSERT INTO SQL for public.um_users
  */
-const buildInsertUmUsers = ({username, password}) => {
-  return `INSERT INTO public.um_users (username, password) VALUES (
+const buildInsertUmUsers = ({username, email, password}) => {
+  return `INSERT INTO public.um_users (username, email, password) VALUES (
     '${username}',
+    '${email}',
     crypt('${password}', gen_salt('bf',12))
   );`
 }
 
 /**
- * @description constructs INSERT INTO statement for credential storage
- * @param {*} param0 json object containing username and password keys
- * @returns INSERT INTO SQL for public.um_users
+ * @description constructs SELECT statement for credential verification
+ * @param {*} param0 json object containing username, email and password keys
+ * @returns SELECT FROM SQL for public.um_users
  */
  const buildVerifyUsername = ({username, password}) => {
   return `SELECT * FROM public.um_users
   WHERE username = '${username}'
     AND password = crypt('${password}', password);`
+}
+
+/**
+ * @description constructs SELECT statement for finding a user by id
+ * @param {*} param0 the user id to be found
+ * @returns SELECT FROM SQL for public.um_users
+ */
+ const buildFindUserById = (id) => {
+  return `SELECT id, username FROM public.um_users
+  WHERE id = ${id};`
 }
 
 /**
@@ -72,5 +83,6 @@ const buildInsertStagingVariableBills = (element) => {
 module.exports = {
   buildInsertStagingVariableBills,
   buildInsertUmUsers,
-  buildVerifyUsername
+  buildVerifyUsername,
+  buildFindUserById
 }

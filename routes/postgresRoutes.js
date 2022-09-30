@@ -17,7 +17,9 @@ const { postTestData,
   postVariableExpensesJson,
   postVariableExpensesTextTsv,
   postVariableExpensesCsv,
-  postUserCredentials } = require('../controllers/create_postgresController')
+  createUserCredentials,
+  loginWithUserCredentials } = require('../controllers/create_postgresController')
+const { authenticateUser } = require('../middleware/authentication.js')
 const { updateTestData } = require('../controllers/update_postgresController')
 const { deleteTestData } = require('../controllers/delete_postgresController')
 
@@ -25,7 +27,7 @@ const { deleteTestData } = require('../controllers/delete_postgresController')
 //   |  |__  /__`  |
 //   |  |___ .__/  |
 
-postgresRoutes.get('/', getTestData)
+postgresRoutes.get('/', authenticateUser, getTestData)
 postgresRoutes.post('/', postTestData)
 postgresRoutes.put('/:id', updateTestData)
 postgresRoutes.delete('/:id', deleteTestData)
@@ -53,7 +55,9 @@ postgresRoutes.get('/sensitivities_of_purchase/var_expense/:id', getSensitivitie
 postgresRoutes.post('/json/variable_expenses', postVariableExpensesJson)
 postgresRoutes.post('/texttsv/variable_expenses', postVariableExpensesTextTsv)
 postgresRoutes.post('/csv/variable_expenses', postVariableExpensesCsv)
-postgresRoutes.post('/um/credentials', postUserCredentials)
+postgresRoutes.post('/um/credentials', createUserCredentials)
+postgresRoutes.post('/um/login', loginWithUserCredentials)
+
 //        __   __       ___  ___
 //  |  | |__) |  \  /\   |  |__
 //  \__/ |    |__/ /~~\  |  |___

@@ -5,6 +5,7 @@ const { pool } = require('../utils/pgDbService')
 const { buildInsertStagingVariableBills,
         buildInsertUmUsers,
         buildVerifyUsername } = require('../utils/SQL_UTILS')
+const { generateToken } = require('../utils/security')
 const csvjson = require('../postgres-scripts/csvjson.json')
 
 /***
@@ -139,22 +140,29 @@ const csvjson = require('../postgres-scripts/csvjson.json')
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/um/credentials
  */
-const postUserCredentials = asyncHandler(async (request, response) => {
+const createUserCredentials = asyncHandler(async (request, response) => {
   logger.info("create_postgresController received POST to /api/fiscalismia/um/credentials")
   const credentials = {
     username : request.body.username,
+    email : request.body.email,
     password : request.body.password
   }
   const regExOnlyLetters = /^[a-zA-Z]*$/g
   const regExAlphaNumeric = /^[a-zA-Z0-9_-]*$/g
-  if (!credentials.username || !credentials.password) {
-    logger.error("username or password not provided in request.body")
-    response.status(400).send("username and/or password missing in POST request")
+  const regExEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  if (!credentials.username || !credentials.password || !credentials.email) {
+    logger.error("username, email or password not provided in request.body")
+    response.status(400).send("username, email and/or password missing in POST request")
     throw error
   }
   if (!regExOnlyLetters.test(credentials.username)) {
     logger.error(`username did not match latin alphabet regex pattern ${regExOnlyLetters}`)
     response.status(400).send("username must conform to the latin alphabet!")
+    throw error
+  }
+  if (!regExEmail.test(credentials.email)) {
+    logger.error(`email did not match the chromium email regex pattern ${regExEmail}`)
+    response.status(400).send("email must conform to the Chromium email standard such as example_1@domain.xyz!")
     throw error
   }
   if(!regExAlphaNumeric.test(credentials.password)) {
@@ -171,6 +179,9 @@ const postUserCredentials = asyncHandler(async (request, response) => {
     await client.query(sqlInsertCredentials, parameters)
     const result = await client.query(sqlVerifyCredentials, parameters)
     const results = { 'rows': (result) ? result.rows : null};
+    if (result.rowCount != 1) {
+      throw error
+    }
     if (results.rows
       && results.rows.length > 0
       && results.rows[0].username
@@ -187,6 +198,51 @@ const postUserCredentials = asyncHandler(async (request, response) => {
   }
 })
 
+/**
+ * @description expects a application/json request.body containing username and password keys
+ * destined for INSERTION into encrypted credential storage within database
+ * @type HTTP POST
+ * @async asyncHandler passes exceptions within routes to errorHandler middleware
+ * @route /api/fiscalismia/um/login
+ */
+ const loginWithUserCredentials = asyncHandler(async (request, response) => {
+  logger.info("create_postgresController received POST to /api/fiscalismia/um/login")
+  const credentials = {
+    username : request.body.username,
+    password : request.body.password
+  }
+  if (!credentials.username || !credentials.password) {
+    logger.error("username and/or password not provided in request.body")
+    response.status(400).send("username and/or password missing in POST request")
+    throw error
+  }
+  const sql = buildVerifyUsername(credentials)
+  const parameters = ''
+  const client = await pool.connect()
+  try {
+    const result = await client.query(sql, parameters)
+    if (result.rowCount != 1) {
+      logger.error('Login failed. SELECT to verify user credentials returns rowcount of ['.concat(result.rowCount).concat(']'))
+      throw error
+    }
+    const results = { 'rows': (result) ? result.rows : null};
+    if (results.rows[0].username
+      && results.rows[0].username !== credentials.username) {
+      logger.error('Login failed. username from request.body and database query do not match')
+      throw error
+    }
+    const jwtToken = generateToken(results.rows[0].id)
+    response.status(200).send(jwtToken)
+  } catch (error) {
+    logger.error('Login failed. User could not be verified')
+    response.status(400).send('Error while logging in.')
+    throw error
+  }
+  // response.status(200).send(sql)
+ })
+
+
+
 module.exports = {
   postTestData,
 
@@ -194,5 +250,6 @@ module.exports = {
   postVariableExpensesTextTsv,
   postVariableExpensesCsv,
 
-  postUserCredentials
+  createUserCredentials,
+  loginWithUserCredentials
 }
