@@ -27,7 +27,11 @@ const { deleteTestData } = require('../controllers/delete_postgresController')
 //   |  |__  /__`  |
 //   |  |___ .__/  |
 
-postgresRoutes.get('/', authenticateUser, getTestData)
+// USER AUTHENTICATION TEST >>>>>>>>>>>>>>>>>>>>>
+// USER AUTHENTICATION TEST >>>>>>>>>>>>>>>>>>>>>
+// USER AUTHENTICATION TEST >>>>>>>>>>>>>>>>>>>>>
+// postgresRoutes.get('/', authenticateUser, getTestData)
+postgresRoutes.get('/', getTestData)
 postgresRoutes.post('/', postTestData)
 postgresRoutes.put('/:id', updateTestData)
 postgresRoutes.delete('/:id', deleteTestData)

@@ -6,7 +6,7 @@ const { buildInsertStagingVariableBills,
         buildInsertUmUsers,
         buildVerifyUsername } = require('../utils/SQL_UTILS')
 const { generateToken } = require('../utils/security')
-const csvjson = require('../postgres-scripts/csvjson.json')
+// const csvjson = require('../postgres-scripts/csvjson.json')
 
 /***
  *    ______ _____ _____ _____    ______ _____ _____ _   _ _____ _____ _____ _____

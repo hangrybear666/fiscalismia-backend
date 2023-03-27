@@ -1,12 +1,14 @@
--- psql -U postgres
--- PW
---        __                  __  ___  __       ___    __                __   ___  __    |    __   __   __  ___  __   __   ___  __
---   /\  |  \  |\/| | |\ | | /__`  |  |__)  /\   |  | /  \ |\ |    |  | /__` |__  |__)   |   |__) /  \ /__`  |  / _` |__) |__  /__`
---  /~~\ |__/  |  | | | \| | .__/  |  |  \ /~~\  |  | \__/ | \|    \__/ .__/ |___ |  \   |   |    \__/ .__/  |  \__> |  \ |___ .__/
+psql -U postgres
+-- PG_SUPERUSER_PW
 
+/*    __                  __  ___  __       ___    __                __   ___  __    |    __   __   __  ___  __   __   ___  __
+ /\  |  \  |\/| | |\ | | /__`  |  |__)  /\   |  | /  \ |\ |    |  | /__` |__  |__)   |   |__) /  \ /__`  |  / _` |__) |__  /__`
+/~~\ |__/  |  | | | \| | .__/  |  |  \ /~~\  |  | \__/ | \|    \__/ .__/ |___ |  \   |   |    \__/ .__/  |  \__> |  \ |___ .__/
+*/
+SET client_encoding TO 'UTF8';
 \c fiscalismia
-DROP SCHEMA IF EXISTS public;
-DROP SCHEMA IF EXISTS staging;
+DROP SCHEMA IF EXISTS public CASCADE;
+DROP SCHEMA IF EXISTS staging CASCADE;
 \c postgres
 DROP DATABASE IF EXISTS fiscalismia;
 DROP ROLE IF EXISTS fiscalismia_api;
@@ -18,7 +20,7 @@ CREATE ROLE fiscalismia_api WITH
 	NOINHERIT
 	NOREPLICATION
 	CONNECTION LIMIT -1
-	-- PASSWORD 'PLACEHOLER';
+	PASSWORD 'donkeybirdbansheetilt';
 
 DROP DATABASE IF EXISTS fiscalismia;
 CREATE DATABASE fiscalismia
@@ -28,41 +30,15 @@ CREATE DATABASE fiscalismia
     CONNECTION LIMIT = -1;
 COMMENT ON DATABASE fiscalismia IS 'db for the fiscalismia webservice';
 \c fiscalismia
+SET client_encoding TO 'UTF8';
 ALTER SCHEMA public OWNER TO fiscalismia_api;
+\q
+psql -U fiscalismia_api -d fiscalismia
+--PG_PW
 
---        __   ___  __      __   __   ___  __   ___      ___              __
---  |  | /__` |__  |__)    /  ` |__) |__  |  \ |__  |\ |  |  |  /\  |    /__`
---  \__/ .__/ |___ |  \    \__, |  \ |___ |__/ |___ | \|  |  | /~~\ |___ .__/
-
--- Documentation: https://www.postgresql.org/docs/current/pgcrypto.html
--- ENCRYPT: crypt('PASSWORD', gen_salt('bf',ITER_COUNT))
--- ITER_COUNT = difficulty of hashing. 6 is default and 31 is max but takes years to compute
--- DECRYPT: crypt('ENTERED_PW', password_from_table)
-
-CREATE EXTENSION pgcrypto;
-
-DROP TABLE IF EXISTS public.um_users;
-CREATE TABLE IF NOT EXISTS public.um_users (
-	id serial NOT NULL,
-  	username character varying(255) NOT NULL UNIQUE,
-  	password TEXT NOT NULL,
-	PRIMARY KEY (id)
-);
-
--- INSERT INTO public.um_users (username, password) VALUES
--- ('admin',
--- 	crypt('PLACEHOLDER', gen_salt('bf',12)));
-
--- SELECT * FROM public.um_users
--- WHERE username = 'admin'
---   AND password = crypt('ENTERED_PW', password);
-
--- QUIT OUT via  \q
--- psql -U fiscalismia_api -d fiscalismia
-
---        __                  __  ___  __       ___    __                __   ___  __    |    ___    __   __               __                         __
---   /\  |  \  |\/| | |\ | | /__`  |  |__)  /\   |  | /  \ |\ |    |  | /__` |__  |__)   |   |__  | /__` /  `  /\  |    | /__`  |\/| |  /\       /\  |__) |
---  /~~\ |__/  |  | | | \| | .__/  |  |  \ /~~\  |  | \__/ | \|    \__/ .__/ |___ |  \   |   |    | .__/ \__, /~~\ |___ | .__/  |  | | /~~\ ___ /~~\ |    |
+/*      __                  __  ___  __       ___    __                __   ___  __    |    ___    __   __               __                         __
+   /\  |  \  |\/| | |\ | | /__`  |  |__)  /\   |  | /  \ |\ |    |  | /__` |__  |__)   |   |__  | /__` /  `  /\  |    | /__`  |\/| |  /\       /\  |__) |
+  /~~\ |__/  |  | | | \| | .__/  |  |  \ /~~\  |  | \__/ | \|    \__/ .__/ |___ |  \   |   |    | .__/ \__, /~~\ |___ | .__/  |  | | /~~\ ___ /~~\ |    | */
 
 DROP SCHEMA IF EXISTS public CASCADE;
 CREATE SCHEMA IF NOT EXISTS public AUTHORIZATION fiscalismia_api;
@@ -70,15 +46,47 @@ COMMENT ON SCHEMA public IS 'standard public schema containing data accessible f
 GRANT ALL ON SCHEMA public TO PUBLIC;
 GRANT ALL ON SCHEMA public TO fiscalismia_api;
 
+DROP SCHEMA IF EXISTS staging CASCADE;
 CREATE SCHEMA IF NOT EXISTS staging AUTHORIZATION fiscalismia_api;
 COMMENT ON SCHEMA staging IS 'schema for ETL processes performed prior to insertion into public schema';
 GRANT ALL ON SCHEMA staging TO fiscalismia_api;
 
---   __   __   ___      ___  ___    ___       __        ___     __  ___      ___  ___        ___      ___  __
---  /  ` |__) |__   /\   |  |__      |   /\  |__) |    |__     /__`  |   /\   |  |__   |\/| |__  |\ |  |  /__`
---  \__, |  \ |___ /~~\  |  |___     |  /~~\ |__) |___ |___    .__/  |  /~~\  |  |___  |  | |___ | \|  |  .__/
+/*___     ___  ___       __     __        __
+ |__  \_/  |  |__  |\ | /__` | /  \ |\ | /__`
+ |___ / \  |  |___ | \| .__/ | \__/ | \| .__/
 
--- STAGING
+>pgcrypto<
+Documentation: https://www.postgresql.org/docs/current/pgcrypto.html
+ENCRYPT: crypt('PASSWORD', gen_salt('bf',ITER_COUNT))
+ITER_COUNT = difficulty of hashing. 6 is default and 31 is max but takes years to compute
+DECRYPT: crypt('ENTERED_PW', password_from_table)
+
+>CITEXT<
+Extension for Case Sensitive Text field for e.g. emails */
+CREATE EXTENSION pgcrypto;
+CREATE EXTENSION citext;
+
+DROP TABLE IF EXISTS public.um_users;
+CREATE TABLE IF NOT EXISTS public.um_users (
+	id serial NOT NULL,
+  	username character varying(255) NOT NULL UNIQUE,
+    email citext NOT NULL UNIQUE,
+  	password TEXT NOT NULL,
+	PRIMARY KEY (id)
+);
+
+INSERT INTO public.um_users (username, email, password) VALUES
+('admin',
+ 'herp_derp@gmail.io',
+  crypt('PLACEHOLDER', gen_salt('bf',12)));
+
+SELECT * FROM public.um_users
+WHERE username = 'admin'
+  AND password = crypt('PLACEHOLDER', password);
+/* __   __   ___      ___  ___    ___       __        ___     __  ___      ___  ___        ___      ___  __
+  /  ` |__) |__   /\   |  |__      |   /\  |__) |    |__     /__`  |   /\   |  |__   |\/| |__  |\ |  |  /__`
+  \__, |  \ |___ /~~\  |  |___     |  /~~\ |__) |___ |___    .__/  |  /~~\  |  |___  |  | |___ | \|  |  .__/*/
+
 DROP TABLE IF EXISTS staging.staging_variable_bills;
 
 CREATE TABLE IF NOT EXISTS staging.staging_variable_bills
@@ -97,7 +105,6 @@ TABLESPACE pg_default;
 ALTER TABLE IF EXISTS staging.staging_variable_bills
     OWNER to fiscalismia_api;
 
--- PUBLIC
 DROP TABLE IF EXISTS public.bridge_var_exp_sensitivity;
 DROP TABLE IF EXISTS public.variable_expenses;
 DROP TABLE IF EXISTS public.category;
@@ -190,7 +197,6 @@ ALTER TABLE IF EXISTS public.bridge_var_exp_sensitivity
     ON UPDATE NO ACTION
     ON DELETE RESTRICT;
 
--- PUBLIC
 TRUNCATE TABLE staging.staging_variable_bills;
 TRUNCATE TABLE public.test_table;
 TRUNCATE TABLE public.bridge_var_exp_sensitivity;
@@ -199,14 +205,12 @@ TRUNCATE TABLE public.variable_expenses CASCADE;
 TRUNCATE TABLE public.store CASCADE;
 TRUNCATE TABLE public.category CASCADE;
 
---   ___ ___          __   __   __   __   ___  __   __
---  |__   |  |       |__) |__) /  \ /  ` |__  /__` /__`
---  |___  |  |___    |    |  \ \__/ \__, |___ .__/ .__/
-
--- TRUNCATE TABLE staging.staging_variable_bills;
---      GET INSERT STATEMENTS VIA POST REQUEST TO /api/fiscalismia/json/variable_expenses
---      GET INSERT STATEMENTS VIA POST REQUEST TO /api/fiscalismia/json/variable_expenses
---      GET INSERT STATEMENTS VIA POST REQUEST TO /api/fiscalismia/json/variable_expenses
+/* ___ ___          __   __   __   __   ___  __   __
+  |__   |  |       |__) |__) /  \ /  ` |__  /__` /__`
+  |___  |  |___    |    |  \ \__/ \__, |___ .__/ .__/ */
+TRUNCATE TABLE staging.staging_variable_bills;
+--  >>>>>!! GET INSERT STATEMENTS VIA POST REQUEST TO /api/fiscalismia/json/variable_expenses !!<<<<<<
+--  >>>>>!! INSERT THESE VIA PGADMIN OR OTHER CLIENT WITH PROPER ENCODING AND NOT CMD !!<<<<<<
 
 -- Insert CATEGORIES not yet present in DB
 INSERT INTO public.category (description)  (
@@ -304,3 +308,4 @@ begin
 	end loop;
 end;
 $$;
+commit;
