@@ -16,30 +16,33 @@ const authenticateUser = asyncHandler(async (request, response, next) => {
   logger.info("authentication.js received request to store jsonwebtoken")
   let token
   if (request.headers.authorization && request.headers.authorization.startsWith('Bearer')) {
+    const client = await pool.connect()
     try {
       token = request.headers.authorization.split(' ')[1]
       const decodedToken = jwt.verify(token, process.env.JWT_SECRET)
       const sql = buildFindUserById(decodedToken.userId)
       const parameters = ''
-      const client = await pool.connect()
       const result = await client.query(sql, parameters)
       if (result.rowCount != 1) {
-        logger.error('Authentication via token failed. SELECT to find user by id returns rowcount of ['.concat(result.rowCount).concat(']'))
-        throw error
+        response.status(401)
+        throw new Error('Authentication via token failed. SELECT to find user by id returns rowcount of ['.concat(result.rowCount).concat(']'))
       }
       const results = { 'rows': (result) ? result.rows : null};
       if (results.rows[0].id
         && results.rows[0].id !== decodedToken.userId) {
-        logger.error('Authentication via token failed. id from decoded token and database query do not match')
-        throw error
+        response.status(401)
+        throw new Error('Authentication via token failed. id from decoded token and database query do not match')
       }
       request.userId = results.rows[0].id
       request.userName = results.rows[0].username
       logger.info('User ['.concat(request.userName).concat('] successfully authenticated with userId [').concat(request.userId).concat(']'))
       next()
     } catch (error) {
-      response.status(401).send('User not authenticated with provided token.')
+      response.status(401)
+      error.message = `User not authenticated with provided token. ` + error.message
       throw error
+    } finally {
+      client.release();
     }
   }
   if (!token) {

@@ -39,7 +39,7 @@ const { generateToken } = require('../utils/security')
   } catch (error) {
     await client.query('ROLLBACK') // TODO
     response.status(400)
-    error.message = `Transaction ROLLBACK. data could not be inserted.`
+    error.message = `Transaction ROLLBACK. data could not be inserted. ` + error.message
     throw error
   } finally {
     client.release();
@@ -97,7 +97,7 @@ const { generateToken } = require('../utils/security')
     response.status(200).send(insertStatements)
   } catch (error) {
     response.status(400)
-    error.message = `the provided text/plain data could not be converted to .csv or the following INSERT Statements.`
+    error.message = `the provided text/plain data could not be converted to .csv or the following INSERT Statements. ` + error.message
     throw error
   }
 })
@@ -131,7 +131,7 @@ const { generateToken } = require('../utils/security')
     // response.status(200).send(insertStatements)
   } catch (error) {
     response.status(400)
-    error.message= `the provided text/plain data could not be converted to .csv or the following INSERT Statements.`
+    error.message = `the provided text/plain data could not be converted to .csv or the following INSERT Statements. ` + error.message
     throw error
   }
 })
@@ -198,7 +198,7 @@ const createUserCredentials = asyncHandler(async (request, response) => {
   } catch (error) {
     await client.query('ROLLBACK')
     response.status(400)
-    error.message = 'Transaction ROLLBACK: user credentials could not be stored in the database.'
+    error.message = 'Transaction ROLLBACK: user credentials could not be stored in the database. ' + error.message
     throw error
   } finally {
     client.release();
@@ -238,10 +238,10 @@ const createUserCredentials = asyncHandler(async (request, response) => {
       throw new Error(`Login failed. username from request.body and database query do not match`)
     }
     const jwtToken = generateToken(results.rows[0].id)
-    response.status(200).send(jwtToken)
+    response.status(200).send(`Bearer ${jwtToken}`)
   } catch (error) {
     response.status(400)
-    error.message = `Login failed. User could not be verified`
+    error.message = `Login failed. User could not be verified. ` + error.message
     throw error
   } finally {
     client.release();

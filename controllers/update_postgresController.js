@@ -33,7 +33,7 @@ const { pool } = require('../utils/pgDbService')
   } catch (error) {
     await client.query('ROLLBACK')
     response.status(400)
-    error.message = `Transaction ROLLBACK. test_table could not be updated.`
+    error.message = `Transaction ROLLBACK. test_table could not be updated. ` + error.message
     throw error
   } finally {
     client.release();

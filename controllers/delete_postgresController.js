@@ -31,7 +31,7 @@ const { pool } = require('../utils/pgDbService')
   } catch (error) {
     await client.query('ROLLBACK')
     response.status(400)
-    error.message = `Transaction ROLLBACK. Row could not be deleted from test_table.`
+    error.message = `Transaction ROLLBACK. Row could not be deleted from test_table. ` + error.message
     throw error
   } finally {
     client.release();
