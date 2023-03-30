@@ -1,5 +1,6 @@
 const asyncHandler = require('express-async-handler')
 const logger = require('../utils/logger')
+const { logSqlStatement } = require('../utils/SQL_UTILS')
 const { pool } = require('../utils/pgDbService')
 
 /***
@@ -24,13 +25,15 @@ const { pool } = require('../utils/pgDbService')
   const client = await pool.connect()
   try {
     await client.query('BEGIN')
+    logSqlStatement(sql, parameters)
     const result = await client.query(sql, parameters)
     await client.query('COMMIT')
     const results = { 'results': (result) ? result.rows : null};
     response.status(200).send(results)
   } catch (error) {
     await client.query('ROLLBACK')
-    response.status(400).send()
+    response.status(400)
+    error.message = `Transaction ROLLBACK. test_table could not be updated.`
     throw error
   } finally {
     client.release();

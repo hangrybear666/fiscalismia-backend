@@ -30,7 +30,7 @@ if (process.env.NODE_ENV !== 'production') {
   logger.add(new transports.Console({
     format: format.combine(
       format.colorize(),
-      format.printf(info => `${info.level}: ${info.message ? info.message.trim() : null}`)
+      format.printf(info => `${info.level} ${info.timestamp ? info.timestamp.trim() : null}: ${info.message ? info.message.trim() : null}`)
       )
   }));
 }

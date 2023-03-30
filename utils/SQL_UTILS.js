@@ -79,10 +79,26 @@ const buildInsertStagingVariableBills = (element) => {
       `
       return insertRow
 }
+/**
+ * @description Debug logging for SQL Queries executed by the backend server
+ * @param {*} sql SQL Statement
+ * @param {*} parameters Paramaters for SQL Statement
+ */
+const logSqlStatement = (sql, parameters) => {
+  logger.debug(
+    `--SQL
+    [QUERY]
+    ${sql}
+
+    [PARAMTERS]
+    ${parameters ? parameters : 'empty'}`
+  )
+}
 
 module.exports = {
   buildInsertStagingVariableBills,
   buildInsertUmUsers,
   buildVerifyUsername,
-  buildFindUserById
+  buildFindUserById,
+  logSqlStatement
 }

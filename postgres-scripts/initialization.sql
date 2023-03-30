@@ -78,11 +78,11 @@ CREATE TABLE IF NOT EXISTS public.um_users (
 INSERT INTO public.um_users (username, email, password) VALUES
 ('admin',
  'herp_derp@gmail.io',
-  crypt('PLACEHOLDER', gen_salt('bf',12)));
+  crypt('derpdonkeybonkturdlick', gen_salt('bf',12)));
 
 SELECT * FROM public.um_users
 WHERE username = 'admin'
-  AND password = crypt('PLACEHOLDER', password);
+  AND password = crypt('derpdonkeybonkturdlick', password);
 /* __   __   ___      ___  ___    ___       __        ___     __  ___      ___  ___        ___      ___  __
   /  ` |__) |__   /\   |  |__      |   /\  |__) |    |__     /__`  |   /\   |  |__   |\/| |__  |\ |  |  /__`
   \__, |  \ |___ /~~\  |  |___     |  /~~\ |__) |___ |___    .__/  |  /~~\  |  |___  |  | |___ | \|  |  .__/*/
