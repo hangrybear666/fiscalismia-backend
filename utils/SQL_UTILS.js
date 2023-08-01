@@ -33,7 +33,12 @@ const buildInsertUmUsers = ({username, email, password}) => {
  * @returns SELECT FROM SQL for public.um_users
  */
  const buildVerifyUsername = ({username, password}) => {
-  return `SELECT * FROM public.um_users
+  return `
+  SELECT
+    id as userid,
+    username,
+    email as useremail
+  FROM public.um_users
   WHERE username = '${username}'
     AND password = crypt('${password}', password);`
 }
@@ -44,7 +49,12 @@ const buildInsertUmUsers = ({username, email, password}) => {
  * @returns SELECT FROM SQL for public.um_users
  */
  const buildFindUserById = (id) => {
-  return `SELECT id, username FROM public.um_users
+  return `
+  SELECT
+    id as userid,
+    username,
+    email as useremail
+  FROM public.um_users
   WHERE id = ${id};`
 }
 

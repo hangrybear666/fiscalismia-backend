@@ -8,34 +8,36 @@ const { pool } = require('../utils/pgDbService')
 /**
  * Middleware for user authentication of protected routes
  * 1) reads the authorization header starting with String 'Bearer ' and extracts jsonwebtoken
- * 2) the jwt is then decoded with the same secret used for signing and the userId extracted
+ * 2) the jwt is then verified with the same secret used for signing and the userId extracted
  * 3) the database is queried for this userId
- * 4) the request is assigned the variables userName and userId and next() called
+ * 4) the request is assigned the variables userName, userEmail and userId and next() called
  */
 const authenticateUser = asyncHandler(async (request, response, next) => {
-  logger.info("authentication.js received request to store jsonwebtoken")
+  logger.info("authentication.js received request to verify jsonwebtoken and set request header values [userName] [userEmail] and [userId]")
   let token
   if (request.headers.authorization && request.headers.authorization.startsWith('Bearer')) {
     const client = await pool.connect()
     try {
       token = request.headers.authorization.split(' ')[1]
       const decodedToken = jwt.verify(token, process.env.JWT_SECRET)
-      const sql = buildFindUserById(decodedToken.userId)
+      const user = decodedToken?.user
+      const sql = buildFindUserById(user?.userId)
       const parameters = ''
       const result = await client.query(sql, parameters)
       if (result.rowCount != 1) {
         response.status(401)
-        throw new Error('Authentication via token failed. SELECT to find user by id returns rowcount of ['.concat(result.rowCount).concat(']'))
+        throw new Error(`Authentication via token failed. SELECT to find user by id returns rowcount of [${result.rowCount}]`)
       }
       const results = { 'rows': (result) ? result.rows : null};
-      if (results.rows[0].id
-        && results.rows[0].id !== decodedToken.userId) {
+      if (results.rows[0].userid
+        && results.rows[0].userid !== decodedToken.user.userId) {
         response.status(401)
         throw new Error('Authentication via token failed. id from decoded token and database query do not match')
       }
-      request.userId = results.rows[0].id
+      request.userId = results.rows[0].userid
       request.userName = results.rows[0].username
-      logger.info('User ['.concat(request.userName).concat('] successfully authenticated with userId [').concat(request.userId).concat(']'))
+      request.userEmail = results.rows[0].useremail
+      logger.info(`User [${request.userName}] with email [${request.userEmail}'] successfully authenticated with userId [${request.userId}]'`)
       next()
     } catch (error) {
       response.status(401)

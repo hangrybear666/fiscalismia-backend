@@ -232,13 +232,18 @@ const createUserCredentials = asyncHandler(async (request, response) => {
       throw new Error(`Login failed. SELECT to verify user credentials returns rowcount of [${result.rowCount}]`)
     }
     const results = { 'rows': (result) ? result.rows : null};
-    if (results.rows[0].username
-      && results.rows[0].username !== credentials.username) {
+    if (results.rows[0]?.username
+      && results.rows[0]?.username !== credentials.username) {
       response.status(400)
       throw new Error(`Login failed. username from request.body and database query do not match`)
     }
-    const jwtToken = generateToken(results.rows[0].id)
-    response.status(200).send(`Bearer ${jwtToken}`)
+    const user = {
+      userId: results.rows[0]?.userid,
+      userName: results.rows[0]?.username,
+      userEmail: results.rows[0]?.useremail
+    }
+    const jwtToken = generateToken(user)
+    response.status(200).send(jwtToken)
   } catch (error) {
     response.status(400)
     error.message = `Login failed. User could not be verified. ` + error.message
