@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "31636861-108b-4891-8ff0-5bffd694b7ae",
+		"_postman_id": "e83f607a-28e7-44a5-941a-ddf1d81411e9",
 		"name": "fiscalismia-backend",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -72,7 +72,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n \"username\": \"adminasdasa\",\r\n \"email\": \"arschfresse22@hotmail.de\",\r\n \"password\": \"1aasdSADADDSD_\"\r\n}",
+					"raw": "{\r\n \"username\": \"admin\",\r\n \"password\": \"herpderp\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -153,6 +153,37 @@
 						"fiscalismia",
 						"texttsv",
 						"variable_expenses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/api/fiscalismia/texttsv/fixed_costs",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "description\tmonthly_interval\tbilled_cost\tmonthly_cost\teffective_date\texpiration_date\r\nMiete\t1\t360\t360.00\t01.06.2023\t01.01.4000\r\nDSL Telekom 100 MBit\t1\t40.77\t40.77\t01.06.2023\t01.01.4000\r\nGym Mitgliedschaft Power Athletics Gym\t1\t49.9\t49.90\t01.06.2023\t01.01.4000\r\nStrom Ana Abschlag\t1\t50\t50.00\t01.06.2023\t01.01.4000\r\nGas Ana Abschlag\t1\t40\t40.00\t01.06.2023\t01.01.4000\r\nVersicherung: Haftpflicht\t12\t114.55\t9.55\t01.06.2023\t01.01.4000\r\nVersicherung: Hausrat\t6\t108.53\t18.09\t01.06.2023\t01.01.4000\r\nStudienkredit Tilgung: KfW Zins=\t1\t125\t125.00\t01.06.2023\t01.01.4000\r\nBildungskredit Tilgung: KfW Zins= \t1\t120\t120.00\t01.06.2023\t01.01.4000\r\nBafög Tilgung\t3\t390\t130.00\t01.06.2023\t01.01.4000\r\nAbonnement: Spotify\t1\t12.99\t12.99\t01.06.2023\t01.01.4000\r\nAbonnement: Premiumize\t3\t24.99\t8.33\t01.06.2023\t01.01.4000\r\nMobilfunk: Otelo 30GB Flatrate\t1\t39.99\t39.99\t01.06.2023\t01.01.4000\r\nHealth Supplements [Minerals, Vitamins]\t1\t50\t50.00\t01.06.2023\t01.01.4000\r\nUrban Sports Club\t1\t9.9\t9.90\t01.06.2023\t01.01.4000\r\nAbonnement: Steady - The Pod\t1\t5\t5.00\t01.06.2023\t01.01.4000\r\nMiete\t1\t820\t820.00\t01.05.2020\t31.12.2022\r\nDSL Telekom 100 MBit\t1\t40.77\t40.77\t01.05.2020\t31.12.2022\r\nGym Mitgliedschaft Power Athletics Gym\t1\t49.9\t49.90\t01.05.2020\t31.12.2022\r\nGym Jahresgebühr Power Athletics Gym\t12\t40\t3.33\t01.05.2020\t31.12.2022\r\nStrom n-ergie Abschlag\t1\t90\t90.00\t01.05.2020\t31.12.2022\r\nGas n-ergie Abschlag\t1\t150\t150.00\t01.05.2020\t31.12.2022\r\nVersicherung: Haftpflicht\t12\t83.67\t6.97\t01.05.2020\t31.12.2022\r\nVersicherung: Hausrat\t6\t56.45\t9.41\t01.05.2020\t31.12.2022\r\nStudienkredit Tilgung: KfW Zins=\t1\t125\t125.00\t01.05.2020\t31.12.2022\r\nBildungskredit Tilgung: KfW Zins= \t1\t120\t120.00\t01.05.2020\t31.12.2022\r\nBafög Tilgung\t3\t390\t130.00\t01.05.2020\t31.12.2022\r\nAbonnement: Spotify\t1\t12.99\t12.99\t01.05.2020\t31.12.2022\r\nAbonnement: Premiumize\t12\t69.99\t5.83\t01.05.2020\t31.12.2022\r\nMobilfunk: Otelo 30GB Flatrate\t1\t39.99\t39.99\t01.05.2020\t31.12.2022\r\nHealth Supplements [Minerals, Vitamins]\t1\t80\t80.00\t01.05.2020\t31.12.2022\r\nAbonnement: Amazon Prime\t12\t107.88\t8.99\t01.05.2020\t31.12.2022\r\nGym Mitgliedschaft FitOne\t1\t35\t35.00\t01.05.2020\t31.12.2022\r\nGym Energiepauschale PAG\t1\t7\t7.00\t01.05.2020\t31.12.2022\r\nWoW\t1\t12.99\t12.99\t01.05.2020\t31.12.2022\r\nMiete\t1\t820\t820.00\t01.01.2023\t31.05.2023\r\nDSL Telekom 100 MBit\t1\t40.77\t40.77\t01.01.2023\t31.05.2023\r\nGym Mitgliedschaft Power Athletics Gym\t1\t49.9\t49.90\t01.01.2023\t31.05.2023\r\nGym Jahresgebühr Power Athletics Gym\t12\t40\t3.33\t01.01.2023\t31.05.2023\r\nStrom n-ergie Abschlag\t1\t90\t90.00\t01.01.2023\t31.05.2023\r\nGas n-ergie Abschlag\t1\t150\t150.00\t01.01.2023\t31.05.2023\r\nVersicherung: Haftpflicht\t12\t83.67\t6.97\t01.01.2023\t31.05.2023\r\nVersicherung: Hausrat\t6\t56.45\t9.41\t01.01.2023\t31.05.2023\r\nStudienkredit Tilgung: KfW Zins=\t1\t125\t125.00\t01.01.2023\t31.05.2023\r\nBildungskredit Tilgung: KfW Zins= \t1\t120\t120.00\t01.01.2023\t31.05.2023\r\nBafög Tilgung\t3\t390\t130.00\t01.01.2023\t31.05.2023\r\nAbonnement: Spotify\t1\t12.99\t12.99\t01.01.2023\t31.05.2023\r\nMobilfunk: Otelo 30GB Flatrate\t1\t39.99\t39.99\t01.01.2023\t31.05.2023\r\nHealth Supplements [Minerals, Vitamins]\t1\t50\t50.00\t01.01.2023\t31.05.2023\r\nAbonnement: Amazon Prime\t1\t8.99\t8.99\t01.01.2023\t31.05.2023\r\nUrban Sports Club\t1\t9.9\t9.90\t01.01.2023\t31.05.2023\r\nGym Energiepauschale PAG\t1\t7\t7.00\t01.01.2023\t31.05.2023\r\nAbonnement: Steady - The Pod\t1\t5\t5.00\t01.01.2023\t31.05.2023",
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3002/api/fiscalismia/texttsv/fixed_costs",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"api",
+						"fiscalismia",
+						"texttsv",
+						"fixed_costs"
 					]
 				}
 			},
@@ -263,7 +294,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsImlhdCI6MTY2NDU1NTE0MiwiZXhwIjoxNzUwOTU1MTQyfQ.gjgJUVub5muCE2RgyiR4CECCP8ejEFGZR96-DCLTTMA",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6NCwidXNlck5hbWUiOiJhZG1pbiIsInVzZXJFbWFpbCI6ImFyc2NoZnJlc3NlMjJAaG90bWFpbC5kZSJ9LCJpYXQiOjE2OTE1MTIxNzUsImV4cCI6MTY5MTU5ODU3NX0.2YBTBvB3Xbi9KqSpmFhSzmGXqQsLQrQ_Vh6RB3-s9t0",
 							"type": "string"
 						}
 					]
@@ -288,6 +319,16 @@
 		{
 			"name": "/api/fiscalismia/store",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6NCwidXNlck5hbWUiOiJhZG1pbiIsInVzZXJFbWFpbCI6ImFyc2NoZnJlc3NlMjJAaG90bWFpbC5kZSJ9LCJpYXQiOjE2OTE1MTIxNzUsImV4cCI6MTY5MTU5ODU3NX0.2YBTBvB3Xbi9KqSpmFhSzmGXqQsLQrQ_Vh6RB3-s9t0",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
@@ -309,6 +350,16 @@
 		{
 			"name": "/api/fiscalismia/category",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6NCwidXNlck5hbWUiOiJhZG1pbiIsInVzZXJFbWFpbCI6ImFyc2NoZnJlc3NlMjJAaG90bWFpbC5kZSJ9LCJpYXQiOjE2OTE1MTIxNzUsImV4cCI6MTY5MTU5ODU3NX0.2YBTBvB3Xbi9KqSpmFhSzmGXqQsLQrQ_Vh6RB3-s9t0",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
@@ -330,6 +381,16 @@
 		{
 			"name": "/api/fiscalismia/sensitivity",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6NCwidXNlck5hbWUiOiJhZG1pbiIsInVzZXJFbWFpbCI6ImFyc2NoZnJlc3NlMjJAaG90bWFpbC5kZSJ9LCJpYXQiOjE2OTE1MTIxNzUsImV4cCI6MTY5MTU5ODU3NX0.2YBTBvB3Xbi9KqSpmFhSzmGXqQsLQrQ_Vh6RB3-s9t0",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
@@ -351,6 +412,16 @@
 		{
 			"name": "/api/fiscalismia/variable_expenses",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6NCwidXNlck5hbWUiOiJhZG1pbiIsInVzZXJFbWFpbCI6ImFyc2NoZnJlc3NlMjJAaG90bWFpbC5kZSJ9LCJpYXQiOjE2OTE1MTIxNzUsImV4cCI6MTY5MTU5ODU3NX0.2YBTBvB3Xbi9KqSpmFhSzmGXqQsLQrQ_Vh6RB3-s9t0",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
@@ -364,6 +435,114 @@
 						"api",
 						"fiscalismia",
 						"variable_expenses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/api/fiscalismia/fixed_costs",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6NCwidXNlck5hbWUiOiJhZG1pbiIsInVzZXJFbWFpbCI6ImFyc2NoZnJlc3NlMjJAaG90bWFpbC5kZSJ9LCJpYXQiOjE2OTE1MTIxNzUsImV4cCI6MTY5MTU5ODU3NX0.2YBTBvB3Xbi9KqSpmFhSzmGXqQsLQrQ_Vh6RB3-s9t0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3002/api/fiscalismia/fixed_costs",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"api",
+						"fiscalismia",
+						"fixed_costs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/api/fiscalismia/fixed_costs/:id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6NCwidXNlck5hbWUiOiJhZG1pbiIsInVzZXJFbWFpbCI6ImFyc2NoZnJlc3NlMjJAaG90bWFpbC5kZSJ9LCJpYXQiOjE2OTE1MTIxNzUsImV4cCI6MTY5MTU5ODU3NX0.2YBTBvB3Xbi9KqSpmFhSzmGXqQsLQrQ_Vh6RB3-s9t0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3002/api/fiscalismia/fixed_costs/:id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"api",
+						"fiscalismia",
+						"fixed_costs",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/api/fiscalismia/fixed_costs/:date",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6NCwidXNlck5hbWUiOiJhZG1pbiIsInVzZXJFbWFpbCI6ImFyc2NoZnJlc3NlMjJAaG90bWFpbC5kZSJ9LCJpYXQiOjE2OTE1MTIxNzUsImV4cCI6MTY5MTU5ODU3NX0.2YBTBvB3Xbi9KqSpmFhSzmGXqQsLQrQ_Vh6RB3-s9t0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3002/api/fiscalismia/fixed_costs/valid/:date",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"api",
+						"fiscalismia",
+						"fixed_costs",
+						"valid",
+						":date"
+					],
+					"variable": [
+						{
+							"key": "date",
+							"value": "2023-08-01"
+						}
 					]
 				}
 			},

@@ -87,6 +87,21 @@ const getTestData = asyncHandler(async (request, response) => {
 })
 
 /**
+ * @description query fetching all data from fixed_costs table
+ * @type HTTP GET
+ * @async asyncHandler passes exceptions within routes to errorHandler middleware
+ * @route /api/fiscalismia/fixed_costs
+ */
+ const getAllFixedCosts = asyncHandler(async (request, response) => {
+  logger.info("read_postgresController received GET to /api/fiscalismia/fixed_costs")
+  const client = await pool.connect();
+  const result = await client.query('SELECT * FROM fixed_costs ORDER BY id');
+  const results = { 'results': (result) ? result.rows : null};
+  response.status(200).send(results);
+  client.release();
+})
+
+/**
  * @description query fetching all data from variable_expenses table
  * @type HTTP GET
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
@@ -140,7 +155,7 @@ const getTestData = asyncHandler(async (request, response) => {
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/sensitivity/:id
  */
- const getSensisityById = asyncHandler(async (request, response) => {
+ const getSensitivityById = asyncHandler(async (request, response) => {
   logger.info("read_postgresController received GET to /api/fiscalismia/sensitivity/" + request.params.id)
   const id = request.params.id;
   const client = await pool.connect();
@@ -161,6 +176,39 @@ const getTestData = asyncHandler(async (request, response) => {
   const id = request.params.id;
   const client = await pool.connect();
   const result = await client.query('SELECT * FROM variable_expenses WHERE id = $1', [id]);
+  const results = { 'results': (result) ? result.rows : null};
+  response.status(200).send(results);
+  client.release();
+})
+
+/**
+ * @description query fetching specific data from fixed_costs table based on provided id
+ * @type HTTP GET
+ * @async asyncHandler passes exceptions within routes to errorHandler middleware
+ * @route /api/fiscalismia/fixed_costs/:id
+ */
+ const getFixedCostById = asyncHandler(async (request, response) => {
+  logger.info("read_postgresController received GET to /api/fiscalismia/fixed_costs/" + request.params.id)
+  const id = request.params.id;
+  const client = await pool.connect();
+  const result = await client.query('SELECT * FROM fixed_costs WHERE id = $1', [id]);
+  const results = { 'results': (result) ? result.rows : null};
+  response.status(200).send(results);
+  client.release();
+})
+
+/**
+ * @description query fetching specific data from fixed_costs table based on provided date
+ * @type HTTP GET
+ * @async asyncHandler passes exceptions within routes to errorHandler middleware
+ * @route /api/fiscalismia/fixed_costs/valid/:date
+ * @returns list of valid fixed costs at a specific provided date
+ */
+ const getFixedCostsByEffectiveDate = asyncHandler(async (request, response) => {
+  logger.info("read_postgresController received GET to /api/fiscalismia/fixed_costs/valid/" + request.params.date)
+  const date = request.params.date;
+  const client = await pool.connect();
+  const result = await client.query('SELECT * FROM fixed_costs WHERE $1 BETWEEN effective_date AND expiration_date', [date]);
   const results = { 'results': (result) ? result.rows : null};
   response.status(200).send(results);
   client.release();
@@ -204,12 +252,15 @@ module.exports = {
   getAllStores,
   getAllSensisitivies,
   getAllVariableExpenses,
+  getAllFixedCosts,
   getAllSensitivitiesOfPurchase,
 
   getCategoryById,
   getStoreById,
-  getSensisityById,
+  getSensitivityById,
   getVariableExpenseById,
+  getFixedCostById,
+  getFixedCostsByEffectiveDate,
   getSensitivitiesOfPurchaseyBySensitivityId,
   getSensitivitiesOfPurchaseyByVarExpenseId
 }

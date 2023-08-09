@@ -5,18 +5,22 @@ const { getTestData,
         getAllStores,
         getAllSensisitivies,
         getAllVariableExpenses,
+        getAllFixedCosts,
         getAllSensitivitiesOfPurchase,
 
         getCategoryById,
         getStoreById,
-        getSensisityById,
+        getSensitivityById,
         getVariableExpenseById,
+        getFixedCostById,
+        getFixedCostsByEffectiveDate,
         getSensitivitiesOfPurchaseyBySensitivityId,
         getSensitivitiesOfPurchaseyByVarExpenseId} = require('../controllers/read_postgresController')
 const { postTestData,
   postVariableExpensesJson,
   postVariableExpensesTextTsv,
   postVariableExpensesCsv,
+  postFixedCostsTextTsv,
   createUserCredentials,
   loginWithUserCredentials } = require('../controllers/create_postgresController')
 const { authenticateUser } = require('../middleware/authentication.js')
@@ -27,7 +31,7 @@ const { deleteTestData } = require('../controllers/delete_postgresController')
 //   |  |__  /__`  |
 //   |  |___ .__/  |
 
-postgresRoutes.get('/', authenticateUser, getTestData)
+postgresRoutes.get('/',authenticateUser, getTestData)
 postgresRoutes.post('/',authenticateUser, postTestData)
 postgresRoutes.put('/:id',authenticateUser, updateTestData)
 postgresRoutes.delete('/:id',authenticateUser, deleteTestData)
@@ -36,16 +40,19 @@ postgresRoutes.delete('/:id',authenticateUser, deleteTestData)
 //  |  \ |___ /~~\ |__/
 
 // getAll
-postgresRoutes.get('/category', getAllCategories)
-postgresRoutes.get('/store', getAllStores)
-postgresRoutes.get('/sensitivity', getAllSensisitivies)
-postgresRoutes.get('/variable_expenses', getAllVariableExpenses)
-postgresRoutes.get('/sensitivities_of_purchase', getAllSensitivitiesOfPurchase)
+postgresRoutes.get('/category',authenticateUser, getAllCategories)
+postgresRoutes.get('/store',authenticateUser, getAllStores)
+postgresRoutes.get('/sensitivity',authenticateUser, getAllSensisitivies)
+postgresRoutes.get('/variable_expenses',authenticateUser, getAllVariableExpenses)
+postgresRoutes.get('/fixed_costs',authenticateUser, getAllFixedCosts)
+postgresRoutes.get('/sensitivities_of_purchase',authenticateUser, getAllSensitivitiesOfPurchase)
 // getSpecificData
 postgresRoutes.get('/category/:id', getCategoryById)
 postgresRoutes.get('/store/:id', getStoreById)
-postgresRoutes.get('/sensitivity/:id', getSensisityById)
+postgresRoutes.get('/sensitivity/:id', getSensitivityById)
 postgresRoutes.get('/variable_expenses/:id', getVariableExpenseById)
+postgresRoutes.get('/fixed_costs/:id',authenticateUser, getFixedCostById)
+postgresRoutes.get('/fixed_costs/valid/:date',authenticateUser, getFixedCostsByEffectiveDate)
 postgresRoutes.get('/sensitivities_of_purchase/sensitivity/:id', getSensitivitiesOfPurchaseyBySensitivityId)
 postgresRoutes.get('/sensitivities_of_purchase/var_expense/:id', getSensitivitiesOfPurchaseyByVarExpenseId)
 
@@ -55,6 +62,7 @@ postgresRoutes.get('/sensitivities_of_purchase/var_expense/:id', getSensitivitie
 postgresRoutes.post('/json/variable_expenses', postVariableExpensesJson)
 postgresRoutes.post('/texttsv/variable_expenses', postVariableExpensesTextTsv)
 postgresRoutes.post('/csv/variable_expenses', postVariableExpensesCsv)
+postgresRoutes.post('/texttsv/fixed_costs', postFixedCostsTextTsv)
 postgresRoutes.post('/um/credentials', createUserCredentials)
 postgresRoutes.post('/um/login', loginWithUserCredentials)
 

@@ -106,6 +106,7 @@ ALTER TABLE IF EXISTS staging.staging_variable_bills
     OWNER to fiscalismia_api;
 
 DROP TABLE IF EXISTS public.bridge_var_exp_sensitivity;
+DROP TABLE IF EXISTS public.fixed_costs;
 DROP TABLE IF EXISTS public.variable_expenses;
 DROP TABLE IF EXISTS public.category;
 DROP TABLE IF EXISTS public.store;
@@ -119,6 +120,20 @@ CREATE TABLE IF NOT EXISTS public.test_table
     PRIMARY KEY (id)
 );
 ALTER TABLE IF EXISTS public.test_table
+    OWNER to fiscalismia_api;
+
+CREATE TABLE IF NOT EXISTS public.fixed_costs
+(
+    id serial NOT NULL,
+    description character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    monthly_interval numeric(4,2) NOT NULL,
+    billed_cost numeric(7,2) NOT NULL,
+    monthly_cost numeric(7,2) NOT NULL,
+    effective_date date NOT NULL,
+	expiration_date date NOT NULL
+)
+TABLESPACE pg_default;
+ALTER TABLE IF EXISTS public.fixed_costs
     OWNER to fiscalismia_api;
 
 CREATE TABLE public.category

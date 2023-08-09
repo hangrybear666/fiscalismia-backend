@@ -89,6 +89,36 @@ const buildInsertStagingVariableBills = (element) => {
       `
       return insertRow
 }
+
+/**
+ * @description constructs INSERT INTO statement while sanitizing values of provided json object by e.g.
+ * 1) casting all values within json to String for proper escaping via helper method
+ * 2) replacing all occurences of single quotes ' with two single quotes ''
+ * @param {*} element json encoded single element containing the mandatory keys:
+ * description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date
+ * @returns INSERT INTO SQL for public.fixed_costs
+ */
+ const buildInsertFixedCosts = (element) => {
+  let e = element
+
+  // loops through keys of json object and sanitizes inputs
+  for (let key in e) {
+      if (e.hasOwnProperty(key)) {
+        e[key] = escapeSingleQuotes(String(e[key]))
+      }
+  }
+  const insertRow = `INSERT INTO public.fixed_costs (description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
+      VALUES (
+        '${e.description}',
+        ${e.monthly_interval},
+        ${e.billed_cost},
+        ${e.monthly_cost},
+        TO_DATE('${e.effective_date}','DD.MM.YYYY'),
+        TO_DATE('${e.expiration_date}','DD.MM.YYYY')
+      );
+      `
+      return insertRow
+}
 /**
  * @description Debug logging for SQL Queries executed by the backend server
  * @param {*} sql SQL Statement
@@ -107,6 +137,7 @@ const logSqlStatement = (sql, parameters) => {
 
 module.exports = {
   buildInsertStagingVariableBills,
+  buildInsertFixedCosts,
   buildInsertUmUsers,
   buildVerifyUsername,
   buildFindUserById,
