@@ -140,7 +140,7 @@ const { generateToken } = require('../utils/security')
 /**
  * @description receives tab-separated value as text in the http post body to transform into insert queries for ETL
  * MANDATORY HEADER STRUCTURE:
- * description  monthly_interval  billed_cost monthly_cost  effective_date  expiration_date
+ * category description  monthly_interval  billed_cost monthly_cost  effective_date  expiration_date
  * @type HTTP POST
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/texttsv/fixed_costs

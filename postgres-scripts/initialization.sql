@@ -85,7 +85,8 @@ WHERE username = 'admin'
   AND password = crypt('derpdonkeybonkturdlick', password);
 /* __   __   ___      ___  ___    ___       __        ___     __  ___      ___  ___        ___      ___  __
   /  ` |__) |__   /\   |  |__      |   /\  |__) |    |__     /__`  |   /\   |  |__   |\/| |__  |\ |  |  /__`
-  \__, |  \ |___ /~~\  |  |___     |  /~~\ |__) |___ |___    .__/  |  /~~\  |  |___  |  | |___ | \|  |  .__/*/
+  \__, |  \ |___ /~~\  |  |___     |  /~~\ |__) |___ |___    .__/  |  /~~\  |  |___  |  | |___ | \|  |  .__/
+  */
 
 DROP TABLE IF EXISTS staging.staging_variable_bills;
 
@@ -125,6 +126,7 @@ ALTER TABLE IF EXISTS public.test_table
 CREATE TABLE IF NOT EXISTS public.fixed_costs
 (
     id serial NOT NULL,
+    category character varying(128) COLLATE pg_catalog."default" NOT NULL,
     description character varying(255) COLLATE pg_catalog."default" NOT NULL,
     monthly_interval numeric(4,2) NOT NULL,
     billed_cost numeric(7,2) NOT NULL,

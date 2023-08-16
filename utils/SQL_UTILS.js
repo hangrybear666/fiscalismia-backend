@@ -95,7 +95,7 @@ const buildInsertStagingVariableBills = (element) => {
  * 1) casting all values within json to String for proper escaping via helper method
  * 2) replacing all occurences of single quotes ' with two single quotes ''
  * @param {*} element json encoded single element containing the mandatory keys:
- * description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date
+ * category description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date
  * @returns INSERT INTO SQL for public.fixed_costs
  */
  const buildInsertFixedCosts = (element) => {
@@ -107,8 +107,9 @@ const buildInsertStagingVariableBills = (element) => {
         e[key] = escapeSingleQuotes(String(e[key]))
       }
   }
-  const insertRow = `INSERT INTO public.fixed_costs (description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
+  const insertRow = `INSERT INTO public.fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
       VALUES (
+        '${e.category}',
         '${e.description}',
         ${e.monthly_interval},
         ${e.billed_cost},
