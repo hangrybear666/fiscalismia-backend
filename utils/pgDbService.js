@@ -1,6 +1,20 @@
 // Database Connection
-const { Pool } = require('pg');
+const { Pool } = pg = require('pg');
 require('dotenv').config();
+
+/**
+ * node-postgres converts DATE and TIMESTAMP columns into the local time of the node process
+ * and this node process is offset by 2 hours, resulting in a date 1 day before the db-date
+ * this requires overriding the date-parsing mechanism of node and providing string values as output
+ * The type id can be found in the file: node_modules/pg-types/lib/textParsers.js
+ * See: https://node-postgres.com/features/types
+ */
+pg.types.setTypeParser(1114, function(stringValue) {
+  return stringValue;  //1114 for time without timezone type
+});
+pg.types.setTypeParser(1082, function(stringValue) {
+  return stringValue;  //1082 for date type
+});
 
 /**
  * When deployed DATABASE_URL is fetched from heroku config
