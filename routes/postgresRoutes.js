@@ -6,6 +6,8 @@ const { getTestData,
         getAllSensisitivies,
         getAllVariableExpenses,
         getAllFixedCosts,
+        getAllFoodPricesAndDiscounts,
+        getCurrentlyDiscountedFoodPriceInformation,
         getAllSensitivitiesOfPurchase,
 
         getCategoryById,
@@ -23,9 +25,9 @@ const { postTestData,
   postFixedCostsTextTsv,
   createUserCredentials,
   loginWithUserCredentials } = require('../controllers/create_postgresController')
-const { authenticateUser } = require('../middleware/authentication.js')
 const { updateTestData } = require('../controllers/update_postgresController')
 const { deleteTestData } = require('../controllers/delete_postgresController')
+const { authenticateUser } = require('../middleware/authentication.js')
 
 //  ___  ___  __  ___
 //   |  |__  /__`  |
@@ -45,16 +47,18 @@ postgresRoutes.get('/store',authenticateUser, getAllStores)
 postgresRoutes.get('/sensitivity',authenticateUser, getAllSensisitivies)
 postgresRoutes.get('/variable_expenses',authenticateUser, getAllVariableExpenses)
 postgresRoutes.get('/fixed_costs',authenticateUser, getAllFixedCosts)
+postgresRoutes.get('/food_prices_and_discounts',authenticateUser, getAllFoodPricesAndDiscounts)
+postgresRoutes.get('/discounted_foods_current',authenticateUser, getCurrentlyDiscountedFoodPriceInformation)
 postgresRoutes.get('/sensitivities_of_purchase',authenticateUser, getAllSensitivitiesOfPurchase)
 // getSpecificData
-postgresRoutes.get('/category/:id', getCategoryById)
-postgresRoutes.get('/store/:id', getStoreById)
-postgresRoutes.get('/sensitivity/:id', getSensitivityById)
-postgresRoutes.get('/variable_expenses/:id', getVariableExpenseById)
+postgresRoutes.get('/category/:id',authenticateUser, getCategoryById)
+postgresRoutes.get('/store/:id',authenticateUser, getStoreById)
+postgresRoutes.get('/sensitivity/:id',authenticateUser, getSensitivityById)
+postgresRoutes.get('/variable_expenses/:id',authenticateUser, getVariableExpenseById)
 postgresRoutes.get('/fixed_costs/:id',authenticateUser, getFixedCostById)
 postgresRoutes.get('/fixed_costs/valid/:date',authenticateUser, getFixedCostsByEffectiveDate)
-postgresRoutes.get('/sensitivities_of_purchase/sensitivity/:id', getSensitivitiesOfPurchaseyBySensitivityId)
-postgresRoutes.get('/sensitivities_of_purchase/var_expense/:id', getSensitivitiesOfPurchaseyByVarExpenseId)
+postgresRoutes.get('/sensitivities_of_purchase/sensitivity/:id',authenticateUser, getSensitivitiesOfPurchaseyBySensitivityId)
+postgresRoutes.get('/sensitivities_of_purchase/var_expense/:id',authenticateUser, getSensitivitiesOfPurchaseyByVarExpenseId)
 
 //   __   __   ___      ___  ___
 //  /  ` |__) |__   /\   |  |__

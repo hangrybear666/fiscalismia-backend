@@ -93,3 +93,30 @@ INSERT INTO staging.staging_variable_bills (description, category, store, cost, 
         'N',
         LOWER('alcohol , sugar , nightshade ,caffeine ,aspartame/saccharin ')
     );
+/*     __   ___            __                __      __     __   __   __            ___  __
+ *    |  \ |__   /\  |    /__`     /\  |\ | |  \    |  \ | /__` /  ` /  \ |  | |\ |  |  /__`
+ *    |__/ |___ /~~\ |___ .__/    /~~\ | \| |__/    |__/ | .__/ \__, \__/ \__/ | \|  |  .__/
+ */
+ -- Food Prices
+INSERT INTO public.table_food_prices(
+	dimension_key, food_item, brand, store, main_macro, kcal_amount, weight, price, last_update, effective_date, expiration_date)
+	VALUES (nextval('table_food_prices_seq'), 'Eismeergarnelen TK', 'Golden Seafood', 'Aldi Süd', 'Protein', 67, 225, 3.69, current_date, to_date('01.01.2020','DD.MM.YYYY'), to_date('01.01.4000','DD.MM.YYYY'));
+INSERT INTO public.table_food_prices(
+	dimension_key, food_item, brand, store, main_macro, kcal_amount, weight, price, last_update, effective_date, expiration_date)
+	VALUES (nextval('table_food_prices_seq'), 'Eier, Bio', '10er', 'Lidl', 'Protein', 137, 600, 3.29, current_date, to_date('01.01.2020','DD.MM.YYYY'), to_date('01.01.4000','DD.MM.YYYY'));
+INSERT INTO public.table_food_prices(
+	dimension_key, food_item, brand, store, main_macro, kcal_amount, weight, price, last_update, effective_date, expiration_date)
+	VALUES (nextval('table_food_prices_seq'), 'High-Oleic Sonnenblumenöl, Bio', 'Teutoburger Ölmühle', 'Kaufland', 'Fat', 898, 500, 5.39, current_date, to_date('01.01.2020','DD.MM.YYYY'), to_date('01.01.4000','DD.MM.YYYY'));
+INSERT INTO public.table_food_prices(
+	dimension_key, food_item, brand, store, main_macro, kcal_amount, weight, price, last_update, effective_date, expiration_date)
+	VALUES (nextval('table_food_prices_seq'), 'Haferflocken zart, Bio', 'Gut Bio', 'Aldi Süd', 'Carbs', 375, 500, 0.95, current_date, to_date('01.01.2020','DD.MM.YYYY'), to_date('01.01.4000','DD.MM.YYYY'));
+INSERT INTO public.table_food_prices(
+	dimension_key, food_item, brand, store, main_macro, kcal_amount, weight, price, last_update, effective_date, expiration_date)
+	VALUES (nextval('table_food_prices_seq'), 'Kapern', 'K-Classic ', 'Kaufland', 'Fiber', 26, 100, 0.79, current_date, to_date('01.01.2020','DD.MM.YYYY'), to_date('01.01.4000','DD.MM.YYYY'));
+-- Food Price Discounts
+INSERT INTO public.food_price_discounts(
+	food_prices_dimension_key, discount_price, discount_start_date, discount_end_date)
+	VALUES ((SELECT dimension_key FROM public.table_food_prices WHERE food_item = 'Haferflocken zart, Bio'), 0.85, current_date, current_date+7);
+INSERT INTO public.food_price_discounts(
+	food_prices_dimension_key, discount_price, discount_start_date, discount_end_date)
+	VALUES ((SELECT dimension_key FROM public.table_food_prices WHERE food_item = 'Eier, Bio'), 2.79, current_date-1, current_date+4);

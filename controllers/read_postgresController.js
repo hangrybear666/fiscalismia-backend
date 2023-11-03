@@ -101,6 +101,37 @@ const getTestData = asyncHandler(async (request, response) => {
   client.release();
 })
 
+
+/**
+ * @description query fetching all data from v_food_price_overview
+ * @type HTTP GET
+ * @async asyncHandler passes exceptions within routes to errorHandler middleware
+ * @route /api/fiscalismia/food_prices_and_discounts
+ */
+const getAllFoodPricesAndDiscounts = asyncHandler(async (request, response) => {
+  logger.info("read_postgresController received GET to /api/fiscalismia/food_prices_and_discounts")
+  const client = await pool.connect();
+  const result = await client.query('SELECT * FROM v_food_price_overview WHERE current_date BETWEEN effective_date and expiration_date ORDER BY id');
+  const results = { 'results': (result) ? result.rows : null};
+  response.status(200).send(results);
+  client.release();
+})
+
+/**
+ * @description query fetching all discounted foods from v_food_price_overview
+ * @type HTTP GET
+ * @async asyncHandler passes exceptions within routes to errorHandler middleware
+ * @route /api/fiscalismia/discounted_foods_current
+ */
+const getCurrentlyDiscountedFoodPriceInformation = asyncHandler(async (request, response) => {
+  logger.info("read_postgresController received GET to /api/fiscalismia/discounted_foods_current")
+  const client = await pool.connect();
+  const result = await client.query('SELECT * FROM v_food_price_overview WHERE discount_price IS NOT NULL AND current_date BETWEEN discount_start_date and discount_end_date ORDER BY id');
+  const results = { 'results': (result) ? result.rows : null};
+  response.status(200).send(results);
+  client.release();
+})
+
 /**
  * @description query fetching all data from variable_expenses table
  * @type HTTP GET
@@ -253,6 +284,8 @@ module.exports = {
   getAllSensisitivies,
   getAllVariableExpenses,
   getAllFixedCosts,
+  getAllFoodPricesAndDiscounts,
+  getCurrentlyDiscountedFoodPriceInformation,
   getAllSensitivitiesOfPurchase,
 
   getCategoryById,

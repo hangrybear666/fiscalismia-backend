@@ -106,13 +106,21 @@ TABLESPACE pg_default;
 ALTER TABLE IF EXISTS staging.staging_variable_bills
     OWNER to fiscalismia_api;
 
-DROP TABLE IF EXISTS public.bridge_var_exp_sensitivity;
+-- TEST
+DROP TABLE IF EXISTS public.test_table;
+-- FIXED COSTS
 DROP TABLE IF EXISTS public.fixed_costs;
+-- VARIABLE EXPENSES
+DROP TABLE IF EXISTS public.bridge_var_exp_sensitivity;
 DROP TABLE IF EXISTS public.variable_expenses;
 DROP TABLE IF EXISTS public.category;
 DROP TABLE IF EXISTS public.store;
 DROP TABLE IF EXISTS public.sensitivity;
-DROP TABLE IF EXISTS public.test_table;
+-- DEALS & DISCOUNTS
+DROP VIEW IF EXISTS public.v_food_price_overview ;
+DROP TABLE IF EXISTS public.food_price_discounts;
+DROP TABLE IF EXISTS public.table_food_prices;
+DROP SEQUENCE IF EXISTS public.table_food_prices_seq;
 
 CREATE TABLE IF NOT EXISTS public.test_table
 (
@@ -122,6 +130,11 @@ CREATE TABLE IF NOT EXISTS public.test_table
 );
 ALTER TABLE IF EXISTS public.test_table
     OWNER to fiscalismia_api;
+
+/**    ___        ___  __      __   __   __  ___  __
+ *    |__  | \_/ |__  |  \    /  ` /  \ /__`  |  /__`
+ *    |    | / \ |___ |__/    \__, \__/ .__/  |  .__/
+ */
 
 CREATE TABLE IF NOT EXISTS public.fixed_costs
 (
@@ -137,6 +150,78 @@ CREATE TABLE IF NOT EXISTS public.fixed_costs
 TABLESPACE pg_default;
 ALTER TABLE IF EXISTS public.fixed_costs
     OWNER to fiscalismia_api;
+COMMENT ON TABLE public.fixed_costs IS 'contains fixed costs being paid regularly, their billing interval and categories for filtering and displaying';
+
+/*     __   ___            __                __      __     __   __   __            ___  __
+ *    |  \ |__   /\  |    /__`     /\  |\ | |  \    |  \ | /__` /  ` /  \ |  | |\ |  |  /__`
+ *    |__/ |___ /~~\ |___ .__/    /~~\ | \| |__/    |__/ | .__/ \__, \__/ \__/ | \|  |  .__/
+ */
+CREATE SEQUENCE IF NOT EXISTS public.table_food_prices_seq;
+
+CREATE TABLE IF NOT EXISTS public.table_food_prices
+(
+    dimension_key integer NOT NULL,
+    food_item character varying(256) COLLATE pg_catalog."default" NOT NULL,
+    brand character varying(124) COLLATE pg_catalog."default",
+    store character varying(64) COLLATE pg_catalog."default",
+    main_macro character varying(32) COLLATE pg_catalog."default" NOT NULL,
+    kcal_amount numeric(4,0) NOT NULL,
+    weight numeric(5,0) NOT NULL,
+    price numeric(5,2) NOT NULL,
+    last_update date,
+	effective_date date NOT NULL,
+	expiration_date date NOT NULL,
+    CONSTRAINT "food_prices_pkey" PRIMARY KEY (dimension_key, effective_date)
+)
+TABLESPACE pg_default;
+ALTER TABLE IF EXISTS public.table_food_prices
+    OWNER to fiscalismia_api;
+COMMENT ON TABLE public.table_food_prices IS 'contains individual food items, the store they are sold in, the macro they belong to, price and caloric information. A last_update flag indicated the date where prices were last confirmed.';
+
+CREATE TABLE IF NOT EXISTS public.food_price_discounts
+(
+	food_prices_dimension_key integer NOT NULL,
+    discount_price numeric(5,2) NOT NULL,
+	discount_start_date date NOT NULL,
+	discount_end_date date NOT NULL,
+    CONSTRAINT "food_price_discounts_pkey" PRIMARY KEY (food_prices_dimension_key, discount_start_date)
+)
+TABLESPACE pg_default;
+ALTER TABLE IF EXISTS public.food_price_discounts
+    OWNER to fiscalismia_api;
+COMMENT ON TABLE public.food_price_discounts IS 'contains the discount price, start date and end date of food items referenced dimension_key only in order to be applicable to all effective_dates within food_prices.';
+
+CREATE OR REPLACE VIEW public.v_food_price_overview AS 
+SELECT 
+	food.dimension_key as id,
+	food.food_item,
+    food.brand,
+    food.store,
+    food.main_macro,
+    food.kcal_amount,
+    food.weight,
+    food.price,
+    food.last_update,
+	food.effective_date,
+	food.expiration_date,
+	discounts.discount_price,
+	food.price - discounts.discount_price as reduced_by_amount,
+	ROUND((food.price - discounts.discount_price) / food.price,2) * 100 as reduced_by_pct,
+	discounts.discount_start_date,
+	discounts.discount_end_date,
+	ROUND(100/food.kcal_amount*100, 2) as weight_per_100_kcal,
+	ROUND(1000/food.weight*food.price, 2) as price_per_kg,
+	ROUND((100/food.kcal_amount*100) / food.weight * food.price * 35, 2) as normalized_price
+FROM public.table_food_prices food
+LEFT OUTER JOIN public.food_price_discounts discounts ON food.dimension_key = discounts.food_prices_dimension_key;
+ALTER VIEW IF EXISTS public.v_food_price_overview
+    OWNER to fiscalismia_api;
+COMMENT ON VIEW public.v_food_price_overview IS 'synthesized information for displaying food prices, discounts and derived calculations to frontend user';
+
+/*               __          __        ___     ___      __   ___       __   ___  __
+ *    \  /  /\  |__) |  /\  |__) |    |__     |__  \_/ |__) |__  |\ | /__` |__  /__`
+ *     \/  /~~\ |  \ | /~~\ |__) |___ |___    |___ / \ |    |___ | \| .__/ |___ .__/
+ */
 
 CREATE TABLE public.category
 (
@@ -146,6 +231,7 @@ CREATE TABLE public.category
 );
 ALTER TABLE IF EXISTS public.category OWNER to fiscalismia_api;
 ALTER TABLE IF EXISTS public.category ADD CONSTRAINT uk_category UNIQUE (description);
+COMMENT ON TABLE public.category IS 'contains variable_expenses categories such as Groceries, Leisure, Work and Travel';
 
 CREATE TABLE public.store
 (
@@ -156,6 +242,7 @@ CREATE TABLE public.store
 );
 ALTER TABLE IF EXISTS public.store OWNER to fiscalismia_api;
 ALTER TABLE IF EXISTS public.store ADD CONSTRAINT uk_store UNIQUE (description);
+COMMENT ON TABLE public.store IS 'contains variable_expenses stores such as Lidl, Amazon and generic Cafes';
 
 CREATE TABLE public.sensitivity
 (
@@ -166,6 +253,7 @@ CREATE TABLE public.sensitivity
 );
 ALTER TABLE IF EXISTS public.sensitivity OWNER to fiscalismia_api;
 ALTER TABLE IF EXISTS public.sensitivity ADD CONSTRAINT uk_sensitivity UNIQUE (description);
+COMMENT ON TABLE public.sensitivity IS 'contains variable_expenses food allergies and sensitivities that are typically bought as an indulgence despite being detrimental to my health';
 
 CREATE TABLE IF NOT EXISTS public.variable_expenses
 (
@@ -213,6 +301,7 @@ ALTER TABLE IF EXISTS public.bridge_var_exp_sensitivity
     REFERENCES public.variable_expenses (id) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE RESTRICT;
+COMMENT ON TABLE public.bridge_var_exp_sensitivity IS 'links variable expenses to sensitivities as this is a m:n relationship';
 
 TRUNCATE TABLE staging.staging_variable_bills;
 TRUNCATE TABLE public.test_table;
