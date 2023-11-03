@@ -8,14 +8,11 @@ const morgan = require('morgan')
 
 // Routes
 const postgresRouter = require('./routes/postgresRoutes')
+const multerRouter = require('./routes/multerRoutes')
 
 // Local Dependencies
 const config = require('./utils/config')
 const errorHandler = require('./middleware/errorHandler')
-
-// Constants
-const PG_API_ADDRESS = '/api/fiscalismia';
-const SERVER_ADDRESS = `http://${process.env.PG_HOST}:${config.PORT}${PG_API_ADDRESS}`;
 
 const app = express()
 
@@ -56,7 +53,8 @@ app.use(bodyParser.json())
 /**
  *
  */
-app.use(PG_API_ADDRESS, postgresRouter)
+app.use(config.API_ADDRESS, postgresRouter)
+app.use(config.API_ADDRESS, multerRouter)
 app.use( errorHandler )
 
-app.listen(config.PORT, () => console.log(`Server is running on address \r\n${SERVER_ADDRESS}`))
+app.listen(config.PORT, () => console.log(`Server is running on address \r\n${config.SERVER_ADDRESS}`))
