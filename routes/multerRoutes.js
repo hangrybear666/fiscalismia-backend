@@ -19,6 +19,8 @@ const uploadFoodItemImg = multer({
     fieldSize: 1 * 1024, // 1kb Limit of input type="text"
     files: 1,
   },
+  // I do not know how to send a response containing error information to the user so
+  // this validation is thus repeated in the frontend
   fileFilter: function (req, file, cb) {
     if (file.mimetype !== 'image/png' && file.mimetype !== 'image/jpeg' && file.mimetype !== 'image/webp') {
      logger.error(`mimetype ${file.mimetype} does not conform to expected mimetypes.`)

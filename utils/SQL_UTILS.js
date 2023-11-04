@@ -120,6 +120,25 @@ const buildInsertStagingVariableBills = (element) => {
       `
       return insertRow
 }
+
+/**
+ * UPSERT STATEMENT Inserting or Updating an image filepath after the
+ * image corresponding to a food item with the id element.id has been stored on the server
+ * @param {*} element object containing id and filepath fields
+ * @returns UPSERT Statement
+ */
+const buildInsertFoodItemImgFilePath = (element) => {
+  const dimensionKey = element.id;
+  const filepath = element.filepath;
+  const insertFilePath = `INSERT INTO public.food_price_image_location 
+    (food_prices_dimension_key, filepath) 
+    VALUES ('${dimensionKey}','${filepath}')
+    ON CONFLICT ON CONSTRAINT food_price_filepaths_pkey
+    DO
+      UPDATE SET filepath = EXCLUDED.filepath;`
+  return insertFilePath
+}
+
 /**
  * @description Debug logging for SQL Queries executed by the backend server
  * @param {*} sql SQL Statement
@@ -139,6 +158,7 @@ const logSqlStatement = (sql, parameters) => {
 module.exports = {
   buildInsertStagingVariableBills,
   buildInsertFixedCosts,
+  buildInsertFoodItemImgFilePath,
   buildInsertUmUsers,
   buildVerifyUsername,
   buildFindUserById,

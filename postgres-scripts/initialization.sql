@@ -191,8 +191,19 @@ ALTER TABLE IF EXISTS public.food_price_discounts
     OWNER to fiscalismia_api;
 COMMENT ON TABLE public.food_price_discounts IS 'contains the discount price, start date and end date of food items referenced dimension_key only in order to be applicable to all effective_dates within food_prices.';
 
-CREATE OR REPLACE VIEW public.v_food_price_overview AS 
-SELECT 
+CREATE TABLE IF NOT EXISTS public.food_price_image_location
+(
+	food_prices_dimension_key integer NOT NULL,
+    filepath character varying(256) COLLATE pg_catalog."default",
+    CONSTRAINT "food_price_filepaths_pkey" PRIMARY KEY (food_prices_dimension_key)
+)
+TABLESPACE pg_default;
+ALTER TABLE IF EXISTS public.food_price_image_location
+    OWNER to fiscalismia_api;
+COMMENT ON TABLE public.food_price_discounts IS 'contains the relative filepath on the server to user uploaded food item images.';
+
+CREATE OR REPLACE VIEW public.v_food_price_overview AS
+SELECT
 	food.dimension_key as id,
 	food.food_item,
     food.brand,
@@ -209,14 +220,18 @@ SELECT
 	ROUND((food.price - discounts.discount_price) / food.price,2) * 100 as reduced_by_pct,
 	discounts.discount_start_date,
 	discounts.discount_end_date,
+	discounts.discount_end_date - discounts.discount_start_date as discount_days_left,
 	ROUND(100/food.kcal_amount*100, 2) as weight_per_100_kcal,
 	ROUND(1000/food.weight*food.price, 2) as price_per_kg,
-	ROUND((100/food.kcal_amount*100) / food.weight * food.price * 35, 2) as normalized_price
+	ROUND((100/food.kcal_amount*100) / food.weight * food.price * 35, 2) as normalized_price,
+    filepaths.filepath
 FROM public.table_food_prices food
-LEFT OUTER JOIN public.food_price_discounts discounts ON food.dimension_key = discounts.food_prices_dimension_key;
+LEFT OUTER JOIN public.food_price_discounts discounts ON food.dimension_key = discounts.food_prices_dimension_key
+LEFT OUTER JOIN public.food_price_image_location filepaths ON food.dimension_key = filepaths.food_prices_dimension_key;
 ALTER VIEW IF EXISTS public.v_food_price_overview
     OWNER to fiscalismia_api;
 COMMENT ON VIEW public.v_food_price_overview IS 'synthesized information for displaying food prices, discounts and derived calculations to frontend user';
+
 
 /*               __          __        ___     ___      __   ___       __   ___  __
  *    \  /  /\  |__) |  /\  |__) |    |__     |__  \_/ |__) |__  |\ | /__` |__  /__`
