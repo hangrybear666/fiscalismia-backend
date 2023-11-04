@@ -1,6 +1,8 @@
 const asyncHandler = require('express-async-handler')
 const logger = require('../utils/logger')
 const { pool } = require('../utils/pgDbService')
+const config = require('../utils/config')
+const path = require('path')
 const { buildInsertFoodItemImgFilePath,
   logSqlStatement } = require('../utils/SQL_UTILS')
 
@@ -53,6 +55,34 @@ const postFoodItemImg = asyncHandler(async  (request, response) => {
   }
 })
 
+/**
+ * @description fetching food item image from server's filesystem
+ * @type HTTP GET
+ * @async asyncHandler passes exceptions within routes to errorHandler middleware
+ * @route /api/fiscalismia/public/img/uploads/:filepath
+ */
+const getFoodItemImg = asyncHandler(async (request, response, next) => {
+  const filepath = request.params.filepath;
+  logger.info(`read_postgresController received GET to /api/fiscalismia/public/img/uploads/${filepath}`)
+  const options = {
+    root: path.join(__dirname, '../', '/public/img/uploads/')
+  }
+  try {
+    response.sendFile(filepath, options, function (err) {
+      if (err) {
+        next(err)
+      }
+    })
+    response.status(200);
+    logger.info(`File sent in response. Location: ${config.SERVER_ADDRESS}${filepath}`)
+  } catch (error) {
+    response.status(400)
+    error.message = `GET request to fetch food item image has failed. \n ${error.message}`
+    throw error
+  }
+})
+
 module.exports = {
   postFoodItemImg,
+  getFoodItemImg,
 }
