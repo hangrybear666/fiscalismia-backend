@@ -2,7 +2,6 @@
 const cors = require('cors')
 const express = require('express')
 const bodyParser = require('body-parser')
-const fs = require('fs')
 const stringify = require('csv-stringify').stringify
 const morgan = require('morgan')
 

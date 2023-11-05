@@ -3,6 +3,7 @@ const logger = require('../utils/logger')
 const { pool } = require('../utils/pgDbService')
 const config = require('../utils/config')
 const path = require('path')
+const fs = require('fs')
 const { buildInsertFoodItemImgFilePath,
   logSqlStatement } = require('../utils/SQL_UTILS')
 
@@ -63,7 +64,7 @@ const postFoodItemImg = asyncHandler(async  (request, response) => {
  */
 const getFoodItemImg = asyncHandler(async (request, response, next) => {
   const filepath = request.params.filepath;
-  logger.info(`read_postgresController received GET to /api/fiscalismia/public/img/uploads/${filepath}`)
+  logger.info(`multerController received GET to /api/fiscalismia/public/img/uploads/${filepath}`)
   const options = {
     root: path.join(__dirname, '../', '/public/img/uploads/')
   }
@@ -82,7 +83,46 @@ const getFoodItemImg = asyncHandler(async (request, response, next) => {
   }
 })
 
+/**
+ * @description 0) receives food item id to delete in REST call
+ * 1 ) Deletes filepath row from db table public.food_price_image_location
+ * 2) on Success unlinks (deletes) file from server file system
+ * 3) returns filepath succesfully deleted for user notification
+ * @type HTTP DELETE
+ * @async asyncHandler passes exceptions within routes to errorHandler middleware
+ * @route /api/fiscalismia/public/img/uploads/:id
+ */
+const deleteFoodItemImg = asyncHandler(async (request, response) => {
+  logger.info("multerController received DELETE to /api/fiscalismia/public/img/uploads/:id" + request.params.id)
+  const sql = 'DELETE FROM public.food_price_image_location WHERE food_prices_dimension_key = $1 RETURNING filepath'
+  const parameters =  [request.params.id]
+  const client = await pool.connect()
+  try {
+    await client.query('BEGIN')
+    const result = await client.query(sql, parameters)
+    if (result.rows[0]?.filepath) {
+      const results = { 'results': (result) ? result.rows : null}
+      fs.unlink(result.rows[0].filepath, (err) => {
+        if (err) throw err('Server Filesystem Image deletion failed');
+        logger.info(`${result.rows[0].filepath} was successfully DELETED.` )
+      });
+      await client.query('COMMIT')
+      response.status(200).send(results)
+    } else {
+      throw Error('Deletion query has not returned expected deleted filepath variable from db.')
+    }
+  } catch (error) {
+    await client.query('ROLLBACK')
+    response.status(400)
+    error.message = `Transaction ROLLBACK. Row could not be deleted from public.food_price_image_location. ` + error.message
+    throw error
+  } finally {
+    client.release();
+  }
+})
+
 module.exports = {
   postFoodItemImg,
   getFoodItemImg,
+  deleteFoodItemImg,
 }

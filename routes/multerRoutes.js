@@ -1,7 +1,8 @@
 const multerRoutes = require ('express').Router()
 const { authenticateUser } = require('../middleware/authentication.js')
 const { postFoodItemImg,
-  getFoodItemImg } = require('../controllers/multerController')
+  getFoodItemImg,
+  deleteFoodItemImg } = require('../controllers/multerController')
 const logger = require('../utils/logger')
 var multer = require("multer")
 const storage = multer.diskStorage({
@@ -43,5 +44,11 @@ multerRoutes.post('/upload/food_item_img', authenticateUser, uploadFoodItemImg.s
  *    \__> |___  |
  */
 multerRoutes.get('/public/img/uploads/:filepath', getFoodItemImg)
+
+/*     __   ___       ___ ___  ___
+ *    |  \ |__  |    |__   |  |__
+ *    |__/ |___ |___ |___  |  |___
+ */
+multerRoutes.delete('/public/img/uploads/:id', deleteFoodItemImg)
 
 module.exports = multerRoutes
