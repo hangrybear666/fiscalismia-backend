@@ -202,10 +202,10 @@ ALTER TABLE IF EXISTS public.food_price_image_location
     OWNER to fiscalismia_api;
 COMMENT ON TABLE public.food_price_discounts IS 'contains the relative filepath on the server to user uploaded food item images.';
 
-CREATE OR REPLACE VIEW public.v_food_price_overview AS
-SELECT
-	food.dimension_key as id,
-	food.food_item,
+CREATE OR REPLACE VIEW public.v_food_price_overview
+ AS
+ SELECT food.dimension_key AS id,
+    food.food_item,
     food.brand,
     food.store,
     food.main_macro,
@@ -213,25 +213,28 @@ SELECT
     food.weight,
     food.price,
     food.last_update,
-	food.effective_date,
-	food.expiration_date,
-	discounts.discount_price,
-	food.price - discounts.discount_price as reduced_by_amount,
-	ROUND((food.price - discounts.discount_price) / food.price,2) * 100 as reduced_by_pct,
-	discounts.discount_start_date,
-	discounts.discount_end_date,
-	discounts.discount_end_date - discounts.discount_start_date as discount_days_left,
-	ROUND(100/food.kcal_amount*100, 2) as weight_per_100_kcal,
-	ROUND(1000/food.weight*food.price, 2) as price_per_kg,
-	ROUND((100/food.kcal_amount*100) / food.weight * food.price * 35, 2) as normalized_price,
+    food.effective_date,
+    food.expiration_date,
+    discounts.discount_price,
+    food.price - discounts.discount_price AS reduced_by_amount,
+    round((food.price - discounts.discount_price) / food.price, 2) * 100::numeric AS reduced_by_pct,
+    discounts.discount_start_date,
+    discounts.discount_end_date,
+    discounts.discount_start_date - CURRENT_DATE AS starts_in_days,
+    discounts.discount_end_date - CURRENT_DATE AS ends_in_days,
+    discounts.discount_end_date - discounts.discount_start_date AS discount_days_duration,
+    round(100::numeric / food.kcal_amount * 100::numeric, 2) AS weight_per_100_kcal,
+    round(1000::numeric / food.weight * food.price, 2) AS price_per_kg,
+    round(100::numeric / food.kcal_amount * 100::numeric / food.weight * food.price * 35::numeric, 2) AS normalized_price,
     filepaths.filepath
-FROM public.table_food_prices food
-LEFT OUTER JOIN public.food_price_discounts discounts ON food.dimension_key = discounts.food_prices_dimension_key
-LEFT OUTER JOIN public.food_price_image_location filepaths ON food.dimension_key = filepaths.food_prices_dimension_key;
-ALTER VIEW IF EXISTS public.v_food_price_overview
-    OWNER to fiscalismia_api;
-COMMENT ON VIEW public.v_food_price_overview IS 'synthesized information for displaying food prices, discounts and derived calculations to frontend user';
+   FROM table_food_prices food
+     LEFT JOIN food_price_discounts discounts ON food.dimension_key = discounts.food_prices_dimension_key
+     LEFT JOIN food_price_image_location filepaths ON food.dimension_key = filepaths.food_prices_dimension_key;
 
+ALTER TABLE public.v_food_price_overview
+    OWNER TO fiscalismia_api;
+COMMENT ON VIEW public.v_food_price_overview
+    IS 'synthesized information for displaying food prices, discounts and derived calculations to frontend user';
 
 /*               __          __        ___     ___      __   ___       __   ___  __
  *    \  /  /\  |__) |  /\  |__) |    |__     |__  \_/ |__) |__  |\ | /__` |__  /__`

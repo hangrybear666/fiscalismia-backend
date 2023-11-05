@@ -111,7 +111,7 @@ const getTestData = asyncHandler(async (request, response) => {
 const getAllFoodPricesAndDiscounts = asyncHandler(async (request, response) => {
   logger.info("read_postgresController received GET to /api/fiscalismia/food_prices_and_discounts")
   const client = await pool.connect();
-  const result = await client.query('SELECT * FROM v_food_price_overview WHERE current_date BETWEEN effective_date and expiration_date ORDER BY id');
+  const result = await client.query('SELECT distinct id, food_item, brand, store, main_macro, kcal_amount, weight, price, last_update, effective_date, expiration_date, weight_per_100_kcal, price_per_kg, normalized_price, filepath FROM v_food_price_overview WHERE current_date BETWEEN effective_date and expiration_date ORDER BY id');
   const results = { 'results': (result) ? result.rows : null};
   response.status(200).send(results);
   client.release();
@@ -126,7 +126,7 @@ const getAllFoodPricesAndDiscounts = asyncHandler(async (request, response) => {
 const getCurrentlyDiscountedFoodPriceInformation = asyncHandler(async (request, response) => {
   logger.info("read_postgresController received GET to /api/fiscalismia/discounted_foods_current")
   const client = await pool.connect();
-  const result = await client.query('SELECT * FROM v_food_price_overview WHERE discount_price IS NOT NULL AND current_date BETWEEN discount_start_date and discount_end_date ORDER BY id');
+  const result = await client.query('SELECT * FROM v_food_price_overview WHERE discount_price IS NOT NULL AND discount_end_date >= current_date ORDER BY id');
   const results = { 'results': (result) ? result.rows : null};
   response.status(200).send(results);
   client.release();

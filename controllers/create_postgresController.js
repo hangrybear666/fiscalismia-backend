@@ -48,6 +48,41 @@ const { generateToken } = require('../utils/security')
 })
 
 /**
+ * @description food item discount information object validated and added via frontend
+ * contains the following fields:
+ * id | price | startDate | endDate
+ * @type HTTP POST
+ * @async asyncHandler passes exceptions within routes to errorHandler middleware
+ * @route /api/fiscalismia/upload/food_item_discount
+ */
+const postFoodItemDiscount = asyncHandler(async (request, response) => {
+  logger.info("multerController received POST to /api/fiscalismia/upload/food_item_discount")
+  const sql = 'INSERT INTO public.food_price_discounts(food_prices_dimension_key, discount_price, discount_start_date, discount_end_date) VALUES($1,$2,$3,$4) RETURNING food_prices_dimension_key'
+  const discountInfo = request.body
+  const parameters = [
+    discountInfo.id,
+    discountInfo.price,
+    discountInfo.startDate,
+    discountInfo.endDate ]
+  const client = await pool.connect()
+  try {
+    await client.query('BEGIN')
+    logSqlStatement(sql, parameters)
+    const result = await client.query(sql, parameters)
+    await client.query('COMMIT')
+    const results = { 'results': (result) ? result.rows : null};
+    response.status(201).send(results)
+  } catch (error) {
+    await client.query('ROLLBACK')
+    response.status(400)
+    error.message = `Transaction ROLLBACK. data could not be inserted. ` + error.message
+    throw error
+  } finally {
+    client.release();
+  }
+})
+
+/**
  * @description receives application/json body to transform into insert queries for ETL
  * FALLBACK to local file system file otherwise
  * @type HTTP POST
@@ -292,6 +327,8 @@ const createUserCredentials = asyncHandler(async (request, response) => {
 
 module.exports = {
   postTestData,
+
+  postFoodItemDiscount,
 
   postVariableExpensesJson,
   postVariableExpensesTextTsv,
