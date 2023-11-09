@@ -176,6 +176,7 @@ CREATE TABLE IF NOT EXISTS public.table_food_prices
 TABLESPACE pg_default;
 ALTER TABLE IF EXISTS public.table_food_prices
     OWNER to fiscalismia_api;
+ALTER TABLE IF EXISTS public.table_food_prices ADD CONSTRAINT uk_food_items UNIQUE (food_item, brand, store, price);
 COMMENT ON TABLE public.table_food_prices IS 'contains individual food items, the store they are sold in, the macro they belong to, price and caloric information. A last_update flag indicated the date where prices were last confirmed.';
 
 CREATE TABLE IF NOT EXISTS public.food_price_discounts

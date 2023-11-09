@@ -83,6 +83,52 @@ const postFoodItemDiscount = asyncHandler(async (request, response) => {
 })
 
 /**
+ * @description food item information object validated and added via frontend
+ * contains the following fields:
+ * foodItem | brand | store | mainMacro | kcalAmount | weight | price | lastUpdate
+ * @type HTTP POST
+ * @async asyncHandler passes exceptions within routes to errorHandler middleware
+ * @route /api/fiscalismia/upload/food_item
+ */
+const postNewFoodItem = asyncHandler(async (request, response) => {
+  logger.info("multerController received POST to /api/fiscalismia/upload/food_item")
+  let sql = `INSERT INTO public.table_food_prices(dimension_key, food_item, brand, store, main_macro, kcal_amount, weight, price, last_update, effective_date, expiration_date) VALUES (
+      nextval(\'table_food_prices_seq\'),
+      $1, $2, $3, $4, $5, $6, $7, $8,
+      current_date,
+      to_date(\'01.01.4000\',\'DD.MM.YYYY\')
+    ) RETURNING dimension_key`
+  const newFoodItem = request.body
+  let parameters = [
+    newFoodItem.foodItem,
+    newFoodItem.brand,
+    newFoodItem.store,
+    newFoodItem.mainMacro,
+    newFoodItem.kcalAmount,
+    newFoodItem.weight,
+    newFoodItem.price,
+    newFoodItem.lastUpdate ]
+  const client = await pool.connect()
+  try {
+    await client.query('BEGIN')
+    logSqlStatement(sql, parameters)
+    const result = await client.query(sql, parameters)
+    console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<result>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+    console.log(result)
+    await client.query('COMMIT')
+    const results = { 'results': (result) ? result.rows : null};
+    response.status(201).send(results)
+  } catch (error) {
+    await client.query('ROLLBACK')
+    response.status(400)
+    error.message = `Transaction ROLLBACK. data could not be inserted. ` + error.message
+    throw error
+  } finally {
+    client.release();
+  }
+})
+
+/**
  * @description receives application/json body to transform into insert queries for ETL
  * FALLBACK to local file system file otherwise
  * @type HTTP POST
@@ -329,6 +375,7 @@ module.exports = {
   postTestData,
 
   postFoodItemDiscount,
+  postNewFoodItem,
 
   postVariableExpensesJson,
   postVariableExpensesTextTsv,

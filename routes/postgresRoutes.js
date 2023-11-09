@@ -20,6 +20,7 @@ const { getTestData,
         getSensitivitiesOfPurchaseyByVarExpenseId} = require('../controllers/read_postgresController')
 const { postTestData,
   postFoodItemDiscount,
+  postNewFoodItem,
   postVariableExpensesJson,
   postVariableExpensesTextTsv,
   postVariableExpensesCsv,
@@ -72,6 +73,7 @@ postgresRoutes.post('/um/credentials', createUserCredentials)
 postgresRoutes.post('/um/login', loginWithUserCredentials)
 
 postgresRoutes.post('/upload/food_item_discount', authenticateUser, postFoodItemDiscount)
+postgresRoutes.post('/upload/food_item', authenticateUser, postNewFoodItem)
 
 //        __   __       ___  ___
 //  |  | |__) |  \  /\   |  |__
