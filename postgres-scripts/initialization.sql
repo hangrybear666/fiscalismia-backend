@@ -176,7 +176,7 @@ CREATE TABLE IF NOT EXISTS public.table_food_prices
 TABLESPACE pg_default;
 ALTER TABLE IF EXISTS public.table_food_prices
     OWNER to fiscalismia_api;
-ALTER TABLE IF EXISTS public.table_food_prices ADD CONSTRAINT uk_food_items UNIQUE (food_item, brand, store, price);
+ALTER TABLE IF EXISTS public.table_food_prices ADD CONSTRAINT uk_food_items UNIQUE (food_item, brand, store, price, expiration_date);
 COMMENT ON TABLE public.table_food_prices IS 'contains individual food items, the store they are sold in, the macro they belong to, price and caloric information. A last_update flag indicated the date where prices were last confirmed.';
 
 CREATE TABLE IF NOT EXISTS public.food_price_discounts
@@ -224,9 +224,9 @@ CREATE OR REPLACE VIEW public.v_food_price_overview
     discounts.discount_start_date - CURRENT_DATE AS starts_in_days,
     discounts.discount_end_date - CURRENT_DATE AS ends_in_days,
     discounts.discount_end_date - discounts.discount_start_date AS discount_days_duration,
-    round(100::numeric / food.kcal_amount * 100::numeric, 2) AS weight_per_100_kcal,
-    round(1000::numeric / food.weight * food.price, 2) AS price_per_kg,
-    round(100::numeric / food.kcal_amount * 100::numeric / food.weight * food.price * 35::numeric, 2) AS normalized_price,
+    CAST(round(100::numeric / food.kcal_amount * 100::numeric, 2) AS DOUBLE PRECISION) AS weight_per_100_kcal,
+    CAST(round(1000::numeric / food.weight * food.price, 2) AS DOUBLE PRECISION) AS price_per_kg,
+    CAST(round(100::numeric / food.kcal_amount * 100::numeric / food.weight * food.price * 35::numeric, 2) AS DOUBLE PRECISION) AS normalized_price,
     filepaths.filepath
    FROM table_food_prices food
      LEFT JOIN food_price_discounts discounts ON food.dimension_key = discounts.food_prices_dimension_key
