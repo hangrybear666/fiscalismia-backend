@@ -122,6 +122,41 @@ const buildInsertStagingVariableBills = (element) => {
 }
 
 /**
+ * @description constructs INSERT INTO statement while sanitizing values of provided json object by e.g.
+ * 1) casting all values within json to String for proper escaping via helper method
+ * 2) replacing all occurences of single quotes ' with two single quotes ''
+ * @param {*} element json encoded single element containing the mandatory keys:
+ * category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date
+ * @returns INSERT INTO SQL for public.table_food_prices
+ */
+const buildInsertNewFoodItems = (element) => {
+  let e = element
+
+  // loops through keys of json object and sanitizes inputs
+  for (let key in e) {
+      if (e.hasOwnProperty(key)) {
+        e[key] = escapeSingleQuotes(String(e[key]))
+      }
+  }
+  const insertRow = `INSERT INTO public.table_food_prices (dimension_key, food_item, brand, store, main_macro, kcal_amount, weight, price, last_update, effective_date, expiration_date)
+      VALUES (
+        nextval('table_food_prices_seq'),
+        '${e.food_item}',
+        '${e.brand}',
+        '${e.store}',
+        '${e.main_macro}',
+        ${e.kcal_amount},
+        ${e.weight},
+        ${e.price},
+        TO_DATE('${e.last_update}','DD.MM.YYYY'),
+        current_date,
+        TO_DATE('01.01.4000','DD.MM.YYYY')
+      );
+      `
+      return insertRow
+}
+
+/**
  * UPSERT STATEMENT Inserting or Updating an image filepath after the
  * image corresponding to a food item with the id element.id has been stored on the server
  * @param {*} element object containing id and filepath fields
@@ -159,6 +194,7 @@ module.exports = {
   buildInsertStagingVariableBills,
   buildInsertFixedCosts,
   buildInsertFoodItemImgFilePath,
+  buildInsertNewFoodItems,
   buildInsertUmUsers,
   buildVerifyUsername,
   buildFindUserById,
