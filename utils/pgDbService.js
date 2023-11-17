@@ -15,7 +15,16 @@ pg.types.setTypeParser(1114, function(stringValue) {
 pg.types.setTypeParser(1082, function(stringValue) {
   return stringValue;  //1082 for date type
 });
-
+/**
+ * PG Integers are 64bit(INT8), while javascript numbers are only 32bit(INT4), that's why node-postgres interprets numeric
+ * datatypes as strings. If we can confidently assume that numbers in the database never exceed 32bit, we can override this type conversion.
+ */
+pg.types.setTypeParser(20, function(val) {
+  return parseInt(val, 10) //20 for INT8
+})
+pg.types.setTypeParser(1700, function(val) {
+  return parseInt(val, 10) //1700 for numeric
+})
 /**
  * When deployed DATABASE_URL is fetched from heroku config
  * When testing locally the database URL is constructed from environment variables pointing to a local windows installation
