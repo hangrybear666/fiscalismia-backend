@@ -27,6 +27,24 @@ const getTestData = asyncHandler(async (request, response) => {
 })
 
 /**
+ * @description query fetching all data from fixed_costs table
+ * @type HTTP GET
+ * @async asyncHandler passes exceptions within routes to errorHandler middleware
+ * @route /api/fiscalismia/um/settings/:username
+ */
+const getUserSpecificSettings = asyncHandler(async (request, response) => {
+  logger.info("read_postgresController received GET to /api/fiscalismia/um/settings/" + request.params.username)
+  const username = request.params.username;
+  console.log("username")
+  console.log(username)
+  const client = await pool.connect();
+  const result = await client.query('SELECT setting_key, setting_value, setting_description FROM public.um_user_settings WHERE user_id = (SELECT id FROM public.um_users WHERE username = $1)', [username]);
+  const results = { 'results': (result) ? result.rows : null};
+  response.status(200).send(results);
+  client.release();
+})
+
+/**
  * @description query fetching all data from category table
  * @type HTTP GET
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
@@ -100,7 +118,6 @@ const getTestData = asyncHandler(async (request, response) => {
   response.status(200).send(results);
   client.release();
 })
-
 
 /**
  * @description query fetching all data from v_food_price_overview
@@ -288,6 +305,9 @@ const getCurrentlyDiscountedFoodPriceInformation = asyncHandler(async (request, 
 
 module.exports = {
   getTestData,
+
+  getUserSpecificSettings,
+
   getAllCategories,
   getAllStores,
   getAllSensisitivies,

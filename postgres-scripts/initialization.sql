@@ -66,6 +66,11 @@ Extension for Case Sensitive Text field for e.g. emails */
 CREATE EXTENSION pgcrypto;
 CREATE EXTENSION citext;
 
+/*      __   ___  __                           __   ___        ___      ___
+  |  | /__` |__  |__)     |\/|  /\  |\ |  /\  / _` |__   |\/| |__  |\ |  |
+  \__/ .__/ |___ |  \     |  | /~~\ | \| /~~\ \__> |___  |  | |___ | \|  |
+*/
+
 DROP TABLE IF EXISTS public.um_users;
 CREATE TABLE IF NOT EXISTS public.um_users (
 	id serial NOT NULL,
@@ -74,6 +79,19 @@ CREATE TABLE IF NOT EXISTS public.um_users (
   	password TEXT NOT NULL,
 	PRIMARY KEY (id)
 );
+ALTER TABLE IF EXISTS public.um_users
+    OWNER to fiscalismia_api;
+
+CREATE TABLE IF NOT EXISTS public.um_user_settings (
+	user_id integer NOT NULL,
+  	setting_key character varying(64) COLLATE pg_catalog."default",
+	setting_value character varying(128) COLLATE pg_catalog."default",
+	setting_description character varying(512) COLLATE pg_catalog."default"
+);
+ALTER TABLE IF EXISTS public.um_user_settings
+    OWNER to fiscalismia_api;
+ALTER TABLE IF EXISTS public.um_user_settings ADD CONSTRAINT uk_user_settings UNIQUE (user_id, setting_key);
+COMMENT ON TABLE public.um_user_settings IS 'contains user-specific settings such as selected theme and palette';
 
 INSERT INTO public.um_users (username, email, password) VALUES
 ('admin',
@@ -83,6 +101,21 @@ INSERT INTO public.um_users (username, email, password) VALUES
 SELECT * FROM public.um_users
 WHERE username = 'admin'
   AND password = crypt('derpdonkeybonkturdlick', password);
+
+INSERT INTO public.um_user_settings(
+user_id, setting_key, setting_value, setting_description)
+VALUES (
+    (SELECT id FROM public.um_users WHERE username = 'admin'),
+    'selected_mode',
+    'light',
+    null);
+INSERT INTO public.um_user_settings(
+user_id, setting_key, setting_value, setting_description)
+VALUES (
+    (SELECT id FROM public.um_users WHERE username = 'admin'),
+    'selected_palette',
+    'default',
+    null);
 /* __   __   ___      ___  ___    ___       __        ___     __  ___      ___  ___        ___      ___  __
   /  ` |__) |__   /\   |  |__      |   /\  |__) |    |__     /__`  |   /\   |  |__   |\/| |__  |\ |  |  /__`
   \__, |  \ |___ /~~\  |  |___     |  /~~\ |__) |___ |___    .__/  |  /~~\  |  |___  |  | |___ | \|  |  .__/

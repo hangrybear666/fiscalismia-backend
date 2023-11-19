@@ -1,6 +1,8 @@
 const postgresRoutes = require ('express').Router()
 const { getTestData,
 
+        getUserSpecificSettings,
+
         getAllCategories,
         getAllStores,
         getAllSensisitivies,
@@ -55,6 +57,7 @@ postgresRoutes.get('/food_prices_and_discounts',authenticateUser, getAllFoodPric
 postgresRoutes.get('/discounted_foods_current',authenticateUser, getCurrentlyDiscountedFoodPriceInformation)
 postgresRoutes.get('/sensitivities_of_purchase',authenticateUser, getAllSensitivitiesOfPurchase)
 // getSpecificData
+postgresRoutes.get('/um/settings/:username',authenticateUser, getUserSpecificSettings)
 postgresRoutes.get('/category/:id',authenticateUser, getCategoryById)
 postgresRoutes.get('/store/:id',authenticateUser, getStoreById)
 postgresRoutes.get('/sensitivity/:id',authenticateUser, getSensitivityById)
