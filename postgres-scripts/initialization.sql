@@ -82,6 +82,7 @@ CREATE TABLE IF NOT EXISTS public.um_users (
 ALTER TABLE IF EXISTS public.um_users
     OWNER to fiscalismia_api;
 
+DROP TABLE IF EXISTS public.um_user_settings;
 CREATE TABLE IF NOT EXISTS public.um_user_settings (
 	user_id integer NOT NULL,
   	setting_key character varying(64) COLLATE pg_catalog."default",
@@ -91,6 +92,11 @@ CREATE TABLE IF NOT EXISTS public.um_user_settings (
 ALTER TABLE IF EXISTS public.um_user_settings
     OWNER to fiscalismia_api;
 ALTER TABLE IF EXISTS public.um_user_settings ADD CONSTRAINT uk_user_settings UNIQUE (user_id, setting_key);
+ALTER TABLE IF EXISTS public.um_user_settings
+    ADD CONSTRAINT "fk_settings_user" FOREIGN KEY (user_id)
+    REFERENCES public.um_users (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE CASCADE;
 COMMENT ON TABLE public.um_user_settings IS 'contains user-specific settings such as selected theme and palette';
 
 INSERT INTO public.um_users (username, email, password) VALUES
