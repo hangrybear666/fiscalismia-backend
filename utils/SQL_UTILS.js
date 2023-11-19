@@ -44,6 +44,29 @@ const buildInsertUmUsers = ({username, email, password}) => {
 }
 
 /**
+ * inserts default values for various user settings after new account creation
+ * @param {*} param0 json object containing username, email and password keys
+ * @returns INSERT INTO statements for um_user_settings
+ */
+const buildInitializeUserSettings = ({username}) => {
+  return `
+  INSERT INTO public.um_user_settings(
+    user_id, setting_key, setting_value, setting_description)
+    VALUES (
+        (SELECT id FROM public.um_users WHERE username = '${username}'),
+        'selected_mode',
+        'light',
+        null);
+    INSERT INTO public.um_user_settings(
+    user_id, setting_key, setting_value, setting_description)
+    VALUES (
+        (SELECT id FROM public.um_users WHERE username = '${username}'),
+        'selected_palette',
+        'default',
+        null);`
+}
+
+/**
  * @description constructs SELECT statement for finding a user by id
  * @param {*} param0 the user id to be found
  * @returns SELECT FROM SQL for public.um_users
@@ -196,6 +219,7 @@ module.exports = {
   buildInsertFoodItemImgFilePath,
   buildInsertNewFoodItems,
   buildInsertUmUsers,
+  buildInitializeUserSettings,
   buildVerifyUsername,
   buildFindUserById,
   logSqlStatement

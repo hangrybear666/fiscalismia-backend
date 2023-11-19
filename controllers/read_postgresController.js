@@ -35,8 +35,6 @@ const getTestData = asyncHandler(async (request, response) => {
 const getUserSpecificSettings = asyncHandler(async (request, response) => {
   logger.info("read_postgresController received GET to /api/fiscalismia/um/settings/" + request.params.username)
   const username = request.params.username;
-  console.log("username")
-  console.log(username)
   const client = await pool.connect();
   const result = await client.query('SELECT setting_key, setting_value, setting_description FROM public.um_user_settings WHERE user_id = (SELECT id FROM public.um_users WHERE username = $1)', [username]);
   const results = { 'results': (result) ? result.rows : null};

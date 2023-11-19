@@ -29,8 +29,10 @@ const { postTestData,
   postVariableExpensesTextTsv,
   postVariableExpensesCsv,
   postFixedCostsTextTsv,
+
   createUserCredentials,
-  loginWithUserCredentials } = require('../controllers/create_postgresController')
+  loginWithUserCredentials,
+  postUpdatedUserSettings } = require('../controllers/create_postgresController')
 const { updateTestData } = require('../controllers/update_postgresController')
 const { deleteTestData } = require('../controllers/delete_postgresController')
 const { authenticateUser } = require('../middleware/authentication.js')
@@ -75,8 +77,10 @@ postgresRoutes.post('/texttsv/variable_expenses', postVariableExpensesTextTsv)
 postgresRoutes.post('/csv/variable_expenses', postVariableExpensesCsv)
 postgresRoutes.post('/texttsv/fixed_costs', postFixedCostsTextTsv)
 postgresRoutes.post('/texttsv/new_food_items', postNewFoodItemsTextTsv)
+
 postgresRoutes.post('/um/credentials', createUserCredentials)
 postgresRoutes.post('/um/login', loginWithUserCredentials)
+postgresRoutes.post('/um/settings',authenticateUser, postUpdatedUserSettings)
 
 postgresRoutes.post('/upload/food_item_discount', authenticateUser, postFoodItemDiscount)
 postgresRoutes.post('/upload/food_item', authenticateUser, postNewFoodItem)
