@@ -170,10 +170,9 @@ CREATE TABLE IF NOT EXISTS public.test_table
 ALTER TABLE IF EXISTS public.test_table
     OWNER to fiscalismia_api;
 
-/**    ___        ___  __      __   __   __  ___  __
- *    |__  | \_/ |__  |  \    /  ` /  \ /__`  |  /__`
- *    |    | / \ |___ |__/    \__, \__/ .__/  |  .__/
- */
+--     ___        ___  __      __   __   __  ___  __
+--    |__  | \_/ |__  |  \    /  ` /  \ /__`  |  /__`
+--    |    | / \ |___ |__/    \__, \__/ .__/  |  .__/
 
 CREATE TABLE IF NOT EXISTS public.fixed_costs
 (
@@ -184,17 +183,37 @@ CREATE TABLE IF NOT EXISTS public.fixed_costs
     billed_cost numeric(7,2) NOT NULL,
     monthly_cost numeric(7,2) NOT NULL,
     effective_date date NOT NULL,
-	expiration_date date NOT NULL
+	expiration_date date NOT NULL,
+    PRIMARY KEY (id)
 )
 TABLESPACE pg_default;
 ALTER TABLE IF EXISTS public.fixed_costs
     OWNER to fiscalismia_api;
 COMMENT ON TABLE public.fixed_costs IS 'contains fixed costs being paid regularly, their billing interval and categories for filtering and displaying';
 
-/*     __   ___            __                __      __     __   __   __            ___  __
- *    |  \ |__   /\  |    /__`     /\  |\ | |  \    |  \ | /__` /  ` /  \ |  | |\ |  |  /__`
- *    |__/ |___ /~~\ |___ .__/    /~~\ | \| |__/    |__/ | .__/ \__, \__/ \__/ | \|  |  .__/
- */
+--          __   __         ___
+--  | |\ | /  ` /  \  |\/| |__
+--  | | \| \__, \__/  |  | |___
+
+CREATE TABLE IF NOT EXISTS public.fixed_income
+(
+    id serial NOT NULL,
+    description character varying(128) COLLATE pg_catalog."default" NOT NULL,
+    type character varying(64) COLLATE pg_catalog."default" NOT NULL,
+    monthly_interval numeric(4,2) NOT NULL,
+    value numeric(7,2) NOT NULL,
+    effective_date date NOT NULL,
+	expiration_date date NOT NULL,
+    PRIMARY KEY (id)
+)
+TABLESPACE pg_default;
+ALTER TABLE IF EXISTS public.fixed_income
+    OWNER to fiscalismia_api;
+COMMENT ON TABLE public.fixed_income IS 'contains fixed income being earned regularly, payment interval and type (gross/net)';
+
+--     __   ___            __                __      __     __   __   __            ___  __
+--    |  \ |__   /\  |    /__`     /\  |\ | |  \    |  \ | /__` /  ` /  \ |  | |\ |  |  /__`
+--    |__/ |___ /~~\ |___ .__/    /~~\ | \| |__/    |__/ | .__/ \__, \__/ \__/ | \|  |  .__/
 CREATE SEQUENCE IF NOT EXISTS public.table_food_prices_seq;
 
 CREATE TABLE IF NOT EXISTS public.table_food_prices
@@ -276,10 +295,9 @@ ALTER TABLE public.v_food_price_overview
 COMMENT ON VIEW public.v_food_price_overview
     IS 'synthesized information for displaying food prices, discounts and derived calculations to frontend user';
 
-/*               __          __        ___     ___      __   ___       __   ___  __
- *    \  /  /\  |__) |  /\  |__) |    |__     |__  \_/ |__) |__  |\ | /__` |__  /__`
- *     \/  /~~\ |  \ | /~~\ |__) |___ |___    |___ / \ |    |___ | \| .__/ |___ .__/
- */
+--               __          __        ___     ___      __   ___       __   ___  __
+--    \  /  /\  |__) |  /\  |__) |    |__     |__  \_/ |__) |__  |\ | /__` |__  /__`
+--     \/  /~~\ |  \ | /~~\ |__) |___ |___    |___ / \ |    |___ | \| .__/ |___ .__/
 
 CREATE TABLE public.category
 (

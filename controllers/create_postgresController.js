@@ -4,6 +4,7 @@ const logger = require('../utils/logger')
 const { pool } = require('../utils/pgDbService')
 const { buildInsertStagingVariableBills,
         buildInsertFixedCosts,
+        buildInsertFixedIncome,
         buildInsertNewFoodItems,
         buildInsertUmUsers,
         buildVerifyUsername,
@@ -299,6 +300,42 @@ const postNewFoodItem = asyncHandler(async (request, response) => {
   }
 })
 
+
+/**
+ * @description receives tab-separated value as text in the http post body to transform into insert queries for ETL
+ * MANDATORY HEADER STRUCTURE:
+ * description,	type,	monthly_interval,	value,	effective_date,	expiration_date
+ * @type HTTP POST
+ * @async asyncHandler passes exceptions within routes to errorHandler middleware
+ * @route /api/fiscalismia/texttsv/fixed_income
+ * @returns INSERT INTO statements in response
+ */
+const postIncomeTextTsv = asyncHandler(async (request, response) => {
+  logger.info("create_postgresController received POST to /api/fiscalismia/texttsv/fixed_income")
+  try {
+    // Parse text/plain with mandatory headers into JSON
+    const result = parse(request.body, {
+      columns: true,
+      delimiter: '\t',
+      trim: true,
+      skip_empty_lines: true
+    })
+    let insertStatements = ''
+    let insertCount = 0
+    result.forEach(e => {
+      const insertRow = buildInsertFixedIncome(e)
+      insertStatements = insertStatements.concat(insertRow)
+      insertCount++
+    })
+    logger.debug(`received tsv-data from body with [${request.body ? result.length : 0 }] rows and transformed into [${insertCount}] INSERT STATEMENTS`)
+    response.status(200).send(insertStatements)
+  } catch (error) {
+    response.status(400)
+    error.message = `the provided text/plain data could not be converted into INSERT Statements. ` + error.message
+    throw error
+  }
+})
+
 /**
  * @description receives tab-separated value as text in the http post body to transform into insert queries for ETL
  * MANDATORY HEADER STRUCTURE:
@@ -475,6 +512,7 @@ module.exports = {
   postVariableExpensesCsv,
 
   postFixedCostsTextTsv,
+  postIncomeTextTsv,
 
   createUserCredentials,
   loginWithUserCredentials,

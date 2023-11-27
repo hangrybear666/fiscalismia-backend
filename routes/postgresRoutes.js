@@ -29,6 +29,7 @@ const { postTestData,
   postVariableExpensesTextTsv,
   postVariableExpensesCsv,
   postFixedCostsTextTsv,
+  postIncomeTextTsv,
 
   createUserCredentials,
   loginWithUserCredentials,
@@ -76,6 +77,7 @@ postgresRoutes.post('/json/variable_expenses', postVariableExpensesJson)
 postgresRoutes.post('/texttsv/variable_expenses', postVariableExpensesTextTsv)
 postgresRoutes.post('/csv/variable_expenses', postVariableExpensesCsv)
 postgresRoutes.post('/texttsv/fixed_costs', postFixedCostsTextTsv)
+postgresRoutes.post('/texttsv/fixed_income', postIncomeTextTsv)
 postgresRoutes.post('/texttsv/new_food_items', postNewFoodItemsTextTsv)
 
 postgresRoutes.post('/um/credentials', createUserCredentials)

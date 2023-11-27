@@ -149,6 +149,36 @@ const buildInsertStagingVariableBills = (element) => {
  * 1) casting all values within json to String for proper escaping via helper method
  * 2) replacing all occurences of single quotes ' with two single quotes ''
  * @param {*} element json encoded single element containing the mandatory keys:
+ * description,	type,	monthly_interval,	value,	effective_date,	expiration_date
+ * @returns INSERT INTO SQL for public.fixed_income
+ */
+const buildInsertFixedIncome = (element) => {
+  let e = element
+
+  // loops through keys of json object and sanitizes inputs
+  for (let key in e) {
+      if (e.hasOwnProperty(key)) {
+        e[key] = escapeSingleQuotes(String(e[key]))
+      }
+  }
+  const insertRow = `INSERT INTO public.fixed_income (description, type, monthly_interval, value, effective_date, expiration_date)
+      VALUES (
+        '${e.description}',
+        '${e.type}',
+        ${e.monthly_interval},
+        ${e.value},
+        TO_DATE('${e.effective_date}','DD.MM.YYYY'),
+        TO_DATE('${e.expiration_date}','DD.MM.YYYY')
+      );
+      `
+      return insertRow
+}
+
+/**
+ * @description constructs INSERT INTO statement while sanitizing values of provided json object by e.g.
+ * 1) casting all values within json to String for proper escaping via helper method
+ * 2) replacing all occurences of single quotes ' with two single quotes ''
+ * @param {*} element json encoded single element containing the mandatory keys:
  * category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date
  * @returns INSERT INTO SQL for public.table_food_prices
  */
@@ -216,6 +246,7 @@ const logSqlStatement = (sql, parameters) => {
 module.exports = {
   buildInsertStagingVariableBills,
   buildInsertFixedCosts,
+  buildInsertFixedIncome,
   buildInsertFoodItemImgFilePath,
   buildInsertNewFoodItems,
   buildInsertUmUsers,
