@@ -8,6 +8,7 @@ const { getTestData,
         getAllSensisitivies,
         getAllVariableExpenses,
         getAllFixedCosts,
+        getAllFixedIncome,
         getAllFoodPricesAndDiscounts,
         getCurrentlyDiscountedFoodPriceInformation,
         getAllSensitivitiesOfPurchase,
@@ -18,6 +19,7 @@ const { getTestData,
         getVariableExpenseById,
         getFixedCostById,
         getFixedCostsByEffectiveDate,
+        getFixedIncomeByEffectiveDate,
         getSensitivitiesOfPurchaseyBySensitivityId,
         getSensitivitiesOfPurchaseyByVarExpenseId} = require('../controllers/read_postgresController')
 const { postTestData,
@@ -56,6 +58,7 @@ postgresRoutes.get('/store',authenticateUser, getAllStores)
 postgresRoutes.get('/sensitivity',authenticateUser, getAllSensisitivies)
 postgresRoutes.get('/variable_expenses',authenticateUser, getAllVariableExpenses)
 postgresRoutes.get('/fixed_costs',authenticateUser, getAllFixedCosts)
+postgresRoutes.get('/fixed_income',authenticateUser, getAllFixedIncome)
 postgresRoutes.get('/food_prices_and_discounts',authenticateUser, getAllFoodPricesAndDiscounts)
 postgresRoutes.get('/discounted_foods_current',authenticateUser, getCurrentlyDiscountedFoodPriceInformation)
 postgresRoutes.get('/sensitivities_of_purchase',authenticateUser, getAllSensitivitiesOfPurchase)
@@ -67,6 +70,7 @@ postgresRoutes.get('/sensitivity/:id',authenticateUser, getSensitivityById)
 postgresRoutes.get('/variable_expenses/:id',authenticateUser, getVariableExpenseById)
 postgresRoutes.get('/fixed_costs/:id',authenticateUser, getFixedCostById)
 postgresRoutes.get('/fixed_costs/valid/:date',authenticateUser, getFixedCostsByEffectiveDate)
+postgresRoutes.get('/fixed_income/valid/:date',authenticateUser, getFixedIncomeByEffectiveDate)
 postgresRoutes.get('/sensitivities_of_purchase/sensitivity/:id',authenticateUser, getSensitivitiesOfPurchaseyBySensitivityId)
 postgresRoutes.get('/sensitivities_of_purchase/var_expense/:id',authenticateUser, getSensitivitiesOfPurchaseyByVarExpenseId)
 
