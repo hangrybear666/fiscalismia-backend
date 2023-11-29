@@ -9,7 +9,7 @@ const logger = require("../utils/logger")
  */
 const errorHandler = (error, request, response, next) => {
   // if statusCode is preset, use that, otherwise 500
-  const statusCode = response.statusCode ? response.statusCode : 500
+  const statusCode = response?.statusCode != 200 ? response.statusCode : 500
   const errorPojo = {
     error : {
       name: error.name,
