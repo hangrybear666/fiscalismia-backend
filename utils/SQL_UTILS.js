@@ -98,12 +98,14 @@ const buildInsertStagingVariableBills = (element) => {
         e[key] = escapeSingleQuotes(String(e[key]))
       }
   }
+  // replaced € in cost with empty string
+  // replaced , in cost with empty string as it is a thousand separator
   const insertRow = `INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
       VALUES (
         '${e.description}',
         INITCAP('${e.category}'),
         INITCAP('${e.store}'),
-        ${e.cost},
+        ${e.cost.replace(/[\u20AC]/g,"").replace(",","")},
         TO_DATE('${e.date}','DD.MM.YYYY'),
         '${e.is_planned}',
         '${e.contains_indulgence}',

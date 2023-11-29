@@ -380,7 +380,6 @@ ALTER TABLE IF EXISTS public.bridge_var_exp_sensitivity
 COMMENT ON TABLE public.bridge_var_exp_sensitivity IS 'links variable expenses to sensitivities as this is a m:n relationship';
 
 TRUNCATE TABLE staging.staging_variable_bills;
-TRUNCATE TABLE public.test_table;
 TRUNCATE TABLE public.bridge_var_exp_sensitivity;
 TRUNCATE TABLE public.sensitivity CASCADE;
 TRUNCATE TABLE public.variable_expenses CASCADE;
@@ -490,4 +489,3 @@ begin
 	end loop;
 end;
 $$;
-commit;
