@@ -252,6 +252,29 @@ const getCurrentlyDiscountedFoodPriceInformation = asyncHandler(async (request, 
 })
 
 /**
+ * @description query fetching specific data from variable_expenses table based on provided category such as 'Sale'
+ * @type HTTP GET
+ * @async asyncHandler passes exceptions within routes to errorHandler middleware
+ * @route /api/fiscalismia/variable_expenses/category/:category
+ */
+const getVariableExpenseByCategory = asyncHandler(async (request, response) => {
+  logger.info("read_postgresController received GET to /api/fiscalismia/variable_expenses/category/" + request.params.category)
+  const id = request.params.category;
+  const client = await pool.connect();
+  const result = await client.query(`
+    SELECT
+      exp.id, exp.description, category.description as category, store.description as store, cost, purchasing_date, is_planned, contains_indulgence
+    FROM public.variable_expenses exp
+    JOIN public.category category ON category.id = exp.category_id AND category.description = $1
+    JOIN public.store store ON store.id = exp.store_id
+    ORDER BY purchasing_date desc
+    `, [id]);
+  const results = { 'results': (result) ? result.rows : null};
+  response.status(200).send(results);
+  client.release();
+})
+
+/**
  * @description query fetching specific data from fixed_costs table based on provided id
  * @type HTTP GET
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
@@ -352,6 +375,7 @@ module.exports = {
   getStoreById,
   getSensitivityById,
   getVariableExpenseById,
+  getVariableExpenseByCategory,
   getFixedCostById,
   getFixedCostsByEffectiveDate,
   getFixedIncomeByEffectiveDate,

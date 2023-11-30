@@ -17,6 +17,7 @@ const { getTestData,
         getStoreById,
         getSensitivityById,
         getVariableExpenseById,
+        getVariableExpenseByCategory,
         getFixedCostById,
         getFixedCostsByEffectiveDate,
         getFixedIncomeByEffectiveDate,
@@ -68,6 +69,7 @@ postgresRoutes.get('/category/:id',authenticateUser, getCategoryById)
 postgresRoutes.get('/store/:id',authenticateUser, getStoreById)
 postgresRoutes.get('/sensitivity/:id',authenticateUser, getSensitivityById)
 postgresRoutes.get('/variable_expenses/:id',authenticateUser, getVariableExpenseById)
+postgresRoutes.get('/variable_expenses/category/:category',authenticateUser, getVariableExpenseByCategory)
 postgresRoutes.get('/fixed_costs/:id',authenticateUser, getFixedCostById)
 postgresRoutes.get('/fixed_costs/valid/:date',authenticateUser, getFixedCostsByEffectiveDate)
 postgresRoutes.get('/fixed_income/valid/:date',authenticateUser, getFixedIncomeByEffectiveDate)
