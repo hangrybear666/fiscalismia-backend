@@ -96,7 +96,21 @@ const getUserSpecificSettings = asyncHandler(async (request, response) => {
  const getAllVariableExpenses = asyncHandler(async (request, response) => {
   logger.info("read_postgresController received GET to /api/fiscalismia/variable_expenses")
   const client = await pool.connect();
-  const result = await client.query('SELECT * FROM public.variable_expenses ORDER BY id');
+  const result = await client.query(`
+  SELECT
+    exp.id, exp.description, category.description as category, store.description as store, cost::double precision, purchasing_date, is_planned, contains_indulgence,
+    CASE WHEN contains_indulgence IS TRUE
+    THEN STRING_AGG (sens.description,', ')
+    ELSE NULL
+    END as indulgences
+  FROM public.variable_expenses exp
+  JOIN public.category category ON category.id = exp.category_id
+  JOIN public.store store ON store.id = exp.store_id
+  LEFT OUTER JOIN public.bridge_var_exp_sensitivity exp_sens ON exp_sens.variable_expense_id = exp.id
+  LEFT OUTER JOIN public.sensitivity sens ON exp_sens.sensitivity_id = sens.id
+  GROUP BY exp.id, exp.description, category.description, store.description, cost, purchasing_date, is_planned, contains_indulgence
+  ORDER BY purchasing_date desc
+`);
   const results = { 'results': (result) ? result.rows : null};
   response.status(200).send(results);
   client.release();
