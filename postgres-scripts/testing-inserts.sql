@@ -4,13 +4,15 @@
 
 -- PUBLIC
 TRUNCATE TABLE staging.staging_variable_bills;
-TRUNCATE TABLE staging.staging_variable_bill_sensitivity;
 TRUNCATE TABLE public.test_table;
 TRUNCATE TABLE public.bridge_var_exp_sensitivity;
 TRUNCATE TABLE public.sensitivity CASCADE;
 TRUNCATE TABLE public.variable_expenses CASCADE;
 TRUNCATE TABLE public.store CASCADE;
 TRUNCATE TABLE public.category CASCADE;
+TRUNCATE TABLE public.table_food_prices CASCADE;
+TRUNCATE TABLE public.food_price_discounts CASCADE;
+
 
 INSERT INTO public.test_table (description) VALUES ('Hello from pg 14.5 database');
 INSERT INTO public.test_table (description) VALUES ('This is a local Windows pgsql db');
@@ -1123,7 +1125,7 @@ INSERT INTO public.table_food_prices (dimension_key, food_item, brand, store, ma
 -- Food Price Discounts
 INSERT INTO public.food_price_discounts(
 	food_prices_dimension_key, discount_price, discount_start_date, discount_end_date)
-	VALUES ((SELECT dimension_key FROM public.table_food_prices WHERE food_item = 'Haferflocken zart, Bio'), 0.85, current_date, current_date+7);
+	VALUES ((SELECT dimension_key FROM public.table_food_prices WHERE food_item = 'Haferflocken zart, Bio' AND brand = 'Gut Bio'), 0.85, current_date, current_date+7);
 INSERT INTO public.food_price_discounts(
 	food_prices_dimension_key, discount_price, discount_start_date, discount_end_date)
-	VALUES ((SELECT dimension_key FROM public.table_food_prices WHERE food_item = 'Eier, Bio'), 2.79, current_date-1, current_date+4);
+	VALUES ((SELECT dimension_key FROM public.table_food_prices WHERE food_item = 'Eier, Bio' AND store = 'Lidl'), 2.79, current_date-1, current_date+4);

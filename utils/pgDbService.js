@@ -29,8 +29,8 @@ pg.types.setTypeParser(1700, function(val) {
  * When deployed DATABASE_URL is fetched from heroku config
  * When testing locally the database URL is constructed from environment variables pointing to a local windows installation
  */
-const pool = !process.env.DATABASE_URL
-// local
+const pool = !process.env.DB_CONNECTION_URL
+// local db
 ? new Pool({
   user: process.env.PG_USER,
   host: process.env.PG_HOST,
@@ -41,7 +41,7 @@ const pool = !process.env.DATABASE_URL
 })
 // deployed to heroku
 : new Pool({
-  connectionString: process.env.DATABASE_URL,
+  connectionString: process.env.DB_CONNECTION_URL,
   ssl: {rejectUnauthorized: false}
 })
 
