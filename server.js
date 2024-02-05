@@ -58,5 +58,5 @@ app.use(config.API_ADDRESS, multerRouter)
 app.use( errorHandler )
 
 // run on localhost
-// app.listen(config.PORT, () => console.log(`Server is running on address \r\n${config.SERVER_ADDRESS}`))
-app.listen(config.PORT,ip.address(), () => console.log(`Server is running on address \r\n${ip.address()}:${config.PORT}${config.API_ADDRESS}`)) // TODO change ip after production deployment
+app.listen(config.PORT, () => console.log(`Server is running on address \r\n${config.SERVER_ADDRESS}`))
+// app.listen(config.PORT,ip.address(), () => console.log(`Server is running on address \r\n${ip.address()}:${config.PORT}${config.API_ADDRESS}`)) // TODO change ip after production deployment
