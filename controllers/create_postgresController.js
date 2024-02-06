@@ -222,6 +222,8 @@ const postNewFoodItem = asyncHandler(async (request, response) => {
       insertStatements = insertStatements.concat(insertRow)
       insertCount++
     })
+    const resultMessage = `--[${request.body ? result.length : 0 }] rows transformed into [${insertCount}] INSERT STATEMENTS\n`
+    insertStatements = resultMessage + insertStatements + resultMessage
     logger.debug(`received tsv-data from body with [${request.body ? result.length : 0 }] rows and transformed into [${insertCount}] INSERT STATEMENTS`)
     response.status(200).send(insertStatements)
   } catch (error) {
@@ -291,6 +293,8 @@ const postNewFoodItem = asyncHandler(async (request, response) => {
       insertStatements = insertStatements.concat(insertRow)
       insertCount++
     })
+    const resultMessage = `--[${request.body ? result.length : 0 }] rows transformed into [${insertCount}] INSERT STATEMENTS\n`
+    insertStatements = resultMessage + insertStatements + resultMessage
     logger.debug(`received tsv-data from body with [${request.body ? result.length : 0 }] rows and transformed into [${insertCount}] INSERT STATEMENTS`)
     response.status(200).send(insertStatements)
   } catch (error) {
@@ -327,6 +331,8 @@ const postIncomeTextTsv = asyncHandler(async (request, response) => {
       insertStatements = insertStatements.concat(insertRow)
       insertCount++
     })
+    const resultMessage = `--[${request.body ? result.length : 0 }] rows transformed into [${insertCount}] INSERT STATEMENTS\n`
+    insertStatements = resultMessage + insertStatements + resultMessage
     logger.debug(`received tsv-data from body with [${request.body ? result.length : 0 }] rows and transformed into [${insertCount}] INSERT STATEMENTS`)
     response.status(200).send(insertStatements)
   } catch (error) {
@@ -362,6 +368,8 @@ const postNewFoodItemsTextTsv = asyncHandler(async (request, response) => {
       insertStatements = insertStatements.concat(insertRow)
       insertCount++
     })
+    const resultMessage = `--[${request.body ? result.length : 0 }] rows transformed into [${insertCount}] INSERT STATEMENTS\n`
+    insertStatements = resultMessage + insertStatements + resultMessage
     logger.debug(`received tsv-data from body with [${request.body ? result.length : 0 }] rows and transformed into [${insertCount}] INSERT STATEMENTS`)
     response.status(200).send(insertStatements)
   } catch (error) {

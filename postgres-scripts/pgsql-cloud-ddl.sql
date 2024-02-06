@@ -210,7 +210,7 @@ CREATE OR REPLACE VIEW public.v_food_price_overview
     food.expiration_date,
     discounts.discount_price::double precision,
     (food.price - discounts.discount_price)::double precision AS reduced_by_amount,
-    round((food.price - discounts.discount_price) / food.price, 0) * 100::numeric AS reduced_by_pct,
+    round((food.price - discounts.discount_price) / food.price, 2) * 100::numeric AS reduced_by_pct,
     discounts.discount_start_date,
     discounts.discount_end_date,
     discounts.discount_start_date - CURRENT_DATE AS starts_in_days,
