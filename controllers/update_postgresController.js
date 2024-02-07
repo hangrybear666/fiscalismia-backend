@@ -21,15 +21,19 @@ const { pool } = require('../utils/pgDbService')
  const updateTestData = asyncHandler(async (request, response) => {
   logger.info("update_postgresController received PUT to /api/fiscalismia/" + request.params.id)
   const sql = 'UPDATE test_table SET description = $1 WHERE id = $2 RETURNING description'
-  const parameters =  [request.body.name, request.params.id]
+  const parameters =  [request.body.description, request.params.id]
   const client = await pool.connect()
   try {
     await client.query('BEGIN')
     logSqlStatement(sql, parameters)
     const result = await client.query(sql, parameters)
     await client.query('COMMIT')
-    const results = { 'results': (result) ? result.rows : null};
-    response.status(200).send(results)
+    const results = { 'results': result?.rows ? result.rows : null};
+    if (result.rowCount > 0) {
+      response.status(200).send(results)
+    } else {
+      response.status(400).send(`id ${request.params.id} not found. Nothing has been updated`)
+    }
   } catch (error) {
     await client.query('ROLLBACK')
     response.status(400)

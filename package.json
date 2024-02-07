@@ -6,7 +6,7 @@
   "scripts": {
     "start": "set NODE_ENV=production&& node server.js",
     "server": "set NODE_ENV=development&& nodemon server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+		"test": "jest"
   },
   "repository": {
     "type": "git",
@@ -39,6 +39,8 @@
   },
   "devDependencies": {
     "eslint": "^8.14.0",
-    "nodemon": "^2.0.16"
+    "jest": "^29.7.0",
+    "nodemon": "^2.0.16",
+    "supertest": "^6.3.4"
   }
 }
