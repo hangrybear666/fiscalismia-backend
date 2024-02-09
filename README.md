@@ -1,12 +1,22 @@
 # Fiscalismia Backend
 
-The Fiscalismia Backend is an Express server that hosts a REST API, handling requests from the frontend and fetching data from a cloud-based PostgreSQL database.
+The Fiscalismia Backend consists of an Express server that supplied a REST API, handling requests from the frontend and fetching data from a cloud-based PostgreSQL database.
+
+## Technologies Used
+
+- **Node.js:** A JavaScript runtime built on Chrome's V8 JavaScript engine, used for server-side development.
+- **Express Server:** A fast, unopinionated, minimalist web framework for Node.js, used to build the backend server.
+- **JWT Auth:** JSON Web Token authentication is used for securing and verifying the authenticity of API requests.
+- **Winston Logger:** A versatile logging library for Node.js, utilized for logging events and errors in the server.
+- **Supertest:** A testing library for HTTP assertions, employed for REST API testing to ensure the reliability of the server.
+- **Jenkins:** A DevOps automation server that orchestrates the development pipeline, helping in building, testing, and deploying the application fully automated.
+- **Docker:** Jenkins runs in a Docker container, the pipeline itself uses further containers providing a consistent environment for the entire development workflow.
 
 ## Installation
 
 **Dependencies**
 
-1. **Node.js:** Ensure that Node.js is installed on your local machine, with a minimum version of 20.9. You can download Node.js via Node Version Switcher [here](https://github.com/jasongin/nvs) directly [here](https://nodejs.org/).
+1. **Node.js:** Ensure that Node.js is installed on your local machine, with a minimum version of 20.9. You can download Node.js via Node Version Switcher [here](https://github.com/jasongin/nvs) or directly from the source [here](https://nodejs.org/).
 
 2. **Clone the Repository:**
 git clone https://github.com/your-username/fiscalismia-backend.git
