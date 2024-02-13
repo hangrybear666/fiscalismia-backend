@@ -144,6 +144,47 @@ ALTER TABLE IF EXISTS public.fixed_income
     OWNER to fiscalismia_api;
 COMMENT ON TABLE public.fixed_income IS 'contains fixed income being earned regularly, payment interval and type (gross/net)';
 
+
+CREATE TABLE IF NOT EXISTS public.investments
+(
+    id serial NOT NULL,
+    execution_type character varying(4) COLLATE pg_catalog."default" NOT NULL,
+    description character varying(256) COLLATE pg_catalog."default" NOT NULL,
+    isin character varying(12) COLLATE pg_catalog."default" NOT NULL,
+    investment_type character varying(32) NOT NULL,
+    marketplace character varying(64) NOT NULL,
+    units numeric(9,0) NOT NULL,
+    price_per_unit numeric(7,2) NOT NULL,
+    total_price numeric(7,2) NOT NULL,
+    fees numeric(4,2) NOT NULL,
+	execution_date date NOT NULL,
+    PRIMARY KEY (id)
+)
+TABLESPACE pg_default;
+ALTER TABLE IF EXISTS public.investments
+    OWNER to fiscalismia_api;
+ALTER TABLE IF EXISTS public.investments ADD CONSTRAINT uk_investments UNIQUE (execution_type, isin, execution_date);
+COMMENT ON TABLE public.investments IS 'contains relevant information to personal investments conducted such as stock listings';
+
+CREATE TABLE IF NOT EXISTS public.investment_taxes
+(
+    investment_id integer NOT NULL,
+    pct_of_profit_taxed numeric(5,2) NOT NULL DEFAULT 100.00,
+    taxed_profit_amt numeric(6,2) NOT NULL,
+    tax_rate numeric(5,2) NOT NULL DEFAULT 30.00,
+    tax_paid numeric(6,2) NOT NULL,
+    tax_year numeric(4,0) NOT NULL
+)
+TABLESPACE pg_default;
+ALTER TABLE IF EXISTS public.investment_taxes
+    OWNER to fiscalismia_api;
+ALTER TABLE IF EXISTS public.investment_taxes ADD CONSTRAINT uk_investment_taxes UNIQUE (investment_id);
+ALTER TABLE IF EXISTS public.investment_taxes
+    ADD CONSTRAINT "taxed_investments_fk" FOREIGN KEY (investment_id)
+    REFERENCES public.investments (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE RESTRICT;
+COMMENT ON TABLE public.investments IS 'contains foreign keys to invements that surpass the yearly allowance of stock earnings and applicable tax deductions';
 --     __   ___            __                __      __     __   __   __            ___  __
 --    |  \ |__   /\  |    /__`     /\  |\ | |  \    |  \ | /__` /  ` /  \ |  | |\ |  |  /__`
 --    |__/ |___ /~~\ |___ .__/    /~~\ | \| |__/    |__/ | .__/ \__, \__/ \__/ | \|  |  .__/
