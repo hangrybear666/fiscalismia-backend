@@ -5,6 +5,7 @@ const { pool } = require('../utils/pgDbService')
 const { buildInsertStagingVariableBills,
         buildInsertFixedCosts,
         buildInsertFixedIncome,
+        buildInsertInvestments,
         buildInsertNewFoodItems,
         buildInsertUmUsers,
         buildVerifyUsername,
@@ -342,6 +343,44 @@ const postIncomeTextTsv = asyncHandler(async (request, response) => {
   }
 })
 
+
+/**
+ * @description receives tab-separated value as text in the http post body to transform into insert queries for ETL
+ * MANDATORY HEADER STRUCTURE:
+ * execution_type,	description,	isin,	investment_type,	marketplace,	units,	price_per_unit,	total_price,	fees,	execution_date
+ * @type HTTP POST
+ * @async asyncHandler passes exceptions within routes to errorHandler middleware
+ * @route /api/fiscalismia/texttsv/investments
+ * @returns INSERT INTO statements in response
+ */
+const postInvestmentsTextTsv = asyncHandler(async (request, response) => {
+  logger.info("create_postgresController received POST to /api/fiscalismia/texttsv/investments")
+  try {
+    // Parse text/plain with mandatory headers into JSON
+    const result = parse(request.body, {
+      columns: true,
+      delimiter: '\t',
+      trim: true,
+      skip_empty_lines: true
+    })
+    let insertStatements = ''
+    let insertCount = 0
+    result.forEach(e => {
+      const insertRow = buildInsertInvestments(e)
+      insertStatements = insertStatements.concat(insertRow)
+      insertCount++
+    })
+    const resultMessage = `--[${request.body ? result.length : 0 }] rows transformed into [${insertCount}] INSERT STATEMENTS\n`
+    insertStatements = resultMessage + insertStatements + resultMessage
+    logger.debug(`received tsv-data from body with [${request.body ? result.length : 0 }] rows and transformed into [${insertCount}] INSERT STATEMENTS`)
+    response.status(200).send(insertStatements)
+  } catch (error) {
+    response.status(400)
+    error.message = `the provided text/plain data could not be converted into INSERT Statements. ` + error.message
+    throw error
+  }
+})
+
 /**
  * @description receives tab-separated value as text in the http post body to transform into insert queries for ETL
  * MANDATORY HEADER STRUCTURE:
@@ -521,6 +560,7 @@ module.exports = {
 
   postFixedCostsTextTsv,
   postIncomeTextTsv,
+  postInvestmentsTextTsv,
 
   createUserCredentials,
   loginWithUserCredentials,

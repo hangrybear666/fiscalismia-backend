@@ -176,6 +176,41 @@ const buildInsertFixedIncome = (element) => {
       return insertRow
 }
 
+
+/**
+ * @description constructs INSERT INTO statement while sanitizing values of provided json object by e.g.
+ * 1) casting all values within json to String for proper escaping via helper method
+ * 2) replacing all occurences of single quotes ' with two single quotes ''
+ * @param {*} element json encoded single element containing the mandatory keys:
+ * execution_type,	description,	isin,	investment_type,	marketplace,	units,	price_per_unit,	total_price,	fees,	execution_date
+ * @returns INSERT INTO SQL for public.investments
+ */
+const buildInsertInvestments = (element) => {
+  let e = element
+
+  // loops through keys of json object and sanitizes inputs
+  for (let key in e) {
+      if (e.hasOwnProperty(key)) {
+        e[key] = escapeSingleQuotes(String(e[key]))
+      }
+  }
+  const insertRow = `INSERT INTO public.investments (execution_type,	description,	isin,	investment_type,	marketplace,	units,	price_per_unit,	total_price,	fees,	execution_date)
+      VALUES (
+        '${e.execution_type}',
+        '${e.description}',
+        '${e.isin}',
+        '${e.investment_type}',
+        '${e.marketplace}',
+        ${e.units},
+        ${e.price_per_unit},
+        ${e.total_price},
+        ${e.fees},
+        TO_DATE('${e.execution_date}','DD.MM.YYYY')
+      );
+      `
+      return insertRow
+}
+
 /**
  * @description constructs INSERT INTO statement while sanitizing values of provided json object by e.g.
  * 1) casting all values within json to String for proper escaping via helper method
@@ -249,6 +284,7 @@ module.exports = {
   buildInsertStagingVariableBills,
   buildInsertFixedCosts,
   buildInsertFixedIncome,
+  buildInsertInvestments,
   buildInsertFoodItemImgFilePath,
   buildInsertNewFoodItems,
   buildInsertUmUsers,

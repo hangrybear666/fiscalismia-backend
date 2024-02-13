@@ -33,6 +33,7 @@ const { postTestData,
   postVariableExpensesCsv,
   postFixedCostsTextTsv,
   postIncomeTextTsv,
+  postInvestmentsTextTsv,
 
   createUserCredentials,
   loginWithUserCredentials,
@@ -80,11 +81,12 @@ postgresRoutes.get('/sensitivities_of_purchase/var_expense/:id',authenticateUser
 //  /  ` |__) |__   /\   |  |__
 //  \__, |  \ |___ /~~\  |  |___
 postgresRoutes.post('/json/variable_expenses', postVariableExpensesJson)
-postgresRoutes.post('/texttsv/variable_expenses', postVariableExpensesTextTsv)
 postgresRoutes.post('/csv/variable_expenses', postVariableExpensesCsv)
+postgresRoutes.post('/texttsv/variable_expenses', postVariableExpensesTextTsv)
 postgresRoutes.post('/texttsv/fixed_costs', postFixedCostsTextTsv)
 postgresRoutes.post('/texttsv/fixed_income', postIncomeTextTsv)
 postgresRoutes.post('/texttsv/new_food_items', postNewFoodItemsTextTsv)
+postgresRoutes.post('/texttsv/investments', postInvestmentsTextTsv)
 
 postgresRoutes.post('/um/credentials', createUserCredentials)
 postgresRoutes.post('/um/login', loginWithUserCredentials)
