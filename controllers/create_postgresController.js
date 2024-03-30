@@ -15,7 +15,7 @@ const { generateToken } = require('../utils/security')
 const config = require('../utils/config')
 // const csvjson = require('../postgres-scripts/csvjson.json')
 
-/***
+/**
  *    ______ _____ _____ _____    ______ _____ _____ _   _ _____ _____ _____ _____
  *    | ___ \  _  /  ___|_   _|   | ___ \  ___|  _  | | | |  ___/  ___|_   _/  ___|
  *    | |_/ / | | \ `--.  | |     | |_/ / |__ | | | | | | | |__ \ `--.  | | \ `--.
@@ -199,42 +199,6 @@ const postNewFoodItem = asyncHandler(async (request, response) => {
 })
 
 /**
- * @description receives tab-separated value as text in the http post body to transform into insert queries for ETL
- * MANDATORY HEADER STRUCTURE:
- * description  category  store cost  date  is_planned  contains_indulgence sensitivities
- * @type HTTP POST
- * @async asyncHandler passes exceptions within routes to errorHandler middleware
- * @route /api/fiscalismia/texttsv/variable_expenses
- */
- const postVariableExpensesTextTsv = asyncHandler(async (request, response) => {
-  logger.info("create_postgresController received POST to /api/fiscalismia/texttsv/variable_expenses")
-  try {
-    // Parse text/plain with mandatory headers into JSON
-    const result = parse(request.body, {
-      columns: true,
-      delimiter: '\t',
-      trim: true,
-      skip_empty_lines: true
-    })
-    let insertStatements = ''
-    let insertCount = 0
-    result.forEach(e => {
-      const insertRow = buildInsertStagingVariableBills(e)
-      insertStatements = insertStatements.concat(insertRow)
-      insertCount++
-    })
-    const resultMessage = `--[${request.body ? result.length : 0 }] rows transformed into [${insertCount}] INSERT STATEMENTS\n`
-    insertStatements = resultMessage + insertStatements + resultMessage
-    logger.debug(`received tsv-data from body with [${request.body ? result.length : 0 }] rows and transformed into [${insertCount}] INSERT STATEMENTS`)
-    response.status(200).send(insertStatements)
-  } catch (error) {
-    response.status(400)
-    error.message = `the provided text/plain data could not be converted to .csv or the following INSERT Statements. ` + error.message
-    throw error
-  }
-})
-
-/**
  * @description receives comma-separated value as file in the http post body to transform into insert queries for ETL
  * MANDATORY HEADER STRUCTURE:
  * description  category  store cost  date  is_planned  contains_indulgence sensitivities
@@ -268,6 +232,55 @@ const postNewFoodItem = asyncHandler(async (request, response) => {
   }
 })
 
+/** _____ _____  _   _      _____ _   _  _____ ___________ _____ _____
+ * |_   _/  ___|| | | |    |_   _| \ | |/  ___|  ___| ___ \_   _/  ___|
+ *   | | \ `--. | | | |      | | |  \| |\ `--.| |__ | |_/ / | | \ `--.
+ *   | |  `--. \| | | |      | | | . ` | `--. \  __||    /  | |  `--. \
+ *   | | /\__/ /\ \_/ /     _| |_| |\  |/\__/ / |___| |\ \  | | /\__/ /
+ *   \_/ \____/  \___/      \___/\_| \_/\____/\____/\_| \_| \_/ \____/
+ */
+
+/**
+ * @description receives tab-separated value as text in the http post body to transform into insert queries for ETL
+ * MANDATORY HEADER STRUCTURE:
+ * description,  category,  store, cost,  date,  is_planned,  contains_indulgence, sensitivities
+ * @type HTTP POST
+ * @async asyncHandler passes exceptions within routes to errorHandler middleware
+ * @route /api/fiscalismia/texttsv/variable_expenses
+ */
+const postVariableExpensesTextTsv = asyncHandler(async (request, response) => {
+  logger.info("create_postgresController received POST to /api/fiscalismia/texttsv/variable_expenses")
+  try {
+    // Parse text/plain with mandatory headers into JSON
+    const result = parse(request.body, {
+      columns: true,
+      delimiter: '\t',
+      trim: true,
+      skip_empty_lines: true
+    })
+    const resultColumns = (result && result.length > 0) ? Object.keys(result[0]) : []
+    const expectedColumns = new Array('description',  'category',  'store', 'cost',  'date',  'is_planned',  'contains_indulgence', 'sensitivities')
+    if (resultColumns.toString() !== expectedColumns.toString()) {
+      throw new Error("The expected columns were not provided.")
+    }
+    let insertStatements = ''
+    let insertCount = 0
+    result.forEach(e => {
+      const insertRow = buildInsertStagingVariableBills(e)
+      insertStatements = insertStatements.concat(insertRow)
+      insertCount++
+    })
+    const resultMessage = `--[${request.body ? result.length : 0 }] rows transformed into [${insertCount}] INSERT STATEMENTS\n`
+    insertStatements = resultMessage + insertStatements + resultMessage
+    logger.debug(`received tsv-data from body with [${request.body ? result.length : 0 }] rows and transformed into [${insertCount}] INSERT STATEMENTS`)
+    response.status(200).send(insertStatements)
+  } catch (error) {
+    response.status(400)
+    error.message = `the provided text/plain data could not be converted to .csv or the following INSERT Statements. ` + error.message
+    throw error
+  }
+})
+
 /**
  * @description receives tab-separated value as text in the http post body to transform into insert queries for ETL
  * MANDATORY HEADER STRUCTURE:
@@ -287,6 +300,11 @@ const postNewFoodItem = asyncHandler(async (request, response) => {
       trim: true,
       skip_empty_lines: true
     })
+    const resultColumns = (result && result.length > 0) ? Object.keys(result[0]) : []
+    const expectedColumns = new Array('category', 'description',  'monthly_interval',  'billed_cost', 'monthly_cost',  'effective_date',  'expiration_date')
+    if (resultColumns.toString() !== expectedColumns.toString()) {
+      throw new Error("The expected columns were not provided.")
+    }
     let insertStatements = ''
     let insertCount = 0
     result.forEach(e => {
@@ -304,7 +322,6 @@ const postNewFoodItem = asyncHandler(async (request, response) => {
     throw error
   }
 })
-
 
 /**
  * @description receives tab-separated value as text in the http post body to transform into insert queries for ETL
@@ -325,6 +342,11 @@ const postIncomeTextTsv = asyncHandler(async (request, response) => {
       trim: true,
       skip_empty_lines: true
     })
+    const resultColumns = (result && result.length > 0) ? Object.keys(result[0]) : []
+    const expectedColumns = new Array('description',	'type',	'monthly_interval',	'value',	'effective_date',	'expiration_date')
+    if (resultColumns.toString() !== expectedColumns.toString()) {
+      throw new Error("The expected columns were not provided.")
+    }
     let insertStatements = ''
     let insertCount = 0
     result.forEach(e => {
@@ -342,7 +364,6 @@ const postIncomeTextTsv = asyncHandler(async (request, response) => {
     throw error
   }
 })
-
 
 /**
  * @description receives tab-separated value as text in the http post body to transform into insert queries for ETL
@@ -363,6 +384,11 @@ const postInvestmentsTextTsv = asyncHandler(async (request, response) => {
       trim: true,
       skip_empty_lines: true
     })
+    const resultColumns = (result && result.length > 0) ? Object.keys(result[0]) : []
+    const expectedColumns = new Array('execution_type',	'description',	'isin',	'investment_type',	'marketplace',	'units',	'price_per_unit',	'total_price',	'fees',	'execution_date')
+    if (resultColumns.toString() !== expectedColumns.toString()) {
+      throw new Error("The expected columns were not provided.")
+    }
     let insertStatements = ''
     let insertCount = 0
     result.forEach(e => {
@@ -400,6 +426,11 @@ const postNewFoodItemsTextTsv = asyncHandler(async (request, response) => {
       trim: true,
       skip_empty_lines: true
     })
+    const resultColumns = (result && result.length > 0) ? Object.keys(result[0]) : []
+    const expectedColumns = new Array('food_item', 'brand', 'store',  'main_macro', 'kcal_amount', 'weight', 'price', 'last_update')
+    if (resultColumns.toString() !== expectedColumns.toString()) {
+      throw new Error("The expected columns were not provided.")
+    }
     let insertStatements = ''
     let insertCount = 0
     result.forEach(e => {
@@ -417,6 +448,14 @@ const postNewFoodItemsTextTsv = asyncHandler(async (request, response) => {
     throw error
   }
 })
+
+/** _____ ______ ___________ _____ _   _ _____ _____  ___   _      _____
+ * /  __ \| ___ \  ___|  _  \  ___| \ | |_   _|_   _|/ _ \ | |    /  ___|
+ * | /  \/| |_/ / |__ | | | | |__ |  \| | | |   | | / /_\ \| |    \ `--.
+ * | |    |    /|  __|| | | |  __|| . ` | | |   | | |  _  || |     `--. \
+ * | \__/\| |\ \| |___| |/ /| |___| |\  | | |  _| |_| | | || |____/\__/ /
+ *  \____/\_| \_\____/|___/ \____/\_| \_/ \_/  \___/\_| |_/\_____/\____/
+ */
 
 /**
  * @description expects a application/json request.body containing username and password keys
@@ -456,7 +495,7 @@ const createUserCredentials = asyncHandler(async (request, response) => {
     throw new Error(`password must contain alphanumeric characters, hyphens or underscores only!`)
   }
   if(!config.USERNAME_WHITELIST.includes(credentials.username)) {
-    logger.debug(`username ${credentials.username} is not whitelisted! 
+    logger.debug(`username ${credentials.username} is not whitelisted!
     whitelist is as follows:
     ${config.USERNAME_WHITELIST}`)
     response.status(400)
