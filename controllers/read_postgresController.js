@@ -116,6 +116,24 @@ const getUserSpecificSettings = asyncHandler(async (request, response) => {
   client.release();
 })
 
+
+/**
+ * @description query fetching all data from investments table
+ * @type HTTP GET
+ * @async asyncHandler passes exceptions within routes to errorHandler middleware
+ * @route /api/fiscalismia/investments
+ */
+const getAllInvestments = asyncHandler(async (request, response) => {
+  logger.info("read_postgresController received GET to /api/fiscalismia/investments")
+  const client = await pool.connect();
+  const result = await client.query(`SELECT
+  id, execution_type, description, isin, investment_type, marketplace, units, price_per_unit::double precision, total_price::double precision, fees::double precision, execution_date
+  FROM public.investments ORDER BY id`);
+  const results = { 'results': (result) ? result.rows : null};
+  response.status(200).send(results);
+  client.release();
+})
+
 /**
  * @description query fetching all data from fixed_costs table
  * @type HTTP GET
@@ -380,6 +398,7 @@ module.exports = {
   getAllSensisitivies,
   getAllVariableExpenses,
   getAllFixedCosts,
+  getAllInvestments,
   getAllFixedIncome,
   getAllFoodPricesAndDiscounts,
   getCurrentlyDiscountedFoodPriceInformation,

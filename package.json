@@ -6,7 +6,7 @@
   "scripts": {
     "start": "set NODE_ENV=production&& node server.js",
     "server": "set NODE_ENV=development&& nodemon server.js",
-		"test": "jest"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
