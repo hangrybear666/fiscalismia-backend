@@ -135,6 +135,25 @@ const getAllInvestments = asyncHandler(async (request, response) => {
 })
 
 /**
+ * @description query fetching all data from v_investment_dividends table
+ * @type HTTP GET
+ * @async asyncHandler passes exceptions within routes to errorHandler middleware
+ * @route /api/fiscalismia/investment_dividends
+ */
+const getAllDividends = asyncHandler(async (request, response) => {
+  logger.info("read_postgresController received GET to /api/fiscalismia/investment_dividends")
+  const client = await pool.connect();
+  const result = await client.query(`
+  SELECT
+     *
+   FROM public.v_investment_dividends
+   ORDER BY id`);
+  const results = { 'results': (result) ? result.rows : null};
+  response.status(200).send(results);
+  client.release();
+})
+
+/**
  * @description query fetching all data from fixed_costs table
  * @type HTTP GET
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
@@ -399,6 +418,7 @@ module.exports = {
   getAllVariableExpenses,
   getAllFixedCosts,
   getAllInvestments,
+  getAllDividends,
   getAllFixedIncome,
   getAllFoodPricesAndDiscounts,
   getCurrentlyDiscountedFoodPriceInformation,

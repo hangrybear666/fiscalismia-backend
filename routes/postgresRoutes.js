@@ -9,6 +9,7 @@ const { getTestData,
         getAllVariableExpenses,
         getAllFixedCosts,
         getAllInvestments,
+        getAllDividends,
         getAllFixedIncome,
         getAllFoodPricesAndDiscounts,
         getCurrentlyDiscountedFoodPriceInformation,
@@ -61,6 +62,7 @@ postgresRoutes.get('/store',authenticateUser, getAllStores)
 postgresRoutes.get('/sensitivity',authenticateUser, getAllSensisitivies)
 postgresRoutes.get('/variable_expenses',authenticateUser, getAllVariableExpenses)
 postgresRoutes.get('/investments',authenticateUser, getAllInvestments)
+postgresRoutes.get('/investment_dividends',authenticateUser, getAllDividends)
 postgresRoutes.get('/fixed_costs',authenticateUser, getAllFixedCosts)
 postgresRoutes.get('/fixed_income',authenticateUser, getAllFixedIncome)
 postgresRoutes.get('/food_prices_and_discounts',authenticateUser, getAllFoodPricesAndDiscounts)

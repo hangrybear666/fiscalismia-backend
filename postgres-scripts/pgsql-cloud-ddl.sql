@@ -184,7 +184,69 @@ ALTER TABLE IF EXISTS public.investment_taxes
     REFERENCES public.investments (id) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE RESTRICT;
-COMMENT ON TABLE public.investments IS 'contains foreign keys to invements that surpass the yearly allowance of stock earnings and applicable tax deductions';
+COMMENT ON TABLE public.investment_taxes IS 'contains foreign keys to invements that surpass the yearly allowance of stock earnings and applicable tax deductions';
+
+CREATE TABLE IF NOT EXISTS public.investment_dividends
+(
+    id serial NOT NULL,
+    isin character varying(12) COLLATE pg_catalog."default" NOT NULL,
+    dividend_amount numeric(6,2) NOT NULL,
+	dividend_date date NOT NULL,
+    PRIMARY KEY (id)
+)
+TABLESPACE pg_default;
+ALTER TABLE IF EXISTS public.investment_dividends
+    OWNER to fiscalismia_api;
+ALTER TABLE IF EXISTS public.investment_dividends ADD CONSTRAINT uk_investment_dividends UNIQUE (isin, dividend_date);
+COMMENT ON TABLE public.investment_dividends IS 'contains individual dividends on a given date and the corresponding isin for uniqueness guarantees';
+
+CREATE TABLE IF NOT EXISTS public.bridge_investment_dividends
+(
+    investment_id integer NOT NULL,
+    dividend_id integer NOT NULL
+)
+TABLESPACE pg_default;
+ALTER TABLE IF EXISTS public.bridge_investment_dividends
+    OWNER to fiscalismia_api;
+ALTER TABLE IF EXISTS public.bridge_investment_dividends ADD CONSTRAINT uk_bridge_investment_dividends UNIQUE (investment_id, dividend_id);
+ALTER TABLE IF EXISTS public.bridge_investment_dividends
+    ADD CONSTRAINT "bridge_dividends_investment_fk" FOREIGN KEY (investment_id)
+    REFERENCES public.investments (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE RESTRICT;
+ALTER TABLE IF EXISTS public.bridge_investment_dividends
+    ADD CONSTRAINT "bridge_investment_dividends_fk" FOREIGN KEY (dividend_id)
+    REFERENCES public.investment_dividends (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE RESTRICT;
+COMMENT ON TABLE public.bridge_investment_dividends IS 'contains FKs to invements & FKs to dividends to match multiple owned stocks of the same ISIN to a single dividend payment';
+
+CREATE OR REPLACE VIEW  public.v_investment_dividends
+AS
+    SELECT
+        div.id,
+        div.isin,
+        div.dividend_amount::double precision,
+        COUNT(*) AS cnt,
+        round(round(div.dividend_amount / SUM(total_price), 4) * 100::NUMERIC,2)::double precision  AS pct_of_total,
+        MAX(inv.description) AS description,
+        AVG(inv.price_per_unit)::double precision AS avg_ppu,
+        SUM(units)::numeric AS units,
+        SUM(total_price)::double precision AS total_price,
+        SUM(fees)::double precision AS fees,
+        div.dividend_date,
+        STRING_AGG(inv_div.investment_id::varchar, ',' ORDER BY investment_id) AS investments
+    FROM public.bridge_investment_dividends inv_div
+    JOIN public.investment_dividends div ON div.id = inv_div.dividend_id
+    JOIN public.investments inv ON inv.id = inv_div.investment_id
+    WHERE inv.execution_type = 'buy'
+    GROUP BY div.id, div.isin, div.dividend_amount, div.dividend_date
+;
+ALTER TABLE public.v_investment_dividends
+    OWNER TO fiscalismia_api;
+COMMENT ON VIEW public.v_investment_dividends
+    IS 'view showing aggregated investment purchases and their resulting dividend yield';
+
 --     __   ___            __                __      __     __   __   __            ___  __
 --    |  \ |__   /\  |    /__`     /\  |\ | |  \    |  \ | /__` /  ` /  \ |  | |\ |  |  /__`
 --    |__/ |___ /~~\ |___ .__/    /~~\ | \| |__/    |__/ | .__/ \__, \__/ \__/ | \|  |  .__/
