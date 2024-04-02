@@ -118,7 +118,7 @@ const getUserSpecificSettings = asyncHandler(async (request, response) => {
 
 
 /**
- * @description query fetching all data from investments table
+ * @description query fetching all data from investments and investment_taxes table
  * @type HTTP GET
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/investments
@@ -126,9 +126,14 @@ const getUserSpecificSettings = asyncHandler(async (request, response) => {
 const getAllInvestments = asyncHandler(async (request, response) => {
   logger.info("read_postgresController received GET to /api/fiscalismia/investments")
   const client = await pool.connect();
-  const result = await client.query(`SELECT
-  id, execution_type, description, isin, investment_type, marketplace, units, price_per_unit::double precision, total_price::double precision, fees::double precision, execution_date
-  FROM public.investments ORDER BY id`);
+  const result = await client.query(`
+  SELECT
+    id, execution_type, description, isin, investment_type, marketplace, units, price_per_unit::double precision, total_price::double precision, fees::double precision, execution_date,
+    pct_of_profit_taxed::double precision, profit_amt::double precision, tax_rate::double precision, tax_paid::double precision, tax_year
+  FROM public.investments inv
+  LEFT OUTER JOIN public.investment_taxes tax ON inv.id = tax.investment_id
+  ORDER BY execution_date
+  `);
   const results = { 'results': (result) ? result.rows : null};
   response.status(200).send(results);
   client.release();
