@@ -44,6 +44,40 @@ const { pool } = require('../utils/pgDbService')
   }
 })
 
+
+/**
+ * @description PUT to update the price and last_update field of table_food_prices returning
+ * @type HTTP PUT
+ * @async asyncHandler passes exceptions within routes to errorHandler middleware
+ * @route /api/fiscalismia/update/food_item/price/:id
+ */
+const updateFoodItemPrice = asyncHandler(async (request, response) => {
+  logger.info("update_postgresController received PUT to /api/fiscalismia/update/food_item/price/" + request.params.id)
+  const sql = 'UPDATE table_food_prices SET price = $1, last_update = $2 WHERE dimension_key = $3 RETURNING price'
+  const parameters =  [request.body.price, request.body.lastUpdate, request.params.id]
+  const client = await pool.connect()
+  try {
+    await client.query('BEGIN')
+    logSqlStatement(sql, parameters)
+    const result = await client.query(sql, parameters)
+    await client.query('COMMIT')
+    const results = { 'results': result?.rows ? result.rows : null};
+    if (result.rowCount > 0) {
+      response.status(200).send(results)
+    } else {
+      response.status(400).send(`id ${request.params.id} not found. Nothing has been updated`)
+    }
+  } catch (error) {
+    await client.query('ROLLBACK')
+    response.status(400)
+    error.message = `Transaction ROLLBACK. relation could not be updated. ` + error.message
+    throw error
+  } finally {
+    client.release();
+  }
+})
+
 module.exports = {
-  updateTestData
+  updateTestData,
+  updateFoodItemPrice
 }

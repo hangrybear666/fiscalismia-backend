@@ -24,7 +24,8 @@ const { getTestData,
         getFixedCostsByEffectiveDate,
         getFixedIncomeByEffectiveDate,
         getSensitivitiesOfPurchaseyBySensitivityId,
-        getSensitivitiesOfPurchaseyByVarExpenseId} = require('../controllers/read_postgresController')
+        getSensitivitiesOfPurchaseyByVarExpenseId
+      } = require('../controllers/read_postgresController')
 const { postTestData,
   postFoodItemDiscount,
   postNewFoodItem,
@@ -39,8 +40,12 @@ const { postTestData,
 
   createUserCredentials,
   loginWithUserCredentials,
-  postUpdatedUserSettings } = require('../controllers/create_postgresController')
-const { updateTestData } = require('../controllers/update_postgresController')
+  postUpdatedUserSettings
+} = require('../controllers/create_postgresController')
+const {
+  updateTestData,
+  updateFoodItemPrice
+} = require('../controllers/update_postgresController')
 const { deleteTestData } = require('../controllers/delete_postgresController')
 const { authenticateUser } = require('../middleware/authentication.js')
 
@@ -103,6 +108,7 @@ postgresRoutes.post('/upload/food_item', authenticateUser, postNewFoodItem)
 //  |  | |__) |  \  /\   |  |__
 //  \__/ |    |__/ /~~\  |  |___
 
+postgresRoutes.put('/update/food_item/price/:id', authenticateUser, updateFoodItemPrice)
 //   __   ___       ___ ___  ___
 //  |  \ |__  |    |__   |  |__
 //  |__/ |___ |___ |___  |  |___
