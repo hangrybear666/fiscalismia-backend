@@ -171,7 +171,7 @@ CREATE TABLE IF NOT EXISTS public.investment_taxes
     investment_id integer NOT NULL,
     pct_of_profit_taxed numeric(5,2) NOT NULL DEFAULT 100.00,
     profit_amt numeric(6,2) NOT NULL,
-    tax_rate numeric(5,2) NOT NULL DEFAULT 30.00,
+    tax_rate numeric(5,3) DEFAULT 26.375 NOT NULL,
     tax_paid numeric(6,2) NOT NULL,
     tax_year numeric(4,0) NOT NULL
 )
