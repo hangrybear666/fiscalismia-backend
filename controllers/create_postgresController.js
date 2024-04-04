@@ -471,7 +471,7 @@ const createUserCredentials = asyncHandler(async (request, response) => {
     email : request.body.email,
     password : request.body.password
   }
-  const regExOnlyLettersAndHyphensDotsUnderscores = /^[A-Za-z_.-]*$/g
+  const regExAlphabeticHyphensDotsUnderscores = /^[A-Za-z_.-]*$/g
   const regExAlphaNumeric = /^[a-zA-Z0-9._-]*$/g
   const regExEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   if (!credentials.username || !credentials.password || !credentials.email) {
@@ -479,8 +479,8 @@ const createUserCredentials = asyncHandler(async (request, response) => {
     response.status(400)
     throw new Error(`username, email and/or password missing in POST request`)
   }
-  if (!regExOnlyLettersAndHyphensDotsUnderscores.test(credentials.username)) {
-    logger.debug(`username did not match latin alphabet regex pattern ${regExOnlyLettersAndHyphensDotsUnderscores}`)
+  if (!regExAlphabeticHyphensDotsUnderscores.test(credentials.username)) {
+    logger.debug(`username did not match latin alphabet regex pattern ${regExAlphabeticHyphensDotsUnderscores}`)
     response.status(400)
     throw new Error(`username must conform to the latin alphabet!`)
   }
