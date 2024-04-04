@@ -190,7 +190,7 @@ const buildInsertFixedIncome = (element) => {
  * 1) casting all values within json to String for proper escaping via helper method
  * 2) replacing all occurences of single quotes ' with two single quotes ''
  * @param {*} element json encoded single element containing the mandatory keys:
- * execution_type,	description,	isin,	investment_type,	marketplace,	units,	price_per_unit,	total_price,	fees,	execution_date
+ * execution_type,	description,	isin,	investment_type,	marketplace,	units,	price_per_unit,	total_price,	fees,	execution_date, pct_of_profit_taxed, profit_amt
  * @returns INSERT INTO SQL for public.investments
  */
 const buildInsertInvestments = (element) => {
@@ -215,7 +215,22 @@ const buildInsertInvestments = (element) => {
         ${e.fees},
         TO_DATE('${e.execution_date}','DD.MM.YYYY')
       );
-      `
+${e.execution_type === 'sell' ?
+      `INSERT INTO public.investment_taxes (investment_id, pct_of_profit_taxed, profit_amt, tax_paid, tax_year)
+      (
+        SELECT
+          id,
+          ${e.pct_of_profit_taxed},
+          ${e.profit_amt},
+          ${(Number(e.profit_amt) * Number(e.pct_of_profit_taxed)/100 * Number(0.26375)).toFixed(2)},
+          extract( year FROM TO_DATE('${e.execution_date}','DD.MM.YYYY') )::int
+        FROM public.investments
+        WHERE isin = '${e.isin}'
+          AND execution_date = TO_DATE('${e.execution_date}','DD.MM.YYYY')
+          AND execution_type = '${e.execution_type}' --unique key of public.investments
+      );
+`
+      : ''}`
       return insertRow
 }
 

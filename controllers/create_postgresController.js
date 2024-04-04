@@ -176,6 +176,78 @@ const postNewFoodItem = asyncHandler(async (request, response) => {
   }
 })
 
+
+/**
+ * @description INSERTING investment and taxes information object validated and added via frontend
+ * contains the following fields:
+ * executionType, description, isin, investmentType, marketplace, units, pricePerUnit, totalPrice, fees, executionDate, profitAmount, pctOfProfitTaxed
+ * @type HTTP POST
+ * @async asyncHandler passes exceptions within routes to errorHandler middleware
+ * @route /api/fiscalismia/investments
+ */
+const postInvestmentAndTaxes = asyncHandler(async (request, response) => {
+  logger.info("create_postgresController received POST to /api/fiscalismia/investments")
+  const sqlInvestments = `INSERT INTO public.investments (execution_type,	description,	isin,	investment_type,	marketplace,	units,	price_per_unit,	total_price,	fees,	execution_date)
+  VALUES (
+      $1, $2, $3, $4, $5, $6, $7, $8, $9, $10
+    ) RETURNING id`
+    const sqlTaxes = `INSERT INTO public.investment_taxes (investment_id, pct_of_profit_taxed, profit_amt, tax_paid, tax_year)
+  VALUES (
+      $1, $2, $3, $4, $5
+    ) RETURNING investment_id as id`
+  const investmentAndTaxesObject = request.body
+  const parametersInvestments = [
+    investmentAndTaxesObject.executionType,
+    investmentAndTaxesObject.description,
+    investmentAndTaxesObject.isin,
+    investmentAndTaxesObject.investmentType,
+    investmentAndTaxesObject.marketplace,
+    investmentAndTaxesObject.units,
+    investmentAndTaxesObject.pricePerUnit,
+    investmentAndTaxesObject.totalPrice,
+    investmentAndTaxesObject.fees,
+    investmentAndTaxesObject.executionDate
+  ]
+
+  const client = await pool.connect()
+  try {
+    await client.query('BEGIN')
+    logSqlStatement(sqlInvestments, parametersInvestments)
+    const result = await client.query(sqlInvestments, parametersInvestments)
+    if (investmentAndTaxesObject.executionType === 'sell' && result?.rows[0]?.id && result.rows[0].id > 0) {
+      const parametersTaxes = investmentAndTaxesObject.executionType === 'sell'
+      ? [
+        result.rows[0].id,
+        investmentAndTaxesObject.pctOfProfitTaxed,
+        investmentAndTaxesObject.profitAmount,
+        (Number(investmentAndTaxesObject.profitAmount) * Number(investmentAndTaxesObject.pctOfProfitTaxed)/100 * Number(0.26375)).toFixed(2),
+        new Date(investmentAndTaxesObject.executionDate).getFullYear()
+      ]
+      : null
+      // INVESTMENT IS A SALE (with Tax Information) && INSERT INVESTMENTS RETURNED SUCCESSFULLY
+      logSqlStatement(sqlTaxes, parametersTaxes)
+      const taxesResult = await client.query(sqlTaxes, parametersTaxes)
+      await client.query('COMMIT')
+      const results = {
+        'results':  result ? result.rows : null,
+        'taxesResults' : taxesResult ? taxesResult.rows : null
+      }
+      response.status(201).send(results)
+    } else {
+      await client.query('COMMIT')
+      const results = { 'results': (result) ? result.rows : null}
+      response.status(201).send(results)
+    }
+  } catch (error) {
+    await client.query('ROLLBACK')
+    response.status(400)
+    error.message = `Transaction ROLLBACK. data could not be inserted. ` + error.message
+    throw error
+  } finally {
+    client.release();
+  }
+})
+
 /**
  * @description receives application/json body to transform into insert queries for ETL
  * FALLBACK to local file system file otherwise
@@ -367,8 +439,9 @@ const postIncomeTextTsv = asyncHandler(async (request, response) => {
 
 /**
  * @description receives tab-separated value as text in the http post body to transform into insert queries for ETL
+ * IF EXECUTION_TYPE IS SELL IT EXPECTS 2 MORE COLUMNS TO BE FILLED AND WILL GENERATE ANOTHER INSERT INTO STATEMENT FOR public.investment_taxes
  * MANDATORY HEADER STRUCTURE:
- * execution_type,	description,	isin,	investment_type,	marketplace,	units,	price_per_unit,	total_price,	fees,	execution_date
+ * execution_type,	description,	isin,	investment_type,	marketplace,	units,	price_per_unit,	total_price,	fees,	execution_date, pct_of_profit_taxed, profit_amt
  * @type HTTP POST
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/texttsv/investments
@@ -385,7 +458,7 @@ const postInvestmentsTextTsv = asyncHandler(async (request, response) => {
       skip_empty_lines: true
     })
     const resultColumns = (result && result.length > 0) ? Object.keys(result[0]) : []
-    const expectedColumns = new Array('execution_type',	'description',	'isin',	'investment_type',	'marketplace',	'units',	'price_per_unit',	'total_price',	'fees',	'execution_date')
+    const expectedColumns = new Array('execution_type',	'description',	'isin',	'investment_type',	'marketplace',	'units',	'price_per_unit',	'total_price',	'fees',	'execution_date', 'pct_of_profit_taxed', 'profit_amt')
     if (resultColumns.toString() !== expectedColumns.toString()) {
       throw new Error("The expected columns were not provided.")
     }
@@ -394,7 +467,12 @@ const postInvestmentsTextTsv = asyncHandler(async (request, response) => {
     result.forEach(e => {
       const insertRow = buildInsertInvestments(e)
       insertStatements = insertStatements.concat(insertRow)
-      insertCount++
+      if (e.execution_type === 'sell') {
+        // CREATES 2 INSERT INTO STATEMENTS FOR SALES TO CONSIDER TAXES
+        insertCount += 2
+      } else {
+        insertCount++
+      }
     })
     const resultMessage = `--[${request.body ? result.length : 0 }] rows transformed into [${insertCount}] INSERT STATEMENTS\n`
     insertStatements = resultMessage + insertStatements + resultMessage
@@ -593,13 +671,15 @@ module.exports = {
   postNewFoodItem,
   postNewFoodItemsTextTsv,
 
+  postInvestmentAndTaxes,
+  postInvestmentsTextTsv,
+
   postVariableExpensesJson,
   postVariableExpensesTextTsv,
   postVariableExpensesCsv,
 
   postFixedCostsTextTsv,
   postIncomeTextTsv,
-  postInvestmentsTextTsv,
 
   createUserCredentials,
   loginWithUserCredentials,
