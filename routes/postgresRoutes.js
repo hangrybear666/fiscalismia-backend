@@ -46,7 +46,10 @@ const {
   updateTestData,
   updateFoodItemPrice
 } = require('../controllers/update_postgresController')
-const { deleteTestData } = require('../controllers/delete_postgresController')
+const {
+  deleteTestData,
+  deleteFoodItem
+} = require('../controllers/delete_postgresController')
 const { authenticateUser } = require('../middleware/authentication.js')
 
 //  ___  ___  __  ___
@@ -101,17 +104,19 @@ postgresRoutes.post('/um/credentials', createUserCredentials)
 postgresRoutes.post('/um/login', loginWithUserCredentials)
 postgresRoutes.post('/um/settings',authenticateUser, postUpdatedUserSettings)
 
-postgresRoutes.post('/upload/food_item_discount', authenticateUser, postFoodItemDiscount)
-postgresRoutes.post('/upload/food_item', authenticateUser, postNewFoodItem)
+postgresRoutes.post('/food_item_discount', authenticateUser, postFoodItemDiscount)
+postgresRoutes.post('/food_item', authenticateUser, postNewFoodItem)
 
 //        __   __       ___  ___
 //  |  | |__) |  \  /\   |  |__
 //  \__/ |    |__/ /~~\  |  |___
 
-postgresRoutes.put('/update/food_item/price/:id', authenticateUser, updateFoodItemPrice)
+postgresRoutes.put('/food_item/price/:id', authenticateUser, updateFoodItemPrice)
 //   __   ___       ___ ___  ___
 //  |  \ |__  |    |__   |  |__
 //  |__/ |___ |___ |___  |  |___
+
+postgresRoutes.delete('/food_item/:id', authenticateUser, deleteFoodItem)
 
 
 module.exports = postgresRoutes

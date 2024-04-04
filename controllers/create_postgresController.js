@@ -103,10 +103,10 @@ const postUpdatedUserSettings = asyncHandler(async (request, response) => {
  * id | price | startDate | endDate
  * @type HTTP POST
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
- * @route /api/fiscalismia/upload/food_item_discount
+ * @route /api/fiscalismia/food_item_discount
  */
 const postFoodItemDiscount = asyncHandler(async (request, response) => {
-  logger.info("create_postgresController received POST to /api/fiscalismia/upload/food_item_discount")
+  logger.info("create_postgresController received POST to /api/fiscalismia/food_item_discount")
   const sql = 'INSERT INTO public.food_price_discounts(food_prices_dimension_key, discount_price, discount_start_date, discount_end_date) VALUES($1,$2,$3,$4) RETURNING food_prices_dimension_key'
   const discountInfo = request.body
   const parameters = [
@@ -138,16 +138,16 @@ const postFoodItemDiscount = asyncHandler(async (request, response) => {
  * foodItem | brand | store | mainMacro | kcalAmount | weight | price | lastUpdate
  * @type HTTP POST
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
- * @route /api/fiscalismia/upload/food_item
+ * @route /api/fiscalismia/food_item
  */
 const postNewFoodItem = asyncHandler(async (request, response) => {
-  logger.info("create_postgresController received POST to /api/fiscalismia/upload/food_item")
+  logger.info("create_postgresController received POST to /api/fiscalismia/food_item")
   let sql = `INSERT INTO public.table_food_prices(dimension_key, food_item, brand, store, main_macro, kcal_amount, weight, price, last_update, effective_date, expiration_date) VALUES (
       nextval(\'table_food_prices_seq\'),
       $1, $2, $3, $4, $5, $6, $7, $8,
       current_date,
       to_date(\'01.01.4000\',\'DD.MM.YYYY\')
-    ) RETURNING dimension_key`
+    ) RETURNING dimension_key as id`
   const newFoodItem = request.body
   let parameters = [
     newFoodItem.foodItem,

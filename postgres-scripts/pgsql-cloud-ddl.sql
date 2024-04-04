@@ -319,9 +319,18 @@ CREATE OR REPLACE VIEW public.v_food_price_overview
     discounts.discount_start_date - CURRENT_DATE AS starts_in_days,
     discounts.discount_end_date - CURRENT_DATE AS ends_in_days,
     discounts.discount_end_date - discounts.discount_start_date AS discount_days_duration,
-    round(100::numeric / food.kcal_amount * 100::numeric, 2)::double precision AS weight_per_100_kcal,
-    round(1000::numeric / food.weight * food.price, 2)::double precision AS price_per_kg,
-    round(100::numeric / food.kcal_amount * 100::numeric / food.weight * food.price * 35::numeric, 2)::double precision AS normalized_price,
+    CASE food.kcal_amount
+    	WHEN 0 THEN NULL
+    	ELSE round(100::numeric / food.kcal_amount * 100::numeric, 2)::double precision
+    END AS weight_per_100_kcal,
+    CASE food.weight
+    	WHEN 0 THEN NULL
+    	ELSE round(1000::numeric / food.weight * food.price, 2)::double precision
+    END AS price_per_kg,
+    CASE food.kcal_amount
+    	WHEN 0 THEN NULL
+    	ELSE round(100::numeric / food.kcal_amount * 100::numeric / food.weight * food.price * 35::numeric, 2)::double precision
+    END AS normalized_price,
     filepaths.filepath
    FROM table_food_prices food
      LEFT JOIN food_price_discounts discounts ON food.dimension_key = discounts.food_prices_dimension_key

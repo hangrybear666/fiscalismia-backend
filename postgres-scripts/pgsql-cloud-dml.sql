@@ -24,6 +24,13 @@ VALUES (
     'selected_palette',
     'default',
     null);
+INSERT INTO public.um_user_settings(
+user_id, setting_key, setting_value, setting_description)
+VALUES (
+    (SELECT id FROM public.um_users WHERE username = 'admin'),
+    'selected_language',
+    'de_DE',
+    null);
 
 /* ___ ___          __   __   __   __   ___  __   __
   |__   |  |       |__) |__) /  \ /  ` |__  /__` /__`
@@ -48,6 +55,7 @@ TRUNCATE TABLE staging.staging_variable_bills;
  *       fixedCostsTsv.tsv
  *       incomeTsv.tsv
  *       newFoodItemsTsv.tsv
+ *       investments.tsv
  *    INSERT THESE VIA PGADMIN OR OTHER CLIENT WITH PROPER UTF-8 ENCODING FOR UMLAUTS AND NOT CMD
  */
 

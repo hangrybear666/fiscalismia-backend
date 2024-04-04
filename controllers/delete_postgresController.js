@@ -38,6 +38,35 @@ const { pool } = require('../utils/pgDbService')
   }
 })
 
+/**
+ * @description DELETE request to delete the row with dimension_key == :id from table_food_prices
+ * @type HTTP DELETE
+ * @async asyncHandler passes exceptions within routes to errorHandler middleware
+ * @route /api/fiscalismia/food_item/:id
+ */
+const deleteFoodItem = asyncHandler(async (request, response) => {
+  logger.info("delete_postgresController received DELETE to /api/fiscalismia/food_item/" + request.params.id)
+  const sql = 'DELETE FROM public.table_food_prices WHERE dimension_key = $1 RETURNING dimension_key as id'
+  const parameters =  [request.params.id]
+  const client = await pool.connect()
+  try {
+    await client.query('BEGIN')
+    const result = await client.query(sql, parameters)
+    await client.query('COMMIT')
+    const results = { 'results': (result) ? result.rows : null};
+    response.status(200).send(results)
+  } catch (error) {
+    await client.query('ROLLBACK')
+    response.status(400)
+    error.message = `Transaction ROLLBACK. Row could not be deleted from test_table. ` + error.message
+    throw error
+  } finally {
+    client.release();
+  }
+})
+
+
 module.exports = {
-  deleteTestData
+  deleteTestData,
+  deleteFoodItem
 }

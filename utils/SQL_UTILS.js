@@ -57,13 +57,21 @@ const buildInitializeUserSettings = ({username}) => {
         'selected_mode',
         'light',
         null);
-    INSERT INTO public.um_user_settings(
+  INSERT INTO public.um_user_settings(
     user_id, setting_key, setting_value, setting_description)
     VALUES (
         (SELECT id FROM public.um_users WHERE username = '${username}'),
         'selected_palette',
         'default',
-        null);`
+        null);
+  INSERT INTO public.um_user_settings(
+    user_id, setting_key, setting_value, setting_description)
+    VALUES (
+        (SELECT id FROM public.um_users WHERE username = '${username}'),
+        'selected_language',
+        'de_DE',
+        null);
+    `
 }
 
 /**
