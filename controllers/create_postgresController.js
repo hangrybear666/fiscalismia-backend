@@ -248,6 +248,73 @@ const postInvestmentAndTaxes = asyncHandler(async (request, response) => {
   }
 })
 
+
+/**
+ * @description INSERTING dividends and taxes information object validated and added via frontend
+ * contains the following fields:
+ * isin, dividendAmount, dividendDate, pctOfProfitTaxed, profitAmount
+ * @type HTTP POST
+ * @async asyncHandler passes exceptions within routes to errorHandler middleware
+ * @route /api/fiscalismia/investment_dividends
+ */
+const postDividendsAndTaxes = asyncHandler(async (request, response) => {
+  logger.info("create_postgresController received POST to /api/fiscalismia/investment_dividends")
+  const sqlDividends = `INSERT INTO public.investment_dividends (isin, dividend_amount, dividend_date)
+  VALUES(
+      $1, $2, $3
+    ) RETURNING id`
+  const sqlTaxes = `INSERT INTO public.investment_taxes (dividend_id, pct_of_profit_taxed, profit_amt, tax_paid, tax_year)
+  VALUES (
+      $1, $2, $3, $4, $5
+    ) RETURNING dividend_id as id`
+  const sqlBridgeInvestmentDividends = `INSERT INTO public.bridge_investment_dividends (investment_id, dividend_id)
+  VALUES (
+      $1, $2
+    ) RETURNING dividend_id as id`
+  const dividendObject = request.body
+  const parametersDividends = [
+    dividendObject.isin,
+    dividendObject.dividendAmount,
+    dividendObject.dividendDate,
+  ]
+
+  const client = await pool.connect()
+  try {
+    await client.query('BEGIN')
+    logSqlStatement(sqlDividends, parametersDividends)
+    const result = await client.query(sqlDividends, parametersDividends)
+    if (result?.rows[0]?.id && result.rows[0].id > 0) {
+      const parametersTaxes = [
+        result.rows[0].id,
+        dividendObject.pctOfProfitTaxed,
+        dividendObject.profitAmount,
+        (Number(dividendObject.profitAmount) * Number(dividendObject.pctOfProfitTaxed)/100 * Number(0.26375)).toFixed(2),
+        new Date(dividendObject.executionDate).getFullYear()
+      ]
+      // INVESTMENT IS A SALE (with Tax Information) && INSERT INVESTMENTS RETURNED SUCCESSFULLY
+      logSqlStatement(sqlTaxes, parametersTaxes)
+      const taxesResult = await client.query(sqlTaxes, parametersTaxes)
+      await client.query('COMMIT')
+      const results = {
+        'results':  result ? result.rows : null,
+        'taxesResults' : taxesResult ? taxesResult.rows : null
+      }
+      response.status(201).send(results)
+    } else {
+      await client.query('COMMIT')
+      const results = { 'results': (result) ? result.rows : null}
+      response.status(201).send(results)
+    }
+  } catch (error) {
+    await client.query('ROLLBACK')
+    response.status(400)
+    error.message = `Transaction ROLLBACK. data could not be inserted. ` + error.message
+    throw error
+  } finally {
+    client.release();
+  }
+})
+
 /**
  * @description receives application/json body to transform into insert queries for ETL
  * FALLBACK to local file system file otherwise
@@ -672,6 +739,7 @@ module.exports = {
   postNewFoodItemsTextTsv,
 
   postInvestmentAndTaxes,
+  postDividendsAndTaxes,
   postInvestmentsTextTsv,
 
   postVariableExpensesJson,

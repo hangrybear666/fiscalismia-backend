@@ -32,6 +32,7 @@ const { postTestData,
   postNewFoodItemsTextTsv,
 
   postInvestmentAndTaxes,
+  postDividendsAndTaxes,
   postInvestmentsTextTsv,
 
   postVariableExpensesJson,
@@ -109,6 +110,7 @@ postgresRoutes.post('/um/settings',authenticateUser, postUpdatedUserSettings)
 postgresRoutes.post('/food_item_discount', authenticateUser, postFoodItemDiscount)
 postgresRoutes.post('/food_item', authenticateUser, postNewFoodItem)
 postgresRoutes.post('/investments', authenticateUser, postInvestmentAndTaxes)
+postgresRoutes.post('/investment_dividends', authenticateUser, postDividendsAndTaxes)
 
 //        __   __       ___  ___
 //  |  | |__) |  \  /\   |  |__
