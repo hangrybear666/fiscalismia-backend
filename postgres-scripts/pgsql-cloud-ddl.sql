@@ -166,26 +166,6 @@ ALTER TABLE IF EXISTS public.investments
 ALTER TABLE IF EXISTS public.investments ADD CONSTRAINT uk_investments UNIQUE (execution_type, isin, execution_date);
 COMMENT ON TABLE public.investments IS 'contains relevant information to personal investments conducted such as stock listings';
 
-CREATE TABLE IF NOT EXISTS public.investment_taxes
-(
-    investment_id integer NOT NULL,
-    pct_of_profit_taxed numeric(5,2) NOT NULL DEFAULT 100.00,
-    profit_amt numeric(6,2) NOT NULL,
-    tax_rate numeric(5,3) DEFAULT 26.375 NOT NULL,
-    tax_paid numeric(6,2) NOT NULL,
-    tax_year numeric(4,0) NOT NULL
-)
-TABLESPACE pg_default;
-ALTER TABLE IF EXISTS public.investment_taxes
-    OWNER to fiscalismia_api;
-ALTER TABLE IF EXISTS public.investment_taxes ADD CONSTRAINT uk_investment_taxes UNIQUE (investment_id);
-ALTER TABLE IF EXISTS public.investment_taxes
-    ADD CONSTRAINT "taxed_investments_fk" FOREIGN KEY (investment_id)
-    REFERENCES public.investments (id) MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE RESTRICT;
-COMMENT ON TABLE public.investment_taxes IS 'contains foreign keys to invements that surpass the yearly allowance of stock earnings and applicable tax deductions';
-
 CREATE TABLE IF NOT EXISTS public.investment_dividends
 (
     id serial NOT NULL,
@@ -199,6 +179,33 @@ ALTER TABLE IF EXISTS public.investment_dividends
     OWNER to fiscalismia_api;
 ALTER TABLE IF EXISTS public.investment_dividends ADD CONSTRAINT uk_investment_dividends UNIQUE (isin, dividend_date);
 COMMENT ON TABLE public.investment_dividends IS 'contains individual dividends on a given date and the corresponding isin for uniqueness guarantees';
+
+CREATE TABLE IF NOT EXISTS public.investment_taxes
+(
+    investment_id integer,
+    dividend_id integer,
+    pct_of_profit_taxed numeric(5,2) NOT NULL DEFAULT 100.00,
+    profit_amt numeric(6,2) NOT NULL,
+    tax_rate numeric(5,3) DEFAULT 26.375 NOT NULL,
+    tax_paid numeric(6,2) NOT NULL,
+    tax_year numeric(4,0) NOT NULL
+)
+TABLESPACE pg_default;
+ALTER TABLE IF EXISTS public.investment_taxes
+    OWNER to fiscalismia_api;
+ALTER TABLE IF EXISTS public.investment_taxes ADD CONSTRAINT uk_investment_taxes UNIQUE (investment_id);
+ALTER TABLE IF EXISTS public.investment_taxes ADD CONSTRAINT uk_dividend_taxes UNIQUE (dividend_id);
+ALTER TABLE IF EXISTS public.investment_taxes
+    ADD CONSTRAINT "taxed_investments_fk" FOREIGN KEY (investment_id)
+    REFERENCES public.investments (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE RESTRICT;
+ALTER TABLE IF EXISTS public.investment_taxes
+	ADD CONSTRAINT "taxed_dividends_fk" FOREIGN KEY (dividend_id)
+    REFERENCES public.investment_dividends (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE RESTRICT;
+COMMENT ON TABLE public.investment_taxes IS 'contains foreign keys to invements OR dividends which surpass the yearly allowance of stock earnings and applicable tax deductions';
 
 CREATE TABLE IF NOT EXISTS public.bridge_investment_dividends
 (
