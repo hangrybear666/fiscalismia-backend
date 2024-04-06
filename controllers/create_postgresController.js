@@ -1,6 +1,7 @@
 const asyncHandler = require('express-async-handler')
 const { parse } = require('csv-parse/sync');
 const logger = require('../utils/logger')
+var format = require('pg-format');
 const { pool } = require('../utils/pgDbService')
 const { buildInsertStagingVariableBills,
         buildInsertFixedCosts,
@@ -36,14 +37,14 @@ const config = require('../utils/config')
   const parameters =  [request.body.description]
   const client = await pool.connect()
   try {
-    await client.query('BEGIN') // TODO
+    await client.query('BEGIN')
     logSqlStatement(sql, parameters)
     const result = await client.query(sql, parameters)
-    await client.query('COMMIT') // TODO
+    await client.query('COMMIT')
     const results = { 'results': (result) ? result.rows : null};
     response.status(201).send(results)
   } catch (error) {
-    await client.query('ROLLBACK') // TODO
+    await client.query('ROLLBACK')
     response.status(400)
     error.message = `Transaction ROLLBACK. data could not be inserted. ` + error.message
     throw error
@@ -267,37 +268,61 @@ const postDividendsAndTaxes = asyncHandler(async (request, response) => {
   VALUES (
       $1, $2, $3, $4, $5
     ) RETURNING dividend_id as id`
-  const sqlBridgeInvestmentDividends = `INSERT INTO public.bridge_investment_dividends (investment_id, dividend_id)
-  VALUES (
-      $1, $2
-    ) RETURNING dividend_id as id`
+  let sqlBridgeInvestmentDividends = `INSERT INTO public.bridge_investment_dividends (investment_id, dividend_id, remaining_units)
+  VALUES %L RETURNING investment_id as id, remaining_units` // using pg-format for bulk insertion
   const dividendObject = request.body
   const parametersDividends = [
     dividendObject.isin,
     dividendObject.dividendAmount,
     dividendObject.dividendDate,
   ]
+  let parametersTaxes
+  let parametersBridge = []
 
   const client = await pool.connect()
   try {
     await client.query('BEGIN')
+    //   __            __   ___       __     ___       __        ___
+    //  |  \ | \  / | |  \ |__  |\ | |  \     |   /\  |__) |    |__
+    //  |__/ |  \/  | |__/ |___ | \| |__/     |  /~~\ |__) |___ |___
     logSqlStatement(sqlDividends, parametersDividends)
     const result = await client.query(sqlDividends, parametersDividends)
+    // INVESTMENT IS A SALE (with Tax Information) && INSERT INVESTMENTS RETURNED SUCCESSFULLY
     if (result?.rows[0]?.id && result.rows[0].id > 0) {
-      const parametersTaxes = [
+      // ___           ___  __     ___       __        ___
+      //  |   /\  \_/ |__  /__`     |   /\  |__) |    |__
+      //  |  /~~\ / \ |___ .__/     |  /~~\ |__) |___ |___
+      parametersTaxes = [
         result.rows[0].id,
         dividendObject.pctOfProfitTaxed,
         dividendObject.profitAmount,
         (Number(dividendObject.profitAmount) * Number(dividendObject.pctOfProfitTaxed)/100 * Number(0.26375)).toFixed(2),
         new Date(dividendObject.executionDate).getFullYear()
       ]
-      // INVESTMENT IS A SALE (with Tax Information) && INSERT INVESTMENTS RETURNED SUCCESSFULLY
       logSqlStatement(sqlTaxes, parametersTaxes)
       const taxesResult = await client.query(sqlTaxes, parametersTaxes)
+      let bridgeResult
+      // Dividend is related to 1-n investments which are either fully or partially owned
+      if (dividendObject.investmentIdsAndRemainingUnits && dividendObject.investmentIdsAndRemainingUnits.length > 0) {
+        //   __            __   ___       __      __   __     __   __   ___
+        //  |  \ | \  / | |  \ |__  |\ | |  \    |__) |__) | |  \ / _` |__
+        //  |__/ |  \/  | |__/ |___ | \| |__/    |__) |  \ | |__/ \__> |___
+        dividendObject.investmentIdsAndRemainingUnits.forEach(e => {
+          parametersBridge.push([
+            e.investmentId,
+            result.rows[0].id,
+            e.remainingUnits
+          ])
+        })
+        await client.query(format(sqlBridgeInvestmentDividends, parametersBridge),[], (err, result)=>{
+          bridgeResult = result
+        })
+      }
       await client.query('COMMIT')
       const results = {
         'results':  result ? result.rows : null,
-        'taxesResults' : taxesResult ? taxesResult.rows : null
+        'taxesResults' : taxesResult ? taxesResult.rows : null,
+        'bridgeResults' : bridgeResult ? bridgeResult.rows : null
       }
       response.status(201).send(results)
     } else {

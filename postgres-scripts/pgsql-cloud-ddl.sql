@@ -210,7 +210,8 @@ COMMENT ON TABLE public.investment_taxes IS 'contains foreign keys to invements 
 CREATE TABLE IF NOT EXISTS public.bridge_investment_dividends
 (
     investment_id integer NOT NULL,
-    dividend_id integer NOT NULL
+    dividend_id integer NOT NULL,
+    remaining_units numeric(9,0) DEFAULT 0 NOT NULL
 )
 TABLESPACE pg_default;
 ALTER TABLE IF EXISTS public.bridge_investment_dividends
@@ -226,7 +227,7 @@ ALTER TABLE IF EXISTS public.bridge_investment_dividends
     REFERENCES public.investment_dividends (id) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE RESTRICT;
-COMMENT ON TABLE public.bridge_investment_dividends IS 'contains FKs to invements & FKs to dividends to match multiple owned stocks of the same ISIN to a single dividend payment';
+COMMENT ON TABLE public.bridge_investment_dividends IS 'contains FKs to invements & FKs to dividends to match multiple owned stocks of the same ISIN to a single dividend payment. REMAINING_UNITS retains info on partially sold stocks';
 
 CREATE OR REPLACE VIEW  public.v_investment_dividends
 AS
@@ -237,9 +238,9 @@ AS
         COUNT(*) AS cnt,
         round(round(div.dividend_amount / SUM(total_price), 4) * 100::NUMERIC,2)::double precision  AS pct_of_total,
         MAX(inv.description) AS description,
-        AVG(inv.price_per_unit)::double precision AS avg_ppu,
-        SUM(units)::numeric AS units,
-        SUM(total_price)::double precision AS total_price,
+        SUM(inv.price_per_unit * inv_div.remaining_units)/SUM(inv_div.remaining_units)::double precision AS avg_ppu,
+        SUM(inv_div.remaining_units)::numeric AS units,
+        SUM(inv.price_per_unit * inv_div.remaining_units)::double precision AS total_price,
         SUM(fees)::double precision AS fees,
         div.dividend_date,
         STRING_AGG(inv_div.investment_id::varchar, ',' ORDER BY investment_id) AS investments
