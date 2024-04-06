@@ -1,5 +1,4 @@
 const { createLogger, format, transports } = require('winston');
-
 /**
  * @description
  */
@@ -8,7 +7,10 @@ const logger = createLogger({
   format: format.combine(
     format.timestamp(),
     format.align(),
-    format.printf(info => `${info.timestamp ? info.timestamp.trim() : null} ${info.level}: ${info.message ? info.message.trim() : null}`)
+    format.printf(
+      (info: { timestamp: string; level: string; message: string }) =>
+        `${info.timestamp ? info.timestamp.trim() : null} ${info.level}: ${info.message ? info.message.trim() : null}`
+    )
   ),
   // defaultMeta: { service: 'user-service' }, // define own metadata to be added
   transports: [
@@ -19,7 +21,7 @@ const logger = createLogger({
     new transports.File({ filename: 'logs/error.log', level: 'error' }),
     new transports.File({ filename: 'logs/info.log', level: 'info' }),
     new transports.File({ filename: 'logs/debug.log', level: 'debug' })
-  ],
+  ]
 });
 
 //
@@ -27,12 +29,18 @@ const logger = createLogger({
 // `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
 //
 if (process.env.NODE_ENV !== 'production') {
-  logger.add(new transports.Console({
-    format: format.combine(
-      format.colorize(),
-      format.printf(info => `${info.level} ${info.timestamp ? info.timestamp.trim() : null}: ${info.message ? info.message.trim() : null}`)
+  logger.add(
+    new transports.Console({
+      format: format.combine(
+        format.colorize(),
+        format.printf(
+          (info: { level: string; timestamp: string; message: string }) =>
+            `${info.level} ${info.timestamp ? info.timestamp.trim() : null}: ${info.message ? info.message.trim() : null}`
+        )
       )
-  }));
+    })
+  );
 }
 
-module.exports = logger
+module.exports = logger;
+export {}; // disables tslint error: Cannot redeclare block-scoped variable 'logger'
