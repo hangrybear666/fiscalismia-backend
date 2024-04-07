@@ -47,7 +47,7 @@ const {
 } = require('../controllers/create_postgresController');
 const { updateTestData, updateFoodItemPrice } = require('../controllers/update_postgresController');
 const { deleteTestData, deleteFoodItem } = require('../controllers/delete_postgresController');
-const { authenticateUser } = require('../middleware/authentication.js');
+const { authenticateUser } = require('../middleware/authentication.ts');
 
 //  ___  ___  __  ___
 //   |  |__  /__`  |

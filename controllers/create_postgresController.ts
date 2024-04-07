@@ -75,8 +75,7 @@ const extractResultHeaders = (result: any) => {
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/
  */
-// @ts-expect-error: // TODO
-const postTestData = asyncHandler(async (request, response) => {
+const postTestData = asyncHandler(async (request: Request, response: Response) => {
   logger.info('create_postgresController received POST to /api/fiscalismia/');
   const sql = 'INSERT INTO test_table(description) VALUES($1) RETURNING description';
   const parameters = [request.body.description];
@@ -88,11 +87,12 @@ const postTestData = asyncHandler(async (request, response) => {
     await client.query('COMMIT');
     const results = { results: result ? result.rows : null };
     response.status(201).send(results);
-  } catch (error) {
+  } catch (error: unknown) {
     await client.query('ROLLBACK');
     response.status(400);
-    // @ts-expect-error: // TODO
-    error.message = `Transaction ROLLBACK. data could not be inserted. ` + error.message;
+    if (error instanceof Error) {
+      error.message = `Transaction ROLLBACK. data could not be inserted. ` + error.message;
+    }
     throw error;
   } finally {
     client.release();
@@ -105,8 +105,7 @@ const postTestData = asyncHandler(async (request, response) => {
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/um/settings
  */
-// @ts-expect-error: // TODO
-const postUpdatedUserSettings = asyncHandler(async (request, response) => {
+const postUpdatedUserSettings = asyncHandler(async (request: Request, response: Response) => {
   logger.info('create_postgresController received POST to /api/fiscalismia/upload/um/settings');
   const sql = `
   INSERT INTO public.um_user_settings(
@@ -131,11 +130,12 @@ const postUpdatedUserSettings = asyncHandler(async (request, response) => {
     await client.query('COMMIT');
     const results = { results: result ? result.rows : null };
     response.status(201).send(results);
-  } catch (error) {
+  } catch (error: unknown) {
     await client.query('ROLLBACK');
     response.status(400);
-    // @ts-expect-error: // TODO
-    error.message = `Transaction ROLLBACK. data could not be inserted. ` + error.message;
+    if (error instanceof Error) {
+      error.message = `Transaction ROLLBACK. data could not be inserted. ` + error.message;
+    }
     throw error;
   } finally {
     client.release();
@@ -150,8 +150,7 @@ const postUpdatedUserSettings = asyncHandler(async (request, response) => {
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/food_item_discount
  */
-// @ts-expect-error: // TODO
-const postFoodItemDiscount = asyncHandler(async (request, response) => {
+const postFoodItemDiscount = asyncHandler(async (request: Request, response: Response) => {
   logger.info('create_postgresController received POST to /api/fiscalismia/food_item_discount');
   const sql =
     'INSERT INTO public.food_price_discounts(food_prices_dimension_key, discount_price, discount_start_date, discount_end_date) VALUES($1,$2,$3,$4) RETURNING food_prices_dimension_key';
@@ -165,11 +164,12 @@ const postFoodItemDiscount = asyncHandler(async (request, response) => {
     await client.query('COMMIT');
     const results = { results: result ? result.rows : null };
     response.status(201).send(results);
-  } catch (error) {
+  } catch (error: unknown) {
     await client.query('ROLLBACK');
     response.status(400);
-    // @ts-expect-error: // TODO
-    error.message = `Transaction ROLLBACK. data could not be inserted. ` + error.message;
+    if (error instanceof Error) {
+      error.message = `Transaction ROLLBACK. data could not be inserted. ` + error.message;
+    }
     throw error;
   } finally {
     client.release();
@@ -184,8 +184,7 @@ const postFoodItemDiscount = asyncHandler(async (request, response) => {
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/food_item
  */
-// @ts-expect-error: // TODO
-const postNewFoodItem = asyncHandler(async (request, response) => {
+const postNewFoodItem = asyncHandler(async (request: Request, response: Response) => {
   logger.info('create_postgresController received POST to /api/fiscalismia/food_item');
   let sql = `INSERT INTO public.table_food_prices(dimension_key, food_item, brand, store, main_macro, kcal_amount, weight, price, last_update, effective_date, expiration_date) VALUES (
       nextval(\'table_food_prices_seq\'),
@@ -212,11 +211,12 @@ const postNewFoodItem = asyncHandler(async (request, response) => {
     await client.query('COMMIT');
     const results = { results: result ? result.rows : null };
     response.status(201).send(results);
-  } catch (error) {
+  } catch (error: unknown) {
     await client.query('ROLLBACK');
     response.status(400);
-    // @ts-expect-error: // TODO
-    error.message = `Transaction ROLLBACK. data could not be inserted. ` + error.message;
+    if (error instanceof Error) {
+      error.message = `Transaction ROLLBACK. data could not be inserted. ` + error.message;
+    }
     throw error;
   } finally {
     client.release();
@@ -231,8 +231,7 @@ const postNewFoodItem = asyncHandler(async (request, response) => {
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/investments
  */
-// @ts-expect-error: // TODO
-const postInvestmentAndTaxes = asyncHandler(async (request, response) => {
+const postInvestmentAndTaxes = asyncHandler(async (request: Request, response: Response) => {
   logger.info('create_postgresController received POST to /api/fiscalismia/investments');
   const sqlInvestments = `INSERT INTO public.investments (execution_type,	description,	isin,	investment_type,	marketplace,	units,	price_per_unit,	total_price,	fees,	execution_date)
   VALUES (
@@ -290,11 +289,12 @@ const postInvestmentAndTaxes = asyncHandler(async (request, response) => {
       const results = { results: result ? result.rows : null };
       response.status(201).send(results);
     }
-  } catch (error) {
+  } catch (error: unknown) {
     await client.query('ROLLBACK');
     response.status(400);
-    // @ts-expect-error: // TODO
-    error.message = `Transaction ROLLBACK. data could not be inserted. ` + error.message;
+    if (error instanceof Error) {
+      error.message = `Transaction ROLLBACK. data could not be inserted. ` + error.message;
+    }
     throw error;
   } finally {
     client.release();
@@ -309,8 +309,7 @@ const postInvestmentAndTaxes = asyncHandler(async (request, response) => {
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/investment_dividends
  */
-// @ts-expect-error: // TODO
-const postDividendsAndTaxes = asyncHandler(async (request, response) => {
+const postDividendsAndTaxes = asyncHandler(async (request: Request, response: Response) => {
   logger.info('create_postgresController received POST to /api/fiscalismia/investment_dividends');
   const sqlDividends = `INSERT INTO public.investment_dividends (isin, dividend_amount, dividend_date)
   VALUES(
@@ -325,8 +324,7 @@ const postDividendsAndTaxes = asyncHandler(async (request, response) => {
   const dividendObject = request.body;
   const parametersDividends = [dividendObject.isin, dividendObject.dividendAmount, dividendObject.dividendDate];
   let parametersTaxes;
-  // @ts-expect-error: // TODO
-  let parametersBridge = [];
+  let parametersBridge: any[][];
 
   const client = await pool.connect();
   try {
@@ -353,26 +351,40 @@ const postDividendsAndTaxes = asyncHandler(async (request, response) => {
       ];
       logSqlStatement(sqlTaxes, parametersTaxes);
       const taxesResult = await client.query(sqlTaxes, parametersTaxes);
-      let bridgeResult;
+      //   __            __   ___       __      __   __     __   __   ___
+      //  |  \ | \  / | |  \ |__  |\ | |  \    |__) |__) | |  \ / _` |__
+      //  |__/ |  \/  | |__/ |___ | \| |__/    |__) |  \ | |__/ \__> |___
+      let bridgeResult: any;
       // Dividend is related to 1-n investments which are either fully or partially owned
       if (dividendObject.investmentIdsAndRemainingUnits && dividendObject.investmentIdsAndRemainingUnits.length > 0) {
-        //   __            __   ___       __      __   __     __   __   ___
-        //  |  \ | \  / | |  \ |__  |\ | |  \    |__) |__) | |  \ / _` |__
-        //  |__/ |  \/  | |__/ |___ | \| |__/    |__) |  \ | |__/ \__> |___
-        // @ts-expect-error: // TODO
-        dividendObject.investmentIdsAndRemainingUnits.forEach((e) => {
+        parametersBridge = new Array();
+        dividendObject.investmentIdsAndRemainingUnits.forEach((e: { investmentId: number; remainingUnits: number }) => {
           parametersBridge.push([e.investmentId, result.rows[0].id, e.remainingUnits]);
         });
-        // @ts-expect-error: // TODO
-        await client.query(format(sqlBridgeInvestmentDividends, parametersBridge), [], (err, result) => {
-          bridgeResult = result;
-        });
+        try {
+          /**
+           * pg-format takes a value array and constructs multiple insert statements to be executed in one transaction.
+           * syntax: format('INSERT INTO test_table (id, name) VALUES %L', valueArray)
+           */
+          const promiseResult = await new Promise((resolve, reject) => {
+            client.query(format(sqlBridgeInvestmentDividends, parametersBridge), [], (error: unknown, result: any) => {
+              if (error) {
+                reject(error);
+              } else {
+                resolve(result);
+              }
+            });
+          });
+          bridgeResult = promiseResult;
+        } catch (error: unknown) {
+          const errorMessage = `INSERT INTO public.bridge_investment_dividends has encountered an error: ${(error as Error).message}`;
+          throw new Error(errorMessage);
+        }
       }
       await client.query('COMMIT');
       const results = {
         results: result ? result.rows : null,
         taxesResults: taxesResult ? taxesResult.rows : null,
-        // @ts-expect-error: // TODO
         bridgeResults: bridgeResult ? bridgeResult.rows : null
       };
       response.status(201).send(results);
@@ -381,11 +393,12 @@ const postDividendsAndTaxes = asyncHandler(async (request, response) => {
       const results = { results: result ? result.rows : null };
       response.status(201).send(results);
     }
-  } catch (error) {
+  } catch (error: unknown) {
     await client.query('ROLLBACK');
     response.status(400);
-    // @ts-expect-error: // TODO
-    error.message = `Transaction ROLLBACK. data could not be inserted. ` + error.message;
+    if (error instanceof Error) {
+      error.message = `Transaction ROLLBACK. data could not be inserted. ` + error.message;
+    }
     throw error;
   } finally {
     client.release();
@@ -742,8 +755,7 @@ const postNewFoodItemsTextTsv = asyncHandler(async (request: Request, response: 
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/um/credentials
  */
-// @ts-expect-error: // TODO
-const createUserCredentials = asyncHandler(async (request, response) => {
+const createUserCredentials = asyncHandler(async (request: Request, response: Response) => {
   logger.info('create_postgresController received POST to /api/fiscalismia/um/credentials');
   const credentials = {
     username: request.body.username,
@@ -796,27 +808,20 @@ const createUserCredentials = asyncHandler(async (request, response) => {
     if (result.rowCount != 1) {
       throw new Error(`user could not be uniquely identified`);
     }
-    if (
-      // @ts-expect-error: // TODO
-      results.rows &&
-      // @ts-expect-error: // TODO
-      results.rows.length > 0 &&
-      // @ts-expect-error: // TODO
-      results.rows[0].username &&
-      // @ts-expect-error: // TODO
-      results.rows[0].username !== credentials.username
-    ) {
+    if (result?.rows[0]?.username !== credentials.username) {
       throw new Error(`username provided does not match username in database`);
     }
     await client.query(sqlInsertSettingsForNewUser, parameters);
     logSqlStatement(sqlInsertSettingsForNewUser, parameters);
     await client.query('COMMIT');
     response.status(201).send(results);
-  } catch (error) {
+    logger.info('User ' + credentials.username + ' successfully created');
+  } catch (error: unknown) {
     await client.query('ROLLBACK');
     response.status(400);
-    // @ts-expect-error: // TODO
-    error.message = 'Transaction ROLLBACK: user credentials could not be stored in the database. ' + error.message;
+    if (error instanceof Error) {
+      error.message = 'Transaction ROLLBACK: user credentials could not be stored in the database. ' + error.message;
+    }
     throw error;
   } finally {
     client.release();
@@ -829,8 +834,7 @@ const createUserCredentials = asyncHandler(async (request, response) => {
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/um/login
  */
-// @ts-expect-error: // TODO
-const loginWithUserCredentials = asyncHandler(async (request, response) => {
+const loginWithUserCredentials = asyncHandler(async (request: Request, response: Response) => {
   logger.info('create_postgresController received POST to /api/fiscalismia/um/login');
   const credentials = {
     username: request.body.username,
@@ -862,10 +866,11 @@ const loginWithUserCredentials = asyncHandler(async (request, response) => {
     };
     const jwtToken = generateToken(user);
     response.status(200).send(jwtToken);
-  } catch (error) {
+  } catch (error: unknown) {
     response.status(400);
-    // @ts-expect-error: // TODO
-    error.message = `Login failed. User could not be verified. ` + error.message;
+    if (error instanceof Error) {
+      error.message = `Login failed. User could not be verified. ` + error.message;
+    }
     throw error;
   } finally {
     client.release();
