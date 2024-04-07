@@ -1,38 +1,39 @@
-const logger = require("./logger")
+const logger = require('./logger');
+import { UserCredentials, StagingVariableBills, FixedCosts, FixedIncome, Investments, FoodItems } from './customTypes';
 
 /**
  * @description replaces all occurences of single quote ' with two single quotes ''
- * @param {*} string
+ * @param {*} str
  * @returns escaped string unless the string contains multiple sequential single quotes
  */
-const escapeSingleQuotes = (str) => {
-  const doubleQuote = '\'\''
+const escapeSingleQuotes = (str: string) => {
+  const doubleQuote = "''";
   if (str.includes(doubleQuote)) {
-    logger.warn('double single quotes present. no escaping performed.')
-    return str
+    logger.error('double single quotes present. no escaping performed.');
+    throw new Error('Double quotes present on DB INSERT of VARCHAR --> data inconsistency disallowed');
   }
-  return str.replace(/'/g, doubleQuote)
-}
+  return str.replace(/'/g, doubleQuote);
+};
 
 /**
  * @description constructs INSERT INTO statement for credential storage
  * @param {*} param0 json object containing username, email and password keys
  * @returns INSERT INTO SQL for public.um_users
  */
-const buildInsertUmUsers = ({username, email, password}) => {
+const buildInsertUmUsers = ({ username, email, password }: UserCredentials) => {
   return `INSERT INTO public.um_users (username, email, password) VALUES (
     '${username}',
     '${email}',
     crypt('${password}', gen_salt('bf',12))
-  );`
-}
+  );`;
+};
 
 /**
  * @description constructs SELECT statement for credential verification
  * @param {*} param0 json object containing username, email and password keys
  * @returns SELECT FROM SQL for public.um_users
  */
- const buildVerifyUsername = ({username, password}) => {
+const buildVerifyUsername = ({ username, password }: UserCredentials) => {
   return `
   SELECT
     id as userid,
@@ -40,15 +41,15 @@ const buildInsertUmUsers = ({username, email, password}) => {
     email as useremail
   FROM public.um_users
   WHERE username = '${username}'
-    AND password = crypt('${password}', password);`
-}
+    AND password = crypt('${password}', password);`;
+};
 
 /**
  * inserts default values for various user settings after new account creation
  * @param {*} param0 json object containing username, email and password keys
  * @returns INSERT INTO statements for um_user_settings
  */
-const buildInitializeUserSettings = ({username}) => {
+const buildInitializeUserSettings = ({ username }: UserCredentials) => {
   return `
   INSERT INTO public.um_user_settings(
     user_id, setting_key, setting_value, setting_description)
@@ -71,41 +72,40 @@ const buildInitializeUserSettings = ({username}) => {
         'selected_language',
         'de_DE',
         null);
-    `
-}
+    `;
+};
 
 /**
  * @description constructs SELECT statement for finding a user by id
  * @param {*} param0 the user id to be found
  * @returns SELECT FROM SQL for public.um_users
  */
- const buildFindUserById = (id) => {
+const buildFindUserById = (id: number) => {
   return `
   SELECT
     id as userid,
     username,
     email as useremail
   FROM public.um_users
-  WHERE id = ${id};`
-}
+  WHERE id = ${id};`;
+};
 
 /**
  * @description constructs INSERT INTO statement while sanitizing values of provided json object by e.g.
  * 1) casting all values within json to String for proper escaping via helper method
  * 2) replacing all occurences of single quotes ' with two single quotes ''
- * @param {*} element json encoded single element containing the mandatory keys:
+ * @param {*} e json encoded single element containing the mandatory keys:
  * description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities
  * @returns INSERT INTO SQL for staging.staging_variable_bills
  */
-const buildInsertStagingVariableBills = (element) => {
-  let e = element
-
+const buildInsertStagingVariableBills = (e: StagingVariableBills) => {
   // loops through keys of json object and sanitizes inputs
-  for (let key in e) {
-      if (e.hasOwnProperty(key)) {
-        e[key] = escapeSingleQuotes(String(e[key]))
-      }
+  for (const keyname in e) {
+    if (typeof e[keyname] === 'string' && !keyname.includes('date')) {
+      e[keyname] = escapeSingleQuotes(String(e[keyname]));
+    }
   }
+
   // replaced € in cost with empty string
   // replaced , in cost with empty string as it is a thousand separator
   const insertRow = `INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
@@ -113,33 +113,32 @@ const buildInsertStagingVariableBills = (element) => {
         '${e.description}',
         INITCAP('${e.category}'),
         INITCAP('${e.store}'),
-        ${e.cost.replace(/[\u20AC]/g,"").replace(",","")},
-        TO_DATE('${e.date}','DD.MM.YYYY'),
+        ${e.cost},
+        TO_DATE('${e.purchasing_date}','DD.MM.YYYY'),
         '${e.is_planned}',
         '${e.contains_indulgence}',
         LOWER('${e.sensitivities}')
       );
-      `
-      return insertRow
-}
+      `;
+  return insertRow;
+};
 
 /**
  * @description constructs INSERT INTO statement while sanitizing values of provided json object by e.g.
  * 1) casting all values within json to String for proper escaping via helper method
  * 2) replacing all occurences of single quotes ' with two single quotes ''
- * @param {*} element json encoded single element containing the mandatory keys:
+ * @param {*} e json encoded single element containing the mandatory keys:
  * category description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date
  * @returns INSERT INTO SQL for public.fixed_costs
  */
- const buildInsertFixedCosts = (element) => {
-  let e = element
-
+const buildInsertFixedCosts = (e: FixedCosts) => {
   // loops through keys of json object and sanitizes inputs
-  for (let key in e) {
-      if (e.hasOwnProperty(key)) {
-        e[key] = escapeSingleQuotes(String(e[key]))
-      }
+  for (const keyname in e) {
+    if (typeof e[keyname] === 'string' && !keyname.includes('date')) {
+      e[keyname] = escapeSingleQuotes(String(e[keyname]));
+    }
   }
+
   const insertRow = `INSERT INTO public.fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
       VALUES (
         '${e.category}',
@@ -150,9 +149,9 @@ const buildInsertStagingVariableBills = (element) => {
         TO_DATE('${e.effective_date}','DD.MM.YYYY'),
         TO_DATE('${e.expiration_date}','DD.MM.YYYY')
       );
-      `
-      return insertRow
-}
+      `;
+  return insertRow;
+};
 
 /**
  * @description constructs INSERT INTO statement while sanitizing values of provided json object by e.g.
@@ -162,14 +161,12 @@ const buildInsertStagingVariableBills = (element) => {
  * description,	type,	monthly_interval,	value,	effective_date,	expiration_date
  * @returns INSERT INTO SQL for public.fixed_income
  */
-const buildInsertFixedIncome = (element) => {
-  let e = element
-
+const buildInsertFixedIncome = (e: FixedIncome) => {
   // loops through keys of json object and sanitizes inputs
-  for (let key in e) {
-      if (e.hasOwnProperty(key)) {
-        e[key] = escapeSingleQuotes(String(e[key]))
-      }
+  for (const keyname in e) {
+    if (typeof e[keyname] === 'string' && !keyname.includes('date')) {
+      e[keyname] = escapeSingleQuotes(String(e[keyname]));
+    }
   }
   const insertRow = `INSERT INTO public.fixed_income (description, type, monthly_interval, value, effective_date, expiration_date)
       VALUES (
@@ -180,10 +177,9 @@ const buildInsertFixedIncome = (element) => {
         TO_DATE('${e.effective_date}','DD.MM.YYYY'),
         TO_DATE('${e.expiration_date}','DD.MM.YYYY')
       );
-      `
-      return insertRow
-}
-
+      `;
+  return insertRow;
+};
 
 /**
  * @description constructs INSERT INTO statement while sanitizing values of provided json object by e.g.
@@ -193,14 +189,12 @@ const buildInsertFixedIncome = (element) => {
  * execution_type,	description,	isin,	investment_type,	marketplace,	units,	price_per_unit,	total_price,	fees,	execution_date, pct_of_profit_taxed, profit_amt
  * @returns INSERT INTO SQL for public.investments
  */
-const buildInsertInvestments = (element) => {
-  let e = element
-
+const buildInsertInvestments = (e: Investments) => {
   // loops through keys of json object and sanitizes inputs
-  for (let key in e) {
-      if (e.hasOwnProperty(key)) {
-        e[key] = escapeSingleQuotes(String(e[key]))
-      }
+  for (const keyname in e) {
+    if (typeof e[keyname] === 'string' && !keyname.includes('date')) {
+      e[keyname] = escapeSingleQuotes(String(e[keyname]));
+    }
   }
   const insertRow = `INSERT INTO public.investments (execution_type,	description,	isin,	investment_type,	marketplace,	units,	price_per_unit,	total_price,	fees,	execution_date)
       VALUES (
@@ -215,14 +209,15 @@ const buildInsertInvestments = (element) => {
         ${e.fees},
         TO_DATE('${e.execution_date}','DD.MM.YYYY')
       );
-${e.execution_type === 'sell' ?
-      `INSERT INTO public.investment_taxes (investment_id, pct_of_profit_taxed, profit_amt, tax_paid, tax_year)
+${
+  e.execution_type === 'sell'
+    ? `INSERT INTO public.investment_taxes (investment_id, pct_of_profit_taxed, profit_amt, tax_paid, tax_year)
       (
         SELECT
           id,
           ${e.pct_of_profit_taxed},
           ${e.profit_amt},
-          ${(Number(e.profit_amt) * Number(e.pct_of_profit_taxed)/100 * Number(0.26375)).toFixed(2)},
+          ${(((e.profit_amt * e.pct_of_profit_taxed) / 100) * Number(0.26375)).toFixed(2)},
           extract( year FROM TO_DATE('${e.execution_date}','DD.MM.YYYY') )::int
         FROM public.investments
         WHERE isin = '${e.isin}'
@@ -230,9 +225,10 @@ ${e.execution_type === 'sell' ?
           AND execution_type = '${e.execution_type}' --unique key of public.investments
       );
 `
-      : ''}`
-      return insertRow
-}
+    : ''
+}`;
+  return insertRow;
+};
 
 /**
  * @description constructs INSERT INTO statement while sanitizing values of provided json object by e.g.
@@ -242,14 +238,12 @@ ${e.execution_type === 'sell' ?
  * category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date
  * @returns INSERT INTO SQL for public.table_food_prices
  */
-const buildInsertNewFoodItems = (element) => {
-  let e = element
-
+const buildInsertNewFoodItems = (e: FoodItems) => {
   // loops through keys of json object and sanitizes inputs
-  for (let key in e) {
-      if (e.hasOwnProperty(key)) {
-        e[key] = escapeSingleQuotes(String(e[key]))
-      }
+  for (const keyname in e) {
+    if (typeof e[keyname] === 'string' && !keyname.includes('date')) {
+      e[keyname] = escapeSingleQuotes(String(e[keyname]));
+    }
   }
   const insertRow = `INSERT INTO public.table_food_prices (dimension_key, food_item, brand, store, main_macro, kcal_amount, weight, price, last_update, effective_date, expiration_date)
       VALUES (
@@ -265,9 +259,9 @@ const buildInsertNewFoodItems = (element) => {
         current_date,
         TO_DATE('01.01.4000','DD.MM.YYYY')
       );
-      `
-      return insertRow
-}
+      `;
+  return insertRow;
+};
 
 /**
  * UPSERT STATEMENT Inserting or Updating an image filepath after the
@@ -275,7 +269,8 @@ const buildInsertNewFoodItems = (element) => {
  * @param {*} element object containing id and filepath fields
  * @returns UPSERT Statement
  */
-const buildInsertFoodItemImgFilePath = (element) => {
+const buildInsertFoodItemImgFilePath = (element: any) => {
+  // TODO
   const dimensionKey = element.id;
   const filepath = element.filepath;
   const insertFilePath = `INSERT INTO public.food_price_image_location 
@@ -283,16 +278,16 @@ const buildInsertFoodItemImgFilePath = (element) => {
     VALUES ('${dimensionKey}','${filepath}')
     ON CONFLICT ON CONSTRAINT food_price_filepaths_pkey
     DO
-      UPDATE SET filepath = EXCLUDED.filepath;`
-  return insertFilePath
-}
+      UPDATE SET filepath = EXCLUDED.filepath;`;
+  return insertFilePath;
+};
 
 /**
  * @description Debug logging for SQL Queries executed by the backend server
  * @param {*} sql SQL Statement
  * @param {*} parameters Paramaters for SQL Statement
  */
-const logSqlStatement = (sql, parameters) => {
+const logSqlStatement = (sql: string, parameters: any) => {
   logger.debug(
     `--SQL
     [QUERY]
@@ -300,8 +295,8 @@ const logSqlStatement = (sql, parameters) => {
 
     [PARAMTERS]
     ${parameters ? parameters : 'empty'}`
-  )
-}
+  );
+};
 
 module.exports = {
   buildInsertStagingVariableBills,
@@ -315,4 +310,4 @@ module.exports = {
   buildVerifyUsername,
   buildFindUserById,
   logSqlStatement
-}
+};
