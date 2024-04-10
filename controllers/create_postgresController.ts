@@ -1,4 +1,11 @@
-import { FixedCosts, FixedIncome, FoodItems, Investments, StagingVariableBills } from '../utils/customTypes';
+import {
+  FixedCosts,
+  FixedIncome,
+  FoodItems,
+  Investments,
+  StagingVariableBills,
+  UserSettingObject
+} from '../utils/customTypes';
 import { Request, Response } from 'express';
 
 const asyncHandler = require('express-async-handler');
@@ -120,7 +127,7 @@ const postUpdatedUserSettings = asyncHandler(async (request: Request, response: 
     DO
     UPDATE SET setting_value = EXCLUDED.setting_value
   RETURNING (SELECT username FROM public.um_users WHERE id = (SELECT id FROM public.um_users WHERE username = $1))`;
-  const userSettingObj = request.body;
+  const userSettingObj: UserSettingObject = request.body;
   const parameters = [userSettingObj.username, userSettingObj.settingKey, userSettingObj.settingValue];
   const client = await pool.connect();
   try {

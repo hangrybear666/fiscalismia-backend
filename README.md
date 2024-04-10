@@ -4,7 +4,7 @@ The Fiscalismia Backend consists of an Express server that supplied a REST API, 
 
 ## Technologies Used
 
-- **TypeScript:** Statically typed JS with high strictness level. Mid-project Migration from plain JavaScript (ECMAScript 2016).
+- **TypeScript:** Statically typed JS with high strictness level and compile target ESNext. Mid-project Migration from plain JavaScript (ECMAScript 2016).
 - **Node.js:** A JavaScript runtime built on Chrome's V8 JavaScript engine, used for server-side development.
 - **Express Server:** A fast, unopinionated, minimalist web framework for Node.js, used to build the backend server.
 - **JWT Auth:** JSON Web Token authentication is used for securing and verifying the authenticity of API requests.

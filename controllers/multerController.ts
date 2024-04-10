@@ -12,7 +12,7 @@ const { buildInsertFoodItemImgFilePath, logSqlStatement } = require('../utils/SQ
  * <input type="file" name="foodItemImg" /> in request.file with the following fields available:
  * - fieldname | originalname | encoding | mimetype | size | destination | path | buffer
  * <input type="text" name="imgMetaData" /> in request.body.imgMetaData
- * @type HTTP POST
+ * @method HTTP POST
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/upload/food_item_img
  */
@@ -64,7 +64,7 @@ const postFoodItemImg = asyncHandler(async (request: Request, response: Response
 
 /**
  * @description fetching food item image from server's filesystem
- * @type HTTP GET
+ * @method HTTP GET
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/public/img/uploads/:filepath
  */
@@ -96,12 +96,12 @@ const getFoodItemImg = asyncHandler(async (request: Request, response: Response,
  * 1 ) Deletes filepath row from db table public.food_price_image_location
  * 2) on Success unlinks (deletes) file from server file system
  * 3) returns filepath succesfully deleted for user notification
- * @type HTTP DELETE
+ * @method HTTP DELETE
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/public/img/uploads/:id
  */
 const deleteFoodItemImg = asyncHandler(async (request: Request, response: Response) => {
-  logger.info('multerController received DELETE to /api/fiscalismia/public/img/uploads/:id' + request.params.id);
+  logger.info('multerController received DELETE to /api/fiscalismia/public/img/uploads/' + request.params.id);
   const sql = 'DELETE FROM public.food_price_image_location WHERE food_prices_dimension_key = $1 RETURNING filepath';
   const parameters = [request.params.id];
   const client = await pool.connect();

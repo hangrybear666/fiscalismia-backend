@@ -19,6 +19,19 @@ export type UserCredentials = {
 };
 
 /**
+ * Username for subsequently querying id from public.um_users and the setting key value pairs to insert into table public.um_user_settings
+ * @table public.um_users, public.um_user_settings
+ * @property {string} username SELECT id FROM public.um_users WHERE username = 'username'
+ * @property {string} settingKey setting_key column of um_user_settings
+ * @property {string} settingValue setting_value column of um_user_settings
+ */
+export type UserSettingObject = {
+  username: string;
+  settingKey: string;
+  settingValue: string;
+};
+
+/**
  * Object received via POST request from Frontend for subsequent DB INSERTION for variable epenses ETL.
  * @table staging.staging_variable_bills
  */

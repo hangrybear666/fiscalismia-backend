@@ -15,7 +15,7 @@ const { pool } = require('../utils/pgDbService');
 
 /**
  * @description test request using PUT to update the description field of test_table returning the new name
- * @type HTTP PUT
+ * @method HTTP PUT
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/:id
  */
@@ -49,7 +49,7 @@ const updateTestData = asyncHandler(async (request: Request, response: Response)
 
 /**
  * @description PUT to update the price and last_update field of table_food_prices returning
- * @type HTTP PUT
+ * @method HTTP PUT
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/food_item/price/:id
  */

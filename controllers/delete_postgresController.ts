@@ -14,7 +14,7 @@ const { pool } = require('../utils/pgDbService');
 
 /**
  * @description test request using DELETE to delete the row with :id from test_table
- * @type HTTP DELETE
+ * @method HTTP DELETE
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/:id
  */
@@ -43,7 +43,7 @@ const deleteTestData = asyncHandler(async (request: Request, response: Response)
 
 /**
  * @description DELETE request to delete the row with dimension_key == :id from table_food_prices
- * @type HTTP DELETE
+ * @method HTTP DELETE
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/food_item/:id
  */

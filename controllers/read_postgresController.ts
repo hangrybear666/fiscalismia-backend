@@ -14,7 +14,7 @@ const { pool } = require('../utils/pgDbService');
 
 /**
  * @description test query fetching data from test_table
- * @type HTTP GET
+ * @method HTTP GET
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia
  */
@@ -29,7 +29,7 @@ const getTestData = asyncHandler(async (_request: Request, response: Response) =
 
 /**
  * @description query fetching all data from fixed_costs table
- * @type HTTP GET
+ * @method HTTP GET
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/um/settings/:username
  */
@@ -48,7 +48,7 @@ const getUserSpecificSettings = asyncHandler(async (request: Request, response: 
 
 /**
  * @description query fetching all data from category table
- * @type HTTP GET
+ * @method HTTP GET
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/category
  */
@@ -63,7 +63,7 @@ const getAllCategories = asyncHandler(async (_request: Request, response: Respon
 
 /**
  * @description query fetching all data from store table
- * @type HTTP GET
+ * @method HTTP GET
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/store
  */
@@ -78,7 +78,7 @@ const getAllStores = asyncHandler(async (_request: Request, response: Response) 
 
 /**
  * @description query fetching all data from sensitivity table
- * @type HTTP GET
+ * @method HTTP GET
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/sensitivity
  */
@@ -93,7 +93,7 @@ const getAllSensisitivies = asyncHandler(async (_request: Request, response: Res
 
 /**
  * @description query fetching all data from variable_expenses table
- * @type HTTP GET
+ * @method HTTP GET
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/variable_expenses
  */
@@ -122,7 +122,7 @@ const getAllVariableExpenses = asyncHandler(async (_request: Request, response: 
 
 /**
  * @description query fetching all data from investments and investment_taxes table
- * @type HTTP GET
+ * @method HTTP GET
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/investments
  */
@@ -144,7 +144,7 @@ const getAllInvestments = asyncHandler(async (_request: Request, response: Respo
 
 /**
  * @description query fetching all data from v_investment_dividends table
- * @type HTTP GET
+ * @method HTTP GET
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/investment_dividends
  */
@@ -163,7 +163,7 @@ const getAllDividends = asyncHandler(async (_request: Request, response: Respons
 
 /**
  * @description query fetching all data from fixed_costs table
- * @type HTTP GET
+ * @method HTTP GET
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/fixed_costs
  */
@@ -178,7 +178,7 @@ const getAllFixedCosts = asyncHandler(async (_request: Request, response: Respon
 
 /**
  * @description query fetching all data from fixed_income table
- * @type HTTP GET
+ * @method HTTP GET
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/fixed_income
  */
@@ -193,7 +193,7 @@ const getAllFixedIncome = asyncHandler(async (_request: Request, response: Respo
 
 /**
  * @description query fetching all data from v_food_price_overview
- * @type HTTP GET
+ * @method HTTP GET
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/food_prices_and_discounts
  */
@@ -212,7 +212,7 @@ const getAllFoodPricesAndDiscounts = asyncHandler(async (_request: Request, resp
 
 /**
  * @description query fetching all discounted foods from v_food_price_overview
- * @type HTTP GET
+ * @method HTTP GET
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/discounted_foods_current
  */
@@ -232,7 +232,7 @@ const getCurrentlyDiscountedFoodPriceInformation = asyncHandler(async (_request:
 
 /**
  * @description query fetching all data from variable_expenses table
- * @type HTTP GET
+ * @method HTTP GET
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/sensitivities_of_purchase
  */
@@ -247,7 +247,7 @@ const getAllSensitivitiesOfPurchase = asyncHandler(async (_request: Request, res
 
 /**
  * @description query fetching specific data from category table based on provided id
- * @type HTTP GET
+ * @method HTTP GET
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/category/:id
  */
@@ -263,7 +263,7 @@ const getCategoryById = asyncHandler(async (request: Request, response: Response
 
 /**
  * @description query fetching specific data from store table based on provided id
- * @type HTTP GET
+ * @method HTTP GET
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/store/:id
  */
@@ -279,7 +279,7 @@ const getStoreById = asyncHandler(async (request: Request, response: Response) =
 
 /**
  * @description query fetching specific data from sensitivity table based on provided id
- * @type HTTP GET
+ * @method HTTP GET
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/sensitivity/:id
  */
@@ -295,7 +295,7 @@ const getSensitivityById = asyncHandler(async (request: Request, response: Respo
 
 /**
  * @description query fetching specific data from variable_expenses table based on provided id
- * @type HTTP GET
+ * @method HTTP GET
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/variable_expenses/:id
  */
@@ -311,7 +311,7 @@ const getVariableExpenseById = asyncHandler(async (request: Request, response: R
 
 /**
  * @description query fetching specific data from variable_expenses table based on provided category such as 'Sale'
- * @type HTTP GET
+ * @method HTTP GET
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/variable_expenses/category/:category
  */
@@ -339,7 +339,7 @@ const getVariableExpenseByCategory = asyncHandler(async (request: Request, respo
 
 /**
  * @description query fetching specific data from fixed_costs table based on provided id
- * @type HTTP GET
+ * @method HTTP GET
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/fixed_costs/:id
  */
@@ -355,7 +355,7 @@ const getFixedCostById = asyncHandler(async (request: Request, response: Respons
 
 /**
  * @description query fetching specific data from fixed_costs table based on provided date
- * @type HTTP GET
+ * @method HTTP GET
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/fixed_costs/valid/:date
  * @returns list of valid fixed costs at a specific provided date
@@ -375,7 +375,7 @@ const getFixedCostsByEffectiveDate = asyncHandler(async (request: Request, respo
 
 /**
  * @description query fetching specific data from fixed_income table based on provided date
- * @type HTTP GET
+ * @method HTTP GET
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/fixed_income/valid/:date
  * @returns list of valid fixed income data at a specific provided date
@@ -395,7 +395,7 @@ const getFixedIncomeByEffectiveDate = asyncHandler(async (request: Request, resp
 
 /**
  * @description query fetching specific data from bridge_var_exp_sensitivity table
- * @type HTTP GET
+ * @method HTTP GET
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/sensitivities_of_purchase/sensitivity/:id
  */
@@ -414,7 +414,7 @@ const getSensitivitiesOfPurchaseyBySensitivityId = asyncHandler(async (request: 
 
 /**
  * @description query fetching specific data from bridge_var_exp_sensitivity table
- * @type HTTP GET
+ * @method HTTP GET
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/sensitivities_of_purchase/var_expense/:id
  */
