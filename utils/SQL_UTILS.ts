@@ -1,5 +1,5 @@
 const logger = require('./logger');
-import { UserCredentials, StagingVariableBills, FixedCosts, FixedIncome, Investments, FoodItems } from './customTypes';
+import { UserCredentials, StagingVariableBills, FixedCosts, FixedIncome, InvestmentAndTaxes, FoodItem } from './customTypes';
 
 /**
  * @description replaces all occurences of single quote ' with two single quotes ''
@@ -189,7 +189,7 @@ const buildInsertFixedIncome = (e: FixedIncome) => {
  * execution_type,	description,	isin,	investment_type,	marketplace,	units,	price_per_unit,	total_price,	fees,	execution_date, pct_of_profit_taxed, profit_amt
  * @returns INSERT INTO SQL for public.investments
  */
-const buildInsertInvestments = (e: Investments) => {
+const buildInsertInvestments = (e: InvestmentAndTaxes) => {
   // loops through keys of json object and sanitizes inputs
   for (const keyname in e) {
     if (typeof e[keyname] === 'string' && !keyname.includes('date')) {
@@ -217,7 +217,7 @@ ${
           id,
           ${e.pct_of_profit_taxed},
           ${e.profit_amt},
-          ${(((e.profit_amt * e.pct_of_profit_taxed) / 100) * Number(0.26375)).toFixed(2)},
+          ${(((e.profit_amt! * e.pct_of_profit_taxed!) / 100) * Number(0.26375)).toFixed(2)},
           extract( year FROM TO_DATE('${e.execution_date}','DD.MM.YYYY') )::int
         FROM public.investments
         WHERE isin = '${e.isin}'
@@ -238,7 +238,7 @@ ${
  * category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date
  * @returns INSERT INTO SQL for public.table_food_prices
  */
-const buildInsertNewFoodItems = (e: FoodItems) => {
+const buildInsertNewFoodItems = (e: FoodItem) => {
   // loops through keys of json object and sanitizes inputs
   for (const keyname in e) {
     if (typeof e[keyname] === 'string' && !keyname.includes('date')) {

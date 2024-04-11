@@ -1,6 +1,9 @@
 /**
  * user object containing userId, userName and userEmail extracted from the db.
  * @table public.um_users
+ * @property {number} userId SELECT id FROM public.um_users
+ * @property {string} userName SELECT username FROM public.um_users
+ * @property {string} userEmail SELECT email FROM public.um_users
  */
 export type User = {
   userId: number;
@@ -11,10 +14,13 @@ export type User = {
 /**
  * User Credentials Object used for e.g. Account Creation and INSERT into table public.um_users.
  * @table public.um_users
+ * @property {number} username SELECT id FROM public.um_users
+ * @property {string | null} email SELECT email FROM public.um_users
+ * @property {string} password salted and hashed via pgcrypto crypt('PASSWORD', gen_salt('bf',ITER_COUNT))
  */
 export type UserCredentials = {
   username: string;
-  email: string;
+  email: string | null;
   password: string;
 };
 
@@ -89,34 +95,58 @@ export type FixedIncome = {
 };
 
 /**
- * Object received via POST request from Frontend for subsequent DB INSERTION for Investments.
- * @table public.investment, public.investment_taxes
+ * Bought investments are stored in investments table, if the execution type is sell, tax information is added for investment_taxes table.
+ * @description For DB INSERTION via TSV bulk Inserts rather than manual Entry from the frontend
+ * @see https://github.com/hangrybear666/fiscalismia-frontend/blob/main/src/types/custom/customTypes.ts
+ * @table public.investments, public.investment_taxes
+ * @property {string} execution_type string containing the type of execution -> 'buy' or 'sell' *
+ * @property {string} description Description of the investment
+ * @property {string} isin DIFFERENT FROM FRONTEND WHERE IT IS A CUSTOM TWELVE CHARACTER STRING - International Security Identification Number -> 12 character string beginning with country short
+ * @property {string} investment_type Type of investment
+ * @property {string} marketplace Marketplace where the investment was bought from or sold at
+ * @property {number} units Number of shares purchased or sold
+ * @property {number} price_per_unit Price per unit of the share
+ * @property {number} total_price Total price of the investment including fees
+ * @property {number} fees Fees paid for the investment execution
+ * @property {Date} execution_date DIFFERENT FROM FRONTEND WHERE IT IS A DATE - Date of the investment transaction execution
+ * @property {number | null} pct_of_profit_taxed Percentage of profit taxed (nullable for execution_type buy)
+ * @property {number | null} profit_amt Amount of profit generated from the investment (nullable for execution_type buy)
  */
-export type Investments = {
+export type InvestmentAndTaxes = {
   execution_type: string;
   description: string;
-  isin: string;
+  isin: string; // DIFFERENT FROM FRONTEND WHERE IT IS A CUSTOM TWELVE CHARACTER STRING
   investment_type: string;
   marketplace: string;
   units: number;
   price_per_unit: number;
   total_price: number;
   fees: number;
-  execution_date: string;
-  pct_of_profit_taxed: number;
-  profit_amt: number;
+  execution_date: string; // DIFFERENT FROM FRONTEND WHERE IT IS A DATE
+  pct_of_profit_taxed: number | null;
+  profit_amt: number | null;
   /**
    * Index signature to access this object via it's key name in e.g. a for in loop.
    * to access element: use e[keyname] where keyname is derived eg by Object.keys
    */
-  [key: string]: string | number;
+  [key: string]: string | number | null;
 };
 
 /**
- * Object received via POST request from Frontend for subsequent DB INSERTION for New Food Items.
- * @table public.table_food_prices
+ * id, price and date range for a temporarily discounted food item
+ * @description For DB INSERTION via TSV bulk Inserts rather than manual Entry from the frontend
+ * @see https://github.com/hangrybear666/fiscalismia-frontend/blob/main/src/types/custom/customTypes.ts
+ * @table public.food_price_discounts
+ * @property {string} food_item string of a food item
+ * @property {string} brand Brand of the food item
+ * @property {string} store Store where the food item is purchased
+ * @property {string} main_macro Main macronutrient of the food item
+ * @property {number} kcal_amount Caloric amount of the food item
+ * @property {number} weight Weight of the food item
+ * @property {number} price Price of the food item
+ * @property {string} last_update DIFFERENT THAN FRONTEND WHERE IT IS A DATE - Date of last price check
  */
-export type FoodItems = {
+export type FoodItem = {
   food_item: string;
   brand: string;
   store: string;
@@ -124,7 +154,7 @@ export type FoodItems = {
   kcal_amount: number;
   weight: number;
   price: number;
-  last_update: string;
+  last_update: string; // DIFFERENT THAN FRONTEND WHERE IT IS A DATE
   /**
    * Index signature to access this object via it's key name in e.g. a for in loop.
    * to access element: use e[keyname] where keyname is derived eg by Object.keys

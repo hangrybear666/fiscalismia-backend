@@ -1,12 +1,13 @@
 import {
   FixedCosts,
   FixedIncome,
-  FoodItems,
-  Investments,
+  FoodItem,
+  InvestmentAndTaxes,
   StagingVariableBills,
   UserSettingObject
 } from '../utils/customTypes';
 import { Request, Response } from 'express';
+import { replaceCommaAndParseFloat } from '../utils/sharedFunctions';
 
 const asyncHandler = require('express-async-handler');
 const { parse } = require('csv-parse/sync');
@@ -186,7 +187,7 @@ const postFoodItemDiscount = asyncHandler(async (request: Request, response: Res
 /**
  * @description food item information object validated and added via frontend
  * contains the following fields:
- * foodItem | brand | store | mainMacro | kcalAmount | weight | price | lastUpdate
+ * food_item | brand | store | main_macro | kcal_amount | weight | price | last_update
  * @method HTTP POST
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/food_item
@@ -201,14 +202,14 @@ const postNewFoodItem = asyncHandler(async (request: Request, response: Response
     ) RETURNING dimension_key as id`;
   const newFoodItem = request.body;
   let parameters = [
-    newFoodItem.foodItem,
+    newFoodItem.food_item,
     newFoodItem.brand,
     newFoodItem.store,
-    newFoodItem.mainMacro,
-    newFoodItem.kcalAmount,
+    newFoodItem.main_macro,
+    newFoodItem.kcal_amount,
     newFoodItem.weight,
     newFoodItem.price,
-    newFoodItem.lastUpdate
+    newFoodItem.last_update
   ];
   const client = await pool.connect();
   try {
@@ -233,7 +234,7 @@ const postNewFoodItem = asyncHandler(async (request: Request, response: Response
 /**
  * @description INSERTING investment and taxes information object validated and added via frontend
  * contains the following fields:
- * executionType, description, isin, investmentType, marketplace, units, pricePerUnit, totalPrice, fees, executionDate, profitAmount, pctOfProfitTaxed
+ * execution_type, description, isin, investment_type, marketplace, units, price_per_unit, total_price, fees, execution_date, pct_of_profit_taxed, profit_amt
  * @method HTTP POST
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/investments
@@ -250,16 +251,16 @@ const postInvestmentAndTaxes = asyncHandler(async (request: Request, response: R
     ) RETURNING investment_id as id`;
   const investmentAndTaxesObject = request.body;
   const parametersInvestments = [
-    investmentAndTaxesObject.executionType,
+    investmentAndTaxesObject.execution_type,
     investmentAndTaxesObject.description,
     investmentAndTaxesObject.isin,
-    investmentAndTaxesObject.investmentType,
+    investmentAndTaxesObject.investment_type,
     investmentAndTaxesObject.marketplace,
     investmentAndTaxesObject.units,
-    investmentAndTaxesObject.pricePerUnit,
-    investmentAndTaxesObject.totalPrice,
+    investmentAndTaxesObject.price_per_unit,
+    investmentAndTaxesObject.total_price,
     investmentAndTaxesObject.fees,
-    investmentAndTaxesObject.executionDate
+    investmentAndTaxesObject.execution_date
   ];
 
   const client = await pool.connect();
@@ -267,19 +268,23 @@ const postInvestmentAndTaxes = asyncHandler(async (request: Request, response: R
     await client.query('BEGIN');
     logSqlStatement(sqlInvestments, parametersInvestments);
     const result = await client.query(sqlInvestments, parametersInvestments);
-    if (investmentAndTaxesObject.executionType === 'sell' && result?.rows[0]?.id && result.rows[0].id > 0) {
+    if (investmentAndTaxesObject.execution_type === 'sell' && result?.rows[0]?.id && result.rows[0].id > 0) {
+      if (investmentAndTaxesObject.pct_of_profit_taxed === null || investmentAndTaxesObject.profit_amt === null) {
+        const errorMessage = `For Investment Sales pct_of_profit_taxed & profit_amt columns have to be defined`;
+        throw new Error(errorMessage);
+      }
       const parametersTaxes =
-        investmentAndTaxesObject.executionType === 'sell'
+        investmentAndTaxesObject.execution_type === 'sell'
           ? [
               result.rows[0].id,
-              investmentAndTaxesObject.pctOfProfitTaxed,
-              investmentAndTaxesObject.profitAmount,
+              investmentAndTaxesObject.pct_of_profit_taxed,
+              investmentAndTaxesObject.profit_amt,
               (
-                ((Number(investmentAndTaxesObject.profitAmount) * Number(investmentAndTaxesObject.pctOfProfitTaxed)) /
+                ((Number(investmentAndTaxesObject.profit_amt) * Number(investmentAndTaxesObject.pct_of_profit_taxed)) /
                   100) *
                 Number(0.26375)
               ).toFixed(2),
-              new Date(investmentAndTaxesObject.executionDate).getFullYear()
+              new Date(investmentAndTaxesObject.execution_date).getFullYear()
             ]
           : null;
       // INVESTMENT IS A SALE (with Tax Information) && INSERT INVESTMENTS RETURNED SUCCESSFULLY
@@ -446,7 +451,7 @@ const postVariableExpensesTextTsv = asyncHandler(async (request: Request, respon
       from_line: 2, // skip first line, as headers are provided
       cast: (value: any, context: any) => {
         if (context.column === 'cost') {
-          return parseFloat(value.replace(/[^\d.]/g, ''));
+          return replaceCommaAndParseFloat(value);
         } else {
           return String(value);
         }
@@ -512,7 +517,7 @@ const postFixedCostsTextTsv = asyncHandler(async (request: Request, response: Re
           context.column === 'billed_cost' ||
           context.column === 'monthly_cost'
         ) {
-          return parseFloat(value.replace(/[^\d.]/g, ''));
+          return replaceCommaAndParseFloat(value);
         } else {
           return String(value);
         }
@@ -571,7 +576,7 @@ const postIncomeTextTsv = asyncHandler(async (request: Request, response: Respon
       from_line: 2, // skip first line, as headers are provided
       cast: (value: any, context: any) => {
         if (context.column === 'monthly_interval' || context.column === 'value') {
-          return parseFloat(value.replace(/[^\d.]/g, ''));
+          return replaceCommaAndParseFloat(value);
         } else {
           return String(value);
         }
@@ -643,9 +648,9 @@ const postInvestmentsTextTsv = asyncHandler(async (request: Request, response: R
           context.column === 'profit_amt' ||
           context.column === 'pct_of_profit_taxed'
         ) {
-          return parseFloat(value.replace(/[^\d.]/g, ''));
+          return replaceCommaAndParseFloat(value);
         } else if (context.column === 'units') {
-          return parseInt(value.replace(/[^\d.]/g, ''));
+          return parseInt(value);
         } else {
           return String(value);
         }
@@ -659,10 +664,14 @@ const postInvestmentsTextTsv = asyncHandler(async (request: Request, response: R
     headersAsExpected(resultColumns, expectedColumns);
     let insertStatements = '';
     let insertCount = 0;
-    result.forEach((e: Investments) => {
+    result.forEach((e: InvestmentAndTaxes) => {
       const insertRow = buildInsertInvestments(e);
       insertStatements = insertStatements.concat(insertRow);
       if (e.execution_type === 'sell') {
+        if (e.pct_of_profit_taxed === null || e.profit_amt === null) {
+          const errorMessage = `For Investment Sales pct_of_profit_taxed & profit_amt columns have to be defined`;
+          throw new Error(errorMessage);
+        }
         // CREATES 2 INSERT INTO STATEMENTS FOR SALES TO CONSIDER TAXES
         insertCount += 2;
       } else {
@@ -711,9 +720,9 @@ const postNewFoodItemsTextTsv = asyncHandler(async (request: Request, response: 
       from_line: 2, // skip first line, as headers are provided
       cast: (value: any, context: any) => {
         if (context.column === 'price') {
-          return parseFloat(value.replace(/[^\d.]/g, ''));
+          return replaceCommaAndParseFloat(value);
         } else if (context.column === 'kcal_amount' || context.column === 'weight') {
-          return parseInt(value.replace(/[^\d.]/g, ''));
+          return parseInt(value);
         } else {
           return String(value);
         }
@@ -727,7 +736,7 @@ const postNewFoodItemsTextTsv = asyncHandler(async (request: Request, response: 
     headersAsExpected(resultColumns, expectedColumns);
     let insertStatements = '';
     let insertCount = 0;
-    result.forEach((e: FoodItems) => {
+    result.forEach((e: FoodItem) => {
       const insertRow = buildInsertNewFoodItems(e);
       insertStatements = insertStatements.concat(insertRow);
       insertCount++;
