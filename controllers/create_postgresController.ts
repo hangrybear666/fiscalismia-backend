@@ -338,6 +338,10 @@ const postDividendsAndTaxes = asyncHandler(async (request: Request, response: Re
   let parametersTaxes;
   let parametersBridge: any[][];
 
+  if (!dividendObject.investmentIdsAndRemainingUnits || dividendObject.investmentIdsAndRemainingUnits.length === 0) {
+    // Dividend is related to 1-n investments which are either fully or partially owned
+    throw new Error('Dividend could not be associated with any owned investments. INSERT denied.');
+  }
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
@@ -367,31 +371,28 @@ const postDividendsAndTaxes = asyncHandler(async (request: Request, response: Re
       //  |  \ | \  / | |  \ |__  |\ | |  \    |__) |__) | |  \ / _` |__
       //  |__/ |  \/  | |__/ |___ | \| |__/    |__) |  \ | |__/ \__> |___
       let bridgeResult: any;
-      // Dividend is related to 1-n investments which are either fully or partially owned
-      if (dividendObject.investmentIdsAndRemainingUnits && dividendObject.investmentIdsAndRemainingUnits.length > 0) {
-        parametersBridge = new Array();
-        dividendObject.investmentIdsAndRemainingUnits.forEach((e: { investmentId: number; remainingUnits: number }) => {
-          parametersBridge.push([e.investmentId, result.rows[0].id, e.remainingUnits]);
-        });
-        try {
-          /**
-           * pg-format takes a value array and constructs multiple insert statements to be executed in one transaction.
-           * syntax: format('INSERT INTO test_table (id, name) VALUES %L', valueArray)
-           */
-          const promiseResult = await new Promise((resolve, reject) => {
-            client.query(format(sqlBridgeInvestmentDividends, parametersBridge), [], (error: unknown, result: any) => {
-              if (error) {
-                reject(error);
-              } else {
-                resolve(result);
-              }
-            });
+      parametersBridge = new Array();
+      dividendObject.investmentIdsAndRemainingUnits.forEach((e: { investmentId: number; remainingUnits: number }) => {
+        parametersBridge.push([e.investmentId, result.rows[0].id, e.remainingUnits]);
+      });
+      try {
+        /**
+         * pg-format takes a value array and constructs multiple insert statements to be executed in one transaction.
+         * syntax: format('INSERT INTO test_table (id, name) VALUES %L', valueArray)
+         */
+        const promiseResult = await new Promise((resolve, reject) => {
+          client.query(format(sqlBridgeInvestmentDividends, parametersBridge), [], (error: unknown, result: any) => {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(result);
+            }
           });
-          bridgeResult = promiseResult;
-        } catch (error: unknown) {
-          const errorMessage = `INSERT INTO public.bridge_investment_dividends has encountered an error: ${(error as Error).message}`;
-          throw new Error(errorMessage);
-        }
+        });
+        bridgeResult = promiseResult;
+      } catch (error: unknown) {
+        const errorMessage = `INSERT INTO public.bridge_investment_dividends has encountered an error: ${(error as Error).message}`;
+        throw new Error(errorMessage);
       }
       await client.query('COMMIT');
       const results = {
