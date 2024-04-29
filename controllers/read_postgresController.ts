@@ -19,7 +19,7 @@ const { pool } = require('../utils/pgDbService');
  * @route /api/fiscalismia
  */
 const getTestData = asyncHandler(async (_request: Request, response: Response) => {
-  logger.info('read_postgresController received GET to /api/fiscalismia');
+  logger.http('read_postgresController received GET to /api/fiscalismia');
   const client = await pool.connect();
   const result = await client.query('SELECT * FROM test_table ORDER BY id');
   const results = { results: result ? result.rows : null };
@@ -34,7 +34,7 @@ const getTestData = asyncHandler(async (_request: Request, response: Response) =
  * @route /api/fiscalismia/um/settings/:username
  */
 const getUserSpecificSettings = asyncHandler(async (request: Request, response: Response) => {
-  logger.info('read_postgresController received GET to /api/fiscalismia/um/settings/' + request.params.username);
+  logger.http('read_postgresController received GET to /api/fiscalismia/um/settings/' + request.params.username);
   const username = request.params.username;
   const client = await pool.connect();
   const result = await client.query(
@@ -53,7 +53,7 @@ const getUserSpecificSettings = asyncHandler(async (request: Request, response: 
  * @route /api/fiscalismia/category
  */
 const getAllCategories = asyncHandler(async (_request: Request, response: Response) => {
-  logger.info('read_postgresController received GET to /api/fiscalismia/category');
+  logger.http('read_postgresController received GET to /api/fiscalismia/category');
   const client = await pool.connect();
   const result = await client.query('SELECT * FROM public.category ORDER BY id');
   const results = { results: result ? result.rows : null };
@@ -68,7 +68,7 @@ const getAllCategories = asyncHandler(async (_request: Request, response: Respon
  * @route /api/fiscalismia/store
  */
 const getAllStores = asyncHandler(async (_request: Request, response: Response) => {
-  logger.info('read_postgresController received GET to /api/fiscalismia/store');
+  logger.http('read_postgresController received GET to /api/fiscalismia/store');
   const client = await pool.connect();
   const result = await client.query('SELECT * FROM public.store ORDER BY id');
   const results = { results: result ? result.rows : null };
@@ -83,7 +83,7 @@ const getAllStores = asyncHandler(async (_request: Request, response: Response) 
  * @route /api/fiscalismia/sensitivity
  */
 const getAllSensisitivies = asyncHandler(async (_request: Request, response: Response) => {
-  logger.info('read_postgresController received GET to /api/fiscalismia/sensitivity');
+  logger.http('read_postgresController received GET to /api/fiscalismia/sensitivity');
   const client = await pool.connect();
   const result = await client.query('SELECT * FROM public.sensitivity ORDER BY id');
   const results = { results: result ? result.rows : null };
@@ -98,7 +98,7 @@ const getAllSensisitivies = asyncHandler(async (_request: Request, response: Res
  * @route /api/fiscalismia/variable_expenses
  */
 const getAllVariableExpenses = asyncHandler(async (_request: Request, response: Response) => {
-  logger.info('read_postgresController received GET to /api/fiscalismia/variable_expenses');
+  logger.http('read_postgresController received GET to /api/fiscalismia/variable_expenses');
   const client = await pool.connect();
   const result = await client.query(`
   SELECT
@@ -127,7 +127,7 @@ const getAllVariableExpenses = asyncHandler(async (_request: Request, response: 
  * @route /api/fiscalismia/investments
  */
 const getAllInvestments = asyncHandler(async (_request: Request, response: Response) => {
-  logger.info('read_postgresController received GET to /api/fiscalismia/investments');
+  logger.http('read_postgresController received GET to /api/fiscalismia/investments');
   const client = await pool.connect();
   const result = await client.query(`
   SELECT
@@ -149,7 +149,7 @@ const getAllInvestments = asyncHandler(async (_request: Request, response: Respo
  * @route /api/fiscalismia/investment_dividends
  */
 const getAllDividends = asyncHandler(async (_request: Request, response: Response) => {
-  logger.info('read_postgresController received GET to /api/fiscalismia/investment_dividends');
+  logger.http('read_postgresController received GET to /api/fiscalismia/investment_dividends');
   const client = await pool.connect();
   const result = await client.query(`
   SELECT
@@ -168,7 +168,7 @@ const getAllDividends = asyncHandler(async (_request: Request, response: Respons
  * @route /api/fiscalismia/fixed_costs
  */
 const getAllFixedCosts = asyncHandler(async (_request: Request, response: Response) => {
-  logger.info('read_postgresController received GET to /api/fiscalismia/fixed_costs');
+  logger.http('read_postgresController received GET to /api/fiscalismia/fixed_costs');
   const client = await pool.connect();
   const result = await client.query('SELECT * FROM public.fixed_costs ORDER BY id');
   const results = { results: result ? result.rows : null };
@@ -183,7 +183,7 @@ const getAllFixedCosts = asyncHandler(async (_request: Request, response: Respon
  * @route /api/fiscalismia/fixed_income
  */
 const getAllFixedIncome = asyncHandler(async (_request: Request, response: Response) => {
-  logger.info('read_postgresController received GET to /api/fiscalismia/fixed_income');
+  logger.http('read_postgresController received GET to /api/fiscalismia/fixed_income');
   const client = await pool.connect();
   const result = await client.query('SELECT * FROM public.fixed_income ORDER BY id');
   const results = { results: result ? result.rows : null };
@@ -198,7 +198,7 @@ const getAllFixedIncome = asyncHandler(async (_request: Request, response: Respo
  * @route /api/fiscalismia/food_prices_and_discounts
  */
 const getAllFoodPricesAndDiscounts = asyncHandler(async (_request: Request, response: Response) => {
-  logger.info('read_postgresController received GET to /api/fiscalismia/food_prices_and_discounts');
+  logger.http('read_postgresController received GET to /api/fiscalismia/food_prices_and_discounts');
   const client = await pool.connect();
   const result = await client.query(`SELECT
   distinct id, food_item, brand, store, main_macro, kcal_amount, weight, price, last_update, effective_date, expiration_date, weight_per_100_kcal, price_per_kg, normalized_price, filepath
@@ -217,7 +217,7 @@ const getAllFoodPricesAndDiscounts = asyncHandler(async (_request: Request, resp
  * @route /api/fiscalismia/discounted_foods_current
  */
 const getCurrentlyDiscountedFoodPriceInformation = asyncHandler(async (_request: Request, response: Response) => {
-  logger.info('read_postgresController received GET to /api/fiscalismia/discounted_foods_current');
+  logger.http('read_postgresController received GET to /api/fiscalismia/discounted_foods_current');
   const client = await pool.connect();
   const result = await client.query(`SELECT
     id, food_item, brand, store, main_macro, kcal_amount, weight, price, last_update, effective_date, expiration_date,
@@ -237,7 +237,7 @@ const getCurrentlyDiscountedFoodPriceInformation = asyncHandler(async (_request:
  * @route /api/fiscalismia/sensitivities_of_purchase
  */
 const getAllSensitivitiesOfPurchase = asyncHandler(async (_request: Request, response: Response) => {
-  logger.info('read_postgresController received GET to /api/fiscalismia/sensitivities_of_purchase');
+  logger.http('read_postgresController received GET to /api/fiscalismia/sensitivities_of_purchase');
   const client = await pool.connect();
   const result = await client.query('SELECT * FROM public.bridge_var_exp_sensitivity ORDER BY id');
   const results = { results: result ? result.rows : null };
@@ -252,7 +252,7 @@ const getAllSensitivitiesOfPurchase = asyncHandler(async (_request: Request, res
  * @route /api/fiscalismia/category/:id
  */
 const getCategoryById = asyncHandler(async (request: Request, response: Response) => {
-  logger.info('read_postgresController received GET to /api/fiscalismia/category/' + request.params.id);
+  logger.http('read_postgresController received GET to /api/fiscalismia/category/' + request.params.id);
   const id = request.params.id;
   const client = await pool.connect();
   const result = await client.query('SELECT * FROM public.category WHERE id = $1', [id]);
@@ -268,7 +268,7 @@ const getCategoryById = asyncHandler(async (request: Request, response: Response
  * @route /api/fiscalismia/store/:id
  */
 const getStoreById = asyncHandler(async (request: Request, response: Response) => {
-  logger.info('read_postgresController received GET to /api/fiscalismia/store/' + request.params.id);
+  logger.http('read_postgresController received GET to /api/fiscalismia/store/' + request.params.id);
   const id = request.params.id;
   const client = await pool.connect();
   const result = await client.query('SELECT * FROM public.store WHERE id = $1', [id]);
@@ -284,7 +284,7 @@ const getStoreById = asyncHandler(async (request: Request, response: Response) =
  * @route /api/fiscalismia/sensitivity/:id
  */
 const getSensitivityById = asyncHandler(async (request: Request, response: Response) => {
-  logger.info('read_postgresController received GET to /api/fiscalismia/sensitivity/' + request.params.id);
+  logger.http('read_postgresController received GET to /api/fiscalismia/sensitivity/' + request.params.id);
   const id = request.params.id;
   const client = await pool.connect();
   const result = await client.query('SELECT * FROM public.sensitivity WHERE id = $1', [id]);
@@ -300,7 +300,7 @@ const getSensitivityById = asyncHandler(async (request: Request, response: Respo
  * @route /api/fiscalismia/variable_expenses/:id
  */
 const getVariableExpenseById = asyncHandler(async (request: Request, response: Response) => {
-  logger.info('read_postgresController received GET to /api/fiscalismia/variable_expenses/' + request.params.id);
+  logger.http('read_postgresController received GET to /api/fiscalismia/variable_expenses/' + request.params.id);
   const id = request.params.id;
   const client = await pool.connect();
   const result = await client.query('SELECT * FROM public.variable_expenses WHERE id = $1', [id]);
@@ -316,7 +316,7 @@ const getVariableExpenseById = asyncHandler(async (request: Request, response: R
  * @route /api/fiscalismia/variable_expenses/category/:category
  */
 const getVariableExpenseByCategory = asyncHandler(async (request: Request, response: Response) => {
-  logger.info(
+  logger.http(
     'read_postgresController received GET to /api/fiscalismia/variable_expenses/category/' + request.params.category
   );
   const id = request.params.category;
@@ -344,7 +344,7 @@ const getVariableExpenseByCategory = asyncHandler(async (request: Request, respo
  * @route /api/fiscalismia/fixed_costs/:id
  */
 const getFixedCostById = asyncHandler(async (request: Request, response: Response) => {
-  logger.info('read_postgresController received GET to /api/fiscalismia/fixed_costs/' + request.params.id);
+  logger.http('read_postgresController received GET to /api/fiscalismia/fixed_costs/' + request.params.id);
   const id = request.params.id;
   const client = await pool.connect();
   const result = await client.query('SELECT * FROM public.fixed_costs WHERE id = $1', [id]);
@@ -361,7 +361,7 @@ const getFixedCostById = asyncHandler(async (request: Request, response: Respons
  * @returns list of valid fixed costs at a specific provided date
  */
 const getFixedCostsByEffectiveDate = asyncHandler(async (request: Request, response: Response) => {
-  logger.info('read_postgresController received GET to /api/fiscalismia/fixed_costs/valid/' + request.params.date);
+  logger.http('read_postgresController received GET to /api/fiscalismia/fixed_costs/valid/' + request.params.date);
   const date = request.params.date;
   const client = await pool.connect();
   const result = await client.query(
@@ -381,7 +381,7 @@ const getFixedCostsByEffectiveDate = asyncHandler(async (request: Request, respo
  * @returns list of valid fixed income data at a specific provided date
  */
 const getFixedIncomeByEffectiveDate = asyncHandler(async (request: Request, response: Response) => {
-  logger.info('read_postgresController received GET to /api/fiscalismia/fixed_income/valid/' + request.params.date);
+  logger.http('read_postgresController received GET to /api/fiscalismia/fixed_income/valid/' + request.params.date);
   const date = request.params.date;
   const client = await pool.connect();
   const result = await client.query(
@@ -400,7 +400,7 @@ const getFixedIncomeByEffectiveDate = asyncHandler(async (request: Request, resp
  * @route /api/fiscalismia/sensitivities_of_purchase/sensitivity/:id
  */
 const getSensitivitiesOfPurchaseyBySensitivityId = asyncHandler(async (request: Request, response: Response) => {
-  logger.info(
+  logger.http(
     'read_postgresController received GET to /api/fiscalismia/sensitivities_of_purchase/sensitivity/' +
       request.params.id
   );
@@ -419,7 +419,7 @@ const getSensitivitiesOfPurchaseyBySensitivityId = asyncHandler(async (request: 
  * @route /api/fiscalismia/sensitivities_of_purchase/var_expense/:id
  */
 const getSensitivitiesOfPurchaseyByVarExpenseId = asyncHandler(async (request: Request, response: Response) => {
-  logger.info(
+  logger.http(
     'read_postgresController received GET to /api/fiscalismia/sensitivities_of_purchase/var_expense/' +
       request.params.id
   );

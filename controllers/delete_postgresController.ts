@@ -19,7 +19,7 @@ const { pool } = require('../utils/pgDbService');
  * @route /api/fiscalismia/:id
  */
 const deleteTestData = asyncHandler(async (request: Request, response: Response) => {
-  logger.info('delete_postgresController received DELETE to /api/fiscalismia/' + request.params.id);
+  logger.http('delete_postgresController received DELETE to /api/fiscalismia/' + request.params.id);
   const sql = 'DELETE FROM test_table  WHERE id = $1 RETURNING description';
   const parameters = [request.params.id];
   const client = await pool.connect();
@@ -48,7 +48,7 @@ const deleteTestData = asyncHandler(async (request: Request, response: Response)
  * @route /api/fiscalismia/food_item/:id
  */
 const deleteFoodItem = asyncHandler(async (request: Request, response: Response) => {
-  logger.info('delete_postgresController received DELETE to /api/fiscalismia/food_item/' + request.params.id);
+  logger.http('delete_postgresController received DELETE to /api/fiscalismia/food_item/' + request.params.id);
   const sql = 'DELETE FROM public.table_food_prices WHERE dimension_key = $1 RETURNING dimension_key as id';
   const parameters = [request.params.id];
   const client = await pool.connect();

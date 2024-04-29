@@ -20,7 +20,7 @@ const { pool } = require('../utils/pgDbService');
  * @route /api/fiscalismia/:id
  */
 const updateTestData = asyncHandler(async (request: Request, response: Response) => {
-  logger.info('update_postgresController received PUT to /api/fiscalismia/' + request.params.id);
+  logger.http('update_postgresController received PUT to /api/fiscalismia/' + request.params.id);
   const sql = 'UPDATE test_table SET description = $1 WHERE id = $2 RETURNING description';
   const parameters = [request.body.description, request.params.id];
   const client = await pool.connect();
@@ -54,7 +54,7 @@ const updateTestData = asyncHandler(async (request: Request, response: Response)
  * @route /api/fiscalismia/food_item/price/:id
  */
 const updateFoodItemPrice = asyncHandler(async (request: Request, response: Response) => {
-  logger.info('update_postgresController received PUT to /api/fiscalismia/food_item/price/' + request.params.id);
+  logger.http('update_postgresController received PUT to /api/fiscalismia/food_item/price/' + request.params.id);
   const sql =
     'UPDATE table_food_prices SET price = $1, last_update = $2 WHERE dimension_key = $3 RETURNING dimension_key as id, price::double precision';
   const parameters = [request.body.price, request.body.lastUpdate, request.params.id];

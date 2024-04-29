@@ -84,7 +84,7 @@ const extractResultHeaders = (result: any) => {
  * @route /api/fiscalismia/
  */
 const postTestData = asyncHandler(async (request: Request, response: Response) => {
-  logger.info('create_postgresController received POST to /api/fiscalismia/');
+  logger.http('create_postgresController received POST to /api/fiscalismia/');
   const sql = 'INSERT INTO test_table(description) VALUES($1) RETURNING description';
   const parameters = [request.body.description];
   const client = await pool.connect();
@@ -114,7 +114,7 @@ const postTestData = asyncHandler(async (request: Request, response: Response) =
  * @route /api/fiscalismia/um/settings
  */
 const postUpdatedUserSettings = asyncHandler(async (request: Request, response: Response) => {
-  logger.info('create_postgresController received POST to /api/fiscalismia/upload/um/settings');
+  logger.http('create_postgresController received POST to /api/fiscalismia/upload/um/settings');
   const sql = `
   INSERT INTO public.um_user_settings(
     user_id, setting_key, setting_value, setting_description)
@@ -159,7 +159,7 @@ const postUpdatedUserSettings = asyncHandler(async (request: Request, response: 
  * @route /api/fiscalismia/food_item_discount
  */
 const postFoodItemDiscount = asyncHandler(async (request: Request, response: Response) => {
-  logger.info('create_postgresController received POST to /api/fiscalismia/food_item_discount');
+  logger.http('create_postgresController received POST to /api/fiscalismia/food_item_discount');
   const sql =
     'INSERT INTO public.food_price_discounts(food_prices_dimension_key, discount_price, discount_start_date, discount_end_date) VALUES($1,$2,$3,$4) RETURNING food_prices_dimension_key';
   const discountInfo = request.body;
@@ -193,7 +193,7 @@ const postFoodItemDiscount = asyncHandler(async (request: Request, response: Res
  * @route /api/fiscalismia/food_item
  */
 const postNewFoodItem = asyncHandler(async (request: Request, response: Response) => {
-  logger.info('create_postgresController received POST to /api/fiscalismia/food_item');
+  logger.http('create_postgresController received POST to /api/fiscalismia/food_item');
   let sql = `INSERT INTO public.table_food_prices(dimension_key, food_item, brand, store, main_macro, kcal_amount, weight, price, last_update, effective_date, expiration_date) VALUES (
       nextval(\'table_food_prices_seq\'),
       $1, $2, $3, $4, $5, $6, $7, $8,
@@ -240,7 +240,7 @@ const postNewFoodItem = asyncHandler(async (request: Request, response: Response
  * @route /api/fiscalismia/investments
  */
 const postInvestmentAndTaxes = asyncHandler(async (request: Request, response: Response) => {
-  logger.info('create_postgresController received POST to /api/fiscalismia/investments');
+  logger.http('create_postgresController received POST to /api/fiscalismia/investments');
   const sqlInvestments = `INSERT INTO public.investments (execution_type,	description,	isin,	investment_type,	marketplace,	units,	price_per_unit,	total_price,	fees,	execution_date)
   VALUES (
       $1, $2, $3, $4, $5, $6, $7, $8, $9, $10
@@ -322,7 +322,7 @@ const postInvestmentAndTaxes = asyncHandler(async (request: Request, response: R
  * @route /api/fiscalismia/investment_dividends
  */
 const postDividendsAndTaxes = asyncHandler(async (request: Request, response: Response) => {
-  logger.info('create_postgresController received POST to /api/fiscalismia/investment_dividends');
+  logger.http('create_postgresController received POST to /api/fiscalismia/investment_dividends');
   const sqlDividends = `INSERT INTO public.investment_dividends (isin, dividend_amount, dividend_date)
   VALUES(
       $1, $2, $3
@@ -435,7 +435,7 @@ const postDividendsAndTaxes = asyncHandler(async (request: Request, response: Re
  * @route /api/fiscalismia/texttsv/variable_expenses
  */
 const postVariableExpensesTextTsv = asyncHandler(async (request: Request, response: Response) => {
-  logger.info('create_postgresController received POST to /api/fiscalismia/texttsv/variable_expenses');
+  logger.http('create_postgresController received POST to /api/fiscalismia/texttsv/variable_expenses');
   try {
     const expectedColumns = new Array(
       'description',
@@ -498,7 +498,7 @@ const postVariableExpensesTextTsv = asyncHandler(async (request: Request, respon
  * @returns INSERT INTO statements in response
  */
 const postFixedCostsTextTsv = asyncHandler(async (request: Request, response: Response) => {
-  logger.info('create_postgresController received POST to /api/fiscalismia/texttsv/fixed_costs');
+  logger.http('create_postgresController received POST to /api/fiscalismia/texttsv/fixed_costs');
   try {
     const expectedColumns = new Array(
       'category',
@@ -562,7 +562,7 @@ const postFixedCostsTextTsv = asyncHandler(async (request: Request, response: Re
  * @returns INSERT INTO statements in response
  */
 const postIncomeTextTsv = asyncHandler(async (request: Request, response: Response) => {
-  logger.info('create_postgresController received POST to /api/fiscalismia/texttsv/fixed_income');
+  logger.http('create_postgresController received POST to /api/fiscalismia/texttsv/fixed_income');
   try {
     const expectedColumns = new Array(
       'description',
@@ -622,7 +622,7 @@ const postIncomeTextTsv = asyncHandler(async (request: Request, response: Respon
  * @returns INSERT INTO statements in response
  */
 const postInvestmentsTextTsv = asyncHandler(async (request: Request, response: Response) => {
-  logger.info('create_postgresController received POST to /api/fiscalismia/texttsv/investments');
+  logger.http('create_postgresController received POST to /api/fiscalismia/texttsv/investments');
   try {
     const expectedColumns = new Array(
       'execution_type',
@@ -704,7 +704,7 @@ const postInvestmentsTextTsv = asyncHandler(async (request: Request, response: R
  * @returns INSERT INTO statements in response
  */
 const postNewFoodItemsTextTsv = asyncHandler(async (request: Request, response: Response) => {
-  logger.info('create_postgresController received POST to /api/fiscalismia/texttsv/new_food_items');
+  logger.http('create_postgresController received POST to /api/fiscalismia/texttsv/new_food_items');
   try {
     const expectedColumns = new Array(
       'food_item',
@@ -773,7 +773,7 @@ const postNewFoodItemsTextTsv = asyncHandler(async (request: Request, response: 
  * @route /api/fiscalismia/um/credentials
  */
 const createUserCredentials = asyncHandler(async (request: Request, response: Response) => {
-  logger.info('create_postgresController received POST to /api/fiscalismia/um/credentials');
+  logger.http('create_postgresController received POST to /api/fiscalismia/um/credentials');
   const credentials = {
     username: request.body.username,
     email: request.body.email,
@@ -852,7 +852,7 @@ const createUserCredentials = asyncHandler(async (request: Request, response: Re
  * @route /api/fiscalismia/um/login
  */
 const loginWithUserCredentials = asyncHandler(async (request: Request, response: Response) => {
-  logger.info('create_postgresController received POST to /api/fiscalismia/um/login');
+  logger.http('create_postgresController received POST to /api/fiscalismia/um/login');
   const credentials = {
     username: request.body.username,
     password: request.body.password
