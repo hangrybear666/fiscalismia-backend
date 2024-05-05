@@ -1,19 +1,31 @@
 # Fiscalismia Backend
 
-The Fiscalismia Backend consists of an Express server that supplied a REST API, handling requests from the frontend and fetching data from a cloud-based PostgreSQL database.
+## Overview
 
-## Technologies Used
+The Fiscalismia Backend consists of an Express server running a REST API, handling requests from the frontend and fetching data from a cloud-based PostgreSQL database.
+The data hosted is primarily for financial analysis and full CRUD operations are within its feature set.
+
+## Table of Contents
+
+- [Technologies](#technologies)
+- [Setup](#setup)
+- [Usage](#usage)
+- [License](#license)
+
+## Technologies
 
 - **TypeScript:** Statically typed JS with high strictness level and compile target ESNext. Mid-project Migration from plain JavaScript (ECMAScript 2016).
 - **Node.js:** A JavaScript runtime built on Chrome's V8 JavaScript engine, used for server-side development.
 - **Express Server:** A fast, unopinionated, minimalist web framework for Node.js, used to build the backend server.
 - **JWT Auth:** JSON Web Token authentication is used for securing and verifying the authenticity of API requests.
-- **Winston Logger:** A versatile logging library for Node.js, utilized for logging events and errors in the server.
-- **Supertest:** A testing library for HTTP assertions, employed for REST API testing to ensure the reliability of the server.
 - **Jenkins:** A DevOps automation server that orchestrates the development pipeline, helping in building, testing, and deploying the application fully automated.
 - **Docker:** Jenkins runs in a Docker container, the pipeline itself uses further containers providing a consistent environment for the entire development workflow.
+- **Winston Logger:** A versatile logging library for Node.js, utilized for logging events and errors in the server.
+- **Supertest:** A testing library for HTTP assertions, employed for REST API testing to ensure the reliability of the server.
+- **Nodemon/ts-node:** Hot Reload upon file changes of the server during development, enhancing the development workflow.
+- **ESLint and Prettier:** Linter and Formatter for ensuring code quality and enforcing coding standards.
 
-## Installation
+## Setup
 
 **Dependencies**
 
@@ -85,3 +97,7 @@ npm test
 see REST API examples in `tests\rest_api_playground.http`
 
 see REST API testing in `tests\*_rest_api.test.js`
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
