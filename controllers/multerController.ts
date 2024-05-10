@@ -17,7 +17,7 @@ const { buildInsertFoodItemImgFilePath, logSqlStatement } = require('../utils/SQ
  * @route /api/fiscalismia/upload/food_item_img
  */
 const postFoodItemImg = asyncHandler(async (request: Request, response: Response) => {
-  logger.info('multerController received POST to /api/fiscalismia/upload/food_item_img');
+  logger.http('multerController received POST to /api/fiscalismia/upload/food_item_img');
   try {
     if (request.file?.path) {
       // Replaces backslash with forward slash
@@ -70,7 +70,7 @@ const postFoodItemImg = asyncHandler(async (request: Request, response: Response
  */
 const getFoodItemImg = asyncHandler(async (request: Request, response: Response, next: any) => {
   const filepath = request.params.filepath;
-  logger.info(`multerController received GET to /api/fiscalismia/public/img/uploads/${filepath}`);
+  logger.http(`multerController received GET to /api/fiscalismia/public/img/uploads/${filepath}`);
   const options = {
     root: path.join(__dirname, '../', '/public/img/uploads/')
   };
@@ -101,7 +101,7 @@ const getFoodItemImg = asyncHandler(async (request: Request, response: Response,
  * @route /api/fiscalismia/public/img/uploads/:id
  */
 const deleteFoodItemImg = asyncHandler(async (request: Request, response: Response) => {
-  logger.info('multerController received DELETE to /api/fiscalismia/public/img/uploads/' + request.params.id);
+  logger.http('multerController received DELETE to /api/fiscalismia/public/img/uploads/' + request.params.id);
   const sql = 'DELETE FROM public.food_price_image_location WHERE food_prices_dimension_key = $1 RETURNING filepath';
   const parameters = [request.params.id];
   const client = await pool.connect();
