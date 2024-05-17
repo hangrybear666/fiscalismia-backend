@@ -28,3 +28,6 @@ logs/error.log
 logs/debug.log
 logs/jsonToETL.log
 postgres-scripts/csvjson.json
+
+
+dist
