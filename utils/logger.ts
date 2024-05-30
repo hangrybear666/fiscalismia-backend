@@ -1,4 +1,5 @@
 import { createLogger, format, transports } from 'winston';
+import { getLocalTimestamp } from './sharedFunctions';
 const colorizer = format.colorize();
 /**
  * @description
@@ -7,7 +8,7 @@ const logger = createLogger({
   level: 'info', // error: 0, warn: 1, info: 2, http: 3, verbose: 4, debug: 5, silly: 6
   format: format.combine(
     format.timestamp({
-      format: 'YYYY-MM-DD HH:mm:ss.sss'
+      format: getLocalTimestamp
     }),
     format.printf((info) => `${info.timestamp} ${info.level}: ${info.message ? info.message.trim() : null}`)
   ),
@@ -34,7 +35,7 @@ if (process.env.NODE_ENV !== 'production') {
       level: 'verbose', // error: 0, warn: 1, info: 2, http: 3, verbose: 4, debug: 5, silly: 6
       format: format.combine(
         format.timestamp({
-          format: 'YYYY-MM-DD HH:mm:ss'
+          format: getLocalTimestamp
         }),
         format.colorize({
           level: true,
