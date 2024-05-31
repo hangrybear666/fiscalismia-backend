@@ -72,7 +72,7 @@ const getFoodItemImg = asyncHandler(async (request: Request, response: Response,
   const filepath = request.params.filepath;
   logger.http(`multerController received GET to /api/fiscalismia/public/img/uploads/${filepath}`);
   const options = {
-    root: path.join(__dirname, '../', '/public/img/uploads/')
+    root: path.join(__dirname, '../../', '/public/img/uploads/')
   };
   try {
     response.sendFile(filepath, options, function (err) {
@@ -81,7 +81,7 @@ const getFoodItemImg = asyncHandler(async (request: Request, response: Response,
       }
     });
     response.status(200);
-    logger.info(`File sent in response. Location: ${config.SERVER_ADDRESS}${filepath}`);
+    logger.info(`File sent in response. Location: ${config.ROOT_URL}/public/img/uploads/${filepath}`);
   } catch (error: unknown) {
     response.status(400);
     if (error instanceof Error) {

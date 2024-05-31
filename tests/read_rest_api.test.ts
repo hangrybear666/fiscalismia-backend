@@ -1,7 +1,7 @@
 import supertest from 'supertest';
 require('dotenv').config();
-import { app } from '../app';
-const logger = require('../utils/logger');
+import { app } from '../src/app';
+const logger = require('../src/utils/logger');
 
 /*    __   __                          __          __        ___  __
 |    /  \ /  `  /\  |       \  /  /\  |__) |  /\  |__) |    |__  /__`

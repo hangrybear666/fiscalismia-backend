@@ -1,11 +1,12 @@
 {
   "name": "fiscalismia-backend",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "server running the fiscalismia webservice",
   "main": "server.js",
   "scripts": {
-    "start": "set NODE_ENV=production&& node server.js",
-    "server": "set NODE_ENV=development&& nodemon server.ts",
+    "build": "tsc",
+    "start": "set NODE_ENV=production&& node build/server.js",
+    "server": "set NODE_ENV=development&& nodemon src/server.ts",
     "test": "jest --detectOpenHandles --forceExit"
   },
   "repository": {
