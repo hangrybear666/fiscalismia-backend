@@ -1,7 +1,7 @@
 {
   "name": "fiscalismia-backend",
   "version": "0.0.1",
-  "description": "server running the fiscalismia webservice",
+  "description": "server running the fiscalismia backend express server and REST API",
   "main": "server.js",
   "scripts": {
     "build": "tsc",

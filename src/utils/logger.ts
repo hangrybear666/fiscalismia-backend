@@ -54,7 +54,7 @@ if (process.env.NODE_ENV !== 'production') {
         }),
         format.printf(
           (info) =>
-            `${info.level}: ${info.message ? info.message.trim() : null} at ${colorizer.colorize('timestamp', info.timestamp)}`
+            `NODE_ENV:${process.env.NODE_ENV} ${info.level}: ${info.message ? info.message.trim() : null} at ${colorizer.colorize('timestamp', info.timestamp)}`
         )
       )
     })

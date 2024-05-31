@@ -1,5 +1,5 @@
 import { FileFilterCallback } from 'multer';
-const { authenticateUser } = require('../middleware/authentication.ts');
+const { authenticateUser } = require('../middleware/authentication');
 const multerRoutes = require('express').Router();
 const { postFoodItemImg, getFoodItemImg, deleteFoodItemImg } = require('../controllers/multerController');
 const logger = require('../utils/logger');
