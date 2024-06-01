@@ -1,0 +1,44 @@
+name: Fiscalismia-Backend Pipeline
+
+on:
+  push:
+    branches:
+      - github-actions-workflow
+  pull_request:
+    branches:
+      - github-actions-workflow
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout SCM
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.12.2'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run Type Checks
+      run: node tests/typeCheck
+
+    - name: Upload typecheck report
+      uses: actions/upload-artifact@v4
+      with:
+        name: type-check-output.txt
+        path: type-check-output.txt
+
+    - name: Run tests
+      env:
+        ADMIN_USER_PW: ${{ secrets.ADMIN_USER_PW }}
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        DB_CONNECTION_URL: ${{ secrets.DB_CONNECTION_URL }}
+      run: npm test
+
+    - name: Build Docker image
+      run: docker build --pull --rm -f "Dockerfile" -t fiscalismia-backend:latest "."

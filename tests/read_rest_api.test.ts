@@ -50,18 +50,35 @@ describe('supertest REST API testing basic ops', () => {
   });
 
   test('LOGIN with correct credentials succeeds', (done) => {
+    const t1 = process.env.ADMIN_USER_PW?.toString().length;
+    const t2 = process.env.DB_CONNECTION_URL?.toString().length;
+    const t3 = process.env.JWT_SECRET?.toString().length;
+    console.log(t1);
+    console.log(t2);
+    console.log(t3);
     supertest(app)
       .post(`${ROOT_URL}/um/login`)
       .send({
         username: 'admin',
-        password: process.env.ADMIN_PW
+        password: process.env.ADMIN_USER_PW
+      })
+      .expect(function (res: supertest.Response) {
+        console.log('type ' + res.type);
+        console.log('body:');
+        console.log(JSON.stringify(res.body, null, 2));
+        console.log(res);
       })
       .expect('Content-Type', /html/)
       .expect(200)
       .end((err: unknown, res: supertest.Response) => {
-        if (err instanceof Error) return done(err);
+        console.log(res);
+        if (err instanceof Error) {
+          logger.error(err);
+          return done(err);
+        }
         // set local authentication token variable to text of login response
         authToken = res.text;
+        console.log(authToken);
         return done();
       });
   });

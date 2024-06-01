@@ -1,19 +1,18 @@
 # Stage 1 BUILD
 FROM node:20.12.2-alpine3.19 AS build
 WORKDIR /build-dir/
-COPY package-lock.json package.json ./
+COPY package-lock.json package.json tsconfig.json ./
 RUN npm install
 COPY src/ ./src
-COPY LICENSE tsconfig.json ./
 RUN npm run build
 
 # Stage 2 RUN IN PRODUCTION
 FROM node:20.12.2-alpine3.19
 WORKDIR /fiscalismia-backend/
-RUN ls
 COPY package-lock.json package.json ./
 RUN npm install --omit=dev
 COPY --from=build build-dir/build ./build
+COPY LICENSE README.md ./
 # set NODE_ENV command from the start script is unique to windows
 ENV NODE_ENV=production
 ENTRYPOINT ["npm", "run", "start"]
