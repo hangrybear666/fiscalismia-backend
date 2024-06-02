@@ -25,3 +25,7 @@ npm-debug.log*
 
 # Optional eslint cache
 .eslintcache
+
+# Reports
+type-check-output.txt
+eslint-analysis.txt

@@ -25,15 +25,18 @@ jobs:
       run: npm install
 
     - name: Run Type Checks
-      run: node tests/typeCheck
+      run: npm run typeCheck
 
-    - name: Upload typecheck report
+    - name: Run Eslint Analysis
+      run: npm run lintAnalysis
+
+    - name: Upload Typecheck & Eslint report
       uses: actions/upload-artifact@v4
       with:
-        name: type-check-output.txt
-        path: type-check-output.txt
+        name: Reports
+        path: reports/
 
-    - name: Run tests
+    - name: Run REST API tests
       env:
         ADMIN_USER_PW: ${{ secrets.ADMIN_USER_PW }}
         JWT_SECRET: ${{ secrets.JWT_SECRET }}

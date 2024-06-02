@@ -1,7 +1,8 @@
-const { exec } = require('child_process');
 const fs = require('fs');
+const { exec } = require('child_process');
 
 /**
+ * Runs typescript compile in a subprocess, reads the standard output or errors and generates an ASCII formatted report synthesizing tsc results.
  * exec is typically used for running commands where you expect the output to be relatively small and can be buffered entirely in memory.
  * The entire output of the command (both stdout and stderr) is buffered in memory and provided as strings to the callback function once the command completes.
  */
@@ -49,7 +50,7 @@ exec('npx tsc --noEmit', (error, stdout, stderr) => {
       )
       .concat(stderr);
 
-    fs.writeFileSync('type-check-output.txt', typeCheckReport);
+    fs.writeFileSync('reports/type-check-output.txt', typeCheckReport);
     console.log('Written TSC result to type-check-report.txt');
     console.log(typeCheckReport);
   } catch (error) {
