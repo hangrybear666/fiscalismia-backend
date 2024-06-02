@@ -16,5 +16,4 @@ COPY LICENSE README.md ./
 # set NODE_ENV command from the start script is unique to windows
 ENV NODE_ENV=production
 ENTRYPOINT ["npm", "run", "start"]
-# tests folder later for workflow
 # public in docker-compose / docker-run mounten

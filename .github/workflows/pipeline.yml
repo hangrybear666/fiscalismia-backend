@@ -9,7 +9,7 @@ on:
       - github-actions-workflow
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,24 +24,49 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    - name: Run Type Checks
+    - name: Compiler Type Checks
       run: npm run typeCheck
 
-    - name: Run Eslint Analysis
+    - name: Eslint Analysis
       run: npm run lintAnalysis
 
-    - name: Upload Typecheck & Eslint report
+    - name: Publish Typecheck & Eslint Report
       uses: actions/upload-artifact@v4
       with:
         name: Reports
-        path: reports/
+        path: |
+          reports/
+          !reports/.gitkeep
 
-    - name: Run REST API tests
+    - name: REST API tests /w supertest
       env:
         ADMIN_USER_PW: ${{ secrets.ADMIN_USER_PW }}
         JWT_SECRET: ${{ secrets.JWT_SECRET }}
         DB_CONNECTION_URL: ${{ secrets.DB_CONNECTION_URL }}
       run: npm test
 
-    - name: Build Docker image
-      run: docker build --pull --rm -f "Dockerfile" -t fiscalismia-backend:latest "."
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - name: Checkout SCM
+      uses: actions/checkout@v4
+
+    - name: Build Docker Image
+      run: docker build --pull --rm -f "Dockerfile" -t ghcr.io/hangrybear666/fiscalismia-backend:latest "."
+
+    - name: Login to Github Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Publish Docker Image to GHCR
+      run: docker push ghcr.io/hangrybear666/fiscalismia-backend:latest
+
+
