@@ -1,6 +1,7 @@
 const fs = require('fs');
 const { exec } = require('child_process');
-
+const ERROR_MSG_CHAR_COUNT = 157;
+const LINE_NUM_PAD_COUNT = 5;
 /**
  * Runs eslint in a subprocess, reads the standard output or errors and generates an ASCII formatted report synthesizing eslint results.
  * exec is typically used for running commands where you expect the output to be relatively small and can be buffered entirely in memory.
@@ -14,7 +15,13 @@ exec('npx eslint .', (error, stdout, stderr) => {
     // construct log string of linter errors and pad empty spaces
     let linterErrorString = '';
     linterErrorLines.forEach((line, index) => {
-      linterErrorString += padLinesAndAddLinenumbers(line, 132, 10, index + 1, '-').concat(`\n`);
+      linterErrorString += padLinesAndAddLinenumbers(
+        line,
+        ERROR_MSG_CHAR_COUNT,
+        LINE_NUM_PAD_COUNT,
+        index + 1,
+        '-'
+      ).concat(`\n`);
     });
     const noLinterErrorMessage = `
                       ___________________________________________________________________________
@@ -25,15 +32,15 @@ exec('npx eslint .', (error, stdout, stderr) => {
 
 `;
     const typeCheckReport = `
- ___________________________
-|       __                  |               _ _       _                  _                  _               _                        _               _
-| |\\ | |__) \\_/             |      ___  ___| (_)_ __ | |_            ___| |_ __ _ _ __   __| | __ _ _ __ __| |            ___  _   _| |_ _ __  _   _| |_
-| | \\| |    / \\             |     / _ \\/ __| | | '_ \\| __|          / __| __/ _\` | '_ \\ / _\` |/ _\` | '__/ _\` |           / _ \\| | | | __| '_ \\| | | | __|
-|                           |    |  __/\\__ \\ | | | | | |_           \\__ \\ || (_| | | | | (_| | (_| | | | (_| |          | (_) | |_| | |_| |_) | |_| | |_
-|  ___  __              ___ |     \\___||___/_|_|_| |_|\\__|          |___/\\__\\__,_|_| |_|\\__,_|\\__,_|_|  \\__,_|           \\___/ \\__,_|\\__| .__/ \\__,_|\\__|
-| |__  /__\` |    | |\\ |  |  |                                                                                                           |_|
-| |___ .__/ |___ | | \\|  |  |
-|___________________________|
+ ___________________________  _________________________________________________________________________________________________________________________________________________
+|       __                  ||                     _ _       _                  _                  _               _                        _               _                  |
+| |\\ | |__) \\_/             ||            ___  ___| (_)_ __ | |_            ___| |_ __ _ _ __   __| | __ _ _ __ __| |            ___  _   _| |_ _ __  _   _| |_                |
+| | \\| |    / \\             ||           / _ \\/ __| | | '_ \\| __|          / __| __/ _\` | '_ \\ / _\` |/ _\` | '__/ _\` |           / _ \\| | | | __| '_ \\| | | | __|               |
+|                           ||          |  __/\\__ \\ | | | | | |_           \\__ \\ || (_| | | | | (_| | (_| | | | (_| |          | (_) | |_| | |_| |_) | |_| | |_                |
+|  ___  __              ___ ||           \\___||___/_|_|_| |_|\\__|          |___/\\__\\__,_|_| |_|\\__,_|\\__,_|_|  \\__,_|           \\___/ \\__,_|\\__| .__/ \\__,_|\\__|               |
+| |__  /__\` |    | |\\ |  |  ||                                                                                                                 |_|                             |
+| |___ .__/ |___ | | \\|  |  ||                                                                                                                                                 |
+|___________________________||_________________________________________________________________________________________________________________________________________________|
 
 `
       .concat(linterErrorLines && linterErrorLines.length > 1 ? linterErrorString : noLinterErrorMessage)
@@ -67,8 +74,8 @@ function padLinesAndAddLinenumbers(value, width, startWidth, lineNum, fillString
   const paddingLength = width - value.toString().length;
   const startPadding = fillString.repeat(startWidth);
   const startPaddingEnd = fillString.repeat(lineNum > 99 ? startWidth - 2 : lineNum > 9 ? startWidth - 1 : startWidth);
-  if (paddingLength < 0) return `  ${startPadding} ${lineNum} ${startPaddingEnd}      ${value}`;
+  if (paddingLength < 0) return `  ${startPadding} ${lineNum} ${startPaddingEnd}   ${value}`;
   const endPadding = fillString.repeat(paddingLength);
   // if value is an empty string, we remove a whitespace and add one fillstring at the end to ensure equal length of fillString rows to value rows
-  return `  ${startPadding} ${lineNum} ${startPaddingEnd}      ${value}${!value ? '' : ' '}${endPadding}${!value ? fillString : ''}`;
+  return `  ${startPadding} ${lineNum} ${startPaddingEnd}   ${value}${!value ? '' : ' '}${endPadding}${!value ? fillString : ''}`;
 }

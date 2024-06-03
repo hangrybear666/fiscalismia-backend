@@ -27,5 +27,10 @@ npm-debug.log*
 .eslintcache
 
 # Reports
-type-check-output.txt
-eslint-analysis.txt
+reports/type-check-output.txt
+reports/eslint-analysis.txt
+reports/snyk-code-analysis.txt
+reports/snyk-dependency-analysis.txt
+
+#Snyk
+.dccache

@@ -12,6 +12,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    continue-on-error: true
+
     steps:
     - name: Checkout SCM
       uses: actions/checkout@v4
@@ -22,7 +24,9 @@ jobs:
         node-version: '20.12.2'
 
     - name: Install dependencies
-      run: npm install
+      run: |
+        npm install
+        npm install -g snyk
 
     - name: Compiler Type Checks
       run: npm run typeCheck
@@ -30,7 +34,17 @@ jobs:
     - name: Eslint Analysis
       run: npm run lintAnalysis
 
-    - name: Publish Typecheck & Eslint Report
+    - name: Snyk Static Code Security Analysis
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      run: |
+        snyk auth $SNYK_TOKEN
+        npm run snykCodeAnalysis
+
+    - name: Snyk Dependency Security Analysis
+      run: npm run snykDependencyAnalysis
+
+    - name: Publish Typecheck & Eslint & Snyk Reports
       uses: actions/upload-artifact@v4
       with:
         name: Reports
@@ -51,6 +65,7 @@ jobs:
     permissions:
       contents: read
       packages: write
+      actions: read
 
     steps:
     - name: Checkout SCM

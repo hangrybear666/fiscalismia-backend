@@ -1,29 +1,39 @@
 # Fiscalismia Backend
+Background Service handling the Fiscalismia infrastructure.
+Fiscalismia is a Web Service for visualizing, analyzing, aggregating, importing and exporting personal finance data. Data can consist of variable and fixed costs, income, sales and investments. Advanced capabilities are available for synthesizing supermarket grocery deals.
 
-## Overview
+## Technical Overview
 
-The Fiscalismia Backend consists of an Express server running a REST API, handling requests from the frontend and fetching data from a cloud-based PostgreSQL database.
-The data hosted is primarily for financial analysis and full CRUD operations are within its feature set.
+fiscalismia-backend consists of an express server running a REST API. Requests from the frontend are rooted through an nginx reverse proxy to a cloud-hosted scale-to-zero PostgreSQL database on Neon.tech.
+JWT tokens are used for authentication. The REST API is designed with full CRUD operations in mind, allowing for dynamic user input, sanitized before being commited to the db.
 
 ## Table of Contents
 
 - [Technologies](#technologies)
+- [DevOps Pipeline](#pipeline)
 - [Setup](#setup)
 - [Usage](#usage)
 - [License](#license)
 
 ## Technologies
 
+- **Github Actions:** CI/CD Pipeline for automating type checking, eslint analysis, REST API testing, vulnerability scanning, building, publishing and deploying.
+- **Docker:** The final build artifact from compiled src code is a docker image published to a registry and deployed in the cloud.
 - **TypeScript:** Statically typed JS with high strictness level and compile target ESNext. Mid-project Migration from plain JavaScript (ECMAScript 2016).
 - **Node.js:** A JavaScript runtime built on Chrome's V8 JavaScript engine, used for server-side development.
 - **Express Server:** A fast, unopinionated, minimalist web framework for Node.js, used to build the backend server.
-- **JWT Auth:** JSON Web Token authentication is used for securing and verifying the authenticity of API requests.
-- **Jenkins:** A DevOps automation server that orchestrates the development pipeline, helping in building, testing, and deploying the application fully automated.
-- **Docker:** Jenkins runs in a Docker container, the pipeline itself uses further containers providing a consistent environment for the entire development workflow.
-- **Winston Logger:** A versatile logging library for Node.js, utilized for logging events and errors in the server.
 - **Supertest:** A testing library for HTTP assertions, employed for REST API testing to ensure the reliability of the server.
-- **Nodemon/ts-node:** Hot Reload upon file changes of the server during development, enhancing the development workflow.
+- **JWT Auth:** JSON Web Token authentication is used for securing and verifying the authenticity of API requests.
+- **Snyk:** Static Code security analysis, dependency security analysis, monitoring and notifications on detected security issues.
 - **ESLint and Prettier:** Linter and Formatter for ensuring code quality and enforcing coding standards.
+- **Winston Logger:** A versatile logging library for Node.js, utilized for logging events and errors in the server.
+- **Nodemon/ts-node:** Hot Reload upon file changes of the server during development, enhancing the development workflow.
+
+## Pipeline
+todo
+1. **Test & Analyze**
+2. **Build & Publish**
+3. **Deploy to Cloud**
 
 ## Setup
 
@@ -49,7 +59,7 @@ npm install
 ```
 
 3. **Environment Variables:**
-   Request the `.env` file from your administrator and store it in the root folder of `fiscalismia-backend`. Ensure that you never upload this file to Git, as it contains sensitive information!
+   Request the `.env` file from the repository owner and store it in the root folder of `fiscalismia-backend`. Ensure that you never upload this file to Git, as it contains sensitive information!
 
 4. **Run the Server:**
 

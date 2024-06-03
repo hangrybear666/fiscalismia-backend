@@ -7,7 +7,9 @@
     "build": "tsc",
     "typeCheck": "node src/tests/typeCheck",
     "lintAnalysis": "node src/tests/eslintAnalysis",
-    "lint" : "eslint .",
+    "snykCodeAnalysis": "node src/tests/snykCodeAnalysis",
+    "snykDependencyAnalysis": "node src/tests/snykDependencyAnalysis",
+    "lint": "eslint .",
     "start": "set NODE_ENV=production&& node build/server.js",
     "server": "set NODE_ENV=development&& nodemon src/server.ts",
     "test": "jest --forceExit"

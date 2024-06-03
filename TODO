@@ -1,0 +1,12 @@
+# TODO List for [Fiscalismia Backend]
+
+## Unfinished Tasks
+
+### High Prio
+- 
+
+### Medium Prio
+- move USERNAME_WHITELIST from .env to DB and remove the entry from README.md
+
+### Low Prio
+- 
