@@ -114,7 +114,6 @@ describe('supertest REST API testing basic ops', () => {
         if (err instanceof Error) {
           logger.debug(JSON.stringify(res));
           logger.debug(res);
-          console.log(JSON.stringify(res));
           return done(err);
         }
         return done();

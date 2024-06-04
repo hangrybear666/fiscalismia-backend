@@ -33,7 +33,7 @@ const deleteTestData = asyncHandler(async (request: Request, response: Response)
     await client.query('ROLLBACK');
     response.status(400);
     if (error instanceof Error) {
-      error.message = `Transaction ROLLBACK. Row could not be deleted from test_table. ` + error.message;
+      error.message = `Transaction ROLLBACK. Row could not be deleted from test_table. ${error.message}`;
     }
     throw error;
   } finally {
@@ -67,7 +67,7 @@ const deleteFoodItem = asyncHandler(async (request: Request, response: Response)
     await client.query('ROLLBACK');
     response.status(400);
     if (error instanceof Error) {
-      error.message = `Transaction ROLLBACK. Row could not be deleted from test_table. ` + error.message;
+      error.message = `Transaction ROLLBACK. Row could not be deleted from test_table. ${error.message}`;
     }
     throw error;
   } finally {

@@ -1,5 +1,12 @@
 const logger = require('./logger');
-import { UserCredentials, StagingVariableBills, FixedCosts, FixedIncome, InvestmentAndTaxes, FoodItem } from './customTypes';
+import {
+  UserCredentials,
+  StagingVariableBills,
+  FixedCosts,
+  FixedIncome,
+  InvestmentAndTaxes,
+  FoodItem
+} from './customTypes';
 
 /**
  * @description replaces all occurences of single quote ' with two single quotes ''
@@ -7,6 +14,7 @@ import { UserCredentials, StagingVariableBills, FixedCosts, FixedIncome, Investm
  * @returns escaped string unless the string contains multiple sequential single quotes
  */
 const escapeSingleQuotes = (str: string) => {
+  // eslint-disable-next-line quotes
   const doubleQuote = "''";
   if (str.includes(doubleQuote)) {
     logger.error('double single quotes present. no escaping performed.');
@@ -77,7 +85,7 @@ const buildInitializeUserSettings = ({ username }: UserCredentials) => {
 
 /**
  * @description constructs SELECT statement for finding a user by id
- * @param {*} param0 the user id to be found
+ * @param {number} id the user id to be found
  * @returns SELECT FROM SQL for public.um_users
  */
 const buildFindUserById = (id: number) => {
@@ -157,7 +165,7 @@ const buildInsertFixedCosts = (e: FixedCosts) => {
  * @description constructs INSERT INTO statement while sanitizing values of provided json object by e.g.
  * 1) casting all values within json to String for proper escaping via helper method
  * 2) replacing all occurences of single quotes ' with two single quotes ''
- * @param {*} element json encoded single element containing the mandatory keys:
+ * @param {FixedIncome} e json encoded single element containing the mandatory keys:
  * description,	type,	monthly_interval,	value,	effective_date,	expiration_date
  * @returns INSERT INTO SQL for public.fixed_income
  */
@@ -185,7 +193,7 @@ const buildInsertFixedIncome = (e: FixedIncome) => {
  * @description constructs INSERT INTO statement while sanitizing values of provided json object by e.g.
  * 1) casting all values within json to String for proper escaping via helper method
  * 2) replacing all occurences of single quotes ' with two single quotes ''
- * @param {*} element json encoded single element containing the mandatory keys:
+ * @param {InvestmentAndTaxes} e json encoded single element containing the mandatory keys:
  * execution_type,	description,	isin,	investment_type,	marketplace,	units,	price_per_unit,	total_price,	fees,	execution_date, pct_of_profit_taxed, profit_amt
  * @returns INSERT INTO SQL for public.investments
  */
@@ -234,7 +242,7 @@ ${
  * @description constructs INSERT INTO statement while sanitizing values of provided json object by e.g.
  * 1) casting all values within json to String for proper escaping via helper method
  * 2) replacing all occurences of single quotes ' with two single quotes ''
- * @param {*} element json encoded single element containing the mandatory keys:
+ * @param {FoodItem} e json encoded single element containing the mandatory keys:
  * category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date
  * @returns INSERT INTO SQL for public.table_food_prices
  */

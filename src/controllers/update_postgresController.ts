@@ -39,7 +39,7 @@ const updateTestData = asyncHandler(async (request: Request, response: Response)
     await client.query('ROLLBACK');
     response.status(400);
     if (error instanceof Error) {
-      error.message = `Transaction ROLLBACK. test_table could not be updated. ` + error.message;
+      error.message = `Transaction ROLLBACK. test_table could not be updated. ${error.message}`;
     }
     throw error;
   } finally {
@@ -81,7 +81,7 @@ const updateFoodItemPrice = asyncHandler(async (request: Request, response: Resp
     await client.query('ROLLBACK');
     response.status(400);
     if (error instanceof Error) {
-      error.message = `Transaction ROLLBACK. relation could not be updated. ` + error.message;
+      error.message = `Transaction ROLLBACK. relation could not be updated. ${error.message}`;
     }
     throw error;
   } finally {

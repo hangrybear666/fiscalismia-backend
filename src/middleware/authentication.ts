@@ -48,7 +48,7 @@ const authenticateUser = asyncHandler(async (request: Request, response: Respons
     } catch (error: unknown) {
       response.status(401);
       if (error instanceof Error) {
-        error.message = `User not authenticated with provided token. ` + error.message;
+        error.message = `User not authenticated with provided token. ${error.message}`;
       }
       throw error;
     } finally {

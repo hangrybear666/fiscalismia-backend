@@ -12,7 +12,7 @@ import { replaceCommaAndParseFloat } from '../utils/sharedFunctions';
 const asyncHandler = require('express-async-handler');
 const { parse } = require('csv-parse/sync');
 const logger = require('../utils/logger');
-var format = require('pg-format');
+const format = require('pg-format');
 const { pool } = require('../utils/pgDbService');
 const {
   buildInsertStagingVariableBills,
@@ -99,7 +99,7 @@ const postTestData = asyncHandler(async (request: Request, response: Response) =
     await client.query('ROLLBACK');
     response.status(400);
     if (error instanceof Error) {
-      error.message = `Transaction ROLLBACK. data could not be inserted. ` + error.message;
+      error.message = `Transaction ROLLBACK. data could not be inserted. ${error.message}`;
     }
     throw error;
   } finally {
@@ -142,7 +142,7 @@ const postUpdatedUserSettings = asyncHandler(async (request: Request, response: 
     await client.query('ROLLBACK');
     response.status(400);
     if (error instanceof Error) {
-      error.message = `Transaction ROLLBACK. data could not be inserted. ` + error.message;
+      error.message = `Transaction ROLLBACK. data could not be inserted. ${error.message}`;
     }
     throw error;
   } finally {
@@ -176,7 +176,7 @@ const postFoodItemDiscount = asyncHandler(async (request: Request, response: Res
     await client.query('ROLLBACK');
     response.status(400);
     if (error instanceof Error) {
-      error.message = `Transaction ROLLBACK. data could not be inserted. ` + error.message;
+      error.message = `Transaction ROLLBACK. data could not be inserted. ${error.message}`;
     }
     throw error;
   } finally {
@@ -194,14 +194,14 @@ const postFoodItemDiscount = asyncHandler(async (request: Request, response: Res
  */
 const postNewFoodItem = asyncHandler(async (request: Request, response: Response) => {
   logger.http('create_postgresController received POST to /api/fiscalismia/food_item');
-  let sql = `INSERT INTO public.table_food_prices(dimension_key, food_item, brand, store, main_macro, kcal_amount, weight, price, last_update, effective_date, expiration_date) VALUES (
-      nextval(\'table_food_prices_seq\'),
+  const sql = `INSERT INTO public.table_food_prices(dimension_key, food_item, brand, store, main_macro, kcal_amount, weight, price, last_update, effective_date, expiration_date) VALUES (
+      nextval('table_food_prices_seq'),
       $1, $2, $3, $4, $5, $6, $7, $8,
       current_date,
-      to_date(\'01.01.4000\',\'DD.MM.YYYY\')
+      to_date('01.01.4000','DD.MM.YYYY')
     ) RETURNING dimension_key as id`;
   const newFoodItem = request.body;
-  let parameters = [
+  const parameters = [
     newFoodItem.food_item,
     newFoodItem.brand,
     newFoodItem.store,
@@ -223,7 +223,7 @@ const postNewFoodItem = asyncHandler(async (request: Request, response: Response
     await client.query('ROLLBACK');
     response.status(400);
     if (error instanceof Error) {
-      error.message = `Transaction ROLLBACK. data could not be inserted. ` + error.message;
+      error.message = `Transaction ROLLBACK. data could not be inserted. ${error.message}`;
     }
     throw error;
   } finally {
@@ -270,7 +270,7 @@ const postInvestmentAndTaxes = asyncHandler(async (request: Request, response: R
     const result = await client.query(sqlInvestments, parametersInvestments);
     if (investmentAndTaxesObject.execution_type === 'sell' && result?.rows[0]?.id && result.rows[0].id > 0) {
       if (investmentAndTaxesObject.pct_of_profit_taxed === null || investmentAndTaxesObject.profit_amt === null) {
-        const errorMessage = `For Investment Sales pct_of_profit_taxed & profit_amt columns have to be defined`;
+        const errorMessage = 'For Investment Sales pct_of_profit_taxed & profit_amt columns have to be defined';
         throw new Error(errorMessage);
       }
       const parametersTaxes =
@@ -305,7 +305,7 @@ const postInvestmentAndTaxes = asyncHandler(async (request: Request, response: R
     await client.query('ROLLBACK');
     response.status(400);
     if (error instanceof Error) {
-      error.message = `Transaction ROLLBACK. data could not be inserted. ` + error.message;
+      error.message = `Transaction ROLLBACK. data could not be inserted. ${error.message}`;
     }
     throw error;
   } finally {
@@ -331,7 +331,7 @@ const postDividendsAndTaxes = asyncHandler(async (request: Request, response: Re
   VALUES (
       $1, $2, $3, $4, $5
     ) RETURNING dividend_id as id`;
-  let sqlBridgeInvestmentDividends = `INSERT INTO public.bridge_investment_dividends (investment_id, dividend_id, remaining_units)
+  const sqlBridgeInvestmentDividends = `INSERT INTO public.bridge_investment_dividends (investment_id, dividend_id, remaining_units)
   VALUES %L RETURNING investment_id as id, remaining_units`; // using pg-format for bulk insertion
   const dividendObject = request.body;
   const parametersDividends = [dividendObject.isin, dividendObject.dividendAmount, dividendObject.dividendDate];
@@ -371,7 +371,7 @@ const postDividendsAndTaxes = asyncHandler(async (request: Request, response: Re
       //  |  \ | \  / | |  \ |__  |\ | |  \    |__) |__) | |  \ / _` |__
       //  |__/ |  \/  | |__/ |___ | \| |__/    |__) |  \ | |__/ \__> |___
       let bridgeResult: any;
-      parametersBridge = new Array();
+      parametersBridge = [];
       dividendObject.investmentIdsAndRemainingUnits.forEach((e: { investmentId: number; remainingUnits: number }) => {
         parametersBridge.push([e.investmentId, result.rows[0].id, e.remainingUnits]);
       });
@@ -410,7 +410,7 @@ const postDividendsAndTaxes = asyncHandler(async (request: Request, response: Re
     await client.query('ROLLBACK');
     response.status(400);
     if (error instanceof Error) {
-      error.message = `Transaction ROLLBACK. data could not be inserted. ` + error.message;
+      error.message = `Transaction ROLLBACK. data could not be inserted. ${error.message}`;
     }
     throw error;
   } finally {
@@ -437,7 +437,7 @@ const postDividendsAndTaxes = asyncHandler(async (request: Request, response: Re
 const postVariableExpensesTextTsv = asyncHandler(async (request: Request, response: Response) => {
   logger.http('create_postgresController received POST to /api/fiscalismia/texttsv/variable_expenses');
   try {
-    const expectedColumns = new Array(
+    const expectedColumns = [
       'description',
       'category',
       'store',
@@ -446,7 +446,7 @@ const postVariableExpensesTextTsv = asyncHandler(async (request: Request, respon
       'is_planned',
       'contains_indulgence',
       'sensitivities'
-    );
+    ];
     const result = parse(request.body, {
       columns: expectedColumns,
       from_line: 2, // skip first line, as headers are provided
@@ -480,9 +480,7 @@ const postVariableExpensesTextTsv = asyncHandler(async (request: Request, respon
   } catch (error: unknown) {
     response.status(400);
     if (error instanceof Error) {
-      error.message =
-        `the provided text/plain data could not be converted to .csv or the following INSERT Statements. ` +
-        error.message;
+      error.message = `The provided text/plain data could not be converted to .csv or the following INSERT Statements. ${error.message}`;
     }
     throw error;
   }
@@ -500,7 +498,7 @@ const postVariableExpensesTextTsv = asyncHandler(async (request: Request, respon
 const postFixedCostsTextTsv = asyncHandler(async (request: Request, response: Response) => {
   logger.http('create_postgresController received POST to /api/fiscalismia/texttsv/fixed_costs');
   try {
-    const expectedColumns = new Array(
+    const expectedColumns = [
       'category',
       'description',
       'monthly_interval',
@@ -508,7 +506,7 @@ const postFixedCostsTextTsv = asyncHandler(async (request: Request, response: Re
       'monthly_cost',
       'effective_date',
       'expiration_date'
-    );
+    ];
     const result = parse(request.body, {
       columns: expectedColumns,
       from_line: 2, // skip first line, as headers are provided
@@ -546,7 +544,7 @@ const postFixedCostsTextTsv = asyncHandler(async (request: Request, response: Re
   } catch (error: unknown) {
     response.status(400);
     if (error instanceof Error) {
-      error.message = `the provided text/plain data could not be converted into INSERT Statements. ` + error.message;
+      error.message = `The provided text/plain data could not be converted into INSERT Statements. ${error.message}`;
     }
     throw error;
   }
@@ -564,14 +562,7 @@ const postFixedCostsTextTsv = asyncHandler(async (request: Request, response: Re
 const postIncomeTextTsv = asyncHandler(async (request: Request, response: Response) => {
   logger.http('create_postgresController received POST to /api/fiscalismia/texttsv/fixed_income');
   try {
-    const expectedColumns = new Array(
-      'description',
-      'type',
-      'monthly_interval',
-      'value',
-      'effective_date',
-      'expiration_date'
-    );
+    const expectedColumns = ['description', 'type', 'monthly_interval', 'value', 'effective_date', 'expiration_date'];
     const result = parse(request.body, {
       columns: expectedColumns,
       from_line: 2, // skip first line, as headers are provided
@@ -605,7 +596,7 @@ const postIncomeTextTsv = asyncHandler(async (request: Request, response: Respon
   } catch (error: unknown) {
     response.status(400);
     if (error instanceof Error) {
-      error.message = `the provided text/plain data could not be converted into INSERT Statements. ` + error.message;
+      error.message = `The provided text/plain data could not be converted into INSERT Statements. ${error.message}`;
     }
     throw error;
   }
@@ -624,7 +615,7 @@ const postIncomeTextTsv = asyncHandler(async (request: Request, response: Respon
 const postInvestmentsTextTsv = asyncHandler(async (request: Request, response: Response) => {
   logger.http('create_postgresController received POST to /api/fiscalismia/texttsv/investments');
   try {
-    const expectedColumns = new Array(
+    const expectedColumns = [
       'execution_type',
       'description',
       'isin',
@@ -637,7 +628,7 @@ const postInvestmentsTextTsv = asyncHandler(async (request: Request, response: R
       'execution_date',
       'pct_of_profit_taxed',
       'profit_amt'
-    );
+    ];
     const result = parse(request.body, {
       columns: expectedColumns,
       from_line: 2, // skip first line, as headers are provided
@@ -670,7 +661,7 @@ const postInvestmentsTextTsv = asyncHandler(async (request: Request, response: R
       insertStatements = insertStatements.concat(insertRow);
       if (e.execution_type === 'sell') {
         if (e.pct_of_profit_taxed === null || e.profit_amt === null) {
-          const errorMessage = `For Investment Sales pct_of_profit_taxed & profit_amt columns have to be defined`;
+          const errorMessage = 'For Investment Sales pct_of_profit_taxed & profit_amt columns have to be defined';
           throw new Error(errorMessage);
         }
         // CREATES 2 INSERT INTO STATEMENTS FOR SALES TO CONSIDER TAXES
@@ -688,7 +679,7 @@ const postInvestmentsTextTsv = asyncHandler(async (request: Request, response: R
   } catch (error: unknown) {
     response.status(400);
     if (error instanceof Error) {
-      error.message = `the provided text/plain data could not be converted into INSERT Statements. ` + error.message;
+      error.message = `The provided text/plain data could not be converted into INSERT Statements. ${error.message}`;
     }
     throw error;
   }
@@ -706,7 +697,7 @@ const postInvestmentsTextTsv = asyncHandler(async (request: Request, response: R
 const postNewFoodItemsTextTsv = asyncHandler(async (request: Request, response: Response) => {
   logger.http('create_postgresController received POST to /api/fiscalismia/texttsv/new_food_items');
   try {
-    const expectedColumns = new Array(
+    const expectedColumns = [
       'food_item',
       'brand',
       'store',
@@ -715,7 +706,7 @@ const postNewFoodItemsTextTsv = asyncHandler(async (request: Request, response: 
       'weight',
       'price',
       'last_update'
-    );
+    ];
     const result = parse(request.body, {
       columns: expectedColumns,
       from_line: 2, // skip first line, as headers are provided
@@ -751,7 +742,7 @@ const postNewFoodItemsTextTsv = asyncHandler(async (request: Request, response: 
   } catch (error: unknown) {
     response.status(400);
     if (error instanceof Error) {
-      error.message = `the provided text/plain data could not be converted into INSERT Statements. ` + error.message;
+      error.message = `The provided text/plain data could not be converted into INSERT Statements. ${error.message}`;
     }
     throw error;
   }
@@ -781,34 +772,33 @@ const createUserCredentials = asyncHandler(async (request: Request, response: Re
   };
   const regExAlphabeticHyphensDotsUnderscores = /^[A-Za-z_.-]*$/g;
   const regExAlphaNumeric = /^[a-zA-Z0-9._-]*$/g;
-  const regExEmail =
-    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const regExEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   if (!credentials.username || !credentials.password || !credentials.email) {
     logger.debug('username, email or password not provided in request.body');
     response.status(400);
-    throw new Error(`username, email and/or password missing in POST request`);
+    throw new Error('username, email and/or password missing in POST request');
   }
   if (!regExAlphabeticHyphensDotsUnderscores.test(credentials.username)) {
     logger.debug(`username did not match latin alphabet regex pattern ${regExAlphabeticHyphensDotsUnderscores}`);
     response.status(400);
-    throw new Error(`username must conform to the latin alphabet!`);
+    throw new Error('username must conform to the latin alphabet!');
   }
   if (!regExEmail.test(credentials.email)) {
     logger.debug(`email did not match the chromium email regex pattern ${regExEmail}`);
     response.status(400);
-    throw new Error(`email must conform to the Chromium email standard such as example_1@domain.xyz!`);
+    throw new Error('email must conform to the Chromium email standard such as example_1@domain.xyz!');
   }
   if (!regExAlphaNumeric.test(credentials.password)) {
     logger.debug(`password did not match the alphanumeric regex pattern ${regExAlphaNumeric}`);
     response.status(400);
-    throw new Error(`password must contain alphanumeric characters, hyphens or underscores only!`);
+    throw new Error('password must contain alphanumeric characters, hyphens or underscores only!');
   }
   if (!config.USERNAME_WHITELIST.includes(credentials.username)) {
     logger.debug(`username ${credentials.username} is not whitelisted!
     whitelist is as follows:
     ${config.USERNAME_WHITELIST}`);
     response.status(400);
-    throw new Error(`username not whitelisted. Please contact your administrator to gain access.`);
+    throw new Error('username not whitelisted. Please contact your administrator to gain access.');
   }
   const sqlInsertCredentials = buildInsertUmUsers(credentials);
   const sqlVerifyCredentials = buildVerifyUsername(credentials);
@@ -823,10 +813,10 @@ const createUserCredentials = asyncHandler(async (request: Request, response: Re
     const result = await client.query(sqlVerifyCredentials, parameters);
     const results = { results: result ? result.rows : null };
     if (result.rowCount != 1) {
-      throw new Error(`user could not be uniquely identified`);
+      throw new Error('user could not be uniquely identified');
     }
     if (result?.rows[0]?.username !== credentials.username) {
-      throw new Error(`username provided does not match username in database`);
+      throw new Error('username provided does not match username in database');
     }
     await client.query(sqlInsertSettingsForNewUser, parameters);
     logSqlStatement(sqlInsertSettingsForNewUser, parameters);
@@ -837,7 +827,7 @@ const createUserCredentials = asyncHandler(async (request: Request, response: Re
     await client.query('ROLLBACK');
     response.status(400);
     if (error instanceof Error) {
-      error.message = 'Transaction ROLLBACK: user credentials could not be stored in the database. ' + error.message;
+      error.message = `Transaction ROLLBACK: user credentials could not be stored in the database. ${error.message}`;
     }
     throw error;
   } finally {
@@ -859,7 +849,7 @@ const loginWithUserCredentials = asyncHandler(async (request: Request, response:
   };
   if (!credentials.username || !credentials.password) {
     response.status(400);
-    throw new Error(`username and/or password not provided in request.body`);
+    throw new Error('username and/or password not provided in request.body');
   }
   const sql = buildVerifyUsername(credentials);
   const parameters = '';
@@ -874,7 +864,7 @@ const loginWithUserCredentials = asyncHandler(async (request: Request, response:
     const results = { rows: result ? result.rows : null };
     if (results.rows[0]?.username && results.rows[0]?.username !== credentials.username) {
       response.status(400);
-      throw new Error(`Login failed. username from request.body and database query do not match`);
+      throw new Error('Login failed. username from request.body and database query do not match');
     }
     const user = {
       userId: results.rows[0]?.userid,
@@ -886,7 +876,7 @@ const loginWithUserCredentials = asyncHandler(async (request: Request, response:
   } catch (error: unknown) {
     response.status(400);
     if (error instanceof Error) {
-      error.message = `Login failed. User could not be verified. ` + error.message;
+      error.message = `Login failed. User could not be verified. ${error.message}`;
     }
     throw error;
   } finally {

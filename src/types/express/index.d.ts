@@ -1,4 +1,4 @@
-import express from 'express';
+import _express from 'express';
 
 /**
  * adds 3 variables to the Request Object for user authentication via jwt auth.

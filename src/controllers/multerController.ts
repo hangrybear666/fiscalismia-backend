@@ -43,7 +43,7 @@ const postFoodItemImg = asyncHandler(async (request: Request, response: Response
       } catch (error: unknown) {
         response.status(400);
         if (error instanceof Error) {
-          error.message = `INSERT of filepath into food_price_image_location failed. ` + error.message;
+          error.message = `INSERT of filepath into food_price_image_location failed. ${error.message}`;
         }
         throw error;
       } finally {
@@ -123,8 +123,7 @@ const deleteFoodItemImg = asyncHandler(async (request: Request, response: Respon
     await client.query('ROLLBACK');
     response.status(400);
     if (error instanceof Error) {
-      error.message =
-        `Transaction ROLLBACK. Row could not be deleted from public.food_price_image_location. ` + error.message;
+      error.message = `Transaction ROLLBACK. Row could not be deleted from public.food_price_image_location. ${error.message}`;
     }
     throw error;
   } finally {
