@@ -85,7 +85,7 @@ const extractResultHeaders = (result: any) => {
  */
 const postTestData = asyncHandler(async (request: Request, response: Response) => {
   logger.http('create_postgresController received POST to /api/fiscalismia/');
-  const sql = 'INSERT INTO test_table(description) VALUES($1) RETURNING description';
+  const sql = 'INSERT INTO test_table(description) VALUES($1) RETURNING id';
   const parameters = [request.body.description];
   const client = await pool.connect();
   try {

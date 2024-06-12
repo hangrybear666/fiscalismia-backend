@@ -11,7 +11,7 @@
     "snykDependencyAnalysis": "node src/tests/snykDependencyAnalysis",
     "lint": "eslint .",
     "start": "set NODE_ENV=production&& node build/server.js",
-    "server": "set NODE_ENV=development&& nodemon src/server.ts",
+    "server": "set NODE_ENV=development&& nodemon src/server.ts --ignore tests/",
     "test": "jest --forceExit"
   },
   "repository": {

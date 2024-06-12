@@ -47,7 +47,7 @@ jobs:
     - name: Publish Typecheck & Eslint & Snyk Reports
       uses: actions/upload-artifact@v4
       with:
-        name: Reports
+        name: Fiscalismia-Backend-Reports
         path: |
           reports/
           !reports/.gitkeep
