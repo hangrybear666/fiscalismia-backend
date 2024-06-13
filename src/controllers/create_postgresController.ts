@@ -7,7 +7,12 @@ import {
   UserSettingObject
 } from '../utils/customTypes';
 import { Request, Response } from 'express';
-import { replaceCommaAndParseFloat } from '../utils/sharedFunctions';
+import {
+  extractResultHeaders,
+  headersAsExpected,
+  parseHeader,
+  replaceCommaAndParseFloat
+} from '../utils/sharedFunctions';
 
 const asyncHandler = require('express-async-handler');
 const { parse } = require('csv-parse/sync');
@@ -27,46 +32,9 @@ const {
 } = require('../utils/SQL_UTILS');
 const { generateToken } = require('../utils/security');
 const config = require('../utils/config');
-
-//  _____ _   _   ___  ______ ___________      ______ _   _ _   _ _____ _____ _____ _____ _   _  _____
-// /  ___| | | | / _ \ | ___ \  ___|  _  \     |  ___| | | | \ | /  __ \_   _|_   _|  _  | \ | |/  ___|
-// \ `--.| |_| |/ /_\ \| |_/ / |__ | | | |     | |_  | | | |  \| | /  \/ | |   | | | | | |  \| |\ `--.
-//  `--. \  _  ||  _  ||    /|  __|| | | |     |  _| | | | | . ` | |     | |   | | | | | | . ` | `--. \
-// /\__/ / | | || | | || |\ \| |___| |/ /      | |   | |_| | |\  | \__/\ | |  _| |_\ \_/ / |\  |/\__/ /
-// \____/\_| |_/\_| |_/\_| \_\____/|___/       \_|    \___/\_| \_/\____/ \_/  \___/ \___/\_| \_/\____/
-
-/**
- * returning an object with parsed header values from the first line out of Frontend within request.body.
- * @param requestBody
- * @returns
- */
-const parseHeader = (requestBody: string) => {
-  return parse(requestBody, {
-    columns: true, // automatically detect provided headers from first line
-    delimiter: '\t',
-    to: 1 // stop after first line to only determine headers
-  });
-};
-
-/**
- * check if headers provided in frontend match the expectation.
- * @param providedHeaders string array of header names from TSV import
- * @param expectedHeaders string array of header names defined in calling method
- */
-const headersAsExpected = (providedHeaders: string[], expectedHeaders: string[]) => {
-  if (providedHeaders.toString() !== expectedHeaders.toString()) {
-    throw new Error('The expected columns were not provided. Expected: ' + expectedHeaders.toString());
-  }
-};
-
-/**
- * extracts header keynames from returned result of csv-parse
- * @param result result of csv-parse
- * @returns empty array for empty result or array of objects keynames (headers)
- */
-const extractResultHeaders = (result: any) => {
-  return result && result.length > 0 ? Object.keys(result[0]) : [];
-};
+const regExAlphabeticHyphensDotsUnderscores = /^[A-Za-z_.-]*$/;
+const regExAlphaNumeric = /^[a-zA-Z0-9._-]*$/;
+const regExEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 /**
  *    ______ _____ _____ _____    ______ _____ _____ _   _ _____ _____ _____ _____
@@ -130,23 +98,40 @@ const postUpdatedUserSettings = asyncHandler(async (request: Request, response: 
   RETURNING (SELECT username FROM public.um_users WHERE id = (SELECT id FROM public.um_users WHERE username = $1))`;
   const userSettingObj: UserSettingObject = request.body;
   const parameters = [userSettingObj.username, userSettingObj.settingKey, userSettingObj.settingValue];
-  const client = await pool.connect();
-  try {
-    await client.query('BEGIN');
-    logSqlStatement(sql, parameters);
-    const result = await client.query(sql, parameters);
-    await client.query('COMMIT');
-    const results = { results: result ? result.rows : null };
-    response.status(201).send(results);
-  } catch (error: unknown) {
-    await client.query('ROLLBACK');
-    response.status(400);
-    if (error instanceof Error) {
-      error.message = `Transaction ROLLBACK. data could not be inserted. ${error.message}`;
+  if (!regExAlphabeticHyphensDotsUnderscores.test(userSettingObj.username)) {
+    logger.debug(
+      `username ${userSettingObj.username} did not match latin alphabet regex pattern ${regExAlphabeticHyphensDotsUnderscores}`
+    );
+    response.status(422); // Unprocessable Content
+    throw new Error('username must conform to the latin alphabet!');
+  }
+  if (
+    userSettingObj.settingKey === 'selected_mode' ||
+    userSettingObj.settingKey === 'selected_language' ||
+    userSettingObj.settingKey === 'selected_palette'
+  ) {
+    const client = await pool.connect();
+    try {
+      await client.query('BEGIN');
+      logSqlStatement(sql, parameters);
+      const result = await client.query(sql, parameters);
+      await client.query('COMMIT');
+      const results = { results: result ? result.rows : null };
+      response.status(201).send(results);
+    } catch (error: unknown) {
+      await client.query('ROLLBACK');
+      response.status(400);
+      if (error instanceof Error) {
+        error.message = `Transaction ROLLBACK. data could not be inserted. ${error.message}`;
+      }
+      throw error;
+    } finally {
+      client.release();
     }
-    throw error;
-  } finally {
-    client.release();
+  } else {
+    logger.debug(`${userSettingObj.settingKey} not in predefined list of expected values`);
+    response.status(400);
+    throw new Error('setting key is not valid. please refrain from posting it again.');
   }
 });
 
@@ -770,34 +755,31 @@ const createUserCredentials = asyncHandler(async (request: Request, response: Re
     email: request.body.email,
     password: request.body.password
   };
-  const regExAlphabeticHyphensDotsUnderscores = /^[A-Za-z_.-]*$/g;
-  const regExAlphaNumeric = /^[a-zA-Z0-9._-]*$/g;
-  const regExEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   if (!credentials.username || !credentials.password || !credentials.email) {
     logger.debug('username, email or password not provided in request.body');
-    response.status(400);
+    response.status(400); // Bad Request
     throw new Error('username, email and/or password missing in POST request');
   }
   if (!regExAlphabeticHyphensDotsUnderscores.test(credentials.username)) {
     logger.debug(`username did not match latin alphabet regex pattern ${regExAlphabeticHyphensDotsUnderscores}`);
-    response.status(400);
+    response.status(422); // Unprocessable Content
     throw new Error('username must conform to the latin alphabet!');
   }
   if (!regExEmail.test(credentials.email)) {
     logger.debug(`email did not match the chromium email regex pattern ${regExEmail}`);
-    response.status(400);
+    response.status(422); // Unprocessable Content
     throw new Error('email must conform to the Chromium email standard such as example_1@domain.xyz!');
   }
   if (!regExAlphaNumeric.test(credentials.password)) {
     logger.debug(`password did not match the alphanumeric regex pattern ${regExAlphaNumeric}`);
-    response.status(400);
+    response.status(422); // Unprocessable Content
     throw new Error('password must contain alphanumeric characters, hyphens or underscores only!');
   }
   if (!config.USERNAME_WHITELIST.includes(credentials.username)) {
     logger.debug(`username ${credentials.username} is not whitelisted!
     whitelist is as follows:
     ${config.USERNAME_WHITELIST}`);
-    response.status(400);
+    response.status(403); // Forbidden
     throw new Error('username not whitelisted. Please contact your administrator to gain access.');
   }
   const sqlInsertCredentials = buildInsertUmUsers(credentials);
@@ -889,14 +871,12 @@ module.exports = {
 
   postFoodItemDiscount,
   postNewFoodItem,
-  postNewFoodItemsTextTsv,
-
   postInvestmentAndTaxes,
   postDividendsAndTaxes,
+
+  postNewFoodItemsTextTsv,
   postInvestmentsTextTsv,
-
   postVariableExpensesTextTsv,
-
   postFixedCostsTextTsv,
   postIncomeTextTsv,
 

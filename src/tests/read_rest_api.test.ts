@@ -1,6 +1,7 @@
 import request from 'supertest';
 require('dotenv').config();
 import { app } from '../app';
+import { UserSettingObject } from '../utils/customTypes';
 const logger = require('../utils/logger');
 
 /*    __   __                          __          __        ___  __
@@ -19,7 +20,7 @@ const dbDateStr = `${year}-${month}-${day}`;
   |__)  /\  /__` | /  `    |__) |__   /\  |  \    /  \ |__) |__  |__)  /\   |  | /  \ |\ | /__`
   |__) /~~\ .__/ | \__,    |  \ |___ /~~\ |__/    \__/ |    |___ |  \ /~~\  |  | \__/ | \| .__/  */
 
-describe('supertest REST API testing basic ops', () => {
+describe('supertest REST API testing entire REST functionality', () => {
   let maxTestTableId: number;
   let insertedId: number;
   const username = 'admin';
@@ -83,6 +84,116 @@ describe('supertest REST API testing basic ops', () => {
         }
         // set local authentication token variable to text of login response
         authToken = res.text;
+        return done();
+      });
+  });
+
+  test('AUTH create user with missing username returns 400 Bad Request', (done) => {
+    request(app)
+      .post(`${ROOT_URL}/um/credentials`)
+      .send({
+        username: '',
+        email: 'randomuser@randomdomain.com',
+        password: 'testcredential'
+      })
+      .expect('Content-Type', /json/)
+      .expect(400)
+      .end((err: unknown, _res: request.Response) => {
+        if (err instanceof Error) return done(err);
+        return done();
+      });
+  });
+
+  test('AUTH create user with missing email returns 400 Bad Request', (done) => {
+    request(app)
+      .post(`${ROOT_URL}/um/credentials`)
+      .send({
+        username: 'randomUser',
+        password: 'testcredential'
+      })
+      .expect('Content-Type', /json/)
+      .expect(400)
+      .end((err: unknown, _res: request.Response) => {
+        if (err instanceof Error) return done(err);
+        return done();
+      });
+  });
+
+  test('AUTH create user with missing password returns 400 Bad Request', (done) => {
+    request(app)
+      .post(`${ROOT_URL}/um/credentials`)
+      .send({
+        username: 'randomUser',
+        email: 'randomuser@randomdomain.com'
+      })
+      .expect('Content-Type', /json/)
+      .expect(400)
+      .end((err: unknown, _res: request.Response) => {
+        if (err instanceof Error) return done(err);
+        return done();
+      });
+  });
+
+  test('AUTH create user not whitelisted returns 403 Forbidden', (done) => {
+    request(app)
+      .post(`${ROOT_URL}/um/credentials`)
+      .send({
+        username: 'randomUser',
+        email: 'randomuser@randomdomain.com',
+        password: 'testcredential'
+      })
+      .expect('Content-Type', /json/)
+      .expect(403)
+      .end((err: unknown, _res: request.Response) => {
+        if (err instanceof Error) return done(err);
+        return done();
+      });
+  });
+
+  test('AUTH create user /w invalid username returns 422 Unprocessable Content', (done) => {
+    request(app)
+      .post(`${ROOT_URL}/um/credentials`)
+      .send({
+        username: '\\**+?!#',
+        email: 'randomuser@randomdomain.com',
+        password: 'testcredential'
+      })
+      .expect('Content-Type', /json/)
+      .expect(422)
+      .end((err: unknown, _res: request.Response) => {
+        if (err instanceof Error) return done(err);
+        return done();
+      });
+  });
+
+  test('AUTH create user /w invalid email returns 422 Unprocessable Content', (done) => {
+    request(app)
+      .post(`${ROOT_URL}/um/credentials`)
+      .send({
+        username: 'randomUser',
+        email: 'ʕ•ᴥ•ʔ@.com',
+        password: 'testcredential'
+      })
+      .expect('Content-Type', /json/)
+      .expect(422)
+      .end((err: unknown, _res: request.Response) => {
+        if (err instanceof Error) return done(err);
+        return done();
+      });
+  });
+
+  test('AUTH create user /w invalid pswd returns 422 Unprocessable Content', (done) => {
+    request(app)
+      .post(`${ROOT_URL}/um/credentials`)
+      .send({
+        username: 'randomUser',
+        email: 'randomuser@randomdomain.com',
+        password: 'ʕ•ᴥ•ʔ'
+      })
+      .expect('Content-Type', /json/)
+      .expect(422)
+      .end((err: unknown, _res: request.Response) => {
+        if (err instanceof Error) return done(err);
         return done();
       });
   });
@@ -355,21 +466,87 @@ describe('supertest REST API testing basic ops', () => {
       });
   });
 
-  // test('GET investments by ID', (done) => {
-  //   getRequestByRandomIdMatches(done, '/investments');
-  // });
+  test('GET investments by ID', (done) => {
+    getRequestByRandomIdMatches(done, '/investments');
+  });
 
-  // test('GET investment_dividends by ID', (done) => {
-  //   getRequestByRandomIdMatches(done, '/investment_dividends');
-  // });
+  test('GET investment_dividends by ID', (done) => {
+    getRequestByRandomIdMatches(done, '/investment_dividends');
+  });
 
-  // test('GET food_prices_and_discounts by ID', (done) => {
-  //   getRequestByRandomIdMatches(done, '/food_prices_and_discounts');
-  // });
+  test('POST user_settings: set dark mode for admin user', (done) => {
+    const userSettings: UserSettingObject = {
+      username: username,
+      settingKey: 'selected_mode',
+      settingValue: 'dark'
+    };
+    request(app)
+      .post(`${ROOT_URL}/um/settings`)
+      .send(userSettings)
+      .set('Authorization', 'Bearer ' + authToken)
+      .expect('Content-Type', /json/)
+      .expect(201) // Created
+      .end((err: unknown, res: request.Response) => {
+        if (err instanceof Error) return done(err);
+        expect(res.body.results).toBeDefined();
+        expect(res.body.results[0].username).toEqual(username);
+        return done();
+      });
+  });
 
-  // test('GET discounted_foods_current by ID', (done) => {
-  //   getRequestByRandomIdMatches(done, '/discounted_foods_current');
-  // });
+  test('POST user_settings: providing invalid username fails with 422 Unprocessable Content', (done) => {
+    const userSettings: UserSettingObject = {
+      username: '/(´ß!#',
+      settingKey: 'selected_mode',
+      settingValue: 'dark'
+    };
+    request(app)
+      .post(`${ROOT_URL}/um/settings`)
+      .send(userSettings)
+      .set('Authorization', 'Bearer ' + authToken)
+      .expect('Content-Type', /json/)
+      .expect(422)
+      .end((err: unknown, _res: request.Response) => {
+        if (err instanceof Error) return done(err);
+        return done();
+      });
+  });
+
+  test('POST user_settings: providing wrong setting_key fails', (done) => {
+    const userSettings: UserSettingObject = {
+      username: 'admin',
+      settingKey: 'not_defined',
+      settingValue: 'dark'
+    };
+    request(app)
+      .post(`${ROOT_URL}/um/settings`)
+      .send(userSettings)
+      .set('Authorization', 'Bearer ' + authToken)
+      .expect('Content-Type', /json/)
+      .expect(400)
+      .end((err: unknown, _res: request.Response) => {
+        if (err instanceof Error) return done(err);
+        return done();
+      });
+  });
+
+  test('POST user_settings: providing not existing username fails', (done) => {
+    const userSettings: UserSettingObject = {
+      username: 'notExistingUser',
+      settingKey: 'selected_mode',
+      settingValue: 'light'
+    };
+    request(app)
+      .post(`${ROOT_URL}/um/settings`)
+      .send(userSettings)
+      .set('Authorization', 'Bearer ' + authToken)
+      .expect('Content-Type', /json/)
+      .expect(400)
+      .end((err: unknown, _res: request.Response) => {
+        if (err instanceof Error) return done(err);
+        return done();
+      });
+  });
 });
 
 /**

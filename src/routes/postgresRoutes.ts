@@ -21,6 +21,8 @@ const {
   getSensitivityById,
   getVariableExpenseById,
   getVariableExpenseByCategory,
+  getInvestmentById,
+  getInvestmentDividendsById,
   getFixedCostById,
   getFixedCostsByEffectiveDate,
   getFixedIncomeByEffectiveDate,
@@ -80,6 +82,8 @@ postgresRoutes.get('/store/:id', authenticateUser, getStoreById);
 postgresRoutes.get('/sensitivity/:id', authenticateUser, getSensitivityById);
 postgresRoutes.get('/variable_expenses/:id', authenticateUser, getVariableExpenseById);
 postgresRoutes.get('/variable_expenses/category/:category', authenticateUser, getVariableExpenseByCategory);
+postgresRoutes.get('/investments/:id', authenticateUser, getInvestmentById);
+postgresRoutes.get('/investment_dividends/:id', authenticateUser, getInvestmentDividendsById);
 postgresRoutes.get('/fixed_costs/:id', authenticateUser, getFixedCostById);
 postgresRoutes.get('/fixed_costs/valid/:date', authenticateUser, getFixedCostsByEffectiveDate);
 postgresRoutes.get('/fixed_income/valid/:date', authenticateUser, getFixedIncomeByEffectiveDate);

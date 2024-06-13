@@ -338,6 +338,38 @@ const getVariableExpenseByCategory = asyncHandler(async (request: Request, respo
 });
 
 /**
+ * @description query fetching specific data from investments table based on provided id
+ * @method HTTP GET
+ * @async asyncHandler passes exceptions within routes to errorHandler middleware
+ * @route /api/fiscalismia/investments/:id
+ */
+const getInvestmentById = asyncHandler(async (request: Request, response: Response) => {
+  logger.http('read_postgresController received GET to /api/fiscalismia/investments/' + request.params.id);
+  const id = request.params.id;
+  const client = await pool.connect();
+  const result = await client.query('SELECT * FROM public.investments WHERE id = $1', [id]);
+  const results = { results: result ? result.rows : null };
+  response.status(200).send(results);
+  client.release();
+});
+
+/**
+ * @description query fetching specific data from investment_dividends table based on provided id
+ * @method HTTP GET
+ * @async asyncHandler passes exceptions within routes to errorHandler middleware
+ * @route /api/fiscalismia/investment_dividends/:id
+ */
+const getInvestmentDividendsById = asyncHandler(async (request: Request, response: Response) => {
+  logger.http('read_postgresController received GET to /api/fiscalismia/investment_dividends/' + request.params.id);
+  const id = request.params.id;
+  const client = await pool.connect();
+  const result = await client.query('SELECT * FROM public.investment_dividends WHERE id = $1', [id]);
+  const results = { results: result ? result.rows : null };
+  response.status(200).send(results);
+  client.release();
+});
+
+/**
  * @description query fetching specific data from fixed_costs table based on provided id
  * @method HTTP GET
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
@@ -458,6 +490,8 @@ module.exports = {
   getFixedCostById,
   getFixedCostsByEffectiveDate,
   getFixedIncomeByEffectiveDate,
+  getInvestmentById,
+  getInvestmentDividendsById,
   getSensitivitiesOfPurchaseyBySensitivityId,
   getSensitivitiesOfPurchaseyByVarExpenseId
 };
