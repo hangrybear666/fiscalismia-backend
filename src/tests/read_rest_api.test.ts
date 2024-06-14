@@ -23,6 +23,7 @@ const dbDateStr = `${year}-${month}-${day}`;
 describe('supertest REST API testing entire REST functionality', () => {
   let maxTestTableId: number;
   let insertedId: number;
+  const insertedFoodItemIds: number[] = [];
   const username = 'admin';
 
   test('AUTH read fiscalismia root w/o authentication fails', (done) => {
@@ -198,7 +199,7 @@ describe('supertest REST API testing entire REST functionality', () => {
       });
   });
 
-  test('POST test_table', (done) => {
+  test('POST into test_table', (done) => {
     request(app)
       .post(`${ROOT_URL}`)
       .set('Authorization', 'Bearer ' + authToken)
@@ -216,7 +217,7 @@ describe('supertest REST API testing entire REST functionality', () => {
       });
   });
 
-  test('GET test_taböe', (done) => {
+  test('GET from test_taböe', (done) => {
     request(app)
       .get(`${ROOT_URL}`)
       .set('Authorization', 'Bearer ' + authToken)
@@ -232,7 +233,7 @@ describe('supertest REST API testing entire REST functionality', () => {
       });
   });
 
-  test('UPDATE test_table', (done) => {
+  test('UPDATE in test_table', (done) => {
     const updatedDescription = 'Updated from Supertest [read_rest_api.test.js] at [' + currentTime + ']';
     request(app)
       .put(`${ROOT_URL}/${maxTestTableId}`)
@@ -254,7 +255,7 @@ describe('supertest REST API testing entire REST functionality', () => {
       });
   });
 
-  test('DELETE test_table', (done) => {
+  test('DELETE from test_table', (done) => {
     request(app)
       .delete(`${ROOT_URL}/${insertedId}`)
       .set('Authorization', 'Bearer ' + authToken)
@@ -547,7 +548,222 @@ describe('supertest REST API testing entire REST functionality', () => {
         return done();
       });
   });
+
+  /**
+    _____ ______     __     ___ _   _ ____  _____ ____ _____ ___ ___  _   _
+   |_   _/ ___\ \   / /    |_ _| \ | / ___|| ____|  _ \_   _|_ _/ _ \| \ | |
+     | | \___ \\ \ / /      | ||  \| \___ \|  _| | |_) || |  | | | | |  \| |
+     | |  ___) |\ V /       | || |\  |___) | |___|  _ < | |  | | |_| | |\  |
+     |_| |____/  \_/       |___|_| \_|____/|_____|_| \_\|_| |___\___/|_| \_|*/
+
+  // variable expenses
+  test('POST TSV data: variable_expenses and receive inserts', (done) => {
+    const textTsv = `description	category	store	cost	purchasing_date	is_planned	contains_indulgence	sensitivities
+  Softdrinks	Groceries	Edeka	€2.48	 28.04.2022	N	J	caffeine, aspartame/saccharin`;
+    postTsvAndReceiveInsertStmt(done, '/texttsv/variable_expenses', textTsv, false);
+  });
+
+  test('POST TSV data: variable_expenses /w extra column and expect 400 Bad Request', (done) => {
+    const textTsv = `description	category	store	cost	purchasing_date	is_planned	contains_indulgence	sensitivities	extra_column
+  Softdrinks	Groceries	Edeka	€2.48	 28.04.2022	N	J	caffeine, aspartame/saccharin`;
+    postTsvAndReceiveInsertStmt(done, '/texttsv/variable_expenses', textTsv, true);
+  });
+
+  test('POST TSV data: variable_expenses /w empty tsv and expect 400 Bad Request', (done) => {
+    postTsvAndReceiveInsertStmt(done, '/texttsv/variable_expenses', '', true);
+  });
+
+  // fixed costs
+  test('POST TSV data: fixed_costs and receive inserts', (done) => {
+    const textTsv = `category	description	monthly_interval	billed_cost	monthly_cost	effective_date	expiration_date
+    LIVING_ESSENTIALS 	Miete	1	360	360.00	01.06.2023	31.08.2023`;
+    postTsvAndReceiveInsertStmt(done, '/texttsv/fixed_costs', textTsv, false);
+  });
+
+  test('POST TSV data: fixed_costs /w extra column and expect 400 Bad Request', (done) => {
+    const textTsv = `category	description	monthly_interval	billed_cost	monthly_cost	effective_date	expiration_date	extra_column
+    LIVING_ESSENTIALS 	Miete	1	360	360.00	01.06.2023	31.08.2023`;
+    postTsvAndReceiveInsertStmt(done, '/texttsv/fixed_costs', textTsv, true);
+  });
+
+  test('POST TSV data: fixed_costs /w empty tsv and expect 400 Bad Request', (done) => {
+    postTsvAndReceiveInsertStmt(done, '/texttsv/fixed_costs', '', true);
+  });
+
+  // fixed income
+  test('POST TSV data: fixed_income and receive inserts', (done) => {
+    const textTsv = `description	type	monthly_interval	value	effective_date	expiration_date
+    Example Job Monthly Salary	net salary	1	3132.04	01.01.2024	01.01.4000`;
+    postTsvAndReceiveInsertStmt(done, '/texttsv/fixed_income', textTsv, false);
+  });
+
+  test('POST TSV data: fixed_income /w extra column and expect 400 Bad Request', (done) => {
+    const textTsv = `description	type	monthly_interval	value	effective_date	expiration_date	extra_column
+    Example Job Monthly Salary	net salary	1	3132.04	01.01.2024	01.01.4000`;
+    postTsvAndReceiveInsertStmt(done, '/texttsv/fixed_income', textTsv, true);
+  });
+
+  test('POST TSV data: fixed_income /w empty tsv and expect 400 Bad Request', (done) => {
+    postTsvAndReceiveInsertStmt(done, '/texttsv/fixed_income', '', true);
+  });
+
+  // new food items
+  test('POST TSV data: new_food_items and receive inserts', (done) => {
+    const textTsv = `food_item	brand	store	main_macro	kcal_amount	weight	price	last_update
+    Oatly Cuisine 15%	Oatly	Alle	Fat	150	250	1.29	 31.07.2023`;
+    postTsvAndReceiveInsertStmt(done, '/texttsv/new_food_items', textTsv, false);
+  });
+
+  test('POST TSV data: new_food_items /w extra column and expect 400 Bad Request', (done) => {
+    const textTsv = `food_item	brand	store	main_macro	kcal_amount	weight	price	last_update	extra_column
+    Oatly Cuisine 15%	Oatly	Alle	Fat	150	250	1.29	 31.07.2023`;
+    postTsvAndReceiveInsertStmt(done, '/texttsv/new_food_items', textTsv, true);
+  });
+
+  test('POST TSV data: new_food_items /w empty tsv and expect 400 Bad Request', (done) => {
+    postTsvAndReceiveInsertStmt(done, '/texttsv/new_food_items', '', true);
+  });
+
+  // investments
+  test('POST TSV data: investments and receive inserts', (done) => {
+    const textTsv = `execution_type	description	isin	investment_type	marketplace	units	price_per_unit	total_price	fees	execution_date	pct_of_profit_taxed	profit_amt
+    buy	CD PROJEKT S.A. C ZY 1	PLOPTTC00011	stock	Stuttgart	42	24.46	1043.11	15.79	22.01.2024		`;
+    postTsvAndReceiveInsertStmt(done, '/texttsv/investments', textTsv, false);
+  });
+
+  test('POST TSV data: investments /w extra column and expect 400 Bad Request', (done) => {
+    const textTsv = `execution_type	description	isin	investment_type	marketplace	units	price_per_unit	total_price	fees	execution_date	pct_of_profit_taxed	profit_amt	extra_column
+    buy	CD PROJEKT S.A. C ZY 1	PLOPTTC00011	stock	Stuttgart	42	24.46	1043.11	15.79	22.01.2024		`;
+    postTsvAndReceiveInsertStmt(done, '/texttsv/investments', textTsv, true);
+  });
+
+  test('POST TSV data: investments /w empty tsv and expect 400 Bad Request', (done) => {
+    postTsvAndReceiveInsertStmt(done, '/texttsv/investments', '', true);
+  });
+
+  /**
+    ____  ____      ____  _____ ____  ____ ___ ____ _____ ____
+   |  _ \| __ )    |  _ \| ____|  _ \/ ___|_ _/ ___|_   _/ ___|
+   | | | |  _ \    | |_) |  _| | |_) \___ \| |\___ \ | | \___ \
+   | |_| | |_) |   |  __/| |___|  _ < ___) | | ___) || |  ___) |
+   |____/|____/    |_|   |_____|_| \_\____/___|____/ |_| |____/*/
+
+  test('POST /w db persist: new_food_item expects 201 Created', (done) => {
+    const newFoodItem = {
+      food_item: 'Hafermilch',
+      brand: 'Oatly',
+      store: 'Edeka',
+      main_macro: 'Fat',
+      kcal_amount: '63',
+      weight: '1000',
+      price: '2.39',
+      last_update: new Date()
+    };
+    request(app)
+      .post(`${ROOT_URL}/food_item`)
+      .send(newFoodItem)
+      .set('Authorization', 'Bearer ' + authToken)
+      .set('Content-Type', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(201)
+      .end((err: unknown, res: request.Response) => {
+        if (err instanceof Error) return done(err);
+        expect(res.body.results).toBeDefined();
+        expect(!isNaN(Number(res.body.results[0].id))).toBeTruthy();
+        insertedFoodItemIds.push(Number(res.body.results[0].id));
+        return done();
+      });
+  });
+
+  test('POST /w db persist: attempt to save new_food_item twice expect 400 Bad Request', (done) => {
+    const newFoodItem = {
+      food_item: 'Heidelbeeren TK',
+      brand: 'Freshona',
+      store: 'Lidl',
+      main_macro: 'Carbs',
+      kcal_amount: '34',
+      weight: '400',
+      price: '1.79',
+      last_update: new Date()
+    };
+    request(app)
+      // post valid item
+      .post(`${ROOT_URL}/food_item`)
+      .send(newFoodItem)
+      .set('Authorization', 'Bearer ' + authToken)
+      .set('Content-Type', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(201)
+      .end((err: unknown, res: request.Response) => {
+        if (err instanceof Error) return done(err);
+        expect(res.body.results).toBeDefined();
+        expect(!isNaN(Number(res.body.results[0].id))).toBeTruthy();
+        insertedFoodItemIds.push(Number(res.body.results[0].id));
+        request(app)
+          // post item again. expect to violate unique key constraint
+          .post(`${ROOT_URL}/food_item`)
+          .send(newFoodItem)
+          .set('Authorization', 'Bearer ' + authToken)
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(400)
+          .end((err: unknown, _res: request.Response) => {
+            if (err instanceof Error) return done(err);
+            return done();
+          });
+      });
+  });
+  test('DELETE prior created food_items from db expecting ids returned', (done) => {
+    const deleteRequests = insertedFoodItemIds.map((insertedId: number) => {
+      return request(app)
+        .delete(`${ROOT_URL}/food_item/${insertedId}`)
+        .set('Authorization', 'Bearer ' + authToken)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((res: request.Response) => {
+          expect(res.body.results).toBeDefined();
+          expect(!isNaN(Number(res.body.results[0].id))).toBeTruthy();
+          const deletedId = Number(res.body.results[0].id);
+          expect(deletedId).toEqual(insertedId);
+        });
+    });
+    // wait for all delete requests to terminate before calling done on the test instance
+    Promise.all(deleteRequests)
+      .then(() => done())
+      .catch((err) => done(err));
+  });
 });
+
+/**
+ *
+ * @param {jest.DoneCallback} done
+ * @param {string} relativePath
+ * @param {string} exampleTsv Tab Separated Value with Raw Data Example
+ * @param {boolean} expectError
+ */
+function postTsvAndReceiveInsertStmt(
+  done: jest.DoneCallback,
+  relativePath: string,
+  exampleTsv: string,
+  expectError: boolean
+) {
+  request(app)
+    .post(`${ROOT_URL}${relativePath}`)
+    .send(exampleTsv)
+    .set('Authorization', 'Bearer ' + authToken)
+    .set('Content-Type', 'text/plain')
+    .expect('Content-Type', expectError ? /json/ : /html/)
+    .expect(expectError ? 400 : 200)
+    .end((err: unknown, res: request.Response) => {
+      if (err instanceof Error) return done(err);
+      if (!expectError) {
+        expect(res.text).toBeDefined();
+        expect(res.text.length).toBeGreaterThan(0);
+        expect(res.text.split('\n')[0]).toEqual('--[1] rows transformed into [1] INSERT STATEMENTS');
+      }
+      return done();
+    });
+}
 
 /**
  * 1) Queries all data returned by given path

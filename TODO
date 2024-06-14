@@ -6,7 +6,15 @@
 - 
 
 ### Medium Prio
--
+- Create DELETE Route for Food Item Discount
+- Create DELETE Route for Investments
+- Create DELETE Route for Investment_Dividends
+- Supertest for POST Investment_Dividends
+- Supertest for POST Investments
+- Supertest for POST Food_Item_Discount
+- Supertest for DELETE Investment_Dividends
+- Supertest for DELETE Investments
+- Supertest for DELETE Food_Item_Discount
 
 ### Low Prio
 - 

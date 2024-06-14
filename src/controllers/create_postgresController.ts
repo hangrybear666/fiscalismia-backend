@@ -464,7 +464,7 @@ const postVariableExpensesTextTsv = asyncHandler(async (request: Request, respon
   } catch (error: unknown) {
     response.status(400);
     if (error instanceof Error) {
-      error.message = `The provided text/plain data could not be converted to .csv or the following INSERT Statements. ${error.message}`;
+      error.message = `The provided text/plain data could not be converted into INSERT Statements. ${error.message}`;
     }
     throw error;
   }
