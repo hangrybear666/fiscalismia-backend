@@ -6,7 +6,7 @@
 - 
 
 ### Medium Prio
-- move USERNAME_WHITELIST from .env to DB and remove the entry from README.md
+-
 
 ### Low Prio
 - 

@@ -75,14 +75,12 @@ Once the server is up and running, it will be ready to handle API requests from 
 
 A valid user is required. It can be created easily via the **frontend login mask**.
 
-Alternatively use a POST request to http://localhost:3002/api/fiscalismia/um/credentials carrying an object whereas the user has to be whitelisted in the `.env` file
+Alternatively use a POST request to http://localhost:3002/api/fiscalismia/um/credentials carrying an object whereas the user has to be whitelisted in the db table username_whitelist
 
-```bash
-USERNAME_WHITELIST=admin,testuser
 ```
 
 ```json
-{ "username": "testuser", "email": "user@mailserver.domain", "password": "password" }
+{ "username": "admin", "email": "user@mailserver.domain", "password": "password" }
 ```
 
 All important routes are protected and require an Authorization header reading 'Bearer token' where token is a jwt-token received after posting valid user credentials to http://localhost:3002/api/fiscalismia/um/login

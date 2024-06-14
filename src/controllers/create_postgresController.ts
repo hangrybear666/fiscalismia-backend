@@ -7,12 +7,12 @@ import {
   UserSettingObject
 } from '../utils/customTypes';
 import { Request, Response } from 'express';
-import {
+const {
+  replaceCommaAndParseFloat,
   extractResultHeaders,
   headersAsExpected,
-  parseHeader,
-  replaceCommaAndParseFloat
-} from '../utils/sharedFunctions';
+  parseHeader
+} = require('../utils/sharedFunctions');
 
 const asyncHandler = require('express-async-handler');
 const { parse } = require('csv-parse/sync');
@@ -31,7 +31,6 @@ const {
   logSqlStatement
 } = require('../utils/SQL_UTILS');
 const { generateToken } = require('../utils/security');
-const config = require('../utils/config');
 const regExAlphabeticHyphensDotsUnderscores = /^[A-Za-z_.-]*$/;
 const regExAlphaNumeric = /^[a-zA-Z0-9._-]*$/;
 const regExEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -775,10 +774,22 @@ const createUserCredentials = asyncHandler(async (request: Request, response: Re
     response.status(422); // Unprocessable Content
     throw new Error('password must contain alphanumeric characters, hyphens or underscores only!');
   }
-  if (!config.USERNAME_WHITELIST.includes(credentials.username)) {
+  let usernameWhitelist: string[] = [];
+  const client = await pool.connect();
+  try {
+    const whitelistResult = await client.query('SELECT username from public.username_whitelist');
+    usernameWhitelist = whitelistResult.rows.map((e: any) => e.username);
+  } catch (error: unknown) {
+    response.status(400);
+    if (error instanceof Error) {
+      error.message = `Username whitelist could not be queried. ${error.message}`;
+    }
+    throw error;
+  }
+  if (!usernameWhitelist.includes(credentials.username)) {
     logger.debug(`username ${credentials.username} is not whitelisted!
     whitelist is as follows:
-    ${config.USERNAME_WHITELIST}`);
+    ${usernameWhitelist}`);
     response.status(403); // Forbidden
     throw new Error('username not whitelisted. Please contact your administrator to gain access.');
   }
@@ -786,7 +797,6 @@ const createUserCredentials = asyncHandler(async (request: Request, response: Re
   const sqlVerifyCredentials = buildVerifyUsername(credentials);
   const sqlInsertSettingsForNewUser = buildInitializeUserSettings(credentials);
   const parameters = '';
-  const client = await pool.connect();
   try {
     await client.query('BEGIN');
     logSqlStatement(sqlInsertCredentials, parameters);

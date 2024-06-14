@@ -1,5 +1,5 @@
 import { createLogger, format, transports } from 'winston';
-import { getLocalTimestamp } from './sharedFunctions';
+const { getLocalTimestamp } = require('./sharedFunctions');
 const colorizer = format.colorize();
 /**
  * @description

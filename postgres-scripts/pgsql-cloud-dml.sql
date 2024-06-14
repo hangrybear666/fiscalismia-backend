@@ -4,6 +4,9 @@
  */
 \c fiscalismia
 SET client_encoding TO 'UTF8';
+INSERT INTO public.username_whitelist VALUES ('admin');
+INSERT INTO public.username_whitelist VALUES ('hangrybear');
+
 INSERT INTO public.um_users (username, email, password) VALUES
 ('admin',
  'herp_derp@gmail.io',
