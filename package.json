@@ -12,6 +12,7 @@
     "lint": "eslint .",
     "start": "set NODE_ENV=production&& node build/server.js",
     "server": "set NODE_ENV=development&& nodemon src/server.ts --ignore tests/",
+    "docker-dev": "nodemon --watch src --legacy-watch --delay 2500ms  src/server.ts --ignore tests/",
     "test": "jest --forceExit"
   },
   "repository": {

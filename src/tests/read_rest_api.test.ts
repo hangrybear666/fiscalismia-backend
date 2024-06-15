@@ -30,9 +30,6 @@ describe('supertest REST API testing entire REST functionality', () => {
     request(app)
       .get(ROOT_URL)
       .expect(401)
-      .expect((res: request.Response) => {
-        res.body.data = 'User not authenticated due to missing token.';
-      })
       .end((err: unknown, _res: request.Response) => {
         if (err instanceof Error) return done(err);
         return done();

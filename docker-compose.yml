@@ -1,19 +1,3 @@
-#       _
-#    __| | _____   __
-#   / _` |/ _ \ \ / /
-#  | (_| |  __/\ V /
-#   \__,_|\___| \_/
-# docker build --pull --rm -f "Dockerfile.dev" -t fiscalismia-backend-dev:latest "."
-# docker run -v %cd%\public:/fiscalismia-backend/public --env-file .env --rm -it -p 3002:3002 --name fiscalismia-backend-dev fiscalismia-backend-dev:latest
-#                       _
-#   _ __  _ __ ___   __| |
-#  | '_ \| '__/ _ \ / _` |
-#  | |_) | | | (_) | (_| |
-#  | .__/|_|  \___/ \__,_|
-#  |_|
-# docker build --pull --rm -f "Dockerfile" -t fiscalismia-backend:latest "."
-# docker run -v %cd%\public:/fiscalismia-backend/public --env-file .env --rm -it -p 3002:3002 --name fiscalismia-backend fiscalismia-backend:latest
-
 # run command:
 # docker compose --env-file .env up
 
@@ -43,5 +27,8 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+# networks:
+#   fiscalismia-network:
+#     external: true
 # to connect to db in attached docker shell run:
 # psql -U $POSTGRES_USER -d $POSTGRES_DB -h $POSTGRES_HOST -p $POSTGRES_PORT

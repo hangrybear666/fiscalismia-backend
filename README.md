@@ -13,6 +13,8 @@ JWT tokens are used for authentication. The REST API is designed with full CRUD 
 - [DevOps Pipeline](#pipeline)
 - [Setup](#setup)
 - [Usage](#usage)
+- [Testing](#testing)
+- [Production & Deployment](#production)
 - [License](#license)
 
 ## Technologies
@@ -50,30 +52,39 @@ todo
 
 1. **Navigate to the Project Folder:**
 
-```bash
-cd fiscalismia-backend
-```
+   ```bash
+   cd fiscalismia-backend
+   ```
 
 2. **Install Dependencies:**
 
-```bash
-npm install
-```
+   ```bash
+   npm install
+   ```
 
 3. **Environment Variables:**
    Request the `.env` file from the repository owner and store it in the root folder of `fiscalismia-backend`. Ensure that you never upload this file to Git, as it contains sensitive information!
 
-4. **Run the development DB:**
+**Running**
 
-```bash
-docker compose --env-file .env up
-```
+1. **Start the development DB:**
 
-5. **Run the Server:**
+   ```bash
+   docker compose --env-file .env up
+   ```
 
-```bash
-npm run server
-```
+2. **Run the backend either locally or with docker:**
+
+   ```bash
+   # Developing locally
+   npm run server
+   ```
+
+   ```bash
+   # Developing in docker container
+   docker build --pull --no-cache --rm -f "Dockerfile.dev" -t fiscalismia-backend-dev:latest "."
+   docker run -v %cd%\src:/fiscalismia-backend/src -v %cd%\public:/fiscalismia-backend/public --env-file .env --rm -it -p 3002:3002 --name fiscalismia-backend-dev fiscalismia-backend-dev:latest
+   ```
 
 ## Usage
 
@@ -81,52 +92,90 @@ Once the server is up and running, it will be ready to handle API requests from 
 
 **Accessing the Database via CLI**
 
-```bash
-docker exec -it YOUR_DOCKER_HASH sh
-psql -U $POSTGRES_USER -d $POSTGRES_DB -h $POSTGRES_HOST -p $POSTGRES_PORT
-```
+   ```bash
+   docker exec -it YOUR_DOCKER_HASH sh
+   psql -U $POSTGRES_USER -d $POSTGRES_DB -h $POSTGRES_HOST -p $POSTGRES_PORT
+   ```
 
 **Accessing the Database via DB Client**
 
-You can run DBeaver or a database clien of your choice and use the .env file connection strings 
+   You can run DBeaver or a database client of your choice and use the .env file connection strings
 
-```POSTGRES_USER | POSTGRES_HOST | POSTGRES_DB | POSTGRES_PASSWORD | POSTGRES_PORT```
+   `POSTGRES_USER | POSTGRES_HOST | POSTGRES_DB | POSTGRES_PASSWORD | POSTGRES_PORT`
 
 **Accessing Protected Routes**
 
-A valid user is required.
-Default credentials are
-```admin changeit```
+   A valid user is required.
+   Default credentials are
+   ```admin changeit```
 
-Alternatively use a POST request to http://localhost:3002/api/fiscalismia/um/credentials carrying a user object.
+   Alternatively use a POST request to http://localhost:3002/api/fiscalismia/um/credentials carrying a user object.
 
-```json
-// the user has to be whitelisted in the db table username_whitelist
-{ "username": "yourUser", "email": "user@mailserver.domain", "password": "yourPassword" }
-```
+   ```json
+   // the user has to be whitelisted in the db table username_whitelist
+   { "username": "yourUser", "email": "user@mailserver.domain", "password": "yourPassword" }
+   ```
 
-User can also be created easily via the **frontend login mask**.
+   User can also be created easily via the **frontend login mask**.
 
-All important routes are protected and require an Authorization header reading 'Bearer token' where token is a jwt-token received after posting valid user credentials to http://localhost:3002/api/fiscalismia/um/login
+   All important routes are protected and require an Authorization header reading 'Bearer token' where token is a jwt-token received after posting valid user credentials to http://localhost:3002/api/fiscalismia/um/login
 
-result:
-`eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwidXNlck5hbWUiOiJhZG1pbiIsInVzZXJFbWFpbCI6ImhlcnBfZGVycEBnbWFpbC5pbyJ9LCJpYXQiOjE3MDczMDk4MTgsImV4cCI6MTcwNzM5NjIxOH0.RkxSnXZZAwHIi-QPR57KtLiVdeRn3FybfPtCosM4rqY`
+   result:
+   `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwidXNlck5hbWUiOiJhZG1pbiIsInVzZXJFbWFpbCI6ImhlcnBfZGVycEBnbWFpbC5pbyJ9LCJpYXQiOjE3MDczMDk4MTgsImV4cCI6MTcwNzM5NjIxOH0.RkxSnXZZAwHIi-QPR57KtLiVdeRn3FybfPtCosM4rqY`
 
-```bash
-GET http://localhost:3002/api/fiscalismia/ HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwidXNlck5hbWUiOiJhZG1pbiIsInVzZXJFbWFpbCI6ImhlcnBfZGVycEBnbWFpbC5pbyJ9LCJpYXQiOjE3MDczMDk4MTgsImV4cCI6MTcwNzM5NjIxOH0.RkxSnXZZAwHIi-QPR57KtLiVdeRn3FybfPtCosM4rqY
-```
+   ```bash
+   GET http://localhost:3002/api/fiscalismia/ HTTP/1.1
+   Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwidXNlck5hbWUiOiJhZG1pbiIsInVzZXJFbWFpbCI6ImhlcnBfZGVycEBnbWFpbC5pbyJ9LCJpYXQiOjE3MDczMDk4MTgsImV4cCI6MTcwNzM5NjIxOH0.RkxSnXZZAwHIi-QPR57KtLiVdeRn3FybfPtCosM4rqY
+   ```
 
 ## Testing
 
-We use supertest for testing the REST API which can be executed via running the test script from a second console while the server is up and running.
+**All tests generate report files in the `reports/` subdirectory.**
 
-```bash
-# have the server running in another console
-npm test
-```
+1. **REST API tests /w supertest:**
 
-see REST API testing in `src/tests/*_rest_api.test.js`
+   We use supertest for testing the REST API which can be executed via running the test script from a second console while the dev database is up and running.
+
+   ```bash
+   npm run test
+   ```
+
+2. **Static Code Analysis**
+
+   Eslint is used to ensure a consistent codebase adhering to certain coding standards configured in `.eslintrc.js`.
+   Typecheck runs the Typescript Compiler which is configured with high strictness in `tsconfig.json`.
+
+
+   ```bash
+   npm run typeCheck
+   npm run eslintAnalysis
+   ```
+
+3. **Snyk Security Analysis**
+
+   `SNYK_TOKEN` has to be set in `.env` file.
+   Get one for free by creating a snyk account [here](https://app.snyk.io/login)
+
+   Vulnerability scanning of both the codebase, especially relevant for issues such as SQL Injection and XSS(Cross Site Scripting).
+   ```bash
+   npm run snykCodeAnalysis
+   npm run snykDependencyAnalysis
+   ```
+
+## Production
+
+1. **Set up Cloud DB**
+
+   I recommend using scale-to-zero cloud-native postgresql with a generous free tier at [neon.tech](https://console.neon.tech/)
+
+2. **Build docker image**
+
+   ```
+   docker build --pull --no-cache --rm -f "Dockerfile" -t fiscalismia-backend:latest "."
+   docker run -v %cd%\public:/fiscalismia-backend/public --env-file .env --rm -it -p 3002:3002 --name fiscalismia-backend fiscalismia-backend:latest
+   ```
+
+3. **Profit**
 
 ## License
 

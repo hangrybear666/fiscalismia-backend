@@ -9,7 +9,7 @@ INSERT INTO public.username_whitelist VALUES ('hangrybear');
 
 INSERT INTO public.um_users (username, email, password) VALUES
 ('admin',
- 'herp_derp@gmail.io',
+ 'herp_derp@hotmail.com',
   crypt( 'changeit', gen_salt('bf',12)));
 
 INSERT INTO public.um_user_settings(
