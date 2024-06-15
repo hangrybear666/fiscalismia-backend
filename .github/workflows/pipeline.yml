@@ -14,6 +14,24 @@ jobs:
 
     continue-on-error: true
 
+    services:
+      postgres:
+        image: postgres:16.3-alpine3.20
+        env:
+          POSTGRES_USER: fiscalismia_api
+          POSTGRES_HOST: localhost
+          POSTGRES_DB: fiscalismia
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_PORT: 5432
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
     steps:
     - name: Checkout SCM
       uses: actions/checkout@v4
@@ -52,11 +70,21 @@ jobs:
           reports/
           !reports/.gitkeep
 
+    - name: Initialize Database
+      env:
+        PGPASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+      run: |
+          psql -h localhost -U fiscalismia_api -d fiscalismia -f database/pgsql-ddl.sql
+          psql -h localhost -U fiscalismia_api -d fiscalismia -f database/pgsql-dml.sql
+
     - name: REST API tests /w supertest
       env:
-        ADMIN_USER_PW: ${{ secrets.ADMIN_USER_PW }}
         JWT_SECRET: ${{ secrets.JWT_SECRET }}
-        DB_CONNECTION_URL: ${{ secrets.DB_CONNECTION_URL }}
+        POSTGRES_USER: fiscalismia_api
+        POSTGRES_HOST: localhost
+        POSTGRES_DB: fiscalismia
+        POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        POSTGRES_PORT: 5432
       run: npm test
 
   build:

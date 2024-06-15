@@ -32,7 +32,7 @@ types.setTypeParser(1700, function (val: string) {
  */
 /* eslint-disable indent */
 const pool =
-  process.env.NODE_ENV !== 'production' // docker dev db
+  process.env.NODE_ENV !== 'production' // docker dev & test db
     ? new Pool({
         user: process.env.POSTGRES_USER,
         host: process.env.POSTGRES_HOST,
