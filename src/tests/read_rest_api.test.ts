@@ -74,7 +74,7 @@ describe('supertest REST API testing entire REST functionality', () => {
       .post(`${ROOT_URL}/um/login`)
       .send({
         username: 'admin',
-        password: process.env.ADMIN_USER_PW
+        password: 'changeit'
       })
       .expect('Content-Type', /html/)
       .expect(200)
@@ -713,6 +713,7 @@ describe('supertest REST API testing entire REST functionality', () => {
           });
       });
   });
+
   test('DELETE prior created food_items from db expecting ids returned', (done) => {
     const deleteRequests = insertedFoodItemIds.map((insertedId: number) => {
       return request(app)

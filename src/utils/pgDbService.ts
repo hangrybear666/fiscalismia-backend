@@ -31,19 +31,20 @@ types.setTypeParser(1700, function (val: string) {
  * When testing locally the database URL is constructed from environment variables pointing to a local windows installation
  */
 /* eslint-disable indent */
-const pool = !process.env.DB_CONNECTION_URL // local db
-  ? new Pool({
-      user: process.env.PG_USER,
-      host: process.env.PG_HOST,
-      database: process.env.PG_DB,
-      password: process.env.PG_PW,
-      port: process.env.PG_PORT,
-      ssl: false
-    })
-  : // cloud db
-    new Pool({
-      connectionString: process.env.DB_CONNECTION_URL,
-      ssl: { rejectUnauthorized: false }
-    });
+const pool =
+  process.env.NODE_ENV !== 'production' // docker dev db
+    ? new Pool({
+        user: process.env.POSTGRES_USER,
+        host: process.env.POSTGRES_HOST,
+        database: process.env.POSTGRES_DB,
+        password: process.env.POSTGRES_PASSWORD,
+        port: process.env.POSTGRES_PORT,
+        ssl: false
+      })
+    : // prod cloud db
+      new Pool({
+        connectionString: process.env.DB_CONNECTION_URL,
+        ssl: { rejectUnauthorized: false }
+      });
 
 module.exports = { pool };

@@ -41,7 +41,9 @@ todo
 
 1. **Node.js:** Ensure that Node.js is installed on your local machine, with a minimum version of 20.9. You can download Node.js via Node Version Switcher [here](https://github.com/jasongin/nvs) or directly from the source [here](https://nodejs.org/).
 
-2. **Clone the Repository:**
+2. **Docker & Docker Compose** Ensure that Docker is installed in your local development environment. Get Docker [here](https://docs.docker.com/get-docker/) and Docker Compose [here](https://docs.docker.com/compose/install/).
+
+3. **Clone the Repository:**
    git clone https://github.com/your-username/fiscalismia-backend.git
 
 **Installation**
@@ -61,7 +63,13 @@ npm install
 3. **Environment Variables:**
    Request the `.env` file from the repository owner and store it in the root folder of `fiscalismia-backend`. Ensure that you never upload this file to Git, as it contains sensitive information!
 
-4. **Run the Server:**
+4. **Run the development DB:**
+
+```bash
+docker compose --env-file .env up
+```
+
+5. **Run the Server:**
 
 ```bash
 npm run server
@@ -71,17 +79,33 @@ npm run server
 
 Once the server is up and running, it will be ready to handle API requests from your frontend application or REST API Client at http://localhost:3002/api/fiscalismia
 
+**Accessing the Database via CLI**
+
+```bash
+docker exec -it YOUR_DOCKER_HASH sh
+psql -U $POSTGRES_USER -d $POSTGRES_DB -h $POSTGRES_HOST -p $POSTGRES_PORT
+```
+
+**Accessing the Database via DB Client**
+
+You can run DBeaver or a database clien of your choice and use the .env file connection strings 
+
+```POSTGRES_USER | POSTGRES_HOST | POSTGRES_DB | POSTGRES_PASSWORD | POSTGRES_PORT```
+
 **Accessing Protected Routes**
 
-A valid user is required. It can be created easily via the **frontend login mask**.
+A valid user is required.
+Default credentials are
+```admin changeit```
 
-Alternatively use a POST request to http://localhost:3002/api/fiscalismia/um/credentials carrying an object whereas the user has to be whitelisted in the db table username_whitelist
-
-```
+Alternatively use a POST request to http://localhost:3002/api/fiscalismia/um/credentials carrying a user object.
 
 ```json
-{ "username": "admin", "email": "user@mailserver.domain", "password": "password" }
+// the user has to be whitelisted in the db table username_whitelist
+{ "username": "yourUser", "email": "user@mailserver.domain", "password": "yourPassword" }
 ```
+
+User can also be created easily via the **frontend login mask**.
 
 All important routes are protected and require an Authorization header reading 'Bearer token' where token is a jwt-token received after posting valid user credentials to http://localhost:3002/api/fiscalismia/um/login
 
@@ -102,9 +126,7 @@ We use supertest for testing the REST API which can be executed via running the 
 npm test
 ```
 
-see REST API examples in `tests\rest_api_playground.http`
-
-see REST API testing in `tests\*_rest_api.test.js`
+see REST API testing in `src/tests/*_rest_api.test.js`
 
 ## License
 

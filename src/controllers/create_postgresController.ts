@@ -347,7 +347,7 @@ const postDividendsAndTaxes = asyncHandler(async (request: Request, response: Re
           ((Number(dividendObject.profitAmount) * Number(dividendObject.pctOfProfitTaxed)) / 100) *
           Number(0.26375)
         ).toFixed(2),
-        new Date(dividendObject.executionDate).getFullYear()
+        new Date(dividendObject.dividendDate).getFullYear()
       ];
       logSqlStatement(sqlTaxes, parametersTaxes);
       const taxesResult = await client.query(sqlTaxes, parametersTaxes);
@@ -365,6 +365,7 @@ const postDividendsAndTaxes = asyncHandler(async (request: Request, response: Re
          * syntax: format('INSERT INTO test_table (id, name) VALUES %L', valueArray)
          */
         const promiseResult = await new Promise((resolve, reject) => {
+          logSqlStatement(sqlBridgeInvestmentDividends, parametersBridge);
           client.query(format(sqlBridgeInvestmentDividends, parametersBridge), [], (error: unknown, result: any) => {
             if (error) {
               reject(error);

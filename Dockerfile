@@ -13,7 +13,7 @@ COPY package-lock.json package.json ./
 RUN npm install --omit=dev
 COPY --from=build build-dir/build ./build
 COPY LICENSE README.md ./
-# set NODE_ENV command from the start script is unique to windows
+# set NODE_ENV command from the start script is unique to windows so for linux NODE_ENV has to be set here
 ENV NODE_ENV=production
 ENTRYPOINT ["npm", "run", "start"]
-# public in docker-compose / docker-run mounten
+# TODO public folder in docker-compose / docker-run mounten
