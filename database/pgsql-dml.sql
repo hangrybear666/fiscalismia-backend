@@ -35,6 +35,9 @@ VALUES (
     'de_DE',
     null);
 
+INSERT INTO public.test_table(description) VALUES('Hello from psql-dml.sql');
+INSERT INTO public.test_table(description) VALUES('Initialized Docker-Dev-DB successfully');
+
 /*     _____  _____ _____     _____ _   _  _____ ___________ _____ _____    ____________ ________  ___    _____  _____ _   _______  _____  _____    ______  ___ _____ ___
  *    |  __ \|  ___|_   _|   |_   _| \ | |/  ___|  ___| ___ \_   _/  ___|   |  ___| ___ \  _  |  \/  |   /  ___||  _  | | | | ___ \/  __ \|  ___|   |  _  \/ _ \_   _/ _ \
  *    | |  \/| |__   | |       | | |  \| |\ `--.| |__ | |_/ / | | \ `--.    | |_  | |_/ / | | | .  . |   \ `--. | | | | | | | |_/ /| /  \/| |__     | | | / /_\ \| |/ /_\ \
@@ -50,6 +53,7 @@ VALUES (
  *    INSERT THESE VIA PGADMIN OR OTHER CLIENT WITH PROPER UTF-8 ENCODING FOR UMLAUTS AND NOT CMD
  */
  /**
+
   _____ _____  _______ ____       ____ ___  ____ _____ ____
  |  ___|_ _\ \/ / ____|  _ \     / ___/ _ \/ ___|_   _/ ___|
  | |_   | | \  /|  _| | | | |   | |  | | | \___ \ | | \___ \

@@ -19,7 +19,8 @@ jobs:
         image: postgres:16.3-alpine3.20
         env:
           POSTGRES_USER: fiscalismia_api
-          POSTGRES_HOST: localhost
+          #default is already localhost
+          #POSTGRES_HOST: localhost
           POSTGRES_DB: fiscalismia
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           POSTGRES_PORT: 5432
@@ -81,7 +82,8 @@ jobs:
       env:
         JWT_SECRET: ${{ secrets.JWT_SECRET }}
         POSTGRES_USER: fiscalismia_api
-        POSTGRES_HOST: localhost
+        #this .env variable is only needed in docker-development, otherwise defaults to localhost in src\utils\pgDbService.ts
+        #POSTGRES_HOST: localhost
         POSTGRES_DB: fiscalismia
         POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
         POSTGRES_PORT: 5432

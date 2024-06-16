@@ -18,4 +18,4 @@ ENV NODE_ENV=production
 ENTRYPOINT ["npm", "run", "start"]
 
 # docker build --pull --no-cache --rm -f "Dockerfile" -t fiscalismia-backend:latest "."
-# docker run -v %cd%\public:/fiscalismia-backend/public --env-file .env --rm -it -p 3002:3002 --name fiscalismia-backend fiscalismia-backend:latest
+# docker run --network fiscalismia-network -v %cd%\public:/fiscalismia-backend/public --env-file .env --rm -it -p 3002:3002 --name fiscalismia-backend fiscalismia-backend:latest

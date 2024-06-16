@@ -6,9 +6,9 @@
 #     name: "database-v"
 
 services:
-  fiscalismia-database:
-    image: fiscalismia-database:1.0.0
-    container_name: fiscalismia-database
+  fiscalismia-postgres:
+    image: ${POSTGRES_HOST}:1.0.0
+    container_name: ${POSTGRES_HOST}
     build:
       context: .
       dockerfile: database/Dockerfile.db
@@ -17,6 +17,8 @@ services:
         required: true
     # volumes:
     #   - database-v:/var/lib/postgresql/data
+    networks:
+      - fiscalismia-network
     ports:
     - ${POSTGRES_PORT}:${POSTGRES_PORT}
     command: "-p ${POSTGRES_PORT}"
@@ -27,8 +29,13 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-# networks:
-#   fiscalismia-network:
-#     external: true
-# to connect to db in attached docker shell run:
+
+networks:
+  fiscalismia-network:
+    name: fiscalismia-network
+    driver: bridge
+
+# to connect to db in attached docker shell, (RUN apk add --no-cache postgresql-client):
 # psql -U $POSTGRES_USER -d $POSTGRES_DB -h $POSTGRES_HOST -p $POSTGRES_PORT
+# to connect from local machine, the host has to be localhost!
+# psql -U $POSTGRES_USER -d $POSTGRES_DB -h localhost -p $POSTGRES_PORT
