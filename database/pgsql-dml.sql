@@ -329,7 +329,7 @@ VALUES (
   'Ibanez Xiphos XPT700 E-Gitarre',
   INITCAP('Sale'),
   INITCAP('Ebay'),
-  367,
+  -367,
   TO_DATE('13.04.2024','DD.MM.YYYY'),
   'J',
   'N',

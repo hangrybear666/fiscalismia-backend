@@ -78,7 +78,7 @@ const buildInitializeUserSettings = ({ username }: UserCredentials) => {
     VALUES (
         (SELECT id FROM public.um_users WHERE username = '${username}'),
         'selected_language',
-        'de_DE',
+        'en_US',
         null);
     `;
 };
@@ -278,7 +278,6 @@ const buildInsertNewFoodItems = (e: FoodItem) => {
  * @returns UPSERT Statement
  */
 const buildInsertFoodItemImgFilePath = (element: any) => {
-  // TODO
   const dimensionKey = element.id;
   const filepath = element.filepath;
   const insertFilePath = `INSERT INTO public.food_price_image_location 

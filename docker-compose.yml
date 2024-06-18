@@ -1,9 +1,9 @@
 # run command:
 # docker compose --env-file .env up
 
-# volumes:
-#   database-v:
-#     name: "database-v"
+volumes:
+  database-v:
+    name: "database-v"
 
 services:
   fiscalismia-postgres:
@@ -13,10 +13,9 @@ services:
       context: .
       dockerfile: database/Dockerfile.db
     env_file:
-      - path: .env
-        required: true
-    # volumes:
-    #   - database-v:/var/lib/postgresql/data
+      - .env
+    volumes:
+      - database-v:/var/lib/postgresql/data
     networks:
       - fiscalismia-network
     ports:

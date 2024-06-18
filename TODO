@@ -3,7 +3,7 @@
 ## Unfinished Tasks
 
 ### High Prio
-- 
+- Rate limit API requests, currently DDOS is possible.
 
 ### Medium Prio
 - Create DELETE Route for Food Item Discount
@@ -19,3 +19,6 @@
 - Supertest for DELETE Investment_Dividends
 - Supertest for DELETE Investments
 - Supertest for DELETE Food_Item_Discount
+
+### Before Deploying
+- Rethink public folder storage for production env
