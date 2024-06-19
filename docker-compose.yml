@@ -1,6 +1,3 @@
-# run command:
-# docker compose --env-file .env up
-
 volumes:
   database-v:
     name: "database-v"
@@ -28,6 +25,48 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+
+  fiscalismia-backend:
+    image: fiscalismia-backend-dev:latest
+    container_name: fiscalismia-backend-dev
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      pull: true
+    environment:
+      - NODE_ENV=docker-development
+    env_file:
+      - .env
+    volumes:
+      - ./src:/fiscalismia-backend/src
+      - ./public:/fiscalismia-backend/public
+    networks:
+      - fiscalismia-network
+    ports:
+    - ${BACKEND_PORT}:${BACKEND_PORT}
+    depends_on:
+      - fiscalismia-postgres
+
+
+  fiscalismia-frontend:
+    image: fiscalismia-frontend:latest
+    container_name: fiscalismia-frontend
+    build:
+      context: ../fiscalismia-frontend
+      dockerfile: Dockerfile
+      pull: true
+    environment:
+      - NODE_ENV=docker-development
+    env_file:
+      - ../fiscalismia-frontend/.env
+    volumes:
+      - ../fiscalismia-frontend/src:/fiscalismia-frontend/src
+    networks:
+      - fiscalismia-network
+    ports:
+    - ${FRONTEND_PORT}:${FRONTEND_PORT}
+    depends_on:
+      - fiscalismia-backend
 
 networks:
   fiscalismia-network:

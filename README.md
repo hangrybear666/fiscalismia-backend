@@ -1,11 +1,11 @@
 # Fiscalismia Backend
 Background Service handling the Fiscalismia infrastructure.
-Fiscalismia is a Web Service for visualizing, analyzing, aggregating, importing and exporting personal finance data. Data can consist of variable and fixed costs, income, sales and investments. Advanced capabilities are available for synthesizing supermarket grocery deals.
+Fiscalismia is a Web Service for visualizing, analyzing, aggregating, importing and exporting personal finance data. Data can consist of variable and fixed costs, income, sales and investments. Advanced capabilities are available for dynamically updating supermarket grocery deals via web automation scraping data from supermarket websites.
 
 ## Technical Overview
 
-fiscalismia-backend consists of an express server running a REST API. Requests from the frontend are rooted through an nginx reverse proxy to a cloud-hosted scale-to-zero PostgreSQL database on Neon.tech.
-JWT tokens are used for authentication. The REST API is designed with full CRUD operations in mind, allowing for dynamic user input, sanitized before being commited to the db.
+fiscalismia-backend consists of an express server running a REST API. Requests from the frontend are handled by the backend's REST API querying data from a postgres db. The database runs within a docker container for development. JWT tokens are used for authentication. Local Browser Storage for Session Cookies. The REST API is designed with full CRUD operations in mind, allowing for dynamic user input, sanitized before being commited to the db. In production, we use a cloud-hosted scale-to-zero PostgreSQL database on Neon.tech with a generous free tier. The backend is built in a continuous integration pipeline, tested, scanned for vulnerabilities and published as a docker image to a public docker registry for later deployment in your environment of choice.
+
 
 ## Table of Contents
 
@@ -63,9 +63,70 @@ todo
    ```
 
 3. **Environment Variables:**
-   Request the `.env` file from the repository owner and store it in the root folder of `fiscalismia-backend`. Ensure that you never upload this file to Git, as it contains sensitive information!
+
+   Store the `.env` in the root folder of `fiscalismia-backend`. Ensure that you never upload this file to Git, as it contains sensitive information!
+   `DB_CONNECTION_URL` is only required in production, as this points to the cloud hosted db.
+   ```bash
+   # App & Server
+   JWT_SECRET=
+   ADMIN_USER_PW=
+   DB_CONNECTION_URL=
+   FRONTEND_PORT=3001
+   BACKEND_PORT=3002
+   HOST_ADDRESS=localhost
+
+   # Local Docker DB Setup
+   POSTGRES_USER=fiscalismia_api
+   POSTGRES_HOST=fiscalismia-postgres
+   POSTGRES_DB=fiscalismia
+   POSTGRES_PASSWORD=
+   POSTGRES_PORT=5432
+
+   # PIPELINE INTEGRATIONS
+   SNYK_TOKEN=
+   ```
 
 **Running**
+
+1. **Option 1: Docker Compose**
+
+   To run the entire stack in development mode
+
+   ```bash
+   docker compose build
+   docker compose up
+   ```
+
+2. **Option 2: Locally**
+
+   Development Database
+   ```bash
+   docker compose up fiscalismia-postgres
+   ```
+
+   Run only the backend locally pointing to local db defined in `.env` file keys.
+   ```bash
+   npm run dev
+   ```
+
+3. **Option 3: Docker**
+
+   Development Database
+   ```bash
+   docker compose up fiscalismia-postgres
+   ```
+
+   Run only the backend dev container pointing to local db defined in `.env` file keys.
+   ```bash
+   docker build --pull --no-cache --rm -f "Dockerfile.dev" -t fiscalismia-backend-dev:latest "."
+   docker run -v %cd%\src:/fiscalismia-backend/src -v %cd%\public:/fiscalismia-backend/public --env-file .env --rm -it -p 3002:3002 --name fiscalismia-backend-dev fiscalismia-backend-dev:latest
+   ```
+
+   Run only the backend production container pointing to cloud production db.
+   ```bash
+   docker build --pull --no-cache --rm -f "Dockerfile" -t fiscalismia-backend:latest "."
+   docker run --network fiscalismia-network -v %cd%\public:/fiscalismia-backend/public --env-file .env --rm -it -p 3002:3002 --name fiscalismia-backend fiscalismia-backend:latest
+   ```
 
 1. **Start the development DB:**
 
@@ -80,11 +141,6 @@ todo
    npm run server
    ```
 
-   ```bash
-   # Developing in docker container
-   docker build --pull --no-cache --rm -f "Dockerfile.dev" -t fiscalismia-backend-dev:latest "."
-   docker run -v %cd%\src:/fiscalismia-backend/src -v %cd%\public:/fiscalismia-backend/public --env-file .env --rm -it -p 3002:3002 --name fiscalismia-backend-dev fiscalismia-backend-dev:latest
-   ```
 
 ## Usage
 
@@ -170,6 +226,7 @@ Once the server is up and running, it will be ready to handle API requests from 
 
 2. **Build docker image**
 
+   *Hint: %cd% command is unique to windows, in unix based systems current directory is referenced differently*
    ```
    docker build --pull --no-cache --rm -f "Dockerfile" -t fiscalismia-backend:latest "."
    docker run -v %cd%\public:/fiscalismia-backend/public --env-file .env --rm -it -p 3002:3002 --name fiscalismia-backend fiscalismia-backend:latest
