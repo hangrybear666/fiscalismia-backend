@@ -116,13 +116,13 @@ todo
    docker compose up fiscalismia-postgres
    ```
 
-   Run only the backend dev container pointing to local db defined in `.env` file keys.
+   Run only the backend dev container pointing to local db defined in `.env` file keys. NOTE: volume file paths are Windows specific! They will differ on Linux
    ```bash
    docker build --pull --no-cache --rm -f "Dockerfile.dev" -t fiscalismia-backend-dev:latest "."
    docker run -v %cd%\src:/fiscalismia-backend/src -v %cd%\public:/fiscalismia-backend/public --env-file .env --rm -it -p 3002:3002 --name fiscalismia-backend-dev fiscalismia-backend-dev:latest
    ```
 
-   Run only the backend production container pointing to cloud production db.
+   Run only the backend production container pointing to cloud production db. NOTE: volume file paths are Windows specific! They will differ on Linux
    ```bash
    docker build --pull --no-cache --rm -f "Dockerfile" -t fiscalismia-backend:latest "."
    docker run --network fiscalismia-network -v %cd%\public:/fiscalismia-backend/public --env-file .env --rm -it -p 3002:3002 --name fiscalismia-backend fiscalismia-backend:latest
