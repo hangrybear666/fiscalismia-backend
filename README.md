@@ -12,8 +12,9 @@ fiscalismia-backend consists of an express server running a REST API. Requests f
 - [Technologies](#technologies)
 - [DevOps Pipeline](#pipeline)
 - [Setup](#setup)
-- [Usage](#usage)
+- [Running](#running)
 - [Testing](#testing)
+- [Usage](#usage)
 - [Production & Deployment](#production)
 - [License](#license)
 
@@ -32,10 +33,27 @@ fiscalismia-backend consists of an express server running a REST API. Requests f
 - **Nodemon/ts-node:** Hot Reload upon file changes of the server during development, enhancing the development workflow.
 
 ## Pipeline
-todo
-1. **Test & Analyze**
-2. **Build & Publish**
-3. **Deploy to Cloud**
+
+1. **Triggers:**
+   - Runs on every push and pull request to the `main` branch.
+
+2. **Job: `test`**:
+   - **Steps:**
+     - Set up Node.js (v20.12.2), install dependencies and Snyk.
+     - Run type checks and ESLint analysis.
+     - Perform Snyk static code and dependency security analysis.
+     - Publish type check, ESLint, and Snyk reports as artifacts.
+     - Initialize a fresh Postgres database and seed with DDL/DML scripts.
+     - Run API tests against the pipeline database using `supertest`.
+
+3. **Job: `build`**:
+   - **Steps:**
+     - Build Backend Docker image.
+     - Publish Docker image to GHCR (TODO: Switch to AWS ECR)
+
+4. **Job: `deploy`**:
+   - **Steps:**
+     - TODO: Deploy on EC2 Instance via AWS CLI
 
 ## Setup
 
@@ -68,8 +86,7 @@ todo
    `DB_CONNECTION_URL` is only required in production, as this points to the cloud hosted db.
    ```bash
    # App & Server
-   JWT_SECRET=
-   ADMIN_USER_PW=
+   JWT_SECRET=xxx
    DB_CONNECTION_URL=
    FRONTEND_PORT=3001
    BACKEND_PORT=3002
@@ -79,14 +96,23 @@ todo
    POSTGRES_USER=fiscalismia_api
    POSTGRES_HOST=fiscalismia-postgres
    POSTGRES_DB=fiscalismia
-   POSTGRES_PASSWORD=
+   POSTGRES_PASSWORD=xxx
    POSTGRES_PORT=5432
 
    # PIPELINE INTEGRATIONS
    SNYK_TOKEN=
    ```
 
-**Running**
+4. **Github Secrets:**
+
+   Set up Github Secrets in your Repository Settings, for the pipeline to run successfully. These can and should be the same as in your `.env` file.
+   ```bash
+   JWT_SECRET
+   POSTGRES_PASSWORD
+   SNYK_TOKEN
+   ```
+
+## Running
 
 1. **Option 1: Docker Compose**
 
@@ -106,7 +132,7 @@ todo
 
    Run only the backend locally pointing to local db defined in `.env` file keys.
    ```bash
-   npm run dev
+   npm run server
    ```
 
 3. **Option 3: Docker**
@@ -122,25 +148,53 @@ todo
    docker run -v %cd%\src:/fiscalismia-backend/src -v %cd%\public:/fiscalismia-backend/public --env-file .env --rm -it -p 3002:3002 --name fiscalismia-backend-dev fiscalismia-backend-dev:latest
    ```
 
-   Run only the backend production container pointing to cloud production db. NOTE: volume file paths are Windows specific! They will differ on Linux
+   ------
+
+   <details closed>
+   <summary><b>Production build with cloud database </b></summary>
+
+   NOTE: `DB_CONNECTION_URL` to remote postgres must be set in `.env` file.
+
+   NOTE: volume file paths are Windows specific! They will differ on Linux
    ```bash
    docker build --pull --no-cache --rm -f "Dockerfile" -t fiscalismia-backend:latest "."
    docker run --network fiscalismia-network -v %cd%\public:/fiscalismia-backend/public --env-file .env --rm -it -p 3002:3002 --name fiscalismia-backend fiscalismia-backend:latest
    ```
+   </details>
 
-1. **Start the development DB:**
+## Testing
+
+**All tests generate report files in the `reports/` subdirectory.**
+
+1. **REST API tests /w supertest:**
+
+   We use supertest for testing the REST API which can be executed via running the test script from a second console while the dev database is up and running.
 
    ```bash
-   docker compose --env-file .env up
+   npm run test
    ```
 
-2. **Run the backend either locally or with docker:**
+2. **Static Code Analysis**
+
+   Eslint is used to ensure a consistent codebase adhering to certain coding standards configured in `.eslintrc.js`.
+   Typecheck runs the Typescript Compiler which is configured with high strictness in `tsconfig.json`.
+
 
    ```bash
-   # Developing locally
-   npm run server
+   npm run typeCheck
+   npm run eslintAnalysis
    ```
 
+3. **Snyk Security Analysis**
+
+   `SNYK_TOKEN` has to be set in `.env` file.
+   Get one for free by creating a snyk account [here](https://app.snyk.io/login)
+
+   Vulnerability scanning of both the codebase, especially relevant for issues such as SQL Injection and XSS(Cross Site Scripting).
+   ```bash
+   npm run snykCodeAnalysis
+   npm run snykDependencyAnalysis
+   ```
 
 ## Usage
 
@@ -184,40 +238,6 @@ Once the server is up and running, it will be ready to handle API requests from 
    Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwidXNlck5hbWUiOiJhZG1pbiIsInVzZXJFbWFpbCI6ImhlcnBfZGVycEBnbWFpbC5pbyJ9LCJpYXQiOjE3MDczMDk4MTgsImV4cCI6MTcwNzM5NjIxOH0.RkxSnXZZAwHIi-QPR57KtLiVdeRn3FybfPtCosM4rqY
    ```
 
-## Testing
-
-**All tests generate report files in the `reports/` subdirectory.**
-
-1. **REST API tests /w supertest:**
-
-   We use supertest for testing the REST API which can be executed via running the test script from a second console while the dev database is up and running.
-
-   ```bash
-   npm run test
-   ```
-
-2. **Static Code Analysis**
-
-   Eslint is used to ensure a consistent codebase adhering to certain coding standards configured in `.eslintrc.js`.
-   Typecheck runs the Typescript Compiler which is configured with high strictness in `tsconfig.json`.
-
-
-   ```bash
-   npm run typeCheck
-   npm run eslintAnalysis
-   ```
-
-3. **Snyk Security Analysis**
-
-   `SNYK_TOKEN` has to be set in `.env` file.
-   Get one for free by creating a snyk account [here](https://app.snyk.io/login)
-
-   Vulnerability scanning of both the codebase, especially relevant for issues such as SQL Injection and XSS(Cross Site Scripting).
-   ```bash
-   npm run snykCodeAnalysis
-   npm run snykDependencyAnalysis
-   ```
-
 ## Production
 
 1. **Set up Cloud DB**
@@ -232,7 +252,17 @@ Once the server is up and running, it will be ready to handle API requests from 
    docker run -v %cd%\public:/fiscalismia-backend/public --env-file .env --rm -it -p 3002:3002 --name fiscalismia-backend fiscalismia-backend:latest
    ```
 
-3. **Profit**
+3. **Automatic Docker Build and Push to private AWS ECR in Github Actions Pipeline**
+
+   Todo
+
+4. **Deployment to public AWS EC2 Instance via Github Actions Pipeline**
+
+   Todo
+
+5. **Provisioning of AWS S3 Bucket for Image Upload**
+
+   Todo
 
 ## License
 

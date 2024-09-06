@@ -16,7 +16,7 @@ CREATE ROLE fiscalismia_api WITH
 	NOREPLICATION
 	CONNECTION LIMIT -1
     -- INSERT PW HERE
-	PASSWORD --'env.NEON_PGPASSWORD'
+	PASSWORD --'password'
     ;
 GRANT fiscalismia_api to "temprole";
 DROP DATABASE IF EXISTS fiscalismia;
