@@ -142,23 +142,48 @@ fiscalismia-backend consists of an express server running a REST API. Requests f
    docker compose up fiscalismia-postgres
    ```
 
-   Run only the backend dev container pointing to local db defined in `.env` file keys. NOTE: volume file paths are Windows specific! They will differ on Linux
+   <details open>
+   <summary><b>Docker Run (Linux Syntax)</b></summary>
+
+   Run only the backend dev container pointing to local db defined in `.env` file keys.
    ```bash
    docker build --pull --no-cache --rm -f "Dockerfile.dev" -t fiscalismia-backend-dev:latest "."
-   docker run -v %cd%\src:/fiscalismia-backend/src -v %cd%\public:/fiscalismia-backend/public --env-file .env --rm -it -p 3002:3002 --name fiscalismia-backend-dev fiscalismia-backend-dev:latest
+   docker run -v $PWD/src:/fiscalismia-backend/src -v $PWD/public:/fiscalismia-backend/public --env-file .env --net fiscalismia-network --rm -it -p 3002:3002 --name fiscalismia-backend-dev fiscalismia-backend-dev:latest
    ```
+   </details>
+   <details closed>
+   <summary><b>Docker Run (Windows Syntax)</b></summary>
+
+   Run only the backend dev container pointing to local db defined in `.env` file keys.
+   ```bash
+   docker build --pull --no-cache --rm -f "Dockerfile.dev" -t fiscalismia-backend-dev:latest "."
+   docker run -v %cd%\src:/fiscalismia-backend/src -v %cd%\public:/fiscalismia-backend/public --env-file .env --net fiscalismia-network --rm -it -p 3002:3002 --name fiscalismia-backend-dev fiscalismia-backend-dev:latest
+   ```
+   </details>
 
    ------
 
    <details closed>
-   <summary><b>Production build with cloud database </b></summary>
+   <summary><b>Production build with cloud database (Linux Syntax)</b></summary>
 
    NOTE: `DB_CONNECTION_URL` to remote postgres must be set in `.env` file.
 
-   NOTE: volume file paths are Windows specific! They will differ on Linux
    ```bash
    docker build --pull --no-cache --rm -f "Dockerfile" -t fiscalismia-backend:latest "."
-   docker run --network fiscalismia-network -v %cd%\public:/fiscalismia-backend/public --env-file .env --rm -it -p 3002:3002 --name fiscalismia-backend fiscalismia-backend:latest
+   docker run --network fiscalismia-network -v $PWD/public:/fiscalismia-backend/public --env-file .env --net fiscalismia-network --rm -it -p 3002:3002 --name fiscalismia-backend fiscalismia-backend:latest
+   ```
+   </details>
+
+   ------
+
+   <details closed>
+   <summary><b>Production build with cloud database (Windows Syntax)</b></summary>
+
+   NOTE: `DB_CONNECTION_URL` to remote postgres must be set in `.env` file.
+
+   ```bash
+   docker build --pull --no-cache --rm -f "Dockerfile" -t fiscalismia-backend:latest "."
+   docker run --network fiscalismia-network -v %cd%\public:/fiscalismia-backend/public --env-file .env --net fiscalismia-network --rm -it -p 3002:3002 --name fiscalismia-backend fiscalismia-backend:latest
    ```
    </details>
 
@@ -179,7 +204,6 @@ fiscalismia-backend consists of an express server running a REST API. Requests f
    Eslint is used to ensure a consistent codebase adhering to certain coding standards configured in `.eslintrc.js`.
    Typecheck runs the Typescript Compiler which is configured with high strictness in `tsconfig.json`.
 
-
    ```bash
    npm run typeCheck
    npm run eslintAnalysis
@@ -189,6 +213,14 @@ fiscalismia-backend consists of an express server running a REST API. Requests f
 
    `SNYK_TOKEN` has to be set in `.env` file.
    Get one for free by creating a snyk account [here](https://app.snyk.io/login)
+
+   Once per workspace
+   ```bash
+   # with snyk cli installed
+   snyk auth SNYK_TOKEN
+   # without snyk cli installed
+   npx snyk auth SNYK_TOKEN
+   ```
 
    Vulnerability scanning of both the codebase, especially relevant for issues such as SQL Injection and XSS(Cross Site Scripting).
    ```bash
@@ -246,7 +278,7 @@ Once the server is up and running, it will be ready to handle API requests from 
 
 2. **Build docker image**
 
-   *Hint: %cd% command is unique to windows, in unix based systems current directory is referenced differently*
+   *Hint: %cd% backslash file path command is unique to windows, in unix based systems, replace it with $PWD forward slash*
    ```
    docker build --pull --no-cache --rm -f "Dockerfile" -t fiscalismia-backend:latest "."
    docker run -v %cd%\public:/fiscalismia-backend/public --env-file .env --rm -it -p 3002:3002 --name fiscalismia-backend fiscalismia-backend:latest
