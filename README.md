@@ -284,17 +284,25 @@ Once the server is up and running, it will be ready to handle API requests from 
    docker run -v %cd%\public:/fiscalismia-backend/public --env-file .env --rm -it -p 3002:3002 --name fiscalismia-backend fiscalismia-backend:latest
    ```
 
-3. **Automatic Docker Build and Push to private AWS ECR in Github Actions Pipeline**
+3. **Provisioning of AWS S3 Bucket for Image Upload**
 
    Todo
 
-4. **Deployment to public AWS EC2 Instance via Github Actions Pipeline**
+4. **Automatic Docker Build and Push to private AWS ECR in Github Actions Pipeline**
 
    Todo
 
-5. **Provisioning of AWS S3 Bucket for Image Upload**
+5. **Deployment to public AWS EC2 Instance via Github Actions Pipeline**
 
    Todo
+
+6. **Configure and Initialize Database**
+
+   The development database initialization script can be used for this purpose, specifically `database/pgsql-ddl.sql`.
+
+   Bulk data insertion is handled via TSV files in a specific format in the admin area.
+   The essentials can be gathered from the first lines of `database/pgsql-dml.sql` especially the username whitelist and username, email, password in the `um_` tables.
+
 
 ## License
 
