@@ -53,7 +53,8 @@ fiscalismia-backend consists of an express server running a REST API. Requests f
 
 4. **Job: `deploy`**:
    - **Steps:**
-     - TODO: Deploy on EC2 Instance via AWS CLI
+     - TODO: Deploy on Hetzner Self Managed Kubernetes via ArgoCD (K3s)
+     - TODO: Setup AWS S3 bucket for file upload persistence
 
 ## Setup
 
