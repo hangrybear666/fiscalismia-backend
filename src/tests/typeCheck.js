@@ -8,7 +8,7 @@ const LINE_NUM_PAD_COUNT = 6;
  * exec is typically used for running commands where you expect the output to be relatively small and can be buffered entirely in memory.
  * The entire output of the command (both stdout and stderr) is buffered in memory and provided as strings to the callback function once the command completes.
  */
-exec('npx tsc --noEmit', (error, stdout, stderr) => {
+exec('npx tsc -b --noEmit', (error, stdout, stderr) => {
   try {
     // --noEmit flag produces no compiled files but simple returns the compilation errors, or nothing.
     const compilerErrorLines = stdout.split(/\r?\n/); // regular expression splitting at linebreaks on either unix or windows OS
