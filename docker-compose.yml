@@ -38,8 +38,11 @@ services:
     env_file:
       - .env
     volumes:
-      - ./src:/fiscalismia-backend/src
-      - ./public:/fiscalismia-backend/public
+      # The ':z' flag is required on SELinux-enabled systems (like Fedora/CentOS)
+      # to relabel the host directory. This allows the container to access the
+      # mounted volume by applying a shared SELinux label.
+      - ./src:/fiscalismia-backend/src:z
+      - ./public:/fiscalismia-backend/public:z
     networks:
       - fiscalismia-network
     ports:
@@ -60,7 +63,10 @@ services:
     env_file:
       - ../fiscalismia-frontend/.env
     volumes:
-      - ../fiscalismia-frontend/src:/fiscalismia-frontend/src
+      # The ':z' flag is required on SELinux-enabled systems (like Fedora/CentOS)
+      # to relabel the host directory. This allows the container to access the
+      # mounted volume by applying a shared SELinux label.
+      - ../fiscalismia-frontend/src:/fiscalismia-frontend/src:z
     networks:
       - fiscalismia-network
     ports:

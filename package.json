@@ -10,9 +10,9 @@
     "snykCodeAnalysis": "node src/tests/snykCodeAnalysis",
     "snykDependencyAnalysis": "node src/tests/snykDependencyAnalysis",
     "lint": "eslint .",
-    "start": "set NODE_ENV=production&& node build/server.js",
-    "server": "set NODE_ENV=development&& nodemon src/server.ts --ignore tests/",
-    "docker-dev": "set NODE_ENV=docker-development&& nodemon --watch src --legacy-watch --delay 2500ms  src/server.ts --ignore tests/",
+    "start": "cross-env NODE_ENV=production node build/server.js",
+    "server": "cross-env NODE_ENV=development nodemon src/server.ts --ignore tests/",
+    "docker-dev": "cross-env NODE_ENV=docker-development nodemon --watch src --legacy-watch --delay 2500ms  src/server.ts --ignore tests/",
     "test": "jest --forceExit"
   },
   "repository": {
@@ -54,6 +54,7 @@
     "@types/supertest": "^6.0.2",
     "@typescript-eslint/eslint-plugin": "^7.5.0",
     "@typescript-eslint/parser": "^7.5.0",
+    "cross-env": "^10.0.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-jsdoc": "^48.2.7",
@@ -66,5 +67,8 @@
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.4"
+  },
+  "volta": {
+    "node": "20.19.5"
   }
 }

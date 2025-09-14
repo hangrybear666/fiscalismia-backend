@@ -1,4 +1,4 @@
-FROM postgres:16.3-alpine3.20
+FROM docker.io/library/postgres:16.3-alpine3.20
 # DDL (Data Definition Language) is used to define the structure of the database, such as creating tables, sequences, constraints.
 COPY database/pgsql-ddl.sql /docker-entrypoint-initdb.d/01_pgsql-ddl.sql
 # DML (Data Manipulation Language) is used to populate the db with INSERT UPDATE DELETE and Scripts.

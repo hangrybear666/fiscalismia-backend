@@ -60,9 +60,70 @@ fiscalismia-backend consists of an express server running a REST API. Requests f
 
 **Dependencies**
 
-1. **Node.js:** Ensure that Node.js is installed on your local machine, with a minimum version of 20.9. You can download Node.js via Node Version Switcher [here](https://github.com/jasongin/nvs) or directly from the source [here](https://nodejs.org/).
+1. **Install Node with Version Management**
 
-2. **Docker & Docker Compose** Ensure that Docker is installed in your local development environment. Get Docker [here](https://docs.docker.com/get-docker/) and Docker Compose [here](https://docs.docker.com/compose/install/).
+   See https://docs.volta.sh/guide/getting-started
+
+   ```bash
+   volta install node@20.19.5
+   volta pin node@20.19.5
+   ```
+
+2. **Podman & Docker Compose** Ensure that Podman is installed in your local development environment. Get Podman [here](https://podman.io/docs/installation) and Docker Compose
+
+   <details closed>
+   <summary><b>On Linux:</b></summary>
+
+   ```bash
+   sudo dnf install podman podman-docker
+   sudo dnf -y install dnf-plugins-core
+   sudo dnf-3 config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+   sudo dnf install -y docker-compose-plugin # docker compose V2
+   docker compose -v
+   systemctl --user start podman.socket
+   systemctl --user enable --now podman.socket
+   ```
+
+   If your dotfiles repo doesn't already contain this in `.bashrc` then add these lines
+   `export DOCKER_BUILDKIT=0                                # disable docker buildkit for rootless podman`
+   `export DOCKER_HOST=unix:///run/user/$UID/docker.sock    # set docker host to rootless user for podman`
+
+   </details>
+
+   <details closed>
+   <summary><b>On Windows:</b></summary>
+
+   1) Install WSL
+   ```
+   wsl --install FedoraLinux-42
+   wsl --set-default FedoraLinux-42
+   wsl -u root
+   passwd
+   # Enter new Password
+   ```
+
+   2) Windows Terminal `winget install Microsoft.WindowsTerminal`
+   3) Execute `podman-installer-windows-amd64.exe` See https://github.com/containers/podman/releases
+   4) Setup Podman See https://github.com/containers/podman/blob/main/docs/tutorials/podman-for-windows.md
+   ```Powershell
+   podman -v
+   podman machine init
+   podman machine start
+   ```
+   5) Setup Docker Compose in WSL
+
+   ```bash
+   # setup plugins repository
+   wsl
+   sudo dnf -y install dnf-plugins-core
+   sudo dnf-3 config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+   sudo dnf install -y docker-ce-cli docker-compose-plugin
+   echo "export DOCKER_HOST=unix:///var/run/docker.sock" >> ~/.bashrc
+   docker --version
+   docker compose -v
+   ```
+
+   </details>
 
 3. **Clone the Repository:**
    git clone https://github.com/your-username/fiscalismia-backend.git
@@ -99,6 +160,9 @@ fiscalismia-backend consists of an express server running a REST API. Requests f
    POSTGRES_DB=fiscalismia
    POSTGRES_PASSWORD=xxx
    POSTGRES_PORT=5432
+   # Set only on Linux - your local user and group id. check via "id" command
+   UID=1000
+   GID=1000
 
    # PIPELINE INTEGRATIONS
    SNYK_TOKEN=
@@ -115,16 +179,17 @@ fiscalismia-backend consists of an express server running a REST API. Requests f
 
 ## Running
 
-1. **Option 1: Docker Compose**
+1. **Option 1: Podman Compose**
 
    To run the entire stack in development mode
 
    ```bash
-   docker compose build
-   docker compose up
+   cd ~/git/fiscalismia-backend
+   docker compose down --volumes
+   docker compose up --build
    ```
 
-2. **Option 2: Locally**
+2. **Option 2: Locally with Dev DB**
 
    Development Database
    ```bash
@@ -136,7 +201,15 @@ fiscalismia-backend consists of an express server running a REST API. Requests f
    npm run server
    ```
 
-3. **Option 3: Docker**
+2. **Option 3: Locally with Cloud Prod**
+
+   Run only the backend locally pointing to cloud db defined in `.env` file key `DB_CONNECTION_URL`
+   ```bash
+   npm run build
+   npm run start
+   ```
+
+3. **Option 4: Podman-Docker**
 
    Development Database
    ```bash
@@ -144,21 +217,21 @@ fiscalismia-backend consists of an express server running a REST API. Requests f
    ```
 
    <details open>
-   <summary><b>Docker Run (Linux Syntax)</b></summary>
+   <summary><b>Podman Run (Linux Syntax)</b></summary>
 
    Run only the backend dev container pointing to local db defined in `.env` file keys.
    ```bash
-   docker build --pull --no-cache --rm -f "Dockerfile.dev" -t fiscalismia-backend-dev:latest "."
-   docker run -v $PWD/src:/fiscalismia-backend/src -v $PWD/public:/fiscalismia-backend/public --env-file .env --net fiscalismia-network --rm -it -p 3002:3002 --name fiscalismia-backend-dev fiscalismia-backend-dev:latest
+   podman build --pull --no-cache --rm -f "Dockerfile.dev" -t fiscalismia-backend-dev:latest "."
+   podman run -v $PWD/src:/fiscalismia-backend/src -v $PWD/public:/fiscalismia-backend/public --env-file .env --net fiscalismia-network --rm -it -p 3002:3002 --name fiscalismia-backend-dev fiscalismia-backend-dev:latest
    ```
    </details>
    <details closed>
-   <summary><b>Docker Run (Windows Syntax)</b></summary>
+   <summary><b>Podman Run (Windows Syntax)</b></summary>
 
    Run only the backend dev container pointing to local db defined in `.env` file keys.
    ```bash
-   docker build --pull --no-cache --rm -f "Dockerfile.dev" -t fiscalismia-backend-dev:latest "."
-   docker run -v %cd%\src:/fiscalismia-backend/src -v %cd%\public:/fiscalismia-backend/public --env-file .env --net fiscalismia-network --rm -it -p 3002:3002 --name fiscalismia-backend-dev fiscalismia-backend-dev:latest
+   podman build --pull --no-cache --rm -f "Dockerfile.dev" -t fiscalismia-backend-dev:latest "."
+   podman run -v %cd%\src:/fiscalismia-backend/src -v %cd%\public:/fiscalismia-backend/public --env-file .env --net fiscalismia-network --rm -it -p 3002:3002 --name fiscalismia-backend-dev fiscalismia-backend-dev:latest
    ```
    </details>
 
@@ -170,8 +243,8 @@ fiscalismia-backend consists of an express server running a REST API. Requests f
    NOTE: `DB_CONNECTION_URL` to remote postgres must be set in `.env` file.
 
    ```bash
-   docker build --pull --no-cache --rm -f "Dockerfile" -t fiscalismia-backend:latest "."
-   docker run --network fiscalismia-network -v $PWD/public:/fiscalismia-backend/public --env-file .env --net fiscalismia-network --rm -it -p 3002:3002 --name fiscalismia-backend fiscalismia-backend:latest
+   podman build --pull --no-cache --rm -f "Dockerfile" -t fiscalismia-backend:latest "."
+   podman run --network fiscalismia-network -v $PWD/public:/fiscalismia-backend/public --env-file .env --net fiscalismia-network --rm -it -p 3002:3002 --name fiscalismia-backend fiscalismia-backend:latest
    ```
    </details>
 
@@ -183,8 +256,8 @@ fiscalismia-backend consists of an express server running a REST API. Requests f
    NOTE: `DB_CONNECTION_URL` to remote postgres must be set in `.env` file.
 
    ```bash
-   docker build --pull --no-cache --rm -f "Dockerfile" -t fiscalismia-backend:latest "."
-   docker run --network fiscalismia-network -v %cd%\public:/fiscalismia-backend/public --env-file .env --net fiscalismia-network --rm -it -p 3002:3002 --name fiscalismia-backend fiscalismia-backend:latest
+   podman build --pull --no-cache --rm -f "Dockerfile" -t fiscalismia-backend:latest "."
+   podman run --network fiscalismia-network -v %cd%\public:/fiscalismia-backend/public --env-file .env --net fiscalismia-network --rm -it -p 3002:3002 --name fiscalismia-backend fiscalismia-backend:latest
    ```
    </details>
 
@@ -236,8 +309,10 @@ Once the server is up and running, it will be ready to handle API requests from 
 **Accessing the Database via CLI**
 
    ```bash
-   docker exec -it YOUR_DOCKER_HASH sh
+   podman exec -it fiscalismia-postgres sh
    psql -U $POSTGRES_USER -d $POSTGRES_DB -h $POSTGRES_HOST -p $POSTGRES_PORT
+   # for example on a local db installation
+   psql -U fiscalismia_api -d fiscalismia -h localhost -p 5432
    ```
 
 **Accessing the Database via DB Client**
@@ -281,8 +356,8 @@ Once the server is up and running, it will be ready to handle API requests from 
 
    *Hint: %cd% backslash file path command is unique to windows, in unix based systems, replace it with $PWD forward slash*
    ```
-   docker build --pull --no-cache --rm -f "Dockerfile" -t fiscalismia-backend:latest "."
-   docker run -v %cd%\public:/fiscalismia-backend/public --env-file .env --rm -it -p 3002:3002 --name fiscalismia-backend fiscalismia-backend:latest
+   podman build --pull --no-cache --rm -f "Dockerfile" -t fiscalismia-backend:latest "."
+   podman run -v %cd%\public:/fiscalismia-backend/public --env-file .env --rm -it -p 3002:3002 --name fiscalismia-backend fiscalismia-backend:latest
    ```
 
 3. **Provisioning of AWS S3 Bucket for Image Upload**
