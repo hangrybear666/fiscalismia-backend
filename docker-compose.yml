@@ -34,7 +34,7 @@ services:
       dockerfile: Dockerfile.dev
       pull: true
     environment:
-      - NODE_ENV=docker-development
+      - CLOUD_DB=${CLOUD_DB:-false} # default is false. Overwrite in CLI
     env_file:
       - .env
     volumes:
@@ -50,7 +50,6 @@ services:
     depends_on:
       - fiscalismia-postgres
 
-
   fiscalismia-frontend:
     image: fiscalismia-frontend:latest
     container_name: fiscalismia-frontend
@@ -58,8 +57,6 @@ services:
       context: ../fiscalismia-frontend
       dockerfile: Dockerfile
       pull: true
-    environment:
-      - NODE_ENV=docker-development
     env_file:
       - ../fiscalismia-frontend/.env
     volumes:

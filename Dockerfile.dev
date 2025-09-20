@@ -2,10 +2,5 @@ FROM node:20.12.2-alpine3.19
 WORKDIR /fiscalismia-backend/
 COPY LICENSE package-lock.json package.json tsconfig.json ./
 RUN npm install
-# set NODE_ENV command from the start script is unique to windows so for linux NODE_ENV has to be set here
-ENV NODE_ENV=docker-development
 # if nodemon consumes too much cpu, try adding --polling-interval to nodemon in package.json
 ENTRYPOINT ["npm", "run", "docker-dev"]
-
-# docker build --pull --no-cache --rm -f "Dockerfile.dev" -t fiscalismia-backend-dev:latest "."
-# docker run --network fiscalismia-network -v %cd%\src:/fiscalismia-backend/src -v %cd%\public:/fiscalismia-backend/public --env-file .env --rm -it -p 3002:3002 --name fiscalismia-backend-dev fiscalismia-backend-dev:latest

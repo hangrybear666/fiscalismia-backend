@@ -186,34 +186,45 @@ fiscalismia-backend consists of an express server running a REST API. Requests f
    ```bash
    cd ~/git/fiscalismia-backend
    docker compose down --volumes
+
+   # with local db in development mode
    docker compose up --build
+
+   # with cloud db in development mode
+   CLOUD_DB=true docker compose up --build
    ```
 
 2. **Option 2: Locally with Dev DB**
 
-   Development Database
    ```bash
-   docker compose up fiscalismia-postgres
+   cd ~/git/fiscalismia-backend
+   docker compose up --build fiscalismia-postgres fiscalismia-frontend
+   npm run dev
    ```
 
-   Run only the backend locally pointing to local db defined in `.env` file keys.
+3. **Option 3: Locally with Cloud DB**
+
    ```bash
-   npm run server
+   cd ~/git/fiscalismia-backend
+   docker compose up --build fiscalismia-frontend
+   npm run neon-dev
    ```
 
-2. **Option 3: Locally with Cloud Prod**
+4. **Option 4: Locally with Cloud Prod**
 
    Run only the backend locally pointing to cloud db defined in `.env` file key `DB_CONNECTION_URL`
    ```bash
+   cd ~/git/fiscalismia-backend
+   docker compose up --build fiscalismia-frontend
    npm run build
-   npm run start
+   npm run prod
    ```
 
-3. **Option 4: Podman-Docker**
+5. **Option 5: Podman-Docker**
 
    Development Database
    ```bash
-   docker compose up fiscalismia-postgres
+   docker compose up --build fiscalismia-postgres
    ```
 
    <details open>
