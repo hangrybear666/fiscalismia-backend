@@ -668,8 +668,9 @@ VALUES (
   TO_DATE('01.01.2024','DD.MM.YYYY'),
   TO_DATE('01.01.4000','DD.MM.YYYY')
 );
-INSERT INTO public.food_price_discounts(food_prices_dimension_key, discount_price, discount_start_date, discount_end_date)
-VALUES(3,1.49,TO_DATE('01.04.2024','DD.MM.YYYY'),TO_DATE('31.12.2024','DD.MM.YYYY'));
+INSERT INTO public.food_price_discounts(
+	food_prices_dimension_key, discount_price, discount_start_date, discount_end_date)
+	VALUES ((SELECT dimension_key FROM public.table_food_prices WHERE food_item = 'Salmon filet, frozen' AND brand = 'Paulus'), 16.99, current_date-1, current_date+7);
 
 /**
  __     ___    ____  ___    _    ____  _     _____       _______  ______  _____ _   _ ____  _____ ____

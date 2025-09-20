@@ -21,4 +21,4 @@
 - Supertest for DELETE Food_Item_Discount
 
 ### Before Deploying
-- Rethink public folder storage for production env -> Use S3 Bucket
+- Rethink public folder storage for production env -> Persistence with backup / HA
