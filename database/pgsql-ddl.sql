@@ -196,7 +196,7 @@ CREATE TABLE IF NOT EXISTS public.investment_taxes
     dividend_id integer,
     pct_of_profit_taxed numeric(6,3) NOT NULL DEFAULT 100.000,
     profit_amt numeric(7,3) NOT NULL,
-    tax_rate numeric(5,3) DEFAULT 26.375 NOT NULL,
+    tax_rate numeric(5,3) DEFAULT 26.375 NOT NULL, -- 75.625 is profit
     tax_paid numeric(7,3) NOT NULL,
     tax_year numeric(4,0) NOT NULL
 )
