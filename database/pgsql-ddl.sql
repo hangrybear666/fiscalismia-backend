@@ -164,9 +164,9 @@ CREATE TABLE IF NOT EXISTS public.investments
     investment_type character varying(32) NOT NULL,
     marketplace character varying(64) NOT NULL,
     units numeric(9,0) NOT NULL,
-    price_per_unit numeric(7,2) NOT NULL,
-    total_price numeric(7,2) NOT NULL,
-    fees numeric(4,2) NOT NULL,
+    price_per_unit numeric(8,3) NOT NULL,
+    total_price numeric(8,3) NOT NULL,
+    fees numeric(6,3) NOT NULL,
 	execution_date date NOT NULL,
     PRIMARY KEY (id)
 )
@@ -194,10 +194,10 @@ CREATE TABLE IF NOT EXISTS public.investment_taxes
 (
     investment_id integer,
     dividend_id integer,
-    pct_of_profit_taxed numeric(5,2) NOT NULL DEFAULT 100.00,
-    profit_amt numeric(6,2) NOT NULL,
+    pct_of_profit_taxed numeric(6,3) NOT NULL DEFAULT 100.000,
+    profit_amt numeric(7,3) NOT NULL,
     tax_rate numeric(5,3) DEFAULT 26.375 NOT NULL,
-    tax_paid numeric(6,2) NOT NULL,
+    tax_paid numeric(7,3) NOT NULL,
     tax_year numeric(4,0) NOT NULL
 )
 TABLESPACE pg_default;
