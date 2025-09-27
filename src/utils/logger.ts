@@ -32,7 +32,7 @@ const logger = createLogger({
 if (process.env.NODE_ENV !== 'production') {
   logger.add(
     new transports.Console({
-      level: 'verbose', // error: 0, warn: 1, info: 2, http: 3, verbose: 4, debug: 5, silly: 6
+      level: 'debug', // error: 0, warn: 1, info: 2, http: 3, verbose: 4, debug: 5, silly: 6
       format: format.combine(
         format.timestamp({
           format: getLocalTimestamp
