@@ -37,7 +37,7 @@ module.exports = {
             ignoreRestSiblings: true // Ignore the rest siblings (e.g., in object destructuring, the variables after the rest element)
           }
         ],
-        'no-console': 'warn',
+        'no-console': 'error',
         'jsdoc/check-alignment': 'error', // Enforces JSDoc comments are aligned
         'jsdoc/check-param-names': 'error', // Enforces parameter names in JSDoc match those in the function
         'jsdoc/check-types': 'error', // Enforces types in JSDoc comments
