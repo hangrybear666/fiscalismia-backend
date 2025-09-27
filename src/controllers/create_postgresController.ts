@@ -28,7 +28,15 @@ const {
   buildInsertUmUsers,
   buildVerifyUsername,
   buildInitializeUserSettings,
-  logSqlStatement
+  logSqlStatement,
+  insertIntoTestTable,
+  insertIntoUserSettings,
+  insertIntoFoodItemDiscount,
+  insertNewFoodItemIntoFoodPrices,
+  insertIntoInvestments,
+  insertIntoInvestmentDividends,
+  insertIntoInvestmentTaxes,
+  insertIntoBridgeInvestmentDividends
 } = require('../utils/SQL_UTILS');
 const { generateToken } = require('../utils/security');
 const regExAlphabeticHyphensDotsUnderscores = /^[A-Za-z_.-]*$/;
@@ -52,13 +60,12 @@ const regExEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
  */
 const postTestData = asyncHandler(async (request: Request, response: Response) => {
   logger.http('create_postgresController received POST to /api/fiscalismia/');
-  const sql = 'INSERT INTO test_table(description) VALUES($1) RETURNING id';
   const parameters = [request.body.description];
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
-    logSqlStatement(sql, parameters);
-    const result = await client.query(sql, parameters);
+    logSqlStatement(insertIntoTestTable, parameters);
+    const result = await client.query(insertIntoTestTable, parameters);
     await client.query('COMMIT');
     const results = { results: result ? result.rows : null };
     response.status(201).send(results);
@@ -82,19 +89,7 @@ const postTestData = asyncHandler(async (request: Request, response: Response) =
  */
 const postUpdatedUserSettings = asyncHandler(async (request: Request, response: Response) => {
   logger.http('create_postgresController received POST to /api/fiscalismia/upload/um/settings');
-  const sql = `
-  INSERT INTO public.um_user_settings(
-    user_id, setting_key, setting_value, setting_description)
-  VALUES(
-    (SELECT id FROM public.um_users WHERE username = $1),
-    $2,
-    $3,
-    NULL
-    )
-  ON CONFLICT ON CONSTRAINT uk_user_settings
-    DO
-    UPDATE SET setting_value = EXCLUDED.setting_value
-  RETURNING (SELECT username FROM public.um_users WHERE id = (SELECT id FROM public.um_users WHERE username = $1))`;
+
   const userSettingObj: UserSettingObject = request.body;
   const parameters = [userSettingObj.username, userSettingObj.settingKey, userSettingObj.settingValue];
   if (!regExAlphabeticHyphensDotsUnderscores.test(userSettingObj.username)) {
@@ -112,8 +107,8 @@ const postUpdatedUserSettings = asyncHandler(async (request: Request, response: 
     const client = await pool.connect();
     try {
       await client.query('BEGIN');
-      logSqlStatement(sql, parameters);
-      const result = await client.query(sql, parameters);
+      logSqlStatement(insertIntoUserSettings, parameters);
+      const result = await client.query(insertIntoUserSettings, parameters);
       await client.query('COMMIT');
       const results = { results: result ? result.rows : null };
       response.status(201).send(results);
@@ -144,15 +139,13 @@ const postUpdatedUserSettings = asyncHandler(async (request: Request, response: 
  */
 const postFoodItemDiscount = asyncHandler(async (request: Request, response: Response) => {
   logger.http('create_postgresController received POST to /api/fiscalismia/food_item_discount');
-  const sql =
-    'INSERT INTO public.food_price_discounts(food_prices_dimension_key, discount_price, discount_start_date, discount_end_date) VALUES($1,$2,$3,$4) RETURNING food_prices_dimension_key';
   const discountInfo = request.body;
   const parameters = [discountInfo.id, discountInfo.price, discountInfo.startDate, discountInfo.endDate];
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
-    logSqlStatement(sql, parameters);
-    const result = await client.query(sql, parameters);
+    logSqlStatement(insertIntoFoodItemDiscount, parameters);
+    const result = await client.query(insertIntoFoodItemDiscount, parameters);
     await client.query('COMMIT');
     const results = { results: result ? result.rows : null };
     response.status(201).send(results);
@@ -178,12 +171,6 @@ const postFoodItemDiscount = asyncHandler(async (request: Request, response: Res
  */
 const postNewFoodItem = asyncHandler(async (request: Request, response: Response) => {
   logger.http('create_postgresController received POST to /api/fiscalismia/food_item');
-  const sql = `INSERT INTO public.table_food_prices(dimension_key, food_item, brand, store, main_macro, kcal_amount, weight, price, last_update, effective_date, expiration_date) VALUES (
-      nextval('table_food_prices_seq'),
-      $1, $2, $3, $4, $5, $6, $7, $8,
-      current_date,
-      to_date('01.01.4000','DD.MM.YYYY')
-    ) RETURNING dimension_key as id`;
   const newFoodItem = request.body;
   const parameters = [
     newFoodItem.food_item,
@@ -198,8 +185,8 @@ const postNewFoodItem = asyncHandler(async (request: Request, response: Response
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
-    logSqlStatement(sql, parameters);
-    const result = await client.query(sql, parameters);
+    logSqlStatement(insertNewFoodItemIntoFoodPrices, parameters);
+    const result = await client.query(insertNewFoodItemIntoFoodPrices, parameters);
     await client.query('COMMIT');
     const results = { results: result ? result.rows : null };
     response.status(201).send(results);
@@ -225,14 +212,7 @@ const postNewFoodItem = asyncHandler(async (request: Request, response: Response
  */
 const postInvestmentAndTaxes = asyncHandler(async (request: Request, response: Response) => {
   logger.http('create_postgresController received POST to /api/fiscalismia/investments');
-  const sqlInvestments = `INSERT INTO public.investments (execution_type,	description,	isin,	investment_type,	marketplace,	units,	price_per_unit,	total_price,	fees,	execution_date)
-  VALUES (
-      $1, $2, $3, $4, $5, $6, $7, $8, $9, $10
-    ) RETURNING id`;
-  const sqlTaxes = `INSERT INTO public.investment_taxes (investment_id, pct_of_profit_taxed, profit_amt, tax_paid, tax_year)
-  VALUES (
-      $1, $2, $3, $4, $5
-    ) RETURNING investment_id as id`;
+  const sqlTaxes = insertIntoInvestmentTaxes('investment');
   const investmentAndTaxesObject = request.body;
   const parametersInvestments = [
     investmentAndTaxesObject.execution_type,
@@ -250,8 +230,8 @@ const postInvestmentAndTaxes = asyncHandler(async (request: Request, response: R
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
-    logSqlStatement(sqlInvestments, parametersInvestments);
-    const result = await client.query(sqlInvestments, parametersInvestments);
+    logSqlStatement(insertIntoInvestments, parametersInvestments);
+    const result = await client.query(insertIntoInvestments, parametersInvestments);
     if (investmentAndTaxesObject.execution_type === 'sell' && result?.rows[0]?.id && result.rows[0].id > 0) {
       if (investmentAndTaxesObject.pct_of_profit_taxed === null || investmentAndTaxesObject.profit_amt === null) {
         const errorMessage = 'For Investment Sales pct_of_profit_taxed & profit_amt columns have to be defined';
@@ -307,18 +287,9 @@ const postInvestmentAndTaxes = asyncHandler(async (request: Request, response: R
  */
 const postDividendsAndTaxes = asyncHandler(async (request: Request, response: Response) => {
   logger.http('create_postgresController received POST to /api/fiscalismia/investment_dividends');
-  const sqlDividends = `INSERT INTO public.investment_dividends (isin, dividend_amount, dividend_date)
-  VALUES(
-      $1, $2, $3
-    ) RETURNING id`;
-  const sqlTaxes = `INSERT INTO public.investment_taxes (dividend_id, pct_of_profit_taxed, profit_amt, tax_paid, tax_year)
-  VALUES (
-      $1, $2, $3, $4, $5
-    ) RETURNING dividend_id as id`;
-  const sqlBridgeInvestmentDividends = `INSERT INTO public.bridge_investment_dividends (investment_id, dividend_id, remaining_units)
-  VALUES %L RETURNING investment_id as id, remaining_units`; // using pg-format for bulk insertion
   const dividendObject = request.body;
   const parametersDividends = [dividendObject.isin, dividendObject.dividendAmount, dividendObject.dividendDate];
+  const sqlTaxes = insertIntoInvestmentTaxes('dividend');
   let parametersTaxes;
   let parametersBridge: any[][];
 
@@ -332,8 +303,9 @@ const postDividendsAndTaxes = asyncHandler(async (request: Request, response: Re
     //   __            __   ___       __     ___       __        ___
     //  |  \ | \  / | |  \ |__  |\ | |  \     |   /\  |__) |    |__
     //  |__/ |  \/  | |__/ |___ | \| |__/     |  /~~\ |__) |___ |___
-    logSqlStatement(sqlDividends, parametersDividends);
-    const result = await client.query(sqlDividends, parametersDividends);
+
+    logSqlStatement(insertIntoInvestmentDividends, parametersDividends);
+    const result = await client.query(insertIntoInvestmentDividends, parametersDividends);
     // INVESTMENT IS A SALE (with Tax Information) && INSERT INVESTMENTS RETURNED SUCCESSFULLY
     if (result?.rows[0]?.id && result.rows[0].id > 0) {
       // ___           ___  __     ___       __        ___
@@ -365,14 +337,18 @@ const postDividendsAndTaxes = asyncHandler(async (request: Request, response: Re
          * syntax: format('INSERT INTO test_table (id, name) VALUES %L', valueArray)
          */
         const promiseResult = await new Promise((resolve, reject) => {
-          logSqlStatement(sqlBridgeInvestmentDividends, parametersBridge);
-          client.query(format(sqlBridgeInvestmentDividends, parametersBridge), [], (error: unknown, result: any) => {
-            if (error) {
-              reject(error);
-            } else {
-              resolve(result);
+          logSqlStatement(insertIntoBridgeInvestmentDividends, parametersBridge);
+          client.query(
+            format(insertIntoBridgeInvestmentDividends, parametersBridge),
+            [],
+            (error: unknown, result: any) => {
+              if (error) {
+                reject(error);
+              } else {
+                resolve(result);
+              }
             }
-          });
+          );
         });
         bridgeResult = promiseResult;
       } catch (error: unknown) {

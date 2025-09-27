@@ -280,8 +280,8 @@ const buildInsertNewFoodItems = (e: FoodItem) => {
 const buildInsertFoodItemImgFilePath = (element: any) => {
   const dimensionKey = element.id;
   const filepath = element.filepath;
-  const insertFilePath = `INSERT INTO public.food_price_image_location 
-    (food_prices_dimension_key, filepath) 
+  const insertFilePath = `INSERT INTO public.food_price_image_location
+    (food_prices_dimension_key, filepath)
     VALUES ('${dimensionKey}','${filepath}')
     ON CONFLICT ON CONSTRAINT food_price_filepaths_pkey
     DO
@@ -305,6 +305,104 @@ const logSqlStatement = (sql: string, parameters: any) => {
   );
 };
 
+/**
+ * Inserts parameters (execution_type,	description,	isin,	investment_type,	marketplace,	units,	price_per_unit,	total_price,	fees,	execution_date)
+ * into test_table
+ * @returns id (of investment)
+ */
+const insertIntoTestTable = `INSERT INTO test_table
+(description)
+  VALUES (
+    $1
+  ) RETURNING id`;
+
+/**
+ * Inserts parameters (user_id, setting_key, setting_value, setting_description)
+ * into public.um_user_settings
+ * @returns username
+ */
+const insertIntoUserSettings = `INSERT INTO public.um_user_settings
+(user_id, setting_key, setting_value, setting_description)
+  VALUES(
+    (SELECT id FROM public.um_users WHERE username = $1),
+    $2,
+    $3,
+    NULL
+    )
+  ON CONFLICT ON CONSTRAINT uk_user_settings
+    DO
+    UPDATE SET setting_value = EXCLUDED.setting_value
+  RETURNING (SELECT username FROM public.um_users WHERE id = (SELECT id FROM public.um_users WHERE username = $1)) as username`;
+
+/**
+ * Inserts parameters (food_prices_dimension_key, discount_price, discount_start_date, discount_end_date)
+ * into public.food_price_discounts
+ * @returns food_prices_dimension_key
+ */
+const insertIntoFoodItemDiscount = `INSERT INTO public.food_price_discounts
+(food_prices_dimension_key, discount_price, discount_start_date, discount_end_date)
+  VALUES(
+    $1,$2,$3,$4
+  ) RETURNING food_prices_dimension_key`;
+
+/**
+ * Inserts parameters (dimension_key, food_item, brand, store, main_macro, kcal_amount, weight, price, last_update, effective_date, expiration_date)
+ * into public.table_food_prices
+ * @returns dimension_key as id
+ */
+const insertNewFoodItemIntoFoodPrices = `INSERT INTO public.table_food_prices
+(dimension_key, food_item, brand, store, main_macro, kcal_amount, weight, price, last_update, effective_date, expiration_date)
+VALUES (
+      nextval('table_food_prices_seq'),
+      $1, $2, $3, $4, $5, $6, $7, $8,
+      current_date,
+      to_date('01.01.4000','DD.MM.YYYY')
+    ) RETURNING dimension_key as id`;
+
+/**
+ * Inserts parameters (execution_type,	description,	isin,	investment_type,	marketplace,	units,	price_per_unit,	total_price,	fees,	execution_date)
+ * into public.investments
+ * @returns id (of investment)
+ */
+const insertIntoInvestments = `INSERT INTO public.investments
+(execution_type,	description,	isin,	investment_type,	marketplace,	units,	price_per_unit,	total_price,	fees,	execution_date)
+  VALUES (
+      $1, $2, $3, $4, $5, $6, $7, $8, $9, $10
+    ) RETURNING id`;
+
+/**
+ * Inserts parameters (isin, dividend_amount, dividend_date)
+ * into public.investment_dividends
+ * @returns id (of dividend)
+ */
+const insertIntoInvestmentDividends = `INSERT INTO public.investment_dividends
+(isin, dividend_amount, dividend_date)
+VALUES(
+    $1, $2, $3
+  ) RETURNING id`;
+
+/**
+ * Inserts parameters (dividend_id | investment_id, pct_of_profit_taxed, profit_amt, tax_paid, tax_year) into public.investment_taxes
+ * @param {'dividend' | 'investment'} id_type can insert either an investment or a dividend
+ * @returns investment_id or dividend_id as id
+ */
+const insertIntoInvestmentTaxes = (id_type: 'dividend' | 'investment') => {
+  return `INSERT INTO public.investment_taxes
+(${id_type == 'dividend' ? 'dividend_id' : 'investment_id'}, pct_of_profit_taxed, profit_amt, tax_paid, tax_year)
+VALUES (
+    $1, $2, $3, $4, $5
+  ) RETURNING ${id_type == 'dividend' ? 'dividend_id' : 'investment_id'} as id`;
+};
+
+/**
+ * Inserts parameters (investment_id, dividend_id, remaining_units)
+ * into public.bridge_investment_dividends
+ * @returns investment_id as id, remaining_units
+ */
+const insertIntoBridgeInvestmentDividends = `INSERT INTO public.bridge_investment_dividends
+(investment_id, dividend_id, remaining_units)
+VALUES %L RETURNING investment_id as id, remaining_units`; // using pg-format for bulk insertion
+
 module.exports = {
   buildInsertStagingVariableBills,
   buildInsertFixedCosts,
@@ -316,5 +414,13 @@ module.exports = {
   buildInitializeUserSettings,
   buildVerifyUsername,
   buildFindUserById,
-  logSqlStatement
+  logSqlStatement,
+  insertIntoTestTable,
+  insertIntoUserSettings,
+  insertIntoFoodItemDiscount,
+  insertNewFoodItemIntoFoodPrices,
+  insertIntoInvestments,
+  insertIntoInvestmentDividends,
+  insertIntoInvestmentTaxes,
+  insertIntoBridgeInvestmentDividends
 };

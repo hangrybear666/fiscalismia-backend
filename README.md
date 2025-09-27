@@ -206,7 +206,8 @@ fiscalismia-backend consists of an express server running a REST API. Requests f
 
    ```bash
    cd ~/git/fiscalismia-backend
-   docker compose up --build fiscalismia-frontend
+   docker compose down --volumes
+   docker compose up -d fiscalismia-frontend
    npm run neon-dev
    ```
 

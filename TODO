@@ -3,6 +3,7 @@
 ## Unfinished Tasks
 
 ### High Prio
+- Add Dividend TSV Import
 - Rate limit API requests, currently DDOS is possible.
 
 ### Medium Prio

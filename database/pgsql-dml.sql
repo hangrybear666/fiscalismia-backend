@@ -35,7 +35,7 @@ VALUES (
     'en_US',
     null);
 
-INSERT INTO public.test_table(description) VALUES('Hello from psql-dml.sql');
+INSERT INTO public.test_table(description) VALUES('Hello from pgsql-dml.sql');
 INSERT INTO public.test_table(description) VALUES('Initialized Docker-Dev-DB successfully');
 
 /*     _____  _____ _____     _____ _   _  _____ ___________ _____ _____    ____________ ________  ___    _____  _____ _   _______  _____  _____    ______  ___ _____ ___
