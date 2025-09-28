@@ -1,8 +1,8 @@
+/* eslint-disable no-console */
 import request from 'supertest';
 require('dotenv').config();
 import { app } from '../app';
-import { UserSettingObject } from '../utils/customTypes';
-const logger = require('../utils/logger');
+import { InvestmentAndTaxes, UserSettingObject } from '../utils/customTypes';
 
 /*    __   __                          __          __        ___  __
 |    /  \ /  `  /\  |       \  /  /\  |__) |  /\  |__) |    |__  /__`
@@ -16,16 +16,17 @@ const year = currentDate.getFullYear();
 const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are 0-based
 const day = String(currentDate.getDate()).padStart(2, '0');
 const dbDateStr = `${year}-${month}-${day}`;
-/* __        __     __      __   ___       __      __   __   ___  __       ___    __        __
-  |__)  /\  /__` | /  `    |__) |__   /\  |  \    /  \ |__) |__  |__)  /\   |  | /  \ |\ | /__`
-  |__) /~~\ .__/ | \__,    |  \ |___ /~~\ |__/    \__/ |    |___ |  \ /~~\  |  | \__/ | \| .__/  */
 
 describe('supertest REST API testing entire REST functionality', () => {
   let maxTestTableId: number;
   let insertedId: number;
   const insertedFoodItemIds: number[] = [];
+  let investmentIdForDividend: number;
   const username = 'admin';
 
+  //              ___          __   ___  __        ___  __  ___  __
+  //     /\  |  |  |  |__|    |__) |__  /  \ |  | |__  /__`  |  /__`
+  //    /~~\ \__/  |  |  |    |  \ |___ \__X \__/ |___ .__/  |  .__/
   test('AUTH read fiscalismia root w/o authentication fails', (done) => {
     request(app)
       .get(ROOT_URL)
@@ -77,7 +78,6 @@ describe('supertest REST API testing entire REST functionality', () => {
       .expect(200)
       .end((err: unknown, res: request.Response) => {
         if (err instanceof Error) {
-          logger.error(err);
           return done(err);
         }
         // set local authentication token variable to text of login response
@@ -195,14 +195,17 @@ describe('supertest REST API testing entire REST functionality', () => {
         return done();
       });
   });
-
-  test('POST into test_table', (done) => {
+  //    ___  ___  __  ___    ___       __        ___
+  //     |  |__  /__`  |      |   /\  |__) |    |__
+  //     |  |___ .__/  |      |  /~~\ |__) |___ |___
+  //
+  test('TEST_TABLE POST request', (done) => {
     request(app)
       .post(`${ROOT_URL}`)
       .set('Authorization', 'Bearer ' + authToken)
       .expect('Content-Type', /json/)
       .send({
-        description: 'Inserted from Supertest [read_rest_api.test.js] at [' + currentTime + ']'
+        description: 'Inserted from Supertest [supertest_read_write_api.test.ts] at [' + currentTime + ']'
       })
       .expect(201)
       .end((err: unknown, res: request.Response) => {
@@ -214,7 +217,7 @@ describe('supertest REST API testing entire REST functionality', () => {
       });
   });
 
-  test('GET from test_taböe', (done) => {
+  test('TEST_TABLE GET request', (done) => {
     request(app)
       .get(`${ROOT_URL}`)
       .set('Authorization', 'Bearer ' + authToken)
@@ -230,8 +233,8 @@ describe('supertest REST API testing entire REST functionality', () => {
       });
   });
 
-  test('UPDATE in test_table', (done) => {
-    const updatedDescription = 'Updated from Supertest [read_rest_api.test.js] at [' + currentTime + ']';
+  test('TEST_TABLE UPDATE request', (done) => {
+    const updatedDescription = 'Updated from Supertest [supertest_read_write_api.test.ts] at [' + currentTime + ']';
     request(app)
       .put(`${ROOT_URL}/${maxTestTableId}`)
       .set('Authorization', 'Bearer ' + authToken)
@@ -252,7 +255,7 @@ describe('supertest REST API testing entire REST functionality', () => {
       });
   });
 
-  test('DELETE from test_table', (done) => {
+  test('TEST_TABLE DELETE request', (done) => {
     request(app)
       .delete(`${ROOT_URL}/${insertedId}`)
       .set('Authorization', 'Bearer ' + authToken)
@@ -269,79 +272,82 @@ describe('supertest REST API testing entire REST functionality', () => {
         return done();
       });
   });
-
-  test('GET um_user_settings [admin]', (done) => {
+  //     __   ___  ___     __   ___  __        ___  __  ___  __
+  //    / _` |__    |     |__) |__  /  \ |  | |__  /__`  |  /__`
+  //    \__> |___   |     |  \ |___ \__X \__/ |___ .__/  |  .__/
+  //
+  test('GET: um_user_settings [admin]', (done) => {
     getRequestReturnsResult(done, `/um/settings/${username}`);
   });
 
-  test('GET category', (done) => {
+  test('GET: category', (done) => {
     getRequestReturnsResult(done, '/category');
   });
 
-  test('GET store', (done) => {
+  test('GET: store', (done) => {
     getRequestReturnsResult(done, '/store');
   });
 
-  test('GET sensitivity', (done) => {
+  test('GET: sensitivity', (done) => {
     getRequestReturnsResult(done, '/sensitivity');
   });
 
-  test('GET variable_expenses', (done) => {
+  test('GET: variable_expenses', (done) => {
     getRequestReturnsResult(done, '/variable_expenses');
   });
 
-  test('GET investments', (done) => {
+  test('GET: investments', (done) => {
     getRequestReturnsResult(done, '/investments');
   });
 
-  test('GET investment_dividends', (done) => {
+  test('GET: investment_dividends', (done) => {
     getRequestReturnsResult(done, '/investment_dividends');
   });
 
-  test('GET fixed_costs', (done) => {
+  test('GET: fixed_costs', (done) => {
     getRequestReturnsResult(done, '/fixed_costs');
   });
 
-  test('GET fixed_income', (done) => {
+  test('GET: fixed_income', (done) => {
     getRequestReturnsResult(done, '/fixed_income');
   });
 
-  test('GET food_prices_and_discounts', (done) => {
+  test('GET: food_prices_and_discounts', (done) => {
     getRequestReturnsResult(done, '/food_prices_and_discounts');
   });
 
-  test('GET discounted_foods_current', (done) => {
+  test('GET: discounted_foods_current', (done) => {
     getRequestReturnsResult(done, '/discounted_foods_current');
   });
 
-  test('GET sensitivities_of_purchase', (done) => {
+  test('GET: sensitivities_of_purchase', (done) => {
     getRequestReturnsResult(done, '/sensitivities_of_purchase');
   });
 
-  test('GET category by ID', (done) => {
+  test('GET: category by ID', (done) => {
     getRequestByRandomIdMatches(done, '/category');
   });
 
-  test('GET store by ID', (done) => {
+  test('GET: store by ID', (done) => {
     getRequestByRandomIdMatches(done, '/store');
   });
 
-  test('GET sensitivity by ID', (done) => {
+  test('GET: sensitivity by ID', (done) => {
     getRequestByRandomIdMatches(done, '/sensitivity');
   });
 
-  test('GET variable_expenses by ID', (done) => {
+  test('GET: variable_expenses by ID', (done) => {
     getRequestByRandomIdMatches(done, '/variable_expenses');
   });
 
-  test('GET fixed_costs by ID', (done) => {
+  test('GET: fixed_costs by ID', (done) => {
     getRequestByRandomIdMatches(done, '/fixed_costs');
   });
 
   /**
    * since the all query and specific query use different database fields (id | sensitivity_id) we need a specific implementation
    */
-  test('GET sensitivities_of_purchase by sensitivity_id', (done) => {
+  test('GET: sensitivities_of_purchase by sensitivity_id', (done) => {
     request(app)
       //   __        ___  __
       //  /  \ |  | |__  |__) \ /     /\  |    |
@@ -377,7 +383,7 @@ describe('supertest REST API testing entire REST functionality', () => {
   /**
    * since the all query and specific query use different database fields (id | variable_expense_id) we need a specific implementation
    */
-  test('GET sensitivities_of_purchase by variable_expense_id', (done) => {
+  test('GET: sensitivities_of_purchase by variable_expense_id', (done) => {
     request(app)
       //   __        ___  __
       //  /  \ |  | |__  |__) \ /     /\  |    |
@@ -413,7 +419,7 @@ describe('supertest REST API testing entire REST functionality', () => {
   /**
    * Queries variable expenses by given Category. The Category is randomized between test runs to guarantee the data is sound.
    */
-  test('GET variable_expenses by random category', (done) => {
+  test('GET: variable_expenses by random category', (done) => {
     const VAR_EXPENSE_CATEGORIES = ['Groceries', 'Leisure', 'Sale', 'Hygiene', 'Gift'];
     request(app)
       .get(
@@ -433,7 +439,7 @@ describe('supertest REST API testing entire REST functionality', () => {
   /**
    * get specific set collection of fixed income by date in the format 'yyyy-mm-dd'
    */
-  test('GET fixed_income by effective_date', (done) => {
+  test('GET: fixed_income by effective_date', (done) => {
     request(app)
       .get(`${ROOT_URL}/fixed_income/valid/${dbDateStr}`)
       .set('Authorization', 'Bearer ' + authToken)
@@ -450,7 +456,7 @@ describe('supertest REST API testing entire REST functionality', () => {
   /**
    * get specific set collection of fixed costs by date in the format 'yyyy-mm-dd'
    */
-  test('GET fixed_costs by effective_date', (done) => {
+  test('GET: fixed_costs by effective_date', (done) => {
     request(app)
       .get(`${ROOT_URL}/fixed_costs/valid/${dbDateStr}`)
       .set('Authorization', 'Bearer ' + authToken)
@@ -464,14 +470,17 @@ describe('supertest REST API testing entire REST functionality', () => {
       });
   });
 
-  test('GET investments by ID', (done) => {
+  test('GET: investments by ID', (done) => {
     getRequestByRandomIdMatches(done, '/investments');
   });
 
-  test('GET investment_dividends by ID', (done) => {
+  test('GET: investment_dividends by ID', (done) => {
     getRequestByRandomIdMatches(done, '/investment_dividends');
   });
-
+  //     __   __   __  ___     __   ___  __        ___  __  ___  __
+  //    |__) /  \ /__`  |     |__) |__  /  \ |  | |__  /__`  |  /__`
+  //    |    \__/ .__/  |     |  \ |___ \__X \__/ |___ .__/  |  .__/
+  //
   test('POST user_settings: set dark mode for admin user', (done) => {
     const userSettings: UserSettingObject = {
       username: username,
@@ -546,6 +555,14 @@ describe('supertest REST API testing entire REST functionality', () => {
       });
   });
 
+  //     __       ___     ___  ___  __        ___  __  ___  __
+  //    |__) |  |  |     |__) |__  /  \ |  | |__  /__`  |  /__`
+  //    |    \__/  |     |  \ |___ \__X \__/ |___ .__/  |  .__/
+  //
+  //     __   ___       ___ ___  ___        __   ___  __        ___  __  ___  __
+  //    |  \ |__  |    |__   |  |__        |__) |__  /  \ |  | |__  /__`  |  /__`
+  //    |__/ |___ |___ |___  |  |___       |  \ |___ \__X \__/ |___ .__/  |  .__/
+  //
   /**
     _____ ______     __     ___ _   _ ____  _____ ____ _____ ___ ___  _   _
    |_   _/ ___\ \   / /    |_ _| \ | / ___|| ____|  _ \_   _|_ _/ _ \| \ | |
@@ -554,7 +571,7 @@ describe('supertest REST API testing entire REST functionality', () => {
      |_| |____/  \_/       |___|_| \_|____/|_____|_| \_\|_| |___\___/|_| \_|*/
 
   // variable expenses
-  test('POST TSV data: variable_expenses and receive inserts', (done) => {
+  test('TSV POST: variable_expenses and receive inserts', (done) => {
     const textTsv = `description	category	store	cost	purchasing_date	is_planned	contains_indulgence	sensitivities
   Softdrinks	Groceries	Edeka	€2.48	 28.04.2022	N	J	caffeine, aspartame/saccharin`;
     postTsvAndReceiveInsertStmt(done, '/texttsv/variable_expenses', textTsv, false);
@@ -645,7 +662,7 @@ describe('supertest REST API testing entire REST functionality', () => {
    | |_| | |_) |   |  __/| |___|  _ < ___) | | ___) || |  ___) |
    |____/|____/    |_|   |_____|_| \_\____/___|____/ |_| |____/*/
 
-  test('POST /w db persist: new_food_item expects 201 Created', (done) => {
+  test('DB_PERSIST POST /w db persist: new_food_item expects 201 Created', (done) => {
     const newFoodItem = {
       food_item: 'Hafermilch',
       brand: 'Oatly',
@@ -672,7 +689,7 @@ describe('supertest REST API testing entire REST functionality', () => {
       });
   });
 
-  test('POST /w db persist: attempt to save new_food_item twice expect 400 Bad Request', (done) => {
+  test('DB_PERSIST POST /w db persist: attempt to save new_food_item twice expect 400 Bad Request', (done) => {
     const newFoodItem = {
       food_item: 'Heidelbeeren TK',
       brand: 'Freshona',
@@ -711,7 +728,128 @@ describe('supertest REST API testing entire REST functionality', () => {
       });
   });
 
-  test('DELETE prior created food_items from db expecting ids returned', (done) => {
+  test('DB_PERSIST POST investments: persisting new BUY execution_type succeeds', (done) => {
+    const ninetyDaysPrior = new Date();
+    ninetyDaysPrior.setDate(new Date().getDate() - 90);
+    const investmentAndTaxesObject: InvestmentAndTaxes = {
+      execution_type: 'buy',
+      description: 'CD PROJEKT S.A. INHABER-AKTIEN C ZY 1',
+      isin: 'PLOPTTC00011',
+      investment_type: 'stock',
+      marketplace: 'Stuttgart',
+      units: 42,
+      price_per_unit: 24.46,
+      total_price: 1043.11,
+      fees: 15.79,
+      execution_date: ninetyDaysPrior.toISOString(),
+      pct_of_profit_taxed: 0,
+      profit_amt: 0
+    };
+    request(app)
+      .post(`${ROOT_URL}/investments`)
+      .send(investmentAndTaxesObject)
+      .set('Authorization', 'Bearer ' + authToken)
+      .expect('Content-Type', /json/)
+      .expect(201)
+      .end((err: unknown, res: request.Response) => {
+        if (err instanceof Error) return done(err);
+        expect(res.body.results).toBeDefined();
+        expect(res.body.results[0].id).toBeDefined();
+        investmentIdForDividend = res.body.results[0].id;
+        return done();
+      });
+  });
+
+  test('DB_PERSIST POST investments: persisting new SELL execution_type succeeds', (done) => {
+    const sixtyDaysPrior = new Date();
+    sixtyDaysPrior.setDate(new Date().getDate() - 60);
+    const investmentAndTaxesObject: InvestmentAndTaxes = {
+      execution_type: 'sell',
+      description: 'CD PROJEKT S.A. INHABER-AKTIEN C ZY 1',
+      isin: 'PLOPTTC00011',
+      investment_type: 'stock',
+      marketplace: 'Stuttgart',
+      units: 21,
+      price_per_unit: 34.46,
+      total_price: 1457.32,
+      fees: 10.0,
+      execution_date: sixtyDaysPrior.toISOString(),
+      pct_of_profit_taxed: 0,
+      profit_amt: 0
+    };
+    request(app)
+      .post(`${ROOT_URL}/investments`)
+      .send(investmentAndTaxesObject)
+      .set('Authorization', 'Bearer ' + authToken)
+      .expect('Content-Type', /json/)
+      .expect(201)
+      .end((err: unknown, res: request.Response) => {
+        if (err instanceof Error) return done(err);
+        expect(res.body.results).toBeDefined();
+        expect(res.body.results[0].id).toBeDefined();
+        return done();
+      });
+  });
+
+  test('DB_PERSIST POST investment_dividends: persisting new dividend succeeds', (done) => {
+    const todaysDate = new Date();
+    const dividendsObject = {
+      isin: 'PLOPTTC00011',
+      dividendAmount: 22.12,
+      dividendDate: todaysDate.toISOString(),
+      pctOfProfitTaxed: 100.0,
+      profitAmount: 22.12,
+      investmentIdsAndRemainingUnits: [
+        {
+          investmentId: investmentIdForDividend,
+          remainingUnits: 21
+        }
+      ]
+    };
+    request(app)
+      .post(`${ROOT_URL}/investment_dividends`)
+      .send(dividendsObject)
+      .set('Authorization', 'Bearer ' + authToken)
+      .expect('Content-Type', /json/)
+      .expect(201)
+      .end((err: unknown, res: request.Response) => {
+        if (err instanceof Error) return done(err);
+        expect(res.body.results).toBeDefined();
+        expect(res.body.results[0].id).toBeDefined();
+        expect(res.body.taxesResults).toBeDefined();
+        expect(res.body.taxesResults[0].id).toBeDefined();
+        expect(res.body.bridgeResults).toBeDefined();
+        expect(res.body.bridgeResults[0].id).toBeDefined();
+        expect(res.body.bridgeResults[0].remaining_units).toBeDefined();
+        return done();
+      });
+  });
+
+  test('DB_PERSIST POST food_item_discount: persisting new discount succeeds', (done) => {
+    const todaysDate = new Date();
+    const sevenDaysLater = new Date(todaysDate);
+    sevenDaysLater.setDate(todaysDate.getDate() + 7);
+    const foodItemDiscountObj = {
+      id: insertedFoodItemIds[0],
+      price: 1.49,
+      startDate: todaysDate.toISOString(),
+      endDate: sevenDaysLater.toISOString()
+    };
+    request(app)
+      .post(`${ROOT_URL}/food_item_discount`)
+      .send(foodItemDiscountObj)
+      .set('Authorization', 'Bearer ' + authToken)
+      .expect('Content-Type', /json/)
+      .expect(201)
+      .end((err: unknown, res: request.Response) => {
+        if (err instanceof Error) return done(err);
+        expect(res.body.results).toBeDefined();
+        expect(res.body.results[0].id).toBeDefined();
+        return done();
+      });
+  });
+
+  test('DB_PERSIST DELETE prior created food_items from db expecting ids returned', (done) => {
     const deleteRequests = insertedFoodItemIds.map((insertedId: number) => {
       return request(app)
         .delete(`${ROOT_URL}/food_item/${insertedId}`)

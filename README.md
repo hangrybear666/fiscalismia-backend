@@ -198,7 +198,8 @@ fiscalismia-backend consists of an express server running a REST API. Requests f
 
    ```bash
    cd ~/git/fiscalismia-backend
-   docker compose up --build fiscalismia-postgres fiscalismia-frontend
+   docker compose down --volumes
+   docker compose up --detach --build --no-deps fiscalismia-postgres fiscalismia-frontend
    npm run dev
    ```
 
@@ -207,7 +208,7 @@ fiscalismia-backend consists of an express server running a REST API. Requests f
    ```bash
    cd ~/git/fiscalismia-backend
    docker compose down --volumes
-   docker compose up -d fiscalismia-frontend
+   docker compose up --detach --build --no-deps fiscalismia-frontend
    npm run neon-dev
    ```
 
@@ -216,7 +217,8 @@ fiscalismia-backend consists of an express server running a REST API. Requests f
    Run only the backend locally pointing to cloud db defined in `.env` file key `DB_CONNECTION_URL`
    ```bash
    cd ~/git/fiscalismia-backend
-   docker compose up --build fiscalismia-frontend
+   docker compose down --volumes
+   docker compose up --detach --build --no-deps fiscalismia-frontend
    npm run build
    npm run prod
    ```
@@ -225,7 +227,7 @@ fiscalismia-backend consists of an express server running a REST API. Requests f
 
    Development Database
    ```bash
-   docker compose up --build fiscalismia-postgres
+   docker compose up --build -detach --no-deps fiscalismia-postgres
    ```
 
    <details open>

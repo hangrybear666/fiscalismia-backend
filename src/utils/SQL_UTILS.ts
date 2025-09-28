@@ -343,7 +343,7 @@ const insertIntoFoodItemDiscount = `INSERT INTO public.food_price_discounts
 (food_prices_dimension_key, discount_price, discount_start_date, discount_end_date)
   VALUES(
     $1,$2,$3,$4
-  ) RETURNING food_prices_dimension_key`;
+  ) RETURNING food_prices_dimension_key as id`;
 
 /**
  * Inserts parameters (dimension_key, food_item, brand, store, main_macro, kcal_amount, weight, price, last_update, effective_date, expiration_date)

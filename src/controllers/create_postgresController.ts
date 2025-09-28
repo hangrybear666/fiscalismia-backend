@@ -227,6 +227,10 @@ const postInvestmentAndTaxes = asyncHandler(async (request: Request, response: R
     investmentAndTaxesObject.execution_date
   ];
 
+  logger.debug('###################################');
+  logger.debug(investmentAndTaxesObject.execution_date);
+  logger.debug(typeof investmentAndTaxesObject.execution_date);
+  logger.debug('###################################');
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
