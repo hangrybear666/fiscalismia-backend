@@ -47,7 +47,7 @@ const pool =
     : // prod cloud db
       new Pool({
         connectionString: process.env.DB_CONNECTION_URL,
-        ssl: { rejectUnauthorized: false }
+        ssl: true
       });
 
 module.exports = { pool };
