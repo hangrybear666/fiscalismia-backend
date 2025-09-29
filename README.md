@@ -1,10 +1,10 @@
 # Fiscalismia Backend
-Background Service handling the Fiscalismia infrastructure.
-Fiscalismia is a Web Service for visualizing, analyzing, aggregating, importing and exporting personal finance data. Data can consist of variable and fixed costs, income, sales and investments. Advanced capabilities are available for dynamically updating supermarket grocery deals via web automation scraping data from supermarket websites.
+Node.JS REST API Server handling authentication & all routes to the Postgres Database.
+Fiscalismia is a Web Service for visualizing, analyzing, aggregating, importing and exporting personal finance data. Data can consist of variable and fixed costs, income, sales and investments, including taxes and dividends. The db also retains supermarket food prices and grocery deals, dynamically added and updated by the user.
 
 ## Technical Overview
 
-fiscalismia-backend consists of an express server running a REST API. Requests from the frontend are handled by the backend's REST API querying data from a postgres db. The database runs within a docker container for development. JWT tokens are used for authentication. Local Browser Storage for Session Cookies. The REST API is designed with full CRUD operations in mind, allowing for dynamic user input, sanitized before being commited to the db. In production, we use a cloud-hosted scale-to-zero PostgreSQL database on Neon.tech with a generous free tier. The backend is built in a continuous integration pipeline, tested, scanned for vulnerabilities and published as a docker image to a public docker registry for later deployment in your environment of choice.
+fiscalismia-backend consists of an express server running a REST API. Requests from the frontend are handled by the backend's REST API querying data from a postgres db. The database runs within a docker container for development. JWT tokens are used for authentication. Local Browser Storage for Session Cookies. The REST API is designed with full CRUD operations in mind, allowing for dynamic user input, sanitized before being commited to the db. In production, we use a cloud-hosted scale-to-zero PostgreSQL database on Neon.tech with a generous free tier. The backend is built in a continuous integration pipeline, tested, scanned for vulnerabilities and published as a docker image to a public docker registry for later deployment on Hetzner VM's, orchestrated via an Ansible Control Node and OpenSSH.
 
 
 ## Table of Contents
@@ -23,7 +23,6 @@ fiscalismia-backend consists of an express server running a REST API. Requests f
 - **Github Actions:** CI/CD Pipeline for automating type checking, eslint analysis, REST API testing, vulnerability scanning, building, publishing and deploying.
 - **Docker:** The final build artifact from compiled src code is a docker image published to a registry and deployed in the cloud.
 - **TypeScript:** Statically typed JS with high strictness level and compile target ESNext. Mid-project Migration from plain JavaScript (ECMAScript 2016).
-- **Node.js:** A JavaScript runtime built on Chrome's V8 JavaScript engine, used for server-side development.
 - **Express Server:** A fast, unopinionated, minimalist web framework for Node.js, used to build the backend server.
 - **Supertest:** A testing library for HTTP assertions, employed for REST API testing to ensure the reliability of the server.
 - **JWT Auth:** JSON Web Token authentication is used for securing and verifying the authenticity of API requests.
@@ -44,7 +43,7 @@ fiscalismia-backend consists of an express server running a REST API. Requests f
      - Perform Snyk static code and dependency security analysis.
      - Publish type check, ESLint, and Snyk reports as artifacts.
      - Initialize a fresh Postgres database and seed with DDL/DML scripts.
-     - Run API tests against the pipeline database using `supertest`.
+     - Run REST API tests /w 100% coverage using `supertest`.
 
 3. **Job: `build`**:
    - **Steps:**

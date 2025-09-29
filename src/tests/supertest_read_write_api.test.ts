@@ -879,7 +879,7 @@ describe('supertest REST API testing entire REST functionality', () => {
 
   test('DB_PERSIST PUT updated food price and expect it to succeed', (done) => {
     const updatedFoodPriceObj = {
-      price: 1.25,
+      price: 2.25,
       lastUpdate: currentDate
     };
     request(app)

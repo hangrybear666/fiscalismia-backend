@@ -1,6 +1,7 @@
 const asyncHandler = require('express-async-handler');
 const logger = require('../utils/logger');
 import { Request, Response } from 'express';
+import { PostgresError } from '../utils/customTypes';
 const {
   deleteFoodItemById,
   deleteFoodItemDiscountByIdAndStartDate,
@@ -41,7 +42,7 @@ const deleteTestData = asyncHandler(async (request: Request, response: Response)
     response.status(200).send(results);
   } catch (error: unknown) {
     await client.query('ROLLBACK');
-    response.status(400);
+    response.status(500);
     if (error instanceof Error) {
       error.message = `Transaction ROLLBACK. Row could not be deleted from test_table. ${error.message}`;
     }
@@ -80,7 +81,7 @@ const deleteFoodItem = asyncHandler(async (request: Request, response: Response)
     }
   } catch (error: unknown) {
     await client.query('ROLLBACK');
-    response.status(400);
+    response.status(500);
     if (error instanceof Error) {
       error.message = `Transaction ROLLBACK. Row could not be deleted from public.table_food_prices. ${error.message}`;
     }
@@ -121,7 +122,7 @@ const deleteFoodItemDiscount = asyncHandler(async (request: Request, response: R
     }
   } catch (error: unknown) {
     await client.query('ROLLBACK');
-    response.status(400);
+    response.status(500);
     if (error instanceof Error) {
       error.message = `Transaction ROLLBACK. Row could not be deleted from public.food_price_discounts. ${error.message}`;
     }
@@ -173,7 +174,20 @@ const deleteInvestment = asyncHandler(async (request: Request, response: Respons
     }
   } catch (error: unknown) {
     await client.query('ROLLBACK');
-    response.status(400);
+    // Type guard to check if it's a PostgresError with the FK code
+    const isFkViolation = (e: any): e is PostgresError => {
+      return e && e.code === '23503';
+    };
+
+    if (isFkViolation(error)) {
+      const errorMsg = `FK violation: ${error.detail}.`;
+      logger.warn(errorMsg);
+      response.status(409).json({
+        errorMsg: errorMsg
+      });
+    } else {
+      response.status(500);
+    }
     if (error instanceof Error) {
       error.message = `Transaction ROLLBACK. Row could not be deleted from public.investments. ${error.message}`;
     }
@@ -199,7 +213,7 @@ const deleteInvestmentDividend = asyncHandler(async (request: Request, response:
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
-    // DELETE SINGLE TAX ENTRY OF DIVIDEND BY ID
+    // 1) DELETE SINGLE TAX ENTRY OF DIVIDEND BY ID
     logSqlStatement(deleteInvestmentTaxSql, parameters);
     const deleteTaxesResult = await client.query(deleteInvestmentTaxSql, parameters);
     if (deleteTaxesResult?.rows?.length > 0 && deleteTaxesResult.rows[0]?.id > 0) {
@@ -207,7 +221,7 @@ const deleteInvestmentDividend = asyncHandler(async (request: Request, response:
     } else {
       throw new Error('DELETE Taxes for Dividend SQL has not returned the deleted id.');
     }
-    // DELETE 1-n DIVIDEND ENTRIES FROM BRIDGE TO INVESTMENTS
+    // 2) DELETE 1-n DIVIDEND ENTRIES FROM BRIDGE TO INVESTMENTS
     logSqlStatement(deleteDividendFromBridgeById, parameters);
     const deleteDividendBridgeEntryResult = await client.query(deleteDividendFromBridgeById, parameters);
     if (deleteDividendBridgeEntryResult?.rows?.length > 0) {
@@ -217,7 +231,7 @@ const deleteInvestmentDividend = asyncHandler(async (request: Request, response:
     } else {
       throw new Error('DELETE Food Item Discount SQL has not returned the deleted id.');
     }
-    // DELETE SINGLE DIVIDEND BY ID
+    // 3) DELETE SINGLE DIVIDEND BY ID
     logSqlStatement(deleteDividendById, parameters);
     const deleteInvestmentResult = await client.query(deleteDividendById, parameters);
     if (deleteInvestmentResult?.rows?.length > 0 && deleteInvestmentResult.rows[0]?.id > 0) {
@@ -230,7 +244,7 @@ const deleteInvestmentDividend = asyncHandler(async (request: Request, response:
     }
   } catch (error: unknown) {
     await client.query('ROLLBACK');
-    response.status(400);
+    response.status(500);
     if (error instanceof Error) {
       error.message = `Transaction ROLLBACK. Row could not be deleted from public.investments. ${error.message}`;
     }
