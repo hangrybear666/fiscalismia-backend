@@ -414,6 +414,38 @@ WHERE dimension_key = $1
 RETURNING dimension_key as id`;
 
 /**
+ * Deletes investment by id
+ * from public.investments
+ * @returns id
+ */
+const deleteInvestmentById = `DELETE FROM
+public.investments
+WHERE id = $1
+RETURNING id`;
+
+/**
+ * Deletes the tax for either an investment or dividend based on input variable
+ * @param {'dividend' | 'investment'} id_type can delete either an investment or a dividend tax
+ * @returns investment_id or dividend_id as id
+ */
+const deleteInvestmentTaxById = (id_type: 'investment' | 'dividend') => {
+  return `DELETE FROM
+  public.investment_taxes
+  WHERE ${id_type === 'investment' ? 'investment_id' : 'dividend_id'} = $1
+  RETURNING ${id_type === 'investment' ? 'investment_id' : 'dividend_id'} as id`;
+};
+
+/**
+ * Deletes dividend from investment bridge by dividend id
+ * from public.investments
+ * @returns dividend_id as id
+ */
+const deleteDividendById = `DELETE FROM
+public.bridge_investment_dividends
+WHERE dividend_id = $1
+RETURNING dividend_id as id`;
+
+/**
  * Deletes single row by supplying dimension_key and discount_start_date (composite PK)
  * from public.food_price_discounts
  * @returns dimension_key as id
@@ -445,5 +477,8 @@ module.exports = {
   insertIntoInvestmentTaxes,
   insertIntoBridgeInvestmentDividends,
   deleteFoodItemById,
-  deleteFoodItemDiscountByIdAndStartDate
+  deleteFoodItemDiscountByIdAndStartDate,
+  deleteInvestmentById,
+  deleteInvestmentTaxById,
+  deleteDividendById
 };

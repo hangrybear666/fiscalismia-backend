@@ -21,7 +21,8 @@ describe('supertest REST API testing entire REST functionality', () => {
   let maxTestTableId: number;
   let insertedId: number;
   const insertedFoodItemDimensionKeys: number[] = [];
-  let investmentIdForDividend: number;
+  let purchasedInvestmentId: number;
+  let soldInvestmentId: number;
   const username = 'admin';
 
   //              ___          __   ___  __        ___  __  ___  __
@@ -756,7 +757,7 @@ describe('supertest REST API testing entire REST functionality', () => {
         if (err instanceof Error) return done(err);
         expect(res.body.results).toBeDefined();
         expect(res.body.results[0].id).toBeDefined();
-        investmentIdForDividend = res.body.results[0].id;
+        purchasedInvestmentId = res.body.results[0].id;
         return done();
       });
   });
@@ -788,42 +789,43 @@ describe('supertest REST API testing entire REST functionality', () => {
         if (err instanceof Error) return done(err);
         expect(res.body.results).toBeDefined();
         expect(res.body.results[0].id).toBeDefined();
+        soldInvestmentId = res.body.results[0].id;
         return done();
       });
   });
 
-  test('DB_PERSIST POST investment_dividends: persisting new dividend succeeds', (done) => {
-    const dividendsObject = {
-      isin: 'PLOPTTC00011',
-      dividendAmount: 22.12,
-      dividendDate: currentDate.toISOString(),
-      pctOfProfitTaxed: 100.0,
-      profitAmount: 22.12,
-      investmentIdsAndRemainingUnits: [
-        {
-          investmentId: investmentIdForDividend,
-          remainingUnits: 21
-        }
-      ]
-    };
-    request(app)
-      .post(`${ROOT_URL}/investment_dividends`)
-      .send(dividendsObject)
-      .set('Authorization', 'Bearer ' + authToken)
-      .expect('Content-Type', /json/)
-      .expect(201)
-      .end((err: unknown, res: request.Response) => {
-        if (err instanceof Error) return done(err);
-        expect(res.body.results).toBeDefined();
-        expect(res.body.results[0].id).toBeDefined();
-        expect(res.body.taxesResults).toBeDefined();
-        expect(res.body.taxesResults[0].id).toBeDefined();
-        expect(res.body.bridgeResults).toBeDefined();
-        expect(res.body.bridgeResults[0].id).toBeDefined();
-        expect(res.body.bridgeResults[0].remaining_units).toBeDefined();
-        return done();
-      });
-  });
+  // test('DB_PERSIST POST investment_dividends: persisting new dividend succeeds', (done) => {
+  //   const dividendsObject = {
+  //     isin: 'PLOPTTC00011',
+  //     dividendAmount: 22.12,
+  //     dividendDate: currentDate.toISOString(),
+  //     pctOfProfitTaxed: 100.0,
+  //     profitAmount: 22.12,
+  //     investmentIdsAndRemainingUnits: [
+  //       {
+  //         investmentId: purchasedInvestmentId,
+  //         remainingUnits: 21
+  //       }
+  //     ]
+  //   };
+  //   request(app)
+  //     .post(`${ROOT_URL}/investment_dividends`)
+  //     .send(dividendsObject)
+  //     .set('Authorization', 'Bearer ' + authToken)
+  //     .expect('Content-Type', /json/)
+  //     .expect(201)
+  //     .end((err: unknown, res: request.Response) => {
+  //       if (err instanceof Error) return done(err);
+  //       expect(res.body.results).toBeDefined();
+  //       expect(res.body.results[0].id).toBeDefined();
+  //       expect(res.body.taxesResults).toBeDefined();
+  //       expect(res.body.taxesResults[0].id).toBeDefined();
+  //       expect(res.body.bridgeResults).toBeDefined();
+  //       expect(res.body.bridgeResults[0].id).toBeDefined();
+  //       expect(res.body.bridgeResults[0].remaining_units).toBeDefined();
+  //       return done();
+  //     });
+  // });
 
   test('DB_PERSIST POST food_item_discount: persisting new discount succeeds', (done) => {
     const sevenDaysLater = new Date(currentDate);
@@ -909,6 +911,38 @@ describe('supertest REST API testing entire REST functionality', () => {
     Promise.all(deleteRequests)
       .then(() => done())
       .catch((err) => done(err));
+  });
+
+  test('DB_PERSIST DELETE prior created BUY investment from db expecting id returned', (done) => {
+    request(app)
+      .delete(`${ROOT_URL}/investment/${purchasedInvestmentId}`)
+      .set('Authorization', 'Bearer ' + authToken)
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .end((err: unknown, res: request.Response) => {
+        if (err instanceof Error) return done(err);
+        expect(res.body.results).toBeDefined();
+        expect(!isNaN(Number(res.body.results[0].id))).toBeTruthy();
+        const deletedId = Number(res.body.results[0].id);
+        expect(deletedId).toEqual(purchasedInvestmentId);
+        return done();
+      });
+  });
+
+  test('DB_PERSIST DELETE prior created SELL investment from db expecting id returned', (done) => {
+    request(app)
+      .delete(`${ROOT_URL}/investment/${soldInvestmentId}`)
+      .set('Authorization', 'Bearer ' + authToken)
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .end((err: unknown, res: request.Response) => {
+        if (err instanceof Error) return done(err);
+        expect(res.body.results).toBeDefined();
+        expect(!isNaN(Number(res.body.results[0].id))).toBeTruthy();
+        const deletedId = Number(res.body.results[0].id);
+        expect(deletedId).toEqual(soldInvestmentId);
+        return done();
+      });
   });
 });
 

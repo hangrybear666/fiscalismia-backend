@@ -328,8 +328,7 @@ Once the server is up and running, it will be ready to handle API requests from 
    ```bash
    podman exec -it fiscalismia-postgres sh
    psql -U $POSTGRES_USER -d $POSTGRES_DB -h $POSTGRES_HOST -p $POSTGRES_PORT
-   # for example on a local db installation
-   psql -U fiscalismia_api -d fiscalismia -h localhost -p 5432
+   # copy paste $POSTGRES_PASSWORD
    ```
 
 **Accessing the Database via DB Client**

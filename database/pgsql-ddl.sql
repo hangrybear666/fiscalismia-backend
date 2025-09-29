@@ -60,7 +60,12 @@ DROP TABLE IF EXISTS public.food_price_discounts;
 DROP TABLE IF EXISTS public.food_price_image_location;
 DROP TABLE IF EXISTS public.table_food_prices;
 DROP SEQUENCE IF EXISTS public.table_food_prices_seq;
-
+-- INVESTMENTS
+DROP VIEW IF EXISTS public.v_investment_dividends;
+DROP TABLE IF EXISTS public.bridge_investment_dividends;
+DROP TABLE IF EXISTS public.investment_taxes;
+DROP TABLE IF EXISTS public.investment_dividends;
+DROP TABLE IF EXISTS public.investments;
 /*___  ___  __  ___
    |  |__  /__`  |
    |  |___ .__/  |
@@ -217,7 +222,8 @@ ALTER TABLE IF EXISTS public.investment_taxes
     REFERENCES public.investment_dividends (id) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE RESTRICT;
-COMMENT ON TABLE public.investment_taxes IS 'contains foreign keys to invements OR dividends which surpass the yearly allowance of stock earnings and applicable tax deductions';
+COMMENT ON TABLE public.investment_taxes IS 'contains foreign keys to investments OR dividends
+and the percentage of tax deductions, which can be zero if the yearly allowance has not been surpassed.';
 
 CREATE TABLE IF NOT EXISTS public.bridge_investment_dividends
 (

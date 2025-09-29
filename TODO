@@ -6,14 +6,10 @@
 - Rate limit API requests, currently DDOS is possible.
 
 ### Medium Prio
-- Create DELETE Route for Food Item Discount
-- Create DELETE Route for Investments
 - Create DELETE Route for Investment_Dividends
 
 ### Low Prio
-- Supertest for DELETE Food_Item_Discount
 - Supertest for DELETE Investment_Dividends
-- Supertest for DELETE Investments
 
 ### Before Deploying
 - Rethink public folder storage for production env -> Persistence with backup / HA
