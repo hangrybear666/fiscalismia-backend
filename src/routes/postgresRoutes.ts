@@ -52,7 +52,8 @@ const {
   deleteTestData,
   deleteFoodItem,
   deleteFoodItemDiscount,
-  deleteInvestment
+  deleteInvestment,
+  deleteInvestmentDividend
 } = require('../controllers/delete_postgresController');
 const { authenticateUser } = require('../middleware/authentication');
 
@@ -132,6 +133,7 @@ postgresRoutes.put('/food_item/price/:id', authenticateUser, updateFoodItemPrice
 
 postgresRoutes.delete('/food_item/:dimension_key', authenticateUser, deleteFoodItem);
 postgresRoutes.delete('/investment/:id', authenticateUser, deleteInvestment);
+postgresRoutes.delete('/investment_dividend/:id', authenticateUser, deleteInvestmentDividend);
 postgresRoutes.delete(
   '/food_item_discount/:food_prices_dimension_key/:discount_start_date',
   authenticateUser,

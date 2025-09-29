@@ -23,6 +23,7 @@ describe('supertest REST API testing entire REST functionality', () => {
   const insertedFoodItemDimensionKeys: number[] = [];
   let purchasedInvestmentId: number;
   let soldInvestmentId: number;
+  let addedDividendId: number;
   const username = 'admin';
 
   //              ___          __   ___  __        ___  __  ___  __
@@ -794,38 +795,39 @@ describe('supertest REST API testing entire REST functionality', () => {
       });
   });
 
-  // test('DB_PERSIST POST investment_dividends: persisting new dividend succeeds', (done) => {
-  //   const dividendsObject = {
-  //     isin: 'PLOPTTC00011',
-  //     dividendAmount: 22.12,
-  //     dividendDate: currentDate.toISOString(),
-  //     pctOfProfitTaxed: 100.0,
-  //     profitAmount: 22.12,
-  //     investmentIdsAndRemainingUnits: [
-  //       {
-  //         investmentId: purchasedInvestmentId,
-  //         remainingUnits: 21
-  //       }
-  //     ]
-  //   };
-  //   request(app)
-  //     .post(`${ROOT_URL}/investment_dividends`)
-  //     .send(dividendsObject)
-  //     .set('Authorization', 'Bearer ' + authToken)
-  //     .expect('Content-Type', /json/)
-  //     .expect(201)
-  //     .end((err: unknown, res: request.Response) => {
-  //       if (err instanceof Error) return done(err);
-  //       expect(res.body.results).toBeDefined();
-  //       expect(res.body.results[0].id).toBeDefined();
-  //       expect(res.body.taxesResults).toBeDefined();
-  //       expect(res.body.taxesResults[0].id).toBeDefined();
-  //       expect(res.body.bridgeResults).toBeDefined();
-  //       expect(res.body.bridgeResults[0].id).toBeDefined();
-  //       expect(res.body.bridgeResults[0].remaining_units).toBeDefined();
-  //       return done();
-  //     });
-  // });
+  test('DB_PERSIST POST investment_dividends: persisting new dividend succeeds', (done) => {
+    const dividendsObject = {
+      isin: 'PLOPTTC00011',
+      dividendAmount: 22.12,
+      dividendDate: currentDate.toISOString(),
+      pctOfProfitTaxed: 100.0,
+      profitAmount: 22.12,
+      investmentIdsAndRemainingUnits: [
+        {
+          investmentId: purchasedInvestmentId,
+          remainingUnits: 21
+        }
+      ]
+    };
+    request(app)
+      .post(`${ROOT_URL}/investment_dividends`)
+      .send(dividendsObject)
+      .set('Authorization', 'Bearer ' + authToken)
+      .expect('Content-Type', /json/)
+      .expect(201)
+      .end((err: unknown, res: request.Response) => {
+        if (err instanceof Error) return done(err);
+        expect(res.body.results).toBeDefined();
+        expect(res.body.results[0].id).toBeDefined();
+        addedDividendId = res.body.results[0].id;
+        expect(res.body.taxesResults).toBeDefined();
+        expect(res.body.taxesResults[0].id).toBeDefined();
+        expect(res.body.bridgeResults).toBeDefined();
+        expect(res.body.bridgeResults[0].id).toBeDefined();
+        expect(res.body.bridgeResults[0].remaining_units).toBeDefined();
+        return done();
+      });
+  });
 
   test('DB_PERSIST POST food_item_discount: persisting new discount succeeds', (done) => {
     const sevenDaysLater = new Date(currentDate);
@@ -875,7 +877,7 @@ describe('supertest REST API testing entire REST functionality', () => {
       });
   });
 
-  test('DB_PERSIST DELETE prior created food_item_discount from db expecting ids returned', (done) => {
+  test('DB_PERSIST DELETE prior created food_item_discount expecting id returned', (done) => {
     request(app)
       .delete(`${ROOT_URL}/food_item_discount/${insertedFoodItemDimensionKeys[0]}/${currentDate.toISOString()}`)
       .set('Authorization', 'Bearer ' + authToken)
@@ -913,7 +915,23 @@ describe('supertest REST API testing entire REST functionality', () => {
       .catch((err) => done(err));
   });
 
-  test('DB_PERSIST DELETE prior created BUY investment from db expecting id returned', (done) => {
+  test('DB_PERSIST DELETE prior created dividend of investment, expecting id returned', (done) => {
+    request(app)
+      .delete(`${ROOT_URL}/investment_dividend/${addedDividendId}`)
+      .set('Authorization', 'Bearer ' + authToken)
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .end((err: unknown, res: request.Response) => {
+        if (err instanceof Error) return done(err);
+        expect(res.body.results).toBeDefined();
+        expect(!isNaN(Number(res.body.results[0].id))).toBeTruthy();
+        const deletedId = Number(res.body.results[0].id);
+        expect(deletedId).toEqual(addedDividendId);
+        return done();
+      });
+  });
+
+  test('DB_PERSIST DELETE prior created BUY investment, expecting id returned', (done) => {
     request(app)
       .delete(`${ROOT_URL}/investment/${purchasedInvestmentId}`)
       .set('Authorization', 'Bearer ' + authToken)
@@ -929,7 +947,7 @@ describe('supertest REST API testing entire REST functionality', () => {
       });
   });
 
-  test('DB_PERSIST DELETE prior created SELL investment from db expecting id returned', (done) => {
+  test('DB_PERSIST DELETE prior created SELL investment, expecting id returned', (done) => {
     request(app)
       .delete(`${ROOT_URL}/investment/${soldInvestmentId}`)
       .set('Authorization', 'Bearer ' + authToken)

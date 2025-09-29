@@ -6,8 +6,9 @@ const {
   deleteFoodItemDiscountByIdAndStartDate,
   logSqlStatement,
   deleteInvestmentById,
-  deleteInvestmentTaxById
-  // deleteDividendById
+  deleteInvestmentTaxById,
+  deleteDividendFromBridgeById,
+  deleteDividendById
 } = require('../utils/SQL_UTILS');
 const { pool } = require('../utils/pgDbService');
 
@@ -33,6 +34,7 @@ const deleteTestData = asyncHandler(async (request: Request, response: Response)
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
+    logSqlStatement(sql, parameters);
     const result = await client.query(sql, parameters);
     await client.query('COMMIT');
     const results = { results: result ? result.rows : null };
@@ -64,14 +66,15 @@ const deleteFoodItem = asyncHandler(async (request: Request, response: Response)
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
+    logSqlStatement(deleteFoodItemById, parameters);
     const result = await client.query(deleteFoodItemById, parameters);
-    await client.query('COMMIT');
     const results = { results: result ? result.rows : null };
     if (result?.rows?.length > 0) {
-      response.status(200).send(results);
       result.rows.forEach((e: any) => {
         logger.info('Successfully deleted food item with id: [' + e.id + ']');
       });
+      await client.query('COMMIT');
+      response.status(200).send(results);
     } else {
       throw new Error('DELETE Food Item SQL has not returned the deleted id.');
     }
@@ -104,14 +107,15 @@ const deleteFoodItemDiscount = asyncHandler(async (request: Request, response: R
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
+    logSqlStatement(deleteFoodItemDiscountByIdAndStartDate, parameters);
     const result = await client.query(deleteFoodItemDiscountByIdAndStartDate, parameters);
-    await client.query('COMMIT');
     const results = { results: result ? result.rows : null };
     if (result?.rows?.length > 0) {
-      response.status(200).send(results);
       result.rows.forEach((e: any) => {
         logger.info('Successfully deleted food item discount with id: [' + e.id + ']');
       });
+      await client.query('COMMIT');
+      response.status(200).send(results);
     } else {
       throw new Error('DELETE Food Item Discount SQL has not returned the deleted id.');
     }
@@ -128,7 +132,8 @@ const deleteFoodItemDiscount = asyncHandler(async (request: Request, response: R
 });
 
 /**
- * @description DELETE request to delete row with id from public.investments
+ * @description DELETE request to delete single row with id from public.investments
+ * and conditionally delete single row from public.investment_taxes if execution_type is "sell"
  * @method HTTP DELETE
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/investment/:id
@@ -150,7 +155,7 @@ const deleteInvestment = asyncHandler(async (request: Request, response: Respons
       logSqlStatement(deleteInvestmentTaxSql, parameters);
       const deleteTaxesResult = await client.query(deleteInvestmentTaxSql, parameters);
       if (deleteTaxesResult?.rows?.length > 0 && deleteTaxesResult.rows[0]?.id > 0) {
-        logger.info('Successfully deleted investment with id: [' + deleteTaxesResult.rows[0].id + ']');
+        logger.info('Successfully deleted tax of investment with id: [' + deleteTaxesResult.rows[0].id + ']');
       } else {
         throw new Error('DELETE Taxes for Investment SQL has not returned the deleted id.');
       }
@@ -159,6 +164,7 @@ const deleteInvestment = asyncHandler(async (request: Request, response: Respons
     logSqlStatement(deleteInvestmentById, parameters);
     const deleteInvestmentResult = await client.query(deleteInvestmentById, parameters);
     if (deleteInvestmentResult?.rows?.length > 0 && deleteInvestmentResult.rows[0]?.id > 0) {
+      logger.info('Successfully deleted investment with id: [' + deleteInvestmentResult.rows[0].id + ']');
       await client.query('COMMIT');
       const results = { results: deleteInvestmentResult ? deleteInvestmentResult.rows : null };
       response.status(200).send(results);
@@ -177,9 +183,67 @@ const deleteInvestment = asyncHandler(async (request: Request, response: Respons
   }
 });
 
+/**
+ * @description DELETE request to delete
+ * 1) single row from public.investment_taxes
+ * 2) 1-n rows from public.bridge_investment_dividends
+ * 3) single row with id from public.investment_dividends
+ * @method HTTP DELETE
+ * @async asyncHandler passes exceptions within routes to errorHandler middleware
+ * @route /api/fiscalismia/investment_dividend/:id
+ */
+const deleteInvestmentDividend = asyncHandler(async (request: Request, response: Response) => {
+  logger.http('delete_postgresController received DELETE to /api/fiscalismia/investment_dividend/' + request.params.id);
+  const parameters = [request.params.id];
+  const deleteInvestmentTaxSql = deleteInvestmentTaxById('dividend');
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    // DELETE SINGLE TAX ENTRY OF DIVIDEND BY ID
+    logSqlStatement(deleteInvestmentTaxSql, parameters);
+    const deleteTaxesResult = await client.query(deleteInvestmentTaxSql, parameters);
+    if (deleteTaxesResult?.rows?.length > 0 && deleteTaxesResult.rows[0]?.id > 0) {
+      logger.info('Successfully deleted tax of dividend with id: [' + deleteTaxesResult.rows[0].id + ']');
+    } else {
+      throw new Error('DELETE Taxes for Dividend SQL has not returned the deleted id.');
+    }
+    // DELETE 1-n DIVIDEND ENTRIES FROM BRIDGE TO INVESTMENTS
+    logSqlStatement(deleteDividendFromBridgeById, parameters);
+    const deleteDividendBridgeEntryResult = await client.query(deleteDividendFromBridgeById, parameters);
+    if (deleteDividendBridgeEntryResult?.rows?.length > 0) {
+      deleteDividendBridgeEntryResult.rows.forEach((e: any) => {
+        logger.info('Successfully deleted bridge entry for dividend with investment_id: [' + e.id + ']');
+      });
+    } else {
+      throw new Error('DELETE Food Item Discount SQL has not returned the deleted id.');
+    }
+    // DELETE SINGLE DIVIDEND BY ID
+    logSqlStatement(deleteDividendById, parameters);
+    const deleteInvestmentResult = await client.query(deleteDividendById, parameters);
+    if (deleteInvestmentResult?.rows?.length > 0 && deleteInvestmentResult.rows[0]?.id > 0) {
+      logger.info('Successfully deleted dividend with id: [' + deleteInvestmentResult.rows[0].id + ']');
+      await client.query('COMMIT');
+      const results = { results: deleteInvestmentResult ? deleteInvestmentResult.rows : null };
+      response.status(200).send(results);
+    } else {
+      throw new Error('DELETE Dividend SQL has not returned the deleted id.');
+    }
+  } catch (error: unknown) {
+    await client.query('ROLLBACK');
+    response.status(400);
+    if (error instanceof Error) {
+      error.message = `Transaction ROLLBACK. Row could not be deleted from public.investments. ${error.message}`;
+    }
+    throw error;
+  } finally {
+    client.release();
+  }
+});
+
 module.exports = {
   deleteTestData,
   deleteFoodItem,
   deleteFoodItemDiscount,
-  deleteInvestment
+  deleteInvestment,
+  deleteInvestmentDividend
 };

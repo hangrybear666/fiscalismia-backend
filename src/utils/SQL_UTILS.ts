@@ -437,13 +437,23 @@ const deleteInvestmentTaxById = (id_type: 'investment' | 'dividend') => {
 
 /**
  * Deletes dividend from investment bridge by dividend id
- * from public.investments
- * @returns dividend_id as id
+ * from public.bridge_investment_dividends
+ * @returns investment_id as id
  */
-const deleteDividendById = `DELETE FROM
+const deleteDividendFromBridgeById = `DELETE FROM
 public.bridge_investment_dividends
 WHERE dividend_id = $1
-RETURNING dividend_id as id`;
+RETURNING investment_id as id`;
+
+/**
+ * Deletes dividend by id
+ * from public.investment_dividends
+ * @returns id
+ */
+const deleteDividendById = `DELETE FROM
+public.investment_dividends
+WHERE id = $1
+RETURNING id`;
 
 /**
  * Deletes single row by supplying dimension_key and discount_start_date (composite PK)
@@ -480,5 +490,6 @@ module.exports = {
   deleteFoodItemDiscountByIdAndStartDate,
   deleteInvestmentById,
   deleteInvestmentTaxById,
+  deleteDividendFromBridgeById,
   deleteDividendById
 };
