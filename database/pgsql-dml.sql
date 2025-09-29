@@ -555,7 +555,7 @@ VALUES (
   11,
   TO_DATE('14.09.2024','DD.MM.YYYY')
 );
--- sales tax
+-- investment SELL tax
 INSERT INTO public.investment_taxes (investment_id, pct_of_profit_taxed, profit_amt, tax_paid, tax_year)
 (
   SELECT
@@ -569,7 +569,8 @@ INSERT INTO public.investment_taxes (investment_id, pct_of_profit_taxed, profit_
     AND execution_date = TO_DATE('27.02.2024','DD.MM.YYYY')
     AND execution_type = 'sell' --unique key of public.investments
 );
--- dividend
+
+-- Dividend 1 and Tax
 INSERT INTO public.investment_dividends (isin, dividend_amount, dividend_date)
 VALUES('DE000A3E5A59', 24, TO_DATE('15.02.2024','DD.MM.YYYY'));
 INSERT INTO public.investment_taxes (dividend_id, pct_of_profit_taxed, profit_amt, tax_paid, tax_year)
@@ -582,11 +583,12 @@ INSERT INTO public.investment_taxes (dividend_id, pct_of_profit_taxed, profit_am
   2024
   FROM public.investment_dividends
   WHERE isin = 'DE000A3E5A59'
-    AND dividend_date = TO_DATE('15.02.2024','DD.MM.YYYY')
+    AND dividend_date = TO_DATE('15.02.2024','DD.MM.YYYY') -- unique key of public.investment_dividends
     );
 INSERT INTO public.bridge_investment_dividends (investment_id, dividend_id, remaining_units)
 VALUES (1,1,150);
--- dividend
+
+-- Dividend 2 and Tax
 INSERT INTO public.investment_dividends (isin, dividend_amount, dividend_date)
 VALUES('PLOPTTC00011', 35, TO_DATE('16.07.2024','DD.MM.YYYY'));
 INSERT INTO public.investment_taxes (dividend_id, pct_of_profit_taxed, profit_amt, tax_paid, tax_year)
@@ -596,11 +598,10 @@ INSERT INTO public.investment_taxes (dividend_id, pct_of_profit_taxed, profit_am
     100,
     35,
     9.23,
-    extract( year FROM TO_DATE('27.02.2024','DD.MM.YYYY') )::int
-  FROM public.investments
+    extract( year FROM TO_DATE('16.07.2024','DD.MM.YYYY') )::int
+  FROM public.investment_dividends
   WHERE isin = 'PLOPTTC00011'
-    AND execution_date = TO_DATE('18.04.2024','DD.MM.YYYY')
-    AND execution_type = 'sell' --unique key of public.investments
+    AND dividend_date = TO_DATE('16.07.2024','DD.MM.YYYY') -- unique key of public.investment_dividends
 );
 INSERT INTO public.bridge_investment_dividends (investment_id, dividend_id, remaining_units)
 VALUES (3,2,42);
