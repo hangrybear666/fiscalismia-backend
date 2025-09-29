@@ -403,6 +403,27 @@ const insertIntoBridgeInvestmentDividends = `INSERT INTO public.bridge_investmen
 (investment_id, dividend_id, remaining_units)
 VALUES %L RETURNING investment_id as id, remaining_units`; // using pg-format for bulk insertion
 
+/**
+ * Deletes 1-n rows by supplying dimension_key (which can appear multiple times - PK is composite key with effective_date)
+ * from public.table_food_prices
+ * @returns dimension_key as id
+ */
+const deleteFoodItemById = `DELETE FROM
+public.table_food_prices
+WHERE dimension_key = $1
+RETURNING dimension_key as id`;
+
+/**
+ * Deletes single row by supplying dimension_key and discount_start_date (composite PK)
+ * from public.food_price_discounts
+ * @returns dimension_key as id
+ */
+const deleteFoodItemDiscountByIdAndStartDate = `DELETE FROM
+public.food_price_discounts
+WHERE food_prices_dimension_key = $1
+  AND discount_start_date = $2
+RETURNING food_prices_dimension_key as id`;
+
 module.exports = {
   buildInsertStagingVariableBills,
   buildInsertFixedCosts,
@@ -422,5 +443,7 @@ module.exports = {
   insertIntoInvestments,
   insertIntoInvestmentDividends,
   insertIntoInvestmentTaxes,
-  insertIntoBridgeInvestmentDividends
+  insertIntoBridgeInvestmentDividends,
+  deleteFoodItemById,
+  deleteFoodItemDiscountByIdAndStartDate
 };

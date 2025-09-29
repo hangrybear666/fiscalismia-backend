@@ -11,9 +11,9 @@
 - Create DELETE Route for Investment_Dividends
 
 ### Low Prio
+- Supertest for DELETE Food_Item_Discount
 - Supertest for DELETE Investment_Dividends
 - Supertest for DELETE Investments
-- Supertest for DELETE Food_Item_Discount
 
 ### Before Deploying
 - Rethink public folder storage for production env -> Persistence with backup / HA

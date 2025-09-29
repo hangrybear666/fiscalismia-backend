@@ -284,7 +284,10 @@ fiscalismia-backend consists of an express server running a REST API. Requests f
    We use supertest for testing the REST API which can be executed via running the test script from a second console while the dev database is up and running.
 
    ```bash
+   # basic usage
    npm run test
+   # usage with freshly spawned local db
+   docker compose down --volumes && docker compose up fiscalismia-postgres --no-deps --detach --build && sleep 5 && npm test
    ```
 
 2. **Static Code Analysis**

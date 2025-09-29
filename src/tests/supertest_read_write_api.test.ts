@@ -20,7 +20,7 @@ const dbDateStr = `${year}-${month}-${day}`;
 describe('supertest REST API testing entire REST functionality', () => {
   let maxTestTableId: number;
   let insertedId: number;
-  const insertedFoodItemIds: number[] = [];
+  const insertedFoodItemDimensionKeys: number[] = [];
   let investmentIdForDividend: number;
   const username = 'admin';
 
@@ -481,25 +481,6 @@ describe('supertest REST API testing entire REST functionality', () => {
   //    |__) /  \ /__`  |     |__) |__  /  \ |  | |__  /__`  |  /__`
   //    |    \__/ .__/  |     |  \ |___ \__X \__/ |___ .__/  |  .__/
   //
-  test('POST user_settings: set dark mode for admin user', (done) => {
-    const userSettings: UserSettingObject = {
-      username: username,
-      settingKey: 'selected_mode',
-      settingValue: 'dark'
-    };
-    request(app)
-      .post(`${ROOT_URL}/um/settings`)
-      .send(userSettings)
-      .set('Authorization', 'Bearer ' + authToken)
-      .expect('Content-Type', /json/)
-      .expect(201) // Created
-      .end((err: unknown, res: request.Response) => {
-        if (err instanceof Error) return done(err);
-        expect(res.body.results).toBeDefined();
-        expect(res.body.results[0].username).toEqual(username);
-        return done();
-      });
-  });
 
   test('POST user_settings: providing invalid username fails with 422 Unprocessable Content', (done) => {
     const userSettings: UserSettingObject = {
@@ -662,6 +643,26 @@ describe('supertest REST API testing entire REST functionality', () => {
    | |_| | |_) |   |  __/| |___|  _ < ___) | | ___) || |  ___) |
    |____/|____/    |_|   |_____|_| \_\____/___|____/ |_| |____/*/
 
+  test('DB_PERSIST POST user_settings: set dark mode for admin user expects 201 Created', (done) => {
+    const userSettings: UserSettingObject = {
+      username: username,
+      settingKey: 'selected_mode',
+      settingValue: 'dark'
+    };
+    request(app)
+      .post(`${ROOT_URL}/um/settings`)
+      .send(userSettings)
+      .set('Authorization', 'Bearer ' + authToken)
+      .expect('Content-Type', /json/)
+      .expect(201) // Created
+      .end((err: unknown, res: request.Response) => {
+        if (err instanceof Error) return done(err);
+        expect(res.body.results).toBeDefined();
+        expect(res.body.results[0].username).toEqual(username);
+        return done();
+      });
+  });
+
   test('DB_PERSIST POST /w db persist: new_food_item expects 201 Created', (done) => {
     const newFoodItem = {
       food_item: 'Hafermilch',
@@ -671,7 +672,7 @@ describe('supertest REST API testing entire REST functionality', () => {
       kcal_amount: '63',
       weight: '1000',
       price: '2.39',
-      last_update: new Date()
+      last_update: currentDate
     };
     request(app)
       .post(`${ROOT_URL}/food_item`)
@@ -684,7 +685,7 @@ describe('supertest REST API testing entire REST functionality', () => {
         if (err instanceof Error) return done(err);
         expect(res.body.results).toBeDefined();
         expect(!isNaN(Number(res.body.results[0].id))).toBeTruthy();
-        insertedFoodItemIds.push(Number(res.body.results[0].id));
+        insertedFoodItemDimensionKeys.push(Number(res.body.results[0].id));
         return done();
       });
   });
@@ -698,7 +699,7 @@ describe('supertest REST API testing entire REST functionality', () => {
       kcal_amount: '34',
       weight: '400',
       price: '1.79',
-      last_update: new Date()
+      last_update: currentDate
     };
     request(app)
       // post valid item
@@ -712,7 +713,7 @@ describe('supertest REST API testing entire REST functionality', () => {
         if (err instanceof Error) return done(err);
         expect(res.body.results).toBeDefined();
         expect(!isNaN(Number(res.body.results[0].id))).toBeTruthy();
-        insertedFoodItemIds.push(Number(res.body.results[0].id));
+        insertedFoodItemDimensionKeys.push(Number(res.body.results[0].id));
         request(app)
           // post item again. expect to violate unique key constraint
           .post(`${ROOT_URL}/food_item`)
@@ -729,8 +730,8 @@ describe('supertest REST API testing entire REST functionality', () => {
   });
 
   test('DB_PERSIST POST investments: persisting new BUY execution_type succeeds', (done) => {
-    const ninetyDaysPrior = new Date();
-    ninetyDaysPrior.setDate(new Date().getDate() - 90);
+    const ninetyDaysPrior = new Date(currentDate);
+    ninetyDaysPrior.setDate(currentDate.getDate() - 90);
     const investmentAndTaxesObject: InvestmentAndTaxes = {
       execution_type: 'buy',
       description: 'CD PROJEKT S.A. INHABER-AKTIEN C ZY 1',
@@ -761,8 +762,8 @@ describe('supertest REST API testing entire REST functionality', () => {
   });
 
   test('DB_PERSIST POST investments: persisting new SELL execution_type succeeds', (done) => {
-    const sixtyDaysPrior = new Date();
-    sixtyDaysPrior.setDate(new Date().getDate() - 60);
+    const sixtyDaysPrior = new Date(currentDate);
+    sixtyDaysPrior.setDate(currentDate.getDate() - 60);
     const investmentAndTaxesObject: InvestmentAndTaxes = {
       execution_type: 'sell',
       description: 'CD PROJEKT S.A. INHABER-AKTIEN C ZY 1',
@@ -792,11 +793,10 @@ describe('supertest REST API testing entire REST functionality', () => {
   });
 
   test('DB_PERSIST POST investment_dividends: persisting new dividend succeeds', (done) => {
-    const todaysDate = new Date();
     const dividendsObject = {
       isin: 'PLOPTTC00011',
       dividendAmount: 22.12,
-      dividendDate: todaysDate.toISOString(),
+      dividendDate: currentDate.toISOString(),
       pctOfProfitTaxed: 100.0,
       profitAmount: 22.12,
       investmentIdsAndRemainingUnits: [
@@ -826,13 +826,12 @@ describe('supertest REST API testing entire REST functionality', () => {
   });
 
   test('DB_PERSIST POST food_item_discount: persisting new discount succeeds', (done) => {
-    const todaysDate = new Date();
-    const sevenDaysLater = new Date(todaysDate);
-    sevenDaysLater.setDate(todaysDate.getDate() + 7);
+    const sevenDaysLater = new Date(currentDate);
+    sevenDaysLater.setDate(currentDate.getDate() + 7);
     const foodItemDiscountObj = {
-      id: insertedFoodItemIds[0],
+      id: insertedFoodItemDimensionKeys[0],
       price: 1.49,
-      startDate: todaysDate.toISOString(),
+      startDate: currentDate.toISOString(),
       endDate: sevenDaysLater.toISOString()
     };
     request(app)
@@ -849,10 +848,53 @@ describe('supertest REST API testing entire REST functionality', () => {
       });
   });
 
+  test('DB_PERSIST POST food_item_discount: persisting new discount succeeds', (done) => {
+    const oneDayPrior = new Date(currentDate);
+    oneDayPrior.setDate(currentDate.getDate() - 1);
+    const twelveDaysLater = new Date(currentDate);
+    twelveDaysLater.setDate(currentDate.getDate() + 12);
+    const foodItemDiscountObj = {
+      id: insertedFoodItemDimensionKeys[0],
+      price: 1.69,
+      startDate: oneDayPrior.toISOString(),
+      endDate: twelveDaysLater.toISOString()
+    };
+    request(app)
+      .post(`${ROOT_URL}/food_item_discount`)
+      .send(foodItemDiscountObj)
+      .set('Authorization', 'Bearer ' + authToken)
+      .expect('Content-Type', /json/)
+      .expect(201)
+      .end((err: unknown, res: request.Response) => {
+        if (err instanceof Error) return done(err);
+        expect(res.body.results).toBeDefined();
+        expect(res.body.results[0].id).toBeDefined();
+        return done();
+      });
+  });
+
+  test('DB_PERSIST DELETE prior created food_item_discount from db expecting ids returned', (done) => {
+    request(app)
+      .delete(`${ROOT_URL}/food_item_discount/${insertedFoodItemDimensionKeys[0]}/${currentDate.toISOString()}`)
+      .set('Authorization', 'Bearer ' + authToken)
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .end((err: unknown, res: request.Response) => {
+        if (err instanceof Error) return done(err);
+        expect(res.body.results).toBeDefined();
+        expect(!isNaN(Number(res.body.results[0].id))).toBeTruthy();
+        const deletedId = Number(res.body.results[0].id);
+        expect(deletedId).toEqual(insertedFoodItemDimensionKeys[0]);
+        return done();
+      });
+  });
+
+  // THIS ALSO DELETES FOOD ITEM DISCOUNTS VIA delete_food_item_discount_trigger ON public.table_food_prices
+  // so to test food item discount deletion, we have to call it before
   test('DB_PERSIST DELETE prior created food_items from db expecting ids returned', (done) => {
-    const deleteRequests = insertedFoodItemIds.map((insertedId: number) => {
+    const deleteRequests = insertedFoodItemDimensionKeys.map((insertedDimensionKey: number) => {
       return request(app)
-        .delete(`${ROOT_URL}/food_item/${insertedId}`)
+        .delete(`${ROOT_URL}/food_item/${insertedDimensionKey}`)
         .set('Authorization', 'Bearer ' + authToken)
         .expect('Content-Type', /json/)
         .expect(200)
@@ -860,7 +902,7 @@ describe('supertest REST API testing entire REST functionality', () => {
           expect(res.body.results).toBeDefined();
           expect(!isNaN(Number(res.body.results[0].id))).toBeTruthy();
           const deletedId = Number(res.body.results[0].id);
-          expect(deletedId).toEqual(insertedId);
+          expect(deletedId).toEqual(insertedDimensionKey);
         });
     });
     // wait for all delete requests to terminate before calling done on the test instance

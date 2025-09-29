@@ -53,7 +53,9 @@ DROP TABLE IF EXISTS public.category;
 DROP TABLE IF EXISTS public.store;
 DROP TABLE IF EXISTS public.sensitivity;
 -- DEALS & DISCOUNTS
-DROP VIEW IF EXISTS public.v_food_price_overview ;
+DROP VIEW IF EXISTS public.v_food_price_overview;
+DROP TRIGGER IF EXISTS delete_food_item_discount_trigger ON public.table_food_prices;
+DROP FUNCTION IF EXISTS public.delete_food_item_discount_trigger_function();
 DROP TABLE IF EXISTS public.food_price_discounts;
 DROP TABLE IF EXISTS public.food_price_image_location;
 DROP TABLE IF EXISTS public.table_food_prices;
@@ -290,7 +292,9 @@ TABLESPACE pg_default;
 ALTER TABLE IF EXISTS public.table_food_prices
     OWNER to fiscalismia_api;
 ALTER TABLE IF EXISTS public.table_food_prices ADD CONSTRAINT uk_food_items UNIQUE (food_item, brand, store, price, expiration_date);
-COMMENT ON TABLE public.table_food_prices IS 'contains individual food items, the store they are sold in, the macro they belong to, price and caloric information. A last_update flag indicated the date where prices were last confirmed.';
+COMMENT ON TABLE public.table_food_prices IS
+'contains individual food items, the store they are sold in, the macro they belong to,
+price and caloric information. A last_update flag indicated the date where prices were last confirmed.';
 
 CREATE TABLE IF NOT EXISTS public.food_price_discounts
 (
@@ -303,7 +307,39 @@ CREATE TABLE IF NOT EXISTS public.food_price_discounts
 TABLESPACE pg_default;
 ALTER TABLE IF EXISTS public.food_price_discounts
     OWNER to fiscalismia_api;
-COMMENT ON TABLE public.food_price_discounts IS 'contains the discount price, start date and end date of food items referenced dimension_key only in order to be applicable to all effective_dates within food_prices.';
+COMMENT ON TABLE public.food_price_discounts IS
+'contains the discount price, start date and end date of food items referenced dimension_key only
+in order to be applicable to all effective_dates within food_prices.';
+
+CREATE OR REPLACE FUNCTION public.delete_food_item_discount_trigger_function()
+    RETURNS TRIGGER AS $$
+BEGIN
+    -- Check if ANY row with the deleted dimension_key still exists in table_food_prices.
+    IF NOT EXISTS (
+        SELECT 1
+        FROM public.table_food_prices
+        WHERE dimension_key = OLD.dimension_key
+    ) THEN
+        -- If NO rows exist, delete the related records in food_price_discounts.
+        DELETE FROM public.food_price_discounts
+        WHERE food_prices_dimension_key = OLD.dimension_key;
+    END IF;
+
+    -- Always return NULL because the deletion of the OLD row has already happened.
+    RETURN NULL;
+END;
+$$ LANGUAGE plpgsql;
+COMMENT ON FUNCTION public.delete_food_item_discount_trigger_function() IS
+'If all Food Items of a single dimension_key have been deleted
+then cascade this delete to all discounts.
+Cannot be done with FK constraint because of the composite key nature
+of food items which include effective dates with no relation to discounts';
+
+CREATE OR REPLACE TRIGGER delete_food_item_discount_trigger
+AFTER DELETE ON public.table_food_prices
+FOR EACH ROW
+EXECUTE FUNCTION public.delete_food_item_discount_trigger_function();
+
 
 CREATE TABLE IF NOT EXISTS public.food_price_image_location
 (
@@ -317,42 +353,42 @@ ALTER TABLE IF EXISTS public.food_price_image_location
 COMMENT ON TABLE public.food_price_image_location IS 'contains the relative filepath on the server to user uploaded food item images.';
 
 CREATE OR REPLACE VIEW public.v_food_price_overview
- AS
- SELECT food.dimension_key AS id,
-    food.food_item,
-    food.brand,
-    food.store,
-    food.main_macro,
-    food.kcal_amount,
-    food.weight,
-    food.price::double precision,
-    food.last_update,
-    food.effective_date,
-    food.expiration_date,
-    discounts.discount_price::double precision,
-    (food.price - discounts.discount_price)::double precision AS reduced_by_amount,
-    round((food.price - discounts.discount_price) / food.price, 2) * 100::numeric AS reduced_by_pct,
-    discounts.discount_start_date,
-    discounts.discount_end_date,
-    discounts.discount_start_date - CURRENT_DATE AS starts_in_days,
-    discounts.discount_end_date - CURRENT_DATE AS ends_in_days,
-    discounts.discount_end_date - discounts.discount_start_date AS discount_days_duration,
-    CASE food.kcal_amount
-    	WHEN 0 THEN NULL
-    	ELSE round(100::numeric / food.kcal_amount * 100::numeric, 2)::double precision
-    END AS weight_per_100_kcal,
-    CASE food.weight
-    	WHEN 0 THEN NULL
-    	ELSE round(1000::numeric / food.weight * food.price, 2)::double precision
-    END AS price_per_kg,
-    CASE food.kcal_amount
-    	WHEN 0 THEN NULL
-    	ELSE round(100::numeric / food.kcal_amount * 100::numeric / food.weight * food.price * 35::numeric, 2)::double precision
-    END AS normalized_price,
-    filepaths.filepath
-   FROM table_food_prices food
-     LEFT JOIN food_price_discounts discounts ON food.dimension_key = discounts.food_prices_dimension_key
-     LEFT JOIN food_price_image_location filepaths ON food.dimension_key = filepaths.food_prices_dimension_key;
+AS
+    SELECT food.dimension_key AS id,
+        food.food_item,
+        food.brand,
+        food.store,
+        food.main_macro,
+        food.kcal_amount,
+        food.weight,
+        food.price::double precision,
+        food.last_update,
+        food.effective_date,
+        food.expiration_date,
+        discounts.discount_price::double precision,
+        (food.price - discounts.discount_price)::double precision AS reduced_by_amount,
+        round((food.price - discounts.discount_price) / food.price, 2) * 100::numeric AS reduced_by_pct,
+        discounts.discount_start_date,
+        discounts.discount_end_date,
+        discounts.discount_start_date - CURRENT_DATE AS starts_in_days,
+        discounts.discount_end_date - CURRENT_DATE AS ends_in_days,
+        discounts.discount_end_date - discounts.discount_start_date AS discount_days_duration,
+        CASE food.kcal_amount
+            WHEN 0 THEN NULL
+            ELSE round(100::numeric / food.kcal_amount * 100::numeric, 2)::double precision
+        END AS weight_per_100_kcal,
+        CASE food.weight
+            WHEN 0 THEN NULL
+            ELSE round(1000::numeric / food.weight * food.price, 2)::double precision
+        END AS price_per_kg,
+        CASE food.kcal_amount
+            WHEN 0 THEN NULL
+            ELSE round(100::numeric / food.kcal_amount * 100::numeric / food.weight * food.price * 35::numeric, 2)::double precision
+        END AS normalized_price,
+        filepaths.filepath
+    FROM table_food_prices food
+        LEFT JOIN food_price_discounts discounts ON food.dimension_key = discounts.food_prices_dimension_key
+        LEFT JOIN food_price_image_location filepaths ON food.dimension_key = filepaths.food_prices_dimension_key;
 
 ALTER TABLE public.v_food_price_overview
     OWNER TO fiscalismia_api;
@@ -547,18 +583,18 @@ BEGIN
 		--raise notice '|%|%|%|%| ==> %', s.category, s.store, s.cost, s.purchasing_date, f.sensitivity;
 		INSERT INTO public.bridge_var_exp_sensitivity (variable_expense_id, sensitivity_id) VALUES
 		(
-			 (SELECT id
-			  FROM public.variable_expenses
-				WHERE cost = s.cost
-					AND purchasing_date = s.purchasing_date
-					AND category_id = (
-						SELECT id FROM public.category WHERE description = s.category)
-					AND store_id = (
-						SELECT id FROM public.store WHERE description = s.store)
-			 	) ,
-				 (SELECT id
-				 FROM public.sensitivity
-				 WHERE description = f.sensitivity) )
+            (SELECT id
+            FROM public.variable_expenses
+            WHERE cost = s.cost
+                AND purchasing_date = s.purchasing_date
+                AND category_id = (
+                    SELECT id FROM public.category WHERE description = s.category)
+                AND store_id = (
+                    SELECT id FROM public.store WHERE description = s.store)
+            ) ,
+                (SELECT id
+                FROM public.sensitivity
+                WHERE description = f.sensitivity) )
 		;
 		end loop;
 	end loop;
