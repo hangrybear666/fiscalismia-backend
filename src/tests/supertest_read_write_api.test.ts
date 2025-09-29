@@ -877,6 +877,30 @@ describe('supertest REST API testing entire REST functionality', () => {
       });
   });
 
+  test('DB_PERSIST PUT updated food price and expect it to succeed', (done) => {
+    const updatedFoodPriceObj = {
+      price: 1.25,
+      lastUpdate: currentDate
+    };
+    request(app)
+      .put(`${ROOT_URL}/food_item/price/${insertedFoodItemDimensionKeys[0]}`)
+      .send(updatedFoodPriceObj)
+      .set('Authorization', 'Bearer ' + authToken)
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .end((err: unknown, res: request.Response) => {
+        if (err instanceof Error) return done(err);
+        expect(res.body.results).toBeDefined();
+        expect(!isNaN(Number(res.body.results[0].id))).toBeTruthy();
+        const updatedId = Number(res.body.results[0].id);
+        expect(updatedId).toEqual(insertedFoodItemDimensionKeys[0]);
+        expect(!isNaN(Number(res.body.results[0].price))).toBeTruthy();
+        const updatedPrice = Number(res.body.results[0].price);
+        expect(updatedPrice).toEqual(updatedFoodPriceObj.price);
+        return done();
+      });
+  });
+
   test('DB_PERSIST DELETE prior created food_item_discount expecting id returned', (done) => {
     request(app)
       .delete(`${ROOT_URL}/food_item_discount/${insertedFoodItemDimensionKeys[0]}/${currentDate.toISOString()}`)

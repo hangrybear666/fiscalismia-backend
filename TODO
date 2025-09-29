@@ -1,4 +1,4 @@
-# TODO List for [Fiscalismia Backend]
+# Todo List for [Fiscalismia Backend]
 
 ## Unfinished Tasks
 
@@ -6,10 +6,6 @@
 - Rate limit API requests, currently DDOS is possible.
 
 ### Medium Prio
-- Create DELETE Route for Investment_Dividends
-
 ### Low Prio
-- Supertest for DELETE Investment_Dividends
-
 ### Before Deploying
 - Rethink public folder storage for production env -> Persistence with backup / HA
