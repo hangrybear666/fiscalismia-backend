@@ -510,11 +510,16 @@ COMMENT ON TABLE public.bridge_var_exp_sensitivity IS 'links variable expenses t
  */
 
 CREATE OR REPLACE FUNCTION ETL_VARIABLE_EXPENSES()
-RETURNS void AS
+RETURNS TABLE (table_name text, inserted_count bigint) AS
 $$
 DECLARE
     s record; -- one s for each row in staging_variable_bills
     f record; -- one f for each individual sensitivity in staging_variable_bills.sensitivities delimited by ','
+    insert_count_category              bigint DEFAULT 0;
+    insert_count_store                 bigint DEFAULT 0;
+    insert_count_sensitivity           bigint DEFAULT 0;
+    insert_count_variable_expenses     bigint DEFAULT 0;
+    insert_count_bridge_sensitivities  bigint DEFAULT 0;
 BEGIN
     -- Insert CATEGORIES not yet present in DB
     INSERT INTO public.category (description)  (
@@ -527,6 +532,7 @@ BEGIN
         )
         GROUP BY stg.category
     );
+    GET DIAGNOSTICS insert_count_category = ROW_COUNT;
     -- Insert STORES not yet present in DB
     INSERT INTO public.store (description)  (
         SELECT
@@ -538,6 +544,7 @@ BEGIN
         )
         GROUP BY stg.store
     );
+    GET DIAGNOSTICS insert_count_store = ROW_COUNT;
     -- Insert SENSITIVITIES not yet present in DB
     INSERT INTO public.sensitivity (description,severity_rating) (
         SELECT
@@ -556,6 +563,7 @@ BEGIN
             FROM public.sensitivity
         )
     );
+    GET DIAGNOSTICS insert_count_sensitivity = ROW_COUNT;
     -- Insert VARIABLE_EXPENSES from staging to public schema
     INSERT INTO public.variable_expenses (description, category_id, store_id, cost, purchasing_date, is_planned, contains_indulgence) (
         SELECT
@@ -574,6 +582,7 @@ BEGIN
             END contains_indulgence
         FROM staging.staging_variable_bills stg
     );
+    GET DIAGNOSTICS insert_count_variable_expenses = ROW_COUNT;
     -- Insert BRIDGE_VAR_EXP_SENSITIVITY from staging to public schema
 	for s in select * from staging.staging_variable_bills
 	loop
@@ -602,7 +611,15 @@ BEGIN
                 FROM public.sensitivity
                 WHERE description = f.sensitivity) )
 		;
+        insert_count_bridge_sensitivities := insert_count_bridge_sensitivities + 1;
 		end loop;
 	end loop;
+
+    RETURN QUERY VALUES
+    ('public.category inserted rows: ', insert_count_category),
+    ('public.store inserted rows: ', insert_count_store),
+    ('public.sensitivity inserted rows: ', insert_count_sensitivity),
+    ('public.variable_expenses inserted rows: ', insert_count_variable_expenses),
+    ('public.bridge_var_exp_sensitivity inserted rows: ', insert_count_bridge_sensitivities);
 end;
 $$ LANGUAGE plpgsql;

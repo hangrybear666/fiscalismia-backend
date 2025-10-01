@@ -32,3 +32,4 @@ reports/snyk-dependency-analysis.txt
 
 #Snyk
 .dccache
+database/reset-variable-expenses.sql
