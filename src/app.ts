@@ -18,7 +18,27 @@ const app = express();
 /**
  * Cross-origin resource sharing - access control from outide domains
  */
-app.use(cors());
+const allowedOrigins = [
+  'http://localhost:3001',
+  'http://localhost:3003',
+  `https://www.${config.PUBLIC_DOMAIN}`,
+  `https://www.demo.${config.PUBLIC_DOMAIN}`
+];
+const corsOptions = {
+  origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
+    if (origin && allowedOrigins.includes(origin)) {
+      callback(null, true); // Enforce allowlist and deny others
+    } else {
+      callback(new Error(`Origin ${origin} not allowed by CORS. Must be in allowedOrigins in backend.`));
+    }
+  },
+  methods: 'GET,POST,PUT,DELETE', // Only allow these specific HTTP methods
+  allowedHeaders: 'Content-Type,Authorization', // Allow required headers for JSON and authentication
+  credentials: true, // Essential for allowing cookies/sessions to be sent and received
+  maxAge: 3600 // 1 hour Pre-flight Cache for OPTIONS
+};
+
+app.use(cors(corsOptions));
 
 /**
  * static is a middleware for returning files
