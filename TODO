@@ -4,6 +4,8 @@
 
 ### High Prio
 - Rate limit API requests, currently DDOS is possible.
+- Add POST Route for Variable Expenses Staging and think about how to trigger and evaluate ETL process
+- Add Supertest for evaluation this post route and the ETL process
 
 ### Medium Prio
 - Add corsOptions (check docu) limiting to access from localhost:3001 or the vite build / preview port and the future frontend domain (placeholder)

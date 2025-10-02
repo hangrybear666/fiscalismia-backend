@@ -986,6 +986,81 @@ describe('supertest REST API testing entire REST functionality', () => {
         return done();
       });
   });
+
+  test('DB_PERSIST DELETE delete_food_item_discount_trigger_function: Deleting a Food Item cascades to discounts.', async () => {
+    // ADD NEW FOOD ITEM
+    const newFoodItem = {
+      food_item: '74% Intense',
+      brand: 'Ritter Sport',
+      store: 'Rewe',
+      main_macro: 'Fat',
+      kcal_amount: '672',
+      weight: '100',
+      price: '1.99',
+      last_update: currentDate
+    };
+    const newFoodItemResponse = await request(app)
+      .post(`${ROOT_URL}/food_item`)
+      .send(newFoodItem)
+      .set('Authorization', 'Bearer ' + authToken)
+      .set('Content-Type', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(201);
+    expect(newFoodItemResponse.body.results).toBeDefined();
+    expect(!isNaN(Number(newFoodItemResponse.body.results[0].id))).toBeTruthy();
+    const insertedFoodItemId: number = Number(newFoodItemResponse.body.results[0].id);
+
+    // ADD DISCOUNT OF NEW FOOD ITEM
+    const threeDaysPrior = new Date(currentDate);
+    threeDaysPrior.setDate(currentDate.getDate() - 3);
+    const fourDaysLater = new Date(currentDate);
+    fourDaysLater.setDate(currentDate.getDate() + 4);
+    const foodItemDiscountObj = {
+      id: insertedFoodItemId,
+      price: 1.49,
+      startDate: threeDaysPrior.toISOString(),
+      endDate: fourDaysLater.toISOString()
+    };
+    const addDiscountResponse = await request(app)
+      .post(`${ROOT_URL}/food_item_discount`)
+      .send(foodItemDiscountObj)
+      .set('Authorization', 'Bearer ' + authToken)
+      .expect('Content-Type', /json/)
+      .expect(201);
+    expect(addDiscountResponse.body.results).toBeDefined();
+    expect(addDiscountResponse.body.results[0].id).toBeDefined();
+    const insertedDiscountId: number = addDiscountResponse.body.results[0].id;
+    // Check for Discount ID added to be present in v_food_price_overview
+    const checkCurrentDiscountsAfterInsert = await request(app)
+      .get(`${ROOT_URL}/discounted_foods_current`)
+      .set('Authorization', 'Bearer ' + authToken)
+      .expect('Content-Type', /json/)
+      .expect(200);
+    expect(checkCurrentDiscountsAfterInsert.body.results).toBeDefined();
+    expect(checkCurrentDiscountsAfterInsert.body.results.length).toBeGreaterThan(0);
+    const discountIdsAfterInsert: number[] = checkCurrentDiscountsAfterInsert.body.results.map((e: any) => e.id);
+    expect(discountIdsAfterInsert.includes(insertedDiscountId)).toBeTruthy();
+
+    // DELETE NEW FOOD ITEM AND EXPECT DISCOUNT TO BE DELETED BY TRIGGER
+    const deleteFoodItemResponse = await request(app)
+      .delete(`${ROOT_URL}/food_item/${insertedFoodItemId}`)
+      .set('Authorization', 'Bearer ' + authToken)
+      .expect('Content-Type', /json/)
+      .expect(200);
+    expect(deleteFoodItemResponse.body.results).toBeDefined();
+    expect(!isNaN(Number(deleteFoodItemResponse.body.results[0].id))).toBeTruthy();
+    const deletedId = Number(deleteFoodItemResponse.body.results[0].id);
+    expect(deletedId).toEqual(insertedFoodItemId);
+    // Check for Discount ID of deleted food item to be absent in v_food_price_overview
+    const checkCurrentDiscountsAfterDelete = await request(app)
+      .get(`${ROOT_URL}/discounted_foods_current`)
+      .set('Authorization', 'Bearer ' + authToken)
+      .expect('Content-Type', /json/)
+      .expect(200);
+    expect(checkCurrentDiscountsAfterDelete.body.results).toBeDefined();
+    const discountIdsAfterDelete: number[] = checkCurrentDiscountsAfterDelete.body.results.map((e: any) => e.id);
+    expect(discountIdsAfterDelete.includes(insertedDiscountId)).toBeFalsy();
+  });
 });
 
 /**
