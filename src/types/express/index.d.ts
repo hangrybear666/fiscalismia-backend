@@ -1,8 +1,9 @@
 import _express from 'express';
 
 /**
- * adds 3 variables to the Request Object for user authentication via jwt auth.
- * These can be read from the frontend to protect routes.
+ * adds custom variables to the Express Request Object for user authentication via jwt auth.
+ * These can be encoded into the jwt token and extracted to protect routes
+ * The userSchema can be used to separate user's data fully within the database.
  */
 declare global {
   namespace Express {
@@ -10,6 +11,7 @@ declare global {
       userId?: Record<number, any>;
       userName?: Record<string, any>;
       userEmail?: Record<string, any>;
+      userSchema?: Record<string, any>;
     }
   }
 }

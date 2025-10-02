@@ -838,7 +838,8 @@ const loginWithUserCredentials = asyncHandler(async (request: Request, response:
     const user = {
       userId: results.rows[0]?.userid,
       userName: results.rows[0]?.username,
-      userEmail: results.rows[0]?.useremail
+      userEmail: results.rows[0]?.useremail,
+      userSchema: results.rows[0]?.userschema
     };
     const jwtToken = generateToken(user);
     response.status(200).send(jwtToken);

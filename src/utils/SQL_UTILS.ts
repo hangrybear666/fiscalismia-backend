@@ -25,14 +25,15 @@ const escapeSingleQuotes = (str: string) => {
 
 /**
  * @description constructs INSERT INTO statement for credential storage
- * @param {*} param0 json object containing username, email and password keys
+ * @param {*} param0 json object containing username, email, schema and password keys
  * @returns INSERT INTO SQL for public.um_users
  */
 const buildInsertUmUsers = ({ username, email, password }: UserCredentials) => {
-  return `INSERT INTO public.um_users (username, email, password) VALUES (
+  return `INSERT INTO public.um_users (username, email, password, schema) VALUES (
     '${username}',
     '${email}',
-    crypt('${password}', gen_salt('bf',12))
+    crypt('${password}', gen_salt('bf',12)),
+    'private_${username}'
   );`;
 };
 
@@ -46,7 +47,8 @@ const buildVerifyUsername = ({ username, password }: UserCredentials) => {
   SELECT
     id as userid,
     username,
-    email as useremail
+    email as useremail,
+    schema as userschema
   FROM public.um_users
   WHERE username = '${username}'
     AND password = crypt('${password}', password);`;
@@ -93,7 +95,8 @@ const buildFindUserById = (id: number) => {
   SELECT
     id as userid,
     username,
-    email as useremail
+    email as useremail,
+    schema as userschema
   FROM public.um_users
   WHERE id = ${id};`;
 };

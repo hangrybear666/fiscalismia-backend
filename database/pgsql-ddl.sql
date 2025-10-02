@@ -88,6 +88,7 @@ CREATE TABLE IF NOT EXISTS public.um_users (
 	id serial NOT NULL,
   	username character varying(255) NOT NULL UNIQUE,
     email citext NOT NULL UNIQUE,
+    schema character varying(255) NOT NULL UNIQUE,
   	password TEXT NOT NULL,
 	PRIMARY KEY (id)
 );

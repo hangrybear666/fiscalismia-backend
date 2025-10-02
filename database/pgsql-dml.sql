@@ -7,10 +7,12 @@ SET client_encoding TO 'UTF8';
 INSERT INTO public.username_whitelist VALUES ('admin');
 INSERT INTO public.username_whitelist VALUES ('hangrybear');
 
-INSERT INTO public.um_users (username, email, password) VALUES
-('admin',
- 'herp_derp@hotmail.com',
-  crypt( 'changeit', gen_salt('bf',12)));
+INSERT INTO public.um_users (username, email, password, schema) VALUES
+( 'admin',
+  'herp_derp@hotmail.com',
+  crypt( 'changeit', gen_salt('bf',12)),
+  'private_admin'
+);
 
 INSERT INTO public.um_user_settings(
 user_id, setting_key, setting_value, setting_description)

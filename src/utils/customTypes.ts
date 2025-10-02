@@ -1,14 +1,15 @@
 /**
- * user object containing userId, userName and userEmail extracted from the db.
  * @table public.um_users
  * @property {number} userId SELECT id FROM public.um_users
  * @property {string} userName SELECT username FROM public.um_users
  * @property {string} userEmail SELECT email FROM public.um_users
+ * @property {string} userSchema SELECT schema FROM public.um_users
  */
 export type User = {
   userId: number;
   userName: string;
   userEmail: string;
+  userSchema: string;
 };
 
 /**

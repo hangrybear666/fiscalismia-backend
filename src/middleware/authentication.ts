@@ -41,8 +41,9 @@ const authenticateUser = asyncHandler(async (request: Request, response: Respons
       request.userId = results.rows[0].userid;
       request.userName = results.rows[0].username;
       request.userEmail = results.rows[0].useremail;
+      request.userSchema = results.rows[0].userschema;
       logger.info(
-        `User [${request.userName}] with email [${request.userEmail}'] successfully authenticated with userId [${request.userId}]'`
+        `User [${request.userName}] /w email [${request.userEmail}'] successfully authenticated /w userId [${request.userId}] using db schema [${request.userSchema}]'`
       );
       next();
     } catch (error: unknown) {
