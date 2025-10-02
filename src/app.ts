@@ -18,7 +18,6 @@ const app = express();
 /**
  * Cross-origin resource sharing - access control from outide domains
  */
-// Check if we are in the 'test' environment (common in Jest setups)
 const isTesting = process.env.NODE_ENV === 'test';
 const allowedOrigins = [
   'http://localhost:3001',
@@ -41,7 +40,6 @@ const corsOptions = {
   credentials: true, // Essential for allowing cookies/sessions to be sent and received
   maxAge: 3600 // 1 hour Pre-flight Cache for OPTIONS
 };
-
 app.use(cors(corsOptions));
 
 /**

@@ -111,16 +111,6 @@ ALTER TABLE IF EXISTS public.um_user_settings
     ON DELETE CASCADE;
 COMMENT ON TABLE public.um_user_settings IS 'contains user-specific settings such as selected theme and palette';
 
-CREATE TABLE IF NOT EXISTS public.username_whitelist
-(
-    username character varying(32) NOT NULL,
-    PRIMARY KEY (username),
-    CONSTRAINT check_username_alphabetic CHECK (username ~ '^[A-Za-z_.-]*$')
-);
-ALTER TABLE IF EXISTS public.username_whitelist
-    OWNER to fiscalismia_api;
-COMMENT ON TABLE public.username_whitelist IS 'contains usernames that are allowed to register in db with a alphabetic check constraint.';
-
 --     ___        ___  __      __   __   __  ___  __
 --    |__  | \_/ |__  |  \    /  ` /  \ /__`  |  /__`
 --    |    | / \ |___ |__/    \__, \__/ .__/  |  .__/

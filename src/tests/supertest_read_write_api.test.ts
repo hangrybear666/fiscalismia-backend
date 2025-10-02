@@ -134,22 +134,6 @@ describe('supertest REST API testing entire REST functionality', () => {
       });
   });
 
-  test('AUTH create user not whitelisted returns 403 Forbidden', (done) => {
-    request(app)
-      .post(`${ROOT_URL}/um/credentials`)
-      .send({
-        username: 'randomUser',
-        email: 'randomuser@randomdomain.com',
-        password: 'testcredential'
-      })
-      .expect('Content-Type', /json/)
-      .expect(403)
-      .end((err: unknown, _res: request.Response) => {
-        if (err instanceof Error) return done(err);
-        return done();
-      });
-  });
-
   test('AUTH create user /w invalid username returns 422 Unprocessable Content', (done) => {
     request(app)
       .post(`${ROOT_URL}/um/credentials`)
@@ -189,6 +173,38 @@ describe('supertest REST API testing entire REST functionality', () => {
         username: 'randomUser',
         email: 'randomuser@randomdomain.com',
         password: 'ʕ•ᴥ•ʔ'
+      })
+      .expect('Content-Type', /json/)
+      .expect(422)
+      .end((err: unknown, _res: request.Response) => {
+        if (err instanceof Error) return done(err);
+        return done();
+      });
+  });
+
+  test('AUTH create user /w username length above 32 returns 422 Unprocessable Content', (done) => {
+    request(app)
+      .post(`${ROOT_URL}/um/credentials`)
+      .send({
+        username: 'randomUserrandomUserrandomUserrandomUserrandomUserserrandomUserrandomUserrandomUser',
+        email: 'randomuser@randomdomain.com',
+        password: 'asdasdasd1'
+      })
+      .expect('Content-Type', /json/)
+      .expect(422)
+      .end((err: unknown, _res: request.Response) => {
+        if (err instanceof Error) return done(err);
+        return done();
+      });
+  });
+
+  test('AUTH create user /w username containing any special characters except underscores returns 422 Unprocessable Content', (done) => {
+    request(app)
+      .post(`${ROOT_URL}/um/credentials`)
+      .send({
+        username: 'random-user!',
+        email: 'randomuser@randomdomain.com',
+        password: 'asdasdasd1'
       })
       .expect('Content-Type', /json/)
       .expect(422)

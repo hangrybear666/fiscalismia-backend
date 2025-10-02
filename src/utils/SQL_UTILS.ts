@@ -33,7 +33,7 @@ const buildInsertUmUsers = ({ username, email, password }: UserCredentials) => {
     '${username}',
     '${email}',
     crypt('${password}', gen_salt('bf',12)),
-    'private_${username}'
+    'private_${username.toLowerCase()}'
   );`;
 };
 

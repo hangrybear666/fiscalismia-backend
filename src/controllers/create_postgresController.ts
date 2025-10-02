@@ -39,7 +39,7 @@ const {
   insertIntoBridgeInvestmentDividends
 } = require('../utils/SQL_UTILS');
 const { generateToken } = require('../utils/security');
-const regExAlphabeticHyphensDotsUnderscores = /^[A-Za-z_.-]*$/;
+const usernameRegExp = /^[a-zA-Z0-9_]{3,32}$/;
 const regExAlphaNumeric = /^[a-zA-Z0-9._-]*$/;
 const regExEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -92,12 +92,12 @@ const postUpdatedUserSettings = asyncHandler(async (request: Request, response: 
 
   const userSettingObj: UserSettingObject = request.body;
   const parameters = [userSettingObj.username, userSettingObj.settingKey, userSettingObj.settingValue];
-  if (!regExAlphabeticHyphensDotsUnderscores.test(userSettingObj.username)) {
-    logger.debug(
-      `username ${userSettingObj.username} did not match latin alphabet regex pattern ${regExAlphabeticHyphensDotsUnderscores}`
-    );
+  if (!usernameRegExp.test(userSettingObj.username)) {
+    logger.debug(`username ${userSettingObj.username} fails regular expression test. ${usernameRegExp}`);
     response.status(422); // Unprocessable Content
-    throw new Error('username must conform to the latin alphabet!');
+    throw new Error(
+      'username must conform to the latin alphabet! Allowed are 3-32 alphanumerical Chracters and underscores'
+    );
   }
   if (
     userSettingObj.settingKey === 'selected_mode' ||
@@ -736,10 +736,12 @@ const createUserCredentials = asyncHandler(async (request: Request, response: Re
     response.status(400); // Bad Request
     throw new Error('username, email and/or password missing in POST request');
   }
-  if (!regExAlphabeticHyphensDotsUnderscores.test(credentials.username)) {
-    logger.debug(`username did not match latin alphabet regex pattern ${regExAlphabeticHyphensDotsUnderscores}`);
+  if (!usernameRegExp.test(credentials.username)) {
+    logger.debug(`username ${credentials.username} fails regular expression test. ${usernameRegExp}`);
     response.status(422); // Unprocessable Content
-    throw new Error('username must conform to the latin alphabet!');
+    throw new Error(
+      'username must conform to the latin alphabet! Allowed are 3-32 alphanumerical Chracters and underscores'
+    );
   }
   if (!regExEmail.test(credentials.email)) {
     logger.debug(`email did not match the chromium email regex pattern ${regExEmail}`);
@@ -751,25 +753,7 @@ const createUserCredentials = asyncHandler(async (request: Request, response: Re
     response.status(422); // Unprocessable Content
     throw new Error('password must contain alphanumeric characters, hyphens or underscores only!');
   }
-  let usernameWhitelist: string[] = [];
   const client = await pool.connect();
-  try {
-    const whitelistResult = await client.query('SELECT username from public.username_whitelist');
-    usernameWhitelist = whitelistResult.rows.map((e: any) => e.username);
-  } catch (error: unknown) {
-    response.status(400);
-    if (error instanceof Error) {
-      error.message = `Username whitelist could not be queried. ${error.message}`;
-    }
-    throw error;
-  }
-  if (!usernameWhitelist.includes(credentials.username)) {
-    logger.debug(`username ${credentials.username} is not whitelisted!
-    whitelist is as follows:
-    ${usernameWhitelist}`);
-    response.status(403); // Forbidden
-    throw new Error('username not whitelisted. Please contact your administrator to gain access.');
-  }
   const sqlInsertCredentials = buildInsertUmUsers(credentials);
   const sqlVerifyCredentials = buildVerifyUsername(credentials);
   const sqlInsertSettingsForNewUser = buildInitializeUserSettings(credentials);
