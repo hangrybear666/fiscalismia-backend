@@ -14,7 +14,7 @@
     "dev": "cross-env NODE_ENV=development nodemon src/server.ts --ignore tests/",
     "neon-dev": "cross-env NODE_ENV=development CLOUD_DB=true nodemon src/server.ts --ignore tests/",
     "docker-dev": "cross-env NODE_ENV=docker-development nodemon --watch src --legacy-watch --delay 2500ms  src/server.ts --ignore tests/",
-    "test": "jest --forceExit"
+    "test": "cross-env NODE_ENV=test jest --forceExit"
   },
   "repository": {
     "type": "git",

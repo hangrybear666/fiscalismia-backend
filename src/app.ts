@@ -18,6 +18,8 @@ const app = express();
 /**
  * Cross-origin resource sharing - access control from outide domains
  */
+// Check if we are in the 'test' environment (common in Jest setups)
+const isTesting = process.env.NODE_ENV === 'test';
 const allowedOrigins = [
   'http://localhost:3001',
   'http://localhost:3003',
@@ -28,6 +30,8 @@ const corsOptions = {
   origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
     if (origin && allowedOrigins.includes(origin)) {
       callback(null, true); // Enforce allowlist and deny others
+    } else if (!origin && isTesting) {
+      callback(null, true); // Allow no-origin for supertest
     } else {
       callback(new Error(`Origin ${origin} not allowed by CORS. Must be in allowedOrigins in backend.`));
     }
