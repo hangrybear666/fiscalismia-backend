@@ -75,6 +75,9 @@ const getFoodItemImg = asyncHandler(async (request: Request, response: Response,
     root: path.join(__dirname, '../../', '/public/img/uploads/')
   };
   try {
+    // Allows Cross Origin Resource Sharing specifically for the image.
+    // Required in order to function with strict Helmet.JS Security Policies
+    response.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
     response.sendFile(filepath, options, function (err) {
       if (err) {
         next(err);

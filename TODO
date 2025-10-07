@@ -8,9 +8,7 @@
 - Add Supertest for evaluation of this post route and the ETL process
 
 ### Medium Prio
-- Add corsOptions (check docu) limiting to access from localhost:3001 or the vite build / preview port and the future frontend domain (placeholder)
 - Add rate limiting middleware for express, specifically limiting requests to the login auth routes. get routes should be more lenient.
-- Add / Enforce http headers to prevent cross site scripting by using e.g. the helmet library with express app
 
 ### Low Prio
 
