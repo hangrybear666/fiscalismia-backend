@@ -7,6 +7,7 @@ import {
   UserSettingObject
 } from '../utils/customTypes';
 import { Request, Response } from 'express';
+import { usernameRegExp } from '../utils/sharedFunctions';
 const {
   replaceCommaAndParseFloat,
   extractResultHeaders,
@@ -87,6 +88,13 @@ const postUpdatedUserSettings = asyncHandler(async (request: Request, response: 
 
   const userSettingObj: UserSettingObject = request.body;
   const parameters = [userSettingObj.username, userSettingObj.settingKey, userSettingObj.settingValue];
+  if (!usernameRegExp.test(userSettingObj.username)) {
+    logger.debug(`username ${userSettingObj.username} fails regular expression test. ${usernameRegExp}`);
+    response.status(422); // Unprocessable Content
+    throw new Error(
+      'username must conform to the latin alphabet! Allowed are 3-32 alphanumerical Chracters and underscores'
+    );
+  }
   if (
     userSettingObj.settingKey === 'selected_mode' ||
     userSettingObj.settingKey === 'selected_language' ||

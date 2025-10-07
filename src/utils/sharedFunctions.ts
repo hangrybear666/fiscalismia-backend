@@ -6,6 +6,10 @@ const { parse } = require('csv-parse/sync');
 // /\__/ / | | || | | || |\ \| |___| |/ /      | |   | |_| | |\  | \__/\ | |  _| |_\ \_/ / |\  |/\__/ /
 // \____/\_| |_/\_| |_/\_| \_\____/|___/       \_|    \___/\_| \_/\____/ \_/  \___/ \___/\_| \_/\____/
 
+export const usernameRegExp = /^[a-zA-Z0-9_]{3,32}$/;
+export const regExAlphaNumeric = /^[a-zA-Z0-9._-]*$/;
+export const regExEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
 export const replaceCommaAndParseFloat = (input: string) => {
   return parseFloat(input.replace(',', '.').replace(/[^\d.]/g, ''));
 };

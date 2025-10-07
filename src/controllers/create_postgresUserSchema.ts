@@ -5,6 +5,7 @@ const logger = require('../utils/logger');
 const format = require('pg-format');
 const { pool } = require('../utils/pgDbService');
 import { Request, Response } from 'express';
+import { regExAlphaNumeric, regExEmail, usernameRegExp } from '../utils/sharedFunctions';
 const {
   buildInsertUmUsers,
   buildVerifyUsername,
@@ -12,9 +13,6 @@ const {
   logSqlStatement
 } = require('../utils/SQL_UTILS');
 
-const usernameRegExp = /^[a-zA-Z0-9_]{3,32}$/;
-const regExAlphaNumeric = /^[a-zA-Z0-9._-]*$/;
-const regExEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 /**
  * @description expects a application/json request.body containing username and password keys
  * destined for INSERTION into encrypted credential storage within database
@@ -55,8 +53,8 @@ const createUserCredentialsAndSchema = asyncHandler(async (request: Request, res
   const sqlInsertCredentials = buildInsertUmUsers(credentials);
   const sqlVerifyCredentials = buildVerifyUsername(credentials);
   const sqlInsertSettingsForNewUser = buildInitializeUserSettings(credentials);
-  const ddlFileContent = fs.readFileSync(path.join(__dirname, '../../database/pgsql-ddl.sql'), 'utf8');
-  // const dmlTemplate = fs.readFileSync(path.join(__dirname, '../../database/pgsql-dml.sql'), 'utf8');
+  const ddlTemplate = fs.readFileSync(path.join(__dirname, '../../database/pgsql-ddl.sql'), 'utf8');
+  const dmlTemplate = fs.readFileSync(path.join(__dirname, '../../database/pgsql-dml.sql'), 'utf8');
   const parameters = '';
   try {
     await client.query('BEGIN');
@@ -84,18 +82,12 @@ const createUserCredentialsAndSchema = asyncHandler(async (request: Request, res
     await client.query(format('SET search_path TO %I ', userSchema));
     logger.info(`User Schema ${userSchema} created and set as search_path for user [${userName}]`);
 
-    // Sanitize the DDL script by removing any psql meta-commands:
-    // (lines starting with '\' required by psql commands calling the script)
-    const ddlTemplate = ddlFileContent
-      .split('\n')
-      .filter((line: string) => !line.trim().startsWith('\\'))
-      .join('\n');
     // EXECUTE DDL STATEMENTS TO INIT DB
     await client.query(ddlTemplate);
-    // if (process.env.NODE_ENV !== 'production') {
-    //   // INIT WITH DEMO DATA FOR NONPROD
-    //   await client.query(dmlTemplate);
-    // }
+    if (process.env.NODE_ENV !== 'production') {
+      // INIT WITH DEMO DATA FOR NONPROD
+      await client.query(dmlTemplate);
+    }
     await client.query('COMMIT');
     response.status(201).send(results);
     logger.info('User ' + credentials.username + ' successfully created');
