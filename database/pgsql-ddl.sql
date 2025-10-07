@@ -6,7 +6,7 @@
 SET client_encoding TO 'UTF8';
 DROP SCHEMA IF EXISTS public CASCADE;
 CREATE SCHEMA IF NOT EXISTS public AUTHORIZATION fiscalismia_api;
-COMMENT ON SCHEMA public IS 'standard public schema containing data accessible from outside';
+COMMENT ON SCHEMA public IS 'standard public schema containing data accessible from all other schematas';
 GRANT ALL ON SCHEMA public TO PUBLIC;
 GRANT ALL ON SCHEMA public TO fiscalismia_api;
 
