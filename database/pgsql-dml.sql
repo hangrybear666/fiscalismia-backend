@@ -2,7 +2,7 @@
  *    | |\ | /__` |__  |__)  |     |  | /__` |__  |__)    |    /  \ / _` | |\ |
  *    | | \| .__/ |___ |  \  |     \__/ .__/ |___ |  \    |___ \__/ \__> | | \|
  */
-\c fiscalismia
+-- \c fiscalismia
 SET client_encoding TO 'UTF8';
 
 INSERT INTO public.um_users (username, email, password, schema) VALUES

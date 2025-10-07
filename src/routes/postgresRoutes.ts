@@ -43,10 +43,10 @@ const {
   postFixedCostsTextTsv,
   postIncomeTextTsv,
 
-  createUserCredentials,
   loginWithUserCredentials,
   postUpdatedUserSettings
 } = require('../controllers/create_postgresController');
+const { createUserCredentialsAndSchema } = require('../controllers/create_postgresUserSchema');
 const { updateTestData, updateFoodItemPrice } = require('../controllers/update_postgresController');
 const {
   deleteTestData,
@@ -107,13 +107,13 @@ postgresRoutes.get(
 //   __   __   ___      ___  ___
 //  /  ` |__) |__   /\   |  |__
 //  \__, |  \ |___ /~~\  |  |___
-postgresRoutes.post('/texttsv/variable_expenses', postVariableExpensesTextTsv);
-postgresRoutes.post('/texttsv/fixed_costs', postFixedCostsTextTsv);
-postgresRoutes.post('/texttsv/fixed_income', postIncomeTextTsv);
-postgresRoutes.post('/texttsv/new_food_items', postNewFoodItemsTextTsv);
-postgresRoutes.post('/texttsv/investments', postInvestmentsTextTsv);
+postgresRoutes.post('/texttsv/variable_expenses', authenticateUser, postVariableExpensesTextTsv);
+postgresRoutes.post('/texttsv/fixed_costs', authenticateUser, postFixedCostsTextTsv);
+postgresRoutes.post('/texttsv/fixed_income', authenticateUser, postIncomeTextTsv);
+postgresRoutes.post('/texttsv/new_food_items', authenticateUser, postNewFoodItemsTextTsv);
+postgresRoutes.post('/texttsv/investments', authenticateUser, postInvestmentsTextTsv);
 
-postgresRoutes.post('/um/credentials', createUserCredentials);
+postgresRoutes.post('/um/credentials', createUserCredentialsAndSchema);
 postgresRoutes.post('/um/login', loginWithUserCredentials);
 postgresRoutes.post('/um/settings', authenticateUser, postUpdatedUserSettings);
 
