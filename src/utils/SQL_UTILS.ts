@@ -107,7 +107,7 @@ const buildFindUserById = (id: number) => {
  * 2) replacing all occurences of single quotes ' with two single quotes ''
  * @param {*} e json encoded single element containing the mandatory keys:
  * description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities
- * @returns INSERT INTO SQL for staging.staging_variable_bills
+ * @returns INSERT INTO SQL for staging_variable_bills
  */
 const buildInsertStagingVariableBills = (e: StagingVariableBills) => {
   // loops through keys of json object and sanitizes inputs
@@ -119,7 +119,7 @@ const buildInsertStagingVariableBills = (e: StagingVariableBills) => {
 
   // replaced € in cost with empty string
   // replaced , in cost with empty string as it is a thousand separator
-  const insertRow = `INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+  const insertRow = `INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
       VALUES (
         '${e.description}',
         INITCAP('${e.category}'),
@@ -140,7 +140,7 @@ const buildInsertStagingVariableBills = (e: StagingVariableBills) => {
  * 2) replacing all occurences of single quotes ' with two single quotes ''
  * @param {*} e json encoded single element containing the mandatory keys:
  * category description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date
- * @returns INSERT INTO SQL for public.fixed_costs
+ * @returns INSERT INTO SQL for fixed_costs
  */
 const buildInsertFixedCosts = (e: FixedCosts) => {
   // loops through keys of json object and sanitizes inputs
@@ -150,7 +150,7 @@ const buildInsertFixedCosts = (e: FixedCosts) => {
     }
   }
 
-  const insertRow = `INSERT INTO public.fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
+  const insertRow = `INSERT INTO fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
       VALUES (
         '${e.category}',
         '${e.description}',
@@ -170,7 +170,7 @@ const buildInsertFixedCosts = (e: FixedCosts) => {
  * 2) replacing all occurences of single quotes ' with two single quotes ''
  * @param {FixedIncome} e json encoded single element containing the mandatory keys:
  * description,	type,	monthly_interval,	value,	effective_date,	expiration_date
- * @returns INSERT INTO SQL for public.fixed_income
+ * @returns INSERT INTO SQL for fixed_income
  */
 const buildInsertFixedIncome = (e: FixedIncome) => {
   // loops through keys of json object and sanitizes inputs
@@ -179,7 +179,7 @@ const buildInsertFixedIncome = (e: FixedIncome) => {
       e[keyname] = escapeSingleQuotes(String(e[keyname]));
     }
   }
-  const insertRow = `INSERT INTO public.fixed_income (description, type, monthly_interval, value, effective_date, expiration_date)
+  const insertRow = `INSERT INTO fixed_income (description, type, monthly_interval, value, effective_date, expiration_date)
       VALUES (
         '${e.description}',
         '${e.type}',
@@ -198,7 +198,7 @@ const buildInsertFixedIncome = (e: FixedIncome) => {
  * 2) replacing all occurences of single quotes ' with two single quotes ''
  * @param {InvestmentAndTaxes} e json encoded single element containing the mandatory keys:
  * execution_type,	description,	isin,	investment_type,	marketplace,	units,	price_per_unit,	total_price,	fees,	execution_date, pct_of_profit_taxed, profit_amt
- * @returns INSERT INTO SQL for public.investments
+ * @returns INSERT INTO SQL for investments
  */
 const buildInsertInvestments = (e: InvestmentAndTaxes) => {
   // loops through keys of json object and sanitizes inputs
@@ -207,7 +207,7 @@ const buildInsertInvestments = (e: InvestmentAndTaxes) => {
       e[keyname] = escapeSingleQuotes(String(e[keyname]));
     }
   }
-  const insertRow = `INSERT INTO public.investments (execution_type,	description,	isin,	investment_type,	marketplace,	units,	price_per_unit,	total_price,	fees,	execution_date)
+  const insertRow = `INSERT INTO investments (execution_type,	description,	isin,	investment_type,	marketplace,	units,	price_per_unit,	total_price,	fees,	execution_date)
       VALUES (
         '${e.execution_type}',
         '${e.description}',
@@ -222,7 +222,7 @@ const buildInsertInvestments = (e: InvestmentAndTaxes) => {
       );
 ${
   e.execution_type === 'sell'
-    ? `INSERT INTO public.investment_taxes (investment_id, pct_of_profit_taxed, profit_amt, tax_paid, tax_year)
+    ? `INSERT INTO investment_taxes (investment_id, pct_of_profit_taxed, profit_amt, tax_paid, tax_year)
       (
         SELECT
           id,
@@ -230,10 +230,10 @@ ${
           ${e.profit_amt},
           ${(((e.profit_amt! * e.pct_of_profit_taxed!) / 100) * Number(0.26375)).toFixed(2)},
           extract( year FROM TO_DATE('${e.execution_date}','DD.MM.YYYY') )::int
-        FROM public.investments
+        FROM investments
         WHERE isin = '${e.isin}'
           AND execution_date = TO_DATE('${e.execution_date}','DD.MM.YYYY')
-          AND execution_type = '${e.execution_type}' --unique key of public.investments
+          AND execution_type = '${e.execution_type}' --unique key of investments
       );
 `
     : ''
@@ -247,7 +247,7 @@ ${
  * 2) replacing all occurences of single quotes ' with two single quotes ''
  * @param {FoodItem} e json encoded single element containing the mandatory keys:
  * category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date
- * @returns INSERT INTO SQL for public.table_food_prices
+ * @returns INSERT INTO SQL for table_food_prices
  */
 const buildInsertNewFoodItems = (e: FoodItem) => {
   // loops through keys of json object and sanitizes inputs
@@ -256,7 +256,7 @@ const buildInsertNewFoodItems = (e: FoodItem) => {
       e[keyname] = escapeSingleQuotes(String(e[keyname]));
     }
   }
-  const insertRow = `INSERT INTO public.table_food_prices (dimension_key, food_item, brand, store, main_macro, kcal_amount, weight, price, last_update, effective_date, expiration_date)
+  const insertRow = `INSERT INTO table_food_prices (dimension_key, food_item, brand, store, main_macro, kcal_amount, weight, price, last_update, effective_date, expiration_date)
       VALUES (
         nextval('table_food_prices_seq'),
         '${e.food_item}',
@@ -283,7 +283,7 @@ const buildInsertNewFoodItems = (e: FoodItem) => {
 const buildInsertFoodItemImgFilePath = (element: any) => {
   const dimensionKey = element.id;
   const filepath = element.filepath;
-  const insertFilePath = `INSERT INTO public.food_price_image_location
+  const insertFilePath = `INSERT INTO food_price_image_location
     (food_prices_dimension_key, filepath)
     VALUES ('${dimensionKey}','${filepath}')
     ON CONFLICT ON CONSTRAINT food_price_filepaths_pkey
@@ -339,10 +339,10 @@ const insertIntoUserSettings = `INSERT INTO public.um_user_settings
 
 /**
  * Inserts parameters (food_prices_dimension_key, discount_price, discount_start_date, discount_end_date)
- * into public.food_price_discounts
+ * into food_price_discounts
  * @returns food_prices_dimension_key
  */
-const insertIntoFoodItemDiscount = `INSERT INTO public.food_price_discounts
+const insertIntoFoodItemDiscount = `INSERT INTO food_price_discounts
 (food_prices_dimension_key, discount_price, discount_start_date, discount_end_date)
   VALUES(
     $1,$2,$3,$4
@@ -350,10 +350,10 @@ const insertIntoFoodItemDiscount = `INSERT INTO public.food_price_discounts
 
 /**
  * Inserts parameters (dimension_key, food_item, brand, store, main_macro, kcal_amount, weight, price, last_update, effective_date, expiration_date)
- * into public.table_food_prices
+ * into table_food_prices
  * @returns dimension_key as id
  */
-const insertNewFoodItemIntoFoodPrices = `INSERT INTO public.table_food_prices
+const insertNewFoodItemIntoFoodPrices = `INSERT INTO table_food_prices
 (dimension_key, food_item, brand, store, main_macro, kcal_amount, weight, price, last_update, effective_date, expiration_date)
 VALUES (
       nextval('table_food_prices_seq'),
@@ -364,10 +364,10 @@ VALUES (
 
 /**
  * Inserts parameters (execution_type,	description,	isin,	investment_type,	marketplace,	units,	price_per_unit,	total_price,	fees,	execution_date)
- * into public.investments
+ * into investments
  * @returns id (of investment)
  */
-const insertIntoInvestments = `INSERT INTO public.investments
+const insertIntoInvestments = `INSERT INTO investments
 (execution_type,	description,	isin,	investment_type,	marketplace,	units,	price_per_unit,	total_price,	fees,	execution_date)
   VALUES (
       $1, $2, $3, $4, $5, $6, $7, $8, $9, $10
@@ -375,22 +375,22 @@ const insertIntoInvestments = `INSERT INTO public.investments
 
 /**
  * Inserts parameters (isin, dividend_amount, dividend_date)
- * into public.investment_dividends
+ * into investment_dividends
  * @returns id (of dividend)
  */
-const insertIntoInvestmentDividends = `INSERT INTO public.investment_dividends
+const insertIntoInvestmentDividends = `INSERT INTO investment_dividends
 (isin, dividend_amount, dividend_date)
 VALUES(
     $1, $2, $3
   ) RETURNING id`;
 
 /**
- * Inserts parameters (dividend_id | investment_id, pct_of_profit_taxed, profit_amt, tax_paid, tax_year) into public.investment_taxes
+ * Inserts parameters (dividend_id | investment_id, pct_of_profit_taxed, profit_amt, tax_paid, tax_year) into investment_taxes
  * @param {'dividend' | 'investment'} id_type can insert either an investment or a dividend
  * @returns investment_id or dividend_id as id
  */
 const insertIntoInvestmentTaxes = (id_type: 'dividend' | 'investment') => {
-  return `INSERT INTO public.investment_taxes
+  return `INSERT INTO investment_taxes
 (${id_type == 'dividend' ? 'dividend_id' : 'investment_id'}, pct_of_profit_taxed, profit_amt, tax_paid, tax_year)
 VALUES (
     $1, $2, $3, $4, $5
@@ -399,30 +399,30 @@ VALUES (
 
 /**
  * Inserts parameters (investment_id, dividend_id, remaining_units)
- * into public.bridge_investment_dividends
+ * into bridge_investment_dividends
  * @returns investment_id as id, remaining_units
  */
-const insertIntoBridgeInvestmentDividends = `INSERT INTO public.bridge_investment_dividends
+const insertIntoBridgeInvestmentDividends = `INSERT INTO bridge_investment_dividends
 (investment_id, dividend_id, remaining_units)
 VALUES %L RETURNING investment_id as id, remaining_units`; // using pg-format for bulk insertion
 
 /**
  * Deletes 1-n rows by supplying dimension_key (which can appear multiple times - PK is composite key with effective_date)
- * from public.table_food_prices
+ * from table_food_prices
  * @returns dimension_key as id
  */
 const deleteFoodItemById = `DELETE FROM
-public.table_food_prices
+table_food_prices
 WHERE dimension_key = $1
 RETURNING dimension_key as id`;
 
 /**
  * Deletes investment by id
- * from public.investments
+ * from investments
  * @returns id
  */
 const deleteInvestmentById = `DELETE FROM
-public.investments
+investments
 WHERE id = $1
 RETURNING id`;
 
@@ -433,38 +433,38 @@ RETURNING id`;
  */
 const deleteInvestmentTaxById = (id_type: 'investment' | 'dividend') => {
   return `DELETE FROM
-  public.investment_taxes
+  investment_taxes
   WHERE ${id_type === 'investment' ? 'investment_id' : 'dividend_id'} = $1
   RETURNING ${id_type === 'investment' ? 'investment_id' : 'dividend_id'} as id`;
 };
 
 /**
  * Deletes dividend from investment bridge by dividend id
- * from public.bridge_investment_dividends
+ * from bridge_investment_dividends
  * @returns investment_id as id
  */
 const deleteDividendFromBridgeById = `DELETE FROM
-public.bridge_investment_dividends
+bridge_investment_dividends
 WHERE dividend_id = $1
 RETURNING investment_id as id`;
 
 /**
  * Deletes dividend by id
- * from public.investment_dividends
+ * from investment_dividends
  * @returns id
  */
 const deleteDividendById = `DELETE FROM
-public.investment_dividends
+investment_dividends
 WHERE id = $1
 RETURNING id`;
 
 /**
  * Deletes single row by supplying dimension_key and discount_start_date (composite PK)
- * from public.food_price_discounts
+ * from food_price_discounts
  * @returns dimension_key as id
  */
 const deleteFoodItemDiscountByIdAndStartDate = `DELETE FROM
-public.food_price_discounts
+food_price_discounts
 WHERE food_prices_dimension_key = $1
   AND discount_start_date = $2
 RETURNING food_prices_dimension_key as id`;

@@ -10,11 +10,6 @@ COMMENT ON SCHEMA public IS 'standard public schema containing data accessible f
 GRANT ALL ON SCHEMA public TO PUBLIC;
 GRANT ALL ON SCHEMA public TO fiscalismia_api;
 
-DROP SCHEMA IF EXISTS staging CASCADE;
-CREATE SCHEMA IF NOT EXISTS staging AUTHORIZATION fiscalismia_api;
-COMMENT ON SCHEMA staging IS 'schema for ETL processes performed prior to insertion into public schema';
-GRANT ALL ON SCHEMA staging TO fiscalismia_api;
-
 /*___     ___  ___       __     __        __
  |__  \_/  |  |__  |\ | /__` | /  \ |\ | /__`
  |___ / \  |  |___ | \| .__/ | \__/ | \| .__/
@@ -35,49 +30,48 @@ CREATE EXTENSION citext;
   \__, |  \ |___ /~~\  |  |___     |  /~~\ |__) |___ |___    .__/  |  /~~\  |  |___  |  | |___ | \|  |  .__/
   */
 
--- STAGING
-DROP TABLE IF EXISTS staging.staging_variable_bills;
 -- TEST
-DROP TABLE IF EXISTS public.test_table;
+DROP TABLE IF EXISTS test_table;
 -- USER MGMT
 DROP TABLE IF EXISTS public.um_user_settings;
 DROP TABLE IF EXISTS public.um_users;
 -- FIXED COSTS
-DROP TABLE IF EXISTS public.fixed_costs;
+DROP TABLE IF EXISTS fixed_costs;
 -- INCOME
-DROP TABLE IF EXISTS public.fixed_income;
+DROP TABLE IF EXISTS fixed_income;
 -- VARIABLE EXPENSES
-DROP TABLE IF EXISTS public.bridge_var_exp_sensitivity;
-DROP TABLE IF EXISTS public.variable_expenses;
-DROP TABLE IF EXISTS public.category;
-DROP TABLE IF EXISTS public.store;
-DROP TABLE IF EXISTS public.sensitivity;
+DROP TABLE IF EXISTS staging_variable_bills;
+DROP TABLE IF EXISTS bridge_var_exp_sensitivity;
+DROP TABLE IF EXISTS variable_expenses;
+DROP TABLE IF EXISTS category;
+DROP TABLE IF EXISTS store;
+DROP TABLE IF EXISTS sensitivity;
 -- DEALS & DISCOUNTS
-DROP VIEW IF EXISTS public.v_food_price_overview;
-DROP TRIGGER IF EXISTS delete_food_item_discount_trigger ON public.table_food_prices;
-DROP FUNCTION IF EXISTS public.delete_food_item_discount_trigger_function();
-DROP TABLE IF EXISTS public.food_price_discounts;
-DROP TABLE IF EXISTS public.food_price_image_location;
-DROP TABLE IF EXISTS public.table_food_prices;
-DROP SEQUENCE IF EXISTS public.table_food_prices_seq;
+DROP VIEW IF EXISTS v_food_price_overview;
+DROP TRIGGER IF EXISTS delete_food_item_discount_trigger ON table_food_prices;
+DROP FUNCTION IF EXISTS delete_food_item_discount_trigger_function();
+DROP TABLE IF EXISTS food_price_discounts;
+DROP TABLE IF EXISTS food_price_image_location;
+DROP TABLE IF EXISTS table_food_prices;
+DROP SEQUENCE IF EXISTS table_food_prices_seq;
 -- INVESTMENTS
-DROP VIEW IF EXISTS public.v_investment_dividends;
-DROP TABLE IF EXISTS public.bridge_investment_dividends;
-DROP TABLE IF EXISTS public.investment_taxes;
-DROP TABLE IF EXISTS public.investment_dividends;
-DROP TABLE IF EXISTS public.investments;
+DROP VIEW IF EXISTS v_investment_dividends;
+DROP TABLE IF EXISTS bridge_investment_dividends;
+DROP TABLE IF EXISTS investment_taxes;
+DROP TABLE IF EXISTS investment_dividends;
+DROP TABLE IF EXISTS investments;
 /*___  ___  __  ___
    |  |__  /__`  |
    |  |___ .__/  |
  */
 
-CREATE TABLE IF NOT EXISTS public.test_table
+CREATE TABLE IF NOT EXISTS test_table
 (
     id serial NOT NULL,
     description character varying(100) NOT NULL,
     PRIMARY KEY (id)
 );
-ALTER TABLE IF EXISTS public.test_table
+ALTER TABLE IF EXISTS test_table
     OWNER to fiscalismia_api;
 
 /*      __   ___  __                           __   ___        ___      ___
@@ -115,7 +109,7 @@ COMMENT ON TABLE public.um_user_settings IS 'contains user-specific settings suc
 --    |__  | \_/ |__  |  \    /  ` /  \ /__`  |  /__`
 --    |    | / \ |___ |__/    \__, \__/ .__/  |  .__/
 
-CREATE TABLE IF NOT EXISTS public.fixed_costs
+CREATE TABLE IF NOT EXISTS fixed_costs
 (
     id serial NOT NULL,
     category character varying(128) COLLATE pg_catalog."default" NOT NULL,
@@ -128,15 +122,15 @@ CREATE TABLE IF NOT EXISTS public.fixed_costs
     PRIMARY KEY (id)
 )
 TABLESPACE pg_default;
-ALTER TABLE IF EXISTS public.fixed_costs
+ALTER TABLE IF EXISTS fixed_costs
     OWNER to fiscalismia_api;
-COMMENT ON TABLE public.fixed_costs IS 'contains fixed costs being paid regularly, their billing interval and categories for filtering and displaying';
+COMMENT ON TABLE fixed_costs IS 'contains fixed costs being paid regularly, their billing interval and categories for filtering and displaying';
 
 --          __   __         ___
 --  | |\ | /  ` /  \  |\/| |__
 --  | | \| \__, \__/  |  | |___
 
-CREATE TABLE IF NOT EXISTS public.fixed_income
+CREATE TABLE IF NOT EXISTS fixed_income
 (
     id serial NOT NULL,
     description character varying(128) COLLATE pg_catalog."default" NOT NULL,
@@ -148,12 +142,12 @@ CREATE TABLE IF NOT EXISTS public.fixed_income
     PRIMARY KEY (id)
 )
 TABLESPACE pg_default;
-ALTER TABLE IF EXISTS public.fixed_income
+ALTER TABLE IF EXISTS fixed_income
     OWNER to fiscalismia_api;
-COMMENT ON TABLE public.fixed_income IS 'contains fixed income being earned regularly, payment interval and type (gross/net)';
+COMMENT ON TABLE fixed_income IS 'contains fixed income being earned regularly, payment interval and type (gross/net)';
 
 
-CREATE TABLE IF NOT EXISTS public.investments
+CREATE TABLE IF NOT EXISTS investments
 (
     id serial NOT NULL,
     execution_type character varying(4) COLLATE pg_catalog."default" NOT NULL,
@@ -169,12 +163,12 @@ CREATE TABLE IF NOT EXISTS public.investments
     PRIMARY KEY (id)
 )
 TABLESPACE pg_default;
-ALTER TABLE IF EXISTS public.investments
+ALTER TABLE IF EXISTS investments
     OWNER to fiscalismia_api;
-ALTER TABLE IF EXISTS public.investments ADD CONSTRAINT uk_investments UNIQUE (execution_type, isin, execution_date);
-COMMENT ON TABLE public.investments IS 'contains relevant information to personal investments conducted such as stock listings';
+ALTER TABLE IF EXISTS investments ADD CONSTRAINT uk_investments UNIQUE (execution_type, isin, execution_date);
+COMMENT ON TABLE investments IS 'contains relevant information to personal investments conducted such as stock listings';
 
-CREATE TABLE IF NOT EXISTS public.investment_dividends
+CREATE TABLE IF NOT EXISTS investment_dividends
 (
     id serial NOT NULL,
     isin character varying(12) COLLATE pg_catalog."default" NOT NULL,
@@ -183,12 +177,12 @@ CREATE TABLE IF NOT EXISTS public.investment_dividends
     PRIMARY KEY (id)
 )
 TABLESPACE pg_default;
-ALTER TABLE IF EXISTS public.investment_dividends
+ALTER TABLE IF EXISTS investment_dividends
     OWNER to fiscalismia_api;
-ALTER TABLE IF EXISTS public.investment_dividends ADD CONSTRAINT uk_investment_dividends UNIQUE (isin, dividend_date);
-COMMENT ON TABLE public.investment_dividends IS 'contains individual dividends on a given date and the corresponding isin for uniqueness guarantees';
+ALTER TABLE IF EXISTS investment_dividends ADD CONSTRAINT uk_investment_dividends UNIQUE (isin, dividend_date);
+COMMENT ON TABLE investment_dividends IS 'contains individual dividends on a given date and the corresponding isin for uniqueness guarantees';
 
-CREATE TABLE IF NOT EXISTS public.investment_taxes
+CREATE TABLE IF NOT EXISTS investment_taxes
 (
     investment_id integer,
     dividend_id integer,
@@ -199,46 +193,46 @@ CREATE TABLE IF NOT EXISTS public.investment_taxes
     tax_year numeric(4,0) NOT NULL
 )
 TABLESPACE pg_default;
-ALTER TABLE IF EXISTS public.investment_taxes
+ALTER TABLE IF EXISTS investment_taxes
     OWNER to fiscalismia_api;
-ALTER TABLE IF EXISTS public.investment_taxes ADD CONSTRAINT uk_investment_taxes UNIQUE (investment_id);
-ALTER TABLE IF EXISTS public.investment_taxes ADD CONSTRAINT uk_dividend_taxes UNIQUE (dividend_id);
-ALTER TABLE IF EXISTS public.investment_taxes
+ALTER TABLE IF EXISTS investment_taxes ADD CONSTRAINT uk_investment_taxes UNIQUE (investment_id);
+ALTER TABLE IF EXISTS investment_taxes ADD CONSTRAINT uk_dividend_taxes UNIQUE (dividend_id);
+ALTER TABLE IF EXISTS investment_taxes
     ADD CONSTRAINT "taxed_investments_fk" FOREIGN KEY (investment_id)
-    REFERENCES public.investments (id) MATCH SIMPLE
+    REFERENCES investments (id) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE RESTRICT;
-ALTER TABLE IF EXISTS public.investment_taxes
+ALTER TABLE IF EXISTS investment_taxes
 	ADD CONSTRAINT "taxed_dividends_fk" FOREIGN KEY (dividend_id)
-    REFERENCES public.investment_dividends (id) MATCH SIMPLE
+    REFERENCES investment_dividends (id) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE RESTRICT;
-COMMENT ON TABLE public.investment_taxes IS 'contains foreign keys to investments OR dividends
+COMMENT ON TABLE investment_taxes IS 'contains foreign keys to investments OR dividends
 and the percentage of tax deductions, which can be zero if the yearly allowance has not been surpassed.';
 
-CREATE TABLE IF NOT EXISTS public.bridge_investment_dividends
+CREATE TABLE IF NOT EXISTS bridge_investment_dividends
 (
     investment_id integer NOT NULL,
     dividend_id integer NOT NULL,
     remaining_units numeric(9,0) DEFAULT 0 NOT NULL
 )
 TABLESPACE pg_default;
-ALTER TABLE IF EXISTS public.bridge_investment_dividends
+ALTER TABLE IF EXISTS bridge_investment_dividends
     OWNER to fiscalismia_api;
-ALTER TABLE IF EXISTS public.bridge_investment_dividends ADD CONSTRAINT uk_bridge_investment_dividends UNIQUE (investment_id, dividend_id);
-ALTER TABLE IF EXISTS public.bridge_investment_dividends
+ALTER TABLE IF EXISTS bridge_investment_dividends ADD CONSTRAINT uk_bridge_investment_dividends UNIQUE (investment_id, dividend_id);
+ALTER TABLE IF EXISTS bridge_investment_dividends
     ADD CONSTRAINT "bridge_dividends_investment_fk" FOREIGN KEY (investment_id)
-    REFERENCES public.investments (id) MATCH SIMPLE
+    REFERENCES investments (id) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE RESTRICT;
-ALTER TABLE IF EXISTS public.bridge_investment_dividends
+ALTER TABLE IF EXISTS bridge_investment_dividends
     ADD CONSTRAINT "bridge_investment_dividends_fk" FOREIGN KEY (dividend_id)
-    REFERENCES public.investment_dividends (id) MATCH SIMPLE
+    REFERENCES investment_dividends (id) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE RESTRICT;
-COMMENT ON TABLE public.bridge_investment_dividends IS 'contains FKs to invements & FKs to dividends to match multiple owned stocks of the same ISIN to a single dividend payment. REMAINING_UNITS retains info on partially sold stocks';
+COMMENT ON TABLE bridge_investment_dividends IS 'contains FKs to invements & FKs to dividends to match multiple owned stocks of the same ISIN to a single dividend payment. REMAINING_UNITS retains info on partially sold stocks';
 
-CREATE OR REPLACE VIEW  public.v_investment_dividends
+CREATE OR REPLACE VIEW  v_investment_dividends
 AS
     SELECT
         div.id,
@@ -253,24 +247,24 @@ AS
         SUM(fees)::double precision AS fees,
         div.dividend_date,
         STRING_AGG(inv_div.investment_id::varchar, ',' ORDER BY investment_id) AS investments
-    FROM public.bridge_investment_dividends inv_div
-    JOIN public.investment_dividends div ON div.id = inv_div.dividend_id
-    JOIN public.investments inv ON inv.id = inv_div.investment_id
+    FROM bridge_investment_dividends inv_div
+    JOIN investment_dividends div ON div.id = inv_div.dividend_id
+    JOIN investments inv ON inv.id = inv_div.investment_id
     WHERE inv.execution_type = 'buy'
     GROUP BY div.id, div.isin, div.dividend_amount, div.dividend_date
 ;
-ALTER TABLE public.v_investment_dividends
+ALTER TABLE v_investment_dividends
     OWNER TO fiscalismia_api;
-COMMENT ON VIEW public.v_investment_dividends
+COMMENT ON VIEW v_investment_dividends
     IS 'view showing aggregated investment purchases and their resulting dividend yield';
 
 --     __   ___            __                __      __     __   __   __            ___  __
 --    |  \ |__   /\  |    /__`     /\  |\ | |  \    |  \ | /__` /  ` /  \ |  | |\ |  |  /__`
 --    |__/ |___ /~~\ |___ .__/    /~~\ | \| |__/    |__/ | .__/ \__, \__/ \__/ | \|  |  .__/
-CREATE SEQUENCE IF NOT EXISTS public.table_food_prices_seq;
-ALTER TABLE IF EXISTS public.table_food_prices_seq
+CREATE SEQUENCE IF NOT EXISTS table_food_prices_seq;
+ALTER TABLE IF EXISTS table_food_prices_seq
     OWNER to fiscalismia_api;
-CREATE TABLE IF NOT EXISTS public.table_food_prices
+CREATE TABLE IF NOT EXISTS table_food_prices
 (
     dimension_key integer NOT NULL,
     food_item character varying(256) COLLATE pg_catalog."default" NOT NULL,
@@ -286,14 +280,14 @@ CREATE TABLE IF NOT EXISTS public.table_food_prices
     CONSTRAINT "food_prices_pkey" PRIMARY KEY (dimension_key, effective_date)
 )
 TABLESPACE pg_default;
-ALTER TABLE IF EXISTS public.table_food_prices
+ALTER TABLE IF EXISTS table_food_prices
     OWNER to fiscalismia_api;
-ALTER TABLE IF EXISTS public.table_food_prices ADD CONSTRAINT uk_food_items UNIQUE (food_item, brand, store, price, expiration_date);
-COMMENT ON TABLE public.table_food_prices IS
+ALTER TABLE IF EXISTS table_food_prices ADD CONSTRAINT uk_food_items UNIQUE (food_item, brand, store, price, expiration_date);
+COMMENT ON TABLE table_food_prices IS
 'contains individual food items, the store they are sold in, the macro they belong to,
 price and caloric information. A last_update flag indicated the date where prices were last confirmed.';
 
-CREATE TABLE IF NOT EXISTS public.food_price_discounts
+CREATE TABLE IF NOT EXISTS food_price_discounts
 (
 	food_prices_dimension_key integer NOT NULL,
     discount_price numeric(5,2) NOT NULL,
@@ -302,23 +296,23 @@ CREATE TABLE IF NOT EXISTS public.food_price_discounts
     CONSTRAINT "food_price_discounts_pkey" PRIMARY KEY (food_prices_dimension_key, discount_start_date)
 )
 TABLESPACE pg_default;
-ALTER TABLE IF EXISTS public.food_price_discounts
+ALTER TABLE IF EXISTS food_price_discounts
     OWNER to fiscalismia_api;
-COMMENT ON TABLE public.food_price_discounts IS
+COMMENT ON TABLE food_price_discounts IS
 'contains the discount price, start date and end date of food items referenced dimension_key only
 in order to be applicable to all effective_dates within food_prices.';
 
-CREATE OR REPLACE FUNCTION public.delete_food_item_discount_trigger_function()
+CREATE OR REPLACE FUNCTION delete_food_item_discount_trigger_function()
     RETURNS TRIGGER AS $$
 BEGIN
     -- Check if ANY row with the deleted dimension_key still exists in table_food_prices.
     IF NOT EXISTS (
         SELECT 1
-        FROM public.table_food_prices
+        FROM table_food_prices
         WHERE dimension_key = OLD.dimension_key
     ) THEN
         -- If NO rows exist, delete the related records in food_price_discounts.
-        DELETE FROM public.food_price_discounts
+        DELETE FROM food_price_discounts
         WHERE food_prices_dimension_key = OLD.dimension_key;
     END IF;
 
@@ -326,30 +320,30 @@ BEGIN
     RETURN NULL;
 END;
 $$ LANGUAGE plpgsql;
-COMMENT ON FUNCTION public.delete_food_item_discount_trigger_function() IS
+COMMENT ON FUNCTION delete_food_item_discount_trigger_function() IS
 'If all Food Items of a single dimension_key have been deleted
 then cascade this delete to all discounts.
 Cannot be done with FK constraint because of the composite key nature
 of food items which include effective dates with no relation to discounts';
 
 CREATE OR REPLACE TRIGGER delete_food_item_discount_trigger
-AFTER DELETE ON public.table_food_prices
+AFTER DELETE ON table_food_prices
 FOR EACH ROW
-EXECUTE FUNCTION public.delete_food_item_discount_trigger_function();
+EXECUTE FUNCTION delete_food_item_discount_trigger_function();
 
 
-CREATE TABLE IF NOT EXISTS public.food_price_image_location
+CREATE TABLE IF NOT EXISTS food_price_image_location
 (
 	food_prices_dimension_key integer NOT NULL,
     filepath character varying(256) COLLATE pg_catalog."default",
     CONSTRAINT "food_price_filepaths_pkey" PRIMARY KEY (food_prices_dimension_key)
 )
 TABLESPACE pg_default;
-ALTER TABLE IF EXISTS public.food_price_image_location
+ALTER TABLE IF EXISTS food_price_image_location
     OWNER to fiscalismia_api;
-COMMENT ON TABLE public.food_price_image_location IS 'contains the relative filepath on the server to user uploaded food item images.';
+COMMENT ON TABLE food_price_image_location IS 'contains the relative filepath on the server to user uploaded food item images.';
 
-CREATE OR REPLACE VIEW public.v_food_price_overview
+CREATE OR REPLACE VIEW v_food_price_overview
 AS
     SELECT food.dimension_key AS id,
         food.food_item,
@@ -387,16 +381,16 @@ AS
         LEFT JOIN food_price_discounts discounts ON food.dimension_key = discounts.food_prices_dimension_key
         LEFT JOIN food_price_image_location filepaths ON food.dimension_key = filepaths.food_prices_dimension_key;
 
-ALTER TABLE public.v_food_price_overview
+ALTER TABLE v_food_price_overview
     OWNER TO fiscalismia_api;
-COMMENT ON VIEW public.v_food_price_overview
+COMMENT ON VIEW v_food_price_overview
     IS 'synthesized information for displaying food prices, discounts and derived calculations to frontend user';
 
 --               __          __        ___     ___      __   ___       __   ___  __
 --    \  /  /\  |__) |  /\  |__) |    |__     |__  \_/ |__) |__  |\ | /__` |__  /__`
 --     \/  /~~\ |  \ | /~~\ |__) |___ |___    |___ / \ |    |___ | \| .__/ |___ .__/
 
-CREATE TABLE IF NOT EXISTS staging.staging_variable_bills
+CREATE TABLE IF NOT EXISTS staging_variable_bills
 (
     id serial NOT NULL,
     description character varying(255) COLLATE pg_catalog."default" NOT NULL,
@@ -409,45 +403,45 @@ CREATE TABLE IF NOT EXISTS staging.staging_variable_bills
     sensitivities character varying(255) COLLATE pg_catalog."default"
 )
 TABLESPACE pg_default;
-ALTER TABLE IF EXISTS staging.staging_variable_bills
+ALTER TABLE IF EXISTS staging_variable_bills
     OWNER to fiscalismia_api;
-ALTER TABLE IF EXISTS staging.staging_variable_bills ADD CONSTRAINT uk_variable_expense_stg UNIQUE (category,store,cost,purchasing_date);
+ALTER TABLE IF EXISTS staging_variable_bills ADD CONSTRAINT uk_variable_expense_stg UNIQUE (category,store,cost,purchasing_date);
 
 
 
-CREATE TABLE public.category
+CREATE TABLE category
 (
     id serial NOT NULL,
     description character varying(100) NOT NULL,
     PRIMARY KEY (id)
 );
-ALTER TABLE IF EXISTS public.category OWNER to fiscalismia_api;
-ALTER TABLE IF EXISTS public.category ADD CONSTRAINT uk_category UNIQUE (description);
-COMMENT ON TABLE public.category IS 'contains variable_expenses categories such as Groceries, Leisure, Work and Travel';
+ALTER TABLE IF EXISTS category OWNER to fiscalismia_api;
+ALTER TABLE IF EXISTS category ADD CONSTRAINT uk_category UNIQUE (description);
+COMMENT ON TABLE category IS 'contains variable_expenses categories such as Groceries, Leisure, Work and Travel';
 
-CREATE TABLE public.store
+CREATE TABLE store
 (
     id serial NOT NULL,
     description character varying(100) NOT NULL,
     is_online boolean DEFAULT FALSE,
     PRIMARY KEY (id)
 );
-ALTER TABLE IF EXISTS public.store OWNER to fiscalismia_api;
-ALTER TABLE IF EXISTS public.store ADD CONSTRAINT uk_store UNIQUE (description);
-COMMENT ON TABLE public.store IS 'contains variable_expenses stores such as Lidl, Amazon and generic Cafes';
+ALTER TABLE IF EXISTS store OWNER to fiscalismia_api;
+ALTER TABLE IF EXISTS store ADD CONSTRAINT uk_store UNIQUE (description);
+COMMENT ON TABLE store IS 'contains variable_expenses stores such as Lidl, Amazon and generic Cafes';
 
-CREATE TABLE public.sensitivity
+CREATE TABLE sensitivity
 (
     id serial NOT NULL,
     description character varying(100) NOT NULL,
     severity_rating smallint,
     PRIMARY KEY (id)
 );
-ALTER TABLE IF EXISTS public.sensitivity OWNER to fiscalismia_api;
-ALTER TABLE IF EXISTS public.sensitivity ADD CONSTRAINT uk_sensitivity UNIQUE (description);
-COMMENT ON TABLE public.sensitivity IS 'contains variable_expenses food allergies and sensitivities that are typically bought as an indulgence despite being detrimental to my health';
+ALTER TABLE IF EXISTS sensitivity OWNER to fiscalismia_api;
+ALTER TABLE IF EXISTS sensitivity ADD CONSTRAINT uk_sensitivity UNIQUE (description);
+COMMENT ON TABLE sensitivity IS 'contains variable_expenses food allergies and sensitivities that are typically bought as an indulgence despite being detrimental to my health';
 
-CREATE TABLE IF NOT EXISTS public.variable_expenses
+CREATE TABLE IF NOT EXISTS variable_expenses
 (
     id serial NOT NULL ,
     description character varying(255) COLLATE pg_catalog."default" NOT NULL,
@@ -460,21 +454,21 @@ CREATE TABLE IF NOT EXISTS public.variable_expenses
     CONSTRAINT "variable_expenses_pkey" PRIMARY KEY (id)
 )
 TABLESPACE pg_default;
-ALTER TABLE IF EXISTS public.variable_expenses OWNER to fiscalismia_api;
-COMMENT ON TABLE public.variable_expenses IS 'contains daily expenses such as groceries, purchases for leisure time, health and medical expenses';
-ALTER TABLE IF EXISTS public.variable_expenses
+ALTER TABLE IF EXISTS variable_expenses OWNER to fiscalismia_api;
+COMMENT ON TABLE variable_expenses IS 'contains daily expenses such as groceries, purchases for leisure time, health and medical expenses';
+ALTER TABLE IF EXISTS variable_expenses
     ADD CONSTRAINT "var_exp_cat" FOREIGN KEY (category_id)
-    REFERENCES public.category (id) MATCH SIMPLE
+    REFERENCES category (id) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE RESTRICT;
-ALTER TABLE IF EXISTS public.variable_expenses
+ALTER TABLE IF EXISTS variable_expenses
     ADD CONSTRAINT "var_exp_store" FOREIGN KEY (store_id)
-    REFERENCES public.store (id) MATCH SIMPLE
+    REFERENCES store (id) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE RESTRICT;
-ALTER TABLE IF EXISTS public.variable_expenses ADD CONSTRAINT uk_variable_expenses UNIQUE (category_id,store_id,cost,purchasing_date);
+ALTER TABLE IF EXISTS variable_expenses ADD CONSTRAINT uk_variable_expenses UNIQUE (category_id,store_id,cost,purchasing_date);
 
-CREATE TABLE IF NOT EXISTS public.bridge_var_exp_sensitivity
+CREATE TABLE IF NOT EXISTS bridge_var_exp_sensitivity
 (
     id serial NOT NULL ,
     variable_expense_id integer NOT NULL,
@@ -482,18 +476,18 @@ CREATE TABLE IF NOT EXISTS public.bridge_var_exp_sensitivity
     CONSTRAINT "bridge_var_exp_sensitivity_pkey" PRIMARY KEY (id)
 )
 TABLESPACE pg_default;
-ALTER TABLE IF EXISTS public.bridge_var_exp_sensitivity OWNER to fiscalismia_api;
-ALTER TABLE IF EXISTS public.bridge_var_exp_sensitivity
+ALTER TABLE IF EXISTS bridge_var_exp_sensitivity OWNER to fiscalismia_api;
+ALTER TABLE IF EXISTS bridge_var_exp_sensitivity
     ADD CONSTRAINT "b_var_exp_sens_to_sens" FOREIGN KEY (sensitivity_id)
-    REFERENCES public.sensitivity (id) MATCH SIMPLE
+    REFERENCES sensitivity (id) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE RESTRICT;
-ALTER TABLE IF EXISTS public.bridge_var_exp_sensitivity
+ALTER TABLE IF EXISTS bridge_var_exp_sensitivity
     ADD CONSTRAINT "b_var_exp_sens_to_exp" FOREIGN KEY (variable_expense_id)
-    REFERENCES public.variable_expenses (id) MATCH SIMPLE
+    REFERENCES variable_expenses (id) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE RESTRICT;
-COMMENT ON TABLE public.bridge_var_exp_sensitivity IS 'links variable expenses to sensitivities as this is a m:n relationship';
+COMMENT ON TABLE bridge_var_exp_sensitivity IS 'links variable expenses to sensitivities as this is a m:n relationship';
 
 /*  ___ ___
    |__   |  |
@@ -513,31 +507,31 @@ DECLARE
     insert_count_bridge_sensitivities  bigint DEFAULT 0;
 BEGIN
     -- Insert CATEGORIES not yet present in DB
-    INSERT INTO public.category (description)  (
+    INSERT INTO category (description)  (
         SELECT
             INITCAP(stg.category) as description
-        FROM staging.staging_variable_bills stg
+        FROM staging_variable_bills stg
         WHERE stg.category NOT IN (
             SELECT description
-            FROM public.category
+            FROM category
         )
         GROUP BY stg.category
     );
     GET DIAGNOSTICS insert_count_category = ROW_COUNT;
     -- Insert STORES not yet present in DB
-    INSERT INTO public.store (description)  (
+    INSERT INTO store (description)  (
         SELECT
             INITCAP(stg.store) as description
-        FROM staging.staging_variable_bills stg
+        FROM staging_variable_bills stg
         WHERE stg.store NOT IN (
             SELECT description
-            FROM public.store
+            FROM store
         )
         GROUP BY stg.store
     );
     GET DIAGNOSTICS insert_count_store = ROW_COUNT;
     -- Insert SENSITIVITIES not yet present in DB
-    INSERT INTO public.sensitivity (description,severity_rating) (
+    INSERT INTO sensitivity (description,severity_rating) (
         SELECT
             split.sensitivity as description,
             NULL as severity_rating
@@ -547,20 +541,20 @@ BEGIN
                 -- 2) unnest array into tuples.
                 -- 3) transform string (trim, lowercase)
                 LOWER(TRIM(unnest(string_to_array(stg.sensitivities, ',')))) AS sensitivity
-            FROM staging.staging_variable_bills stg
+            FROM staging_variable_bills stg
             ) split
         WHERE sensitivity NOT IN (
             SELECT description
-            FROM public.sensitivity
+            FROM sensitivity
         )
     );
     GET DIAGNOSTICS insert_count_sensitivity = ROW_COUNT;
-    -- Insert VARIABLE_EXPENSES from staging to public schema
-    INSERT INTO public.variable_expenses (description, category_id, store_id, cost, purchasing_date, is_planned, contains_indulgence) (
+    -- Insert VARIABLE_EXPENSES
+    INSERT INTO variable_expenses (description, category_id, store_id, cost, purchasing_date, is_planned, contains_indulgence) (
         SELECT
             stg.description,
-            (SELECT id FROM public.category WHERE description = stg.category) as category_id,
-            (SELECT id FROM public.store WHERE description = stg.store) as store_id,
+            (SELECT id FROM category WHERE description = stg.category) as category_id,
+            (SELECT id FROM store WHERE description = stg.store) as store_id,
             stg.cost,
             stg.purchasing_date,
             CASE WHEN stg.is_planned = 'J' THEN TRUE
@@ -571,11 +565,11 @@ BEGIN
                 WHEN stg.contains_indulgence = 'N' THEN FALSE
                 ELSE FALSE
             END contains_indulgence
-        FROM staging.staging_variable_bills stg
+        FROM staging_variable_bills stg
     );
     GET DIAGNOSTICS insert_count_variable_expenses = ROW_COUNT;
-    -- Insert BRIDGE_VAR_EXP_SENSITIVITY from staging to public schema
-	for s in select * from staging.staging_variable_bills
+    -- Insert BRIDGE_VAR_EXP_SENSITIVITY
+	for s in select * from staging_variable_bills
 	loop
 		for f in
             SELECT DISTINCT
@@ -583,23 +577,23 @@ BEGIN
 			    -- 2) unnest array into tuples.
 			    -- 3) transform string (trim, lowercase)
                 LOWER(TRIM(unnest(string_to_array(stg.sensitivities, ',')))) as sensitivity
-		    FROM staging.staging_variable_bills stg
+		    FROM staging_variable_bills stg
 		    WHERE stg.id = s.id
 		loop
 		--raise notice '|%|%|%|%| ==> %', s.category, s.store, s.cost, s.purchasing_date, f.sensitivity;
-		INSERT INTO public.bridge_var_exp_sensitivity (variable_expense_id, sensitivity_id) VALUES
+		INSERT INTO bridge_var_exp_sensitivity (variable_expense_id, sensitivity_id) VALUES
 		(
             (SELECT id
-            FROM public.variable_expenses
+            FROM variable_expenses
             WHERE cost = s.cost
                 AND purchasing_date = s.purchasing_date
                 AND category_id = (
-                    SELECT id FROM public.category WHERE description = s.category)
+                    SELECT id FROM category WHERE description = s.category)
                 AND store_id = (
-                    SELECT id FROM public.store WHERE description = s.store)
+                    SELECT id FROM store WHERE description = s.store)
             ) ,
                 (SELECT id
-                FROM public.sensitivity
+                FROM sensitivity
                 WHERE description = f.sensitivity) )
 		;
         insert_count_bridge_sensitivities := insert_count_bridge_sensitivities + 1;
@@ -607,10 +601,10 @@ BEGIN
 	end loop;
 
     RETURN QUERY VALUES
-    ('public.category inserted rows: ', insert_count_category),
-    ('public.store inserted rows: ', insert_count_store),
-    ('public.sensitivity inserted rows: ', insert_count_sensitivity),
-    ('public.variable_expenses inserted rows: ', insert_count_variable_expenses),
-    ('public.bridge_var_exp_sensitivity inserted rows: ', insert_count_bridge_sensitivities);
+    ('category inserted rows: ', insert_count_category),
+    ('store inserted rows: ', insert_count_store),
+    ('sensitivity inserted rows: ', insert_count_sensitivity),
+    ('variable_expenses inserted rows: ', insert_count_variable_expenses),
+    ('bridge_var_exp_sensitivity inserted rows: ', insert_count_bridge_sensitivities);
 end;
 $$ LANGUAGE plpgsql;

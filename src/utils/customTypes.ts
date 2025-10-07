@@ -40,7 +40,7 @@ export type UserSettingObject = {
 
 /**
  * Object received via POST request from Frontend for subsequent DB INSERTION for variable epenses ETL.
- * @table staging.staging_variable_bills
+ * @table staging_variable_bills
  */
 export type StagingVariableBills = {
   description: string;
@@ -60,7 +60,7 @@ export type StagingVariableBills = {
 
 /**
  * Object received via POST request from Frontend for subsequent DB INSERTION for monthly Fixed Costs.
- * @table public.fixed_costs
+ * @table fixed_costs
  */
 export type FixedCosts = {
   category: string;
@@ -79,7 +79,7 @@ export type FixedCosts = {
 
 /**
  * Object received via POST request from Frontend for subsequent DB INSERTION for monthly Fixed Income.
- * @table public.fixed_income
+ * @table fixed_income
  */
 export type FixedIncome = {
   description: string;
@@ -99,7 +99,7 @@ export type FixedIncome = {
  * Bought investments are stored in investments table, if the execution type is sell, tax information is added for investment_taxes table.
  * @description For DB INSERTION via TSV bulk Inserts rather than manual Entry from the frontend
  * @see https://github.com/hangrybear666/fiscalismia-frontend/blob/main/src/types/custom/customTypes.ts
- * @table public.investments, public.investment_taxes
+ * @table investments, investment_taxes
  * @property {string} execution_type string containing the type of execution -> 'buy' or 'sell' *
  * @property {string} description Description of the investment
  * @property {string} isin DIFFERENT FROM FRONTEND WHERE IT IS A CUSTOM TWELVE CHARACTER STRING - International Security Identification Number -> 12 character string beginning with country short
@@ -137,7 +137,7 @@ export type InvestmentAndTaxes = {
  * id, price and date range for a temporarily discounted food item
  * @description For DB INSERTION via TSV bulk Inserts rather than manual Entry from the frontend
  * @see https://github.com/hangrybear666/fiscalismia-frontend/blob/main/src/types/custom/customTypes.ts
- * @table public.food_price_discounts
+ * @table food_price_discounts
  * @property {string} food_item string of a food item
  * @property {string} brand Brand of the food item
  * @property {string} store Store where the food item is purchased

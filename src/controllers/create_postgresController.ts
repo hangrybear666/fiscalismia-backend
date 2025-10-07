@@ -352,7 +352,7 @@ const postDividendsAndTaxes = asyncHandler(async (request: Request, response: Re
         });
         bridgeResult = promiseResult;
       } catch (error: unknown) {
-        const errorMessage = `INSERT INTO public.bridge_investment_dividends has encountered an error: ${(error as Error).message}`;
+        const errorMessage = `INSERT INTO bridge_investment_dividends has encountered an error: ${(error as Error).message}`;
         throw new Error(errorMessage);
       }
       await client.query('COMMIT');
@@ -565,7 +565,7 @@ const postIncomeTextTsv = asyncHandler(async (request: Request, response: Respon
 
 /**
  * @description receives tab-separated value as text in the http post body to transform into insert queries for ETL
- * IF EXECUTION_TYPE IS SELL IT EXPECTS 2 MORE COLUMNS TO BE FILLED AND WILL GENERATE ANOTHER INSERT INTO STATEMENT FOR public.investment_taxes
+ * IF EXECUTION_TYPE IS SELL IT EXPECTS 2 MORE COLUMNS TO BE FILLED AND WILL GENERATE ANOTHER INSERT INTO STATEMENT FOR investment_taxes
  * MANDATORY HEADER STRUCTURE:
  * execution_type,	description,	isin,	investment_type,	marketplace,	units,	price_per_unit,	total_price,	fees,	execution_date, pct_of_profit_taxed, profit_amt
  * @method HTTP POST

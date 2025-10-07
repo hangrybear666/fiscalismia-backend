@@ -53,7 +53,7 @@ const deleteTestData = asyncHandler(async (request: Request, response: Response)
 });
 
 /**
- * @description DELETE request to delete 1-n rows with dimension_key == :dimension_key from public.table_food_prices
+ * @description DELETE request to delete 1-n rows with dimension_key == :dimension_key from table_food_prices
  * IS CASCADED TO DISCOUNTS VIA TRIGGER FUNCTION delete_food_item_discount_trigger_function()
  * @method HTTP DELETE
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
@@ -83,7 +83,7 @@ const deleteFoodItem = asyncHandler(async (request: Request, response: Response)
     await client.query('ROLLBACK');
     response.status(500);
     if (error instanceof Error) {
-      error.message = `Transaction ROLLBACK. Row could not be deleted from public.table_food_prices. ${error.message}`;
+      error.message = `Transaction ROLLBACK. Row could not be deleted from table_food_prices. ${error.message}`;
     }
     throw error;
   } finally {
@@ -92,7 +92,7 @@ const deleteFoodItem = asyncHandler(async (request: Request, response: Response)
 });
 
 /**
- * @description DELETE request to delete the row with supplied food_prices_dimension_key discount_start_date from public.food_price_discounts
+ * @description DELETE request to delete the row with supplied food_prices_dimension_key discount_start_date from food_price_discounts
  * @method HTTP DELETE
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/food_item_discount/:food_prices_dimension_key/:discount_start_date
@@ -124,7 +124,7 @@ const deleteFoodItemDiscount = asyncHandler(async (request: Request, response: R
     await client.query('ROLLBACK');
     response.status(500);
     if (error instanceof Error) {
-      error.message = `Transaction ROLLBACK. Row could not be deleted from public.food_price_discounts. ${error.message}`;
+      error.message = `Transaction ROLLBACK. Row could not be deleted from food_price_discounts. ${error.message}`;
     }
     throw error;
   } finally {
@@ -133,8 +133,8 @@ const deleteFoodItemDiscount = asyncHandler(async (request: Request, response: R
 });
 
 /**
- * @description DELETE request to delete single row with id from public.investments
- * and conditionally delete single row from public.investment_taxes if execution_type is "sell"
+ * @description DELETE request to delete single row with id from investments
+ * and conditionally delete single row from investment_taxes if execution_type is "sell"
  * @method HTTP DELETE
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/investment/:id
@@ -147,7 +147,7 @@ const deleteInvestment = asyncHandler(async (request: Request, response: Respons
   try {
     await client.query('BEGIN');
     // CONDITIONALLY DELETE TAXES ONLY FOR INVESTMENT SALES BECAUSE THEY SHOULD BE NULL FOR BUYS
-    const checkExecutionTypeResult = await client.query('SELECT execution_type FROM public.investments WHERE id = $1', [
+    const checkExecutionTypeResult = await client.query('SELECT execution_type FROM investments WHERE id = $1', [
       request.params.id
     ]);
     if (checkExecutionTypeResult?.rows?.length > 0 && checkExecutionTypeResult.rows[0]?.execution_type === 'buy') {
@@ -189,7 +189,7 @@ const deleteInvestment = asyncHandler(async (request: Request, response: Respons
       response.status(500);
     }
     if (error instanceof Error) {
-      error.message = `Transaction ROLLBACK. Row could not be deleted from public.investments. ${error.message}`;
+      error.message = `Transaction ROLLBACK. Row could not be deleted from investments. ${error.message}`;
     }
     throw error;
   } finally {
@@ -199,9 +199,9 @@ const deleteInvestment = asyncHandler(async (request: Request, response: Respons
 
 /**
  * @description DELETE request to delete
- * 1) single row from public.investment_taxes
- * 2) 1-n rows from public.bridge_investment_dividends
- * 3) single row with id from public.investment_dividends
+ * 1) single row from investment_taxes
+ * 2) 1-n rows from bridge_investment_dividends
+ * 3) single row with id from investment_dividends
  * @method HTTP DELETE
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
  * @route /api/fiscalismia/investment_dividend/:id
@@ -246,7 +246,7 @@ const deleteInvestmentDividend = asyncHandler(async (request: Request, response:
     await client.query('ROLLBACK');
     response.status(500);
     if (error instanceof Error) {
-      error.message = `Transaction ROLLBACK. Row could not be deleted from public.investments. ${error.message}`;
+      error.message = `Transaction ROLLBACK. Row could not be deleted from investments. ${error.message}`;
     }
     throw error;
   } finally {

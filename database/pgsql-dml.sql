@@ -35,8 +35,8 @@ VALUES (
     'en_US',
     null);
 
-INSERT INTO public.test_table(description) VALUES('Hello from pgsql-dml.sql');
-INSERT INTO public.test_table(description) VALUES('Initialized Docker-Dev-DB successfully');
+INSERT INTO test_table(description) VALUES('Hello from pgsql-dml.sql');
+INSERT INTO test_table(description) VALUES('Initialized Docker-Dev-DB successfully');
 
 /*     _____  _____ _____     _____ _   _  _____ ___________ _____ _____    ____________ ________  ___    _____  _____ _   _______  _____  _____    ______  ___ _____ ___
  *    |  __ \|  ___|_   _|   |_   _| \ | |/  ___|  ___| ___ \_   _/  ___|   |  ___| ___ \  _  |  \/  |   /  ___||  _  | | | | ___ \/  __ \|  ___|   |  _  \/ _ \_   _/ _ \
@@ -62,7 +62,7 @@ INSERT INTO public.test_table(description) VALUES('Initialized Docker-Dev-DB suc
  */
 
 -- January - March
-INSERT INTO public.fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
+INSERT INTO fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
 VALUES (
   'LIVING_ESSENTIALS',
   'Rent',
@@ -72,7 +72,7 @@ VALUES (
   TO_DATE('01.01.2024','DD.MM.YYYY'),
   TO_DATE('31.03.2024','DD.MM.YYYY')
 );
-INSERT INTO public.fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
+INSERT INTO fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
 VALUES (
   'SUPPLEMENTS_HEALTH',
   'Health Supplements',
@@ -82,7 +82,7 @@ VALUES (
   TO_DATE('01.01.2024','DD.MM.YYYY'),
   TO_DATE('31.03.2024','DD.MM.YYYY')
 );
-INSERT INTO public.fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
+INSERT INTO fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
 VALUES (
   'INTERNET_AND_PHONE',
   'DSL Telekom 100 MBit',
@@ -92,7 +92,7 @@ VALUES (
   TO_DATE('01.01.2024','DD.MM.YYYY'),
   TO_DATE('31.03.2024','DD.MM.YYYY')
 );
-INSERT INTO public.fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
+INSERT INTO fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
 VALUES (
   'SPORTS_FACILITIES',
   'Gym Membership McFit',
@@ -102,7 +102,7 @@ VALUES (
   TO_DATE('01.01.2024','DD.MM.YYYY'),
   TO_DATE('31.03.2024','DD.MM.YYYY')
 );
-INSERT INTO public.fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
+INSERT INTO fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
 VALUES (
   'LIVING_ESSENTIALS',
   'Electricity Cost',
@@ -112,7 +112,7 @@ VALUES (
   TO_DATE('01.01.2024','DD.MM.YYYY'),
   TO_DATE('31.03.2024','DD.MM.YYYY')
 );
-INSERT INTO public.fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
+INSERT INTO fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
 VALUES (
   'INSURANCE',
   'Liability Insurance',
@@ -122,7 +122,7 @@ VALUES (
   TO_DATE('01.01.2024','DD.MM.YYYY'),
   TO_DATE('31.03.2024','DD.MM.YYYY')
 );
-INSERT INTO public.fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
+INSERT INTO fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
 VALUES (
   'STUDENT_LOANS',
   'Student Loan Interest Rate',
@@ -132,7 +132,7 @@ VALUES (
   TO_DATE('01.01.2024','DD.MM.YYYY'),
   TO_DATE('31.03.2024','DD.MM.YYYY')
 );
-INSERT INTO public.fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
+INSERT INTO fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
 VALUES (
   'LEISURE_GAMING',
   'WoW',
@@ -142,7 +142,7 @@ VALUES (
   TO_DATE('01.01.2024','DD.MM.YYYY'),
   TO_DATE('31.03.2024','DD.MM.YYYY')
 );
-INSERT INTO public.fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
+INSERT INTO fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
 VALUES (
   'SUPPLEMENTS_PERFORMANCE',
   'Performance Supplements',
@@ -152,7 +152,7 @@ VALUES (
   TO_DATE('01.01.2024','DD.MM.YYYY'),
   TO_DATE('31.03.2024','DD.MM.YYYY')
 );
-INSERT INTO public.fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
+INSERT INTO fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
 VALUES (
   'LEISURE_TV_CINEMA',
   'Abonnement: Netflix',
@@ -164,7 +164,7 @@ VALUES (
 );
 
 -- April - August
-INSERT INTO public.fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
+INSERT INTO fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
 VALUES (
   'LIVING_ESSENTIALS',
   'Rent',
@@ -174,7 +174,7 @@ VALUES (
   TO_DATE('01.04.2024','DD.MM.YYYY'),
   TO_DATE('31.08.2024','DD.MM.YYYY')
 );
-INSERT INTO public.fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
+INSERT INTO fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
 VALUES (
   'INTERNET_AND_PHONE',
   'DSL Telekom 100 MBit',
@@ -184,7 +184,7 @@ VALUES (
   TO_DATE('01.04.2024','DD.MM.YYYY'),
   TO_DATE('31.08.2024','DD.MM.YYYY')
 );
-INSERT INTO public.fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
+INSERT INTO fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
 VALUES (
   'SPORTS_FACILITIES',
   'Gym Membership FitOne',
@@ -194,7 +194,7 @@ VALUES (
   TO_DATE('01.04.2024','DD.MM.YYYY'),
   TO_DATE('31.08.2024','DD.MM.YYYY')
 );
-INSERT INTO public.fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
+INSERT INTO fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
 VALUES (
   'LIVING_ESSENTIALS',
   'Electricity Cost',
@@ -204,7 +204,7 @@ VALUES (
   TO_DATE('01.04.2024','DD.MM.YYYY'),
   TO_DATE('31.08.2024','DD.MM.YYYY')
 );
-INSERT INTO public.fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
+INSERT INTO fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
 VALUES (
   'INSURANCE',
   'Liability Insurance',
@@ -214,7 +214,7 @@ VALUES (
   TO_DATE('01.04.2024','DD.MM.YYYY'),
   TO_DATE('31.08.2024','DD.MM.YYYY')
 );
-INSERT INTO public.fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
+INSERT INTO fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
 VALUES (
   'LEISURE_MUSIC_PODCASTS',
   'Abonnement: Spotify',
@@ -224,7 +224,7 @@ VALUES (
   TO_DATE('01.04.2024','DD.MM.YYYY'),
   TO_DATE('31.08.2024','DD.MM.YYYY')
 );
-INSERT INTO public.fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
+INSERT INTO fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
 VALUES (
   'STUDENT_LOANS',
   'Student Loan Interest Rate',
@@ -234,7 +234,7 @@ VALUES (
   TO_DATE('01.04.2024','DD.MM.YYYY'),
   TO_DATE('31.08.2024','DD.MM.YYYY')
 );
-INSERT INTO public.fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
+INSERT INTO fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
 VALUES (
   'INSURANCE',
   'household contents insurance',
@@ -244,7 +244,7 @@ VALUES (
   TO_DATE('01.04.2024','DD.MM.YYYY'),
   TO_DATE('31.08.2024','DD.MM.YYYY')
 );
-INSERT INTO public.fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
+INSERT INTO fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
 VALUES (
   'SUPPLEMENTS_HEALTH',
   'Health Supplements',
@@ -254,7 +254,7 @@ VALUES (
   TO_DATE('01.04.2024','DD.MM.YYYY'),
   TO_DATE('31.08.2024','DD.MM.YYYY')
 );
-INSERT INTO public.fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
+INSERT INTO fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
 VALUES (
   'LEISURE_GAMING',
   'Abonnement: Steady - The Pod',
@@ -264,7 +264,7 @@ VALUES (
   TO_DATE('01.04.2024','DD.MM.YYYY'),
   TO_DATE('31.08.2024','DD.MM.YYYY')
 );
-INSERT INTO public.fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
+INSERT INTO fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
 VALUES (
   'SUPPLEMENTS_PERFORMANCE',
   'Performance Supplements',
@@ -274,7 +274,7 @@ VALUES (
   TO_DATE('01.04.2024','DD.MM.YYYY'),
   TO_DATE('31.08.2024','DD.MM.YYYY')
 );
-INSERT INTO public.fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
+INSERT INTO fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
 VALUES (
   'LEISURE_TV_CINEMA',
   'Abonnement: Netflix',
@@ -285,7 +285,7 @@ VALUES (
   TO_DATE('31.08.2024','DD.MM.YYYY')
 );
 -- September - current
-INSERT INTO public.fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
+INSERT INTO fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
 VALUES (
   'LIVING_ESSENTIALS',
   'Rent',
@@ -295,7 +295,7 @@ VALUES (
   TO_DATE('01.09.2024','DD.MM.YYYY'),
   TO_DATE('01.01.4000','DD.MM.YYYY')
 );
-INSERT INTO public.fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
+INSERT INTO fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
 VALUES (
   'SUPPLEMENTS_PERFORMANCE',
   'Performance Supplements',
@@ -305,7 +305,7 @@ VALUES (
   TO_DATE('01.09.2024','DD.MM.YYYY'),
   TO_DATE('01.01.4000','DD.MM.YYYY')
 );
-INSERT INTO public.fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
+INSERT INTO fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
 VALUES (
   'INTERNET_AND_PHONE',
   'DSL Telekom 100 MBit',
@@ -315,7 +315,7 @@ VALUES (
   TO_DATE('01.09.2024','DD.MM.YYYY'),
   TO_DATE('01.01.4000','DD.MM.YYYY')
 );
-INSERT INTO public.fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
+INSERT INTO fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
 VALUES (
   'SPORTS_FACILITIES',
   'Gym Membership FitOne',
@@ -325,7 +325,7 @@ VALUES (
   TO_DATE('01.09.2024','DD.MM.YYYY'),
   TO_DATE('01.01.4000','DD.MM.YYYY')
 );
-INSERT INTO public.fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
+INSERT INTO fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
 VALUES (
   'LIVING_ESSENTIALS',
   'Electricity Cost',
@@ -335,7 +335,7 @@ VALUES (
   TO_DATE('01.09.2024','DD.MM.YYYY'),
   TO_DATE('01.01.4000','DD.MM.YYYY')
 );
-INSERT INTO public.fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
+INSERT INTO fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
 VALUES (
   'INSURANCE',
   'Liability Insurance',
@@ -345,7 +345,7 @@ VALUES (
   TO_DATE('01.09.2024','DD.MM.YYYY'),
   TO_DATE('01.01.4000','DD.MM.YYYY')
 );
-INSERT INTO public.fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
+INSERT INTO fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
 VALUES (
   'LEISURE_MUSIC_PODCASTS',
   'Abonnement: Spotify',
@@ -355,7 +355,7 @@ VALUES (
   TO_DATE('01.09.2024','DD.MM.YYYY'),
   TO_DATE('01.01.4000','DD.MM.YYYY')
 );
-INSERT INTO public.fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
+INSERT INTO fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
 VALUES (
   'STUDENT_LOANS',
   'Student Loan Interest Rate',
@@ -365,7 +365,7 @@ VALUES (
   TO_DATE('01.09.2024','DD.MM.YYYY'),
   TO_DATE('01.01.4000','DD.MM.YYYY')
 );
-INSERT INTO public.fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
+INSERT INTO fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
 VALUES (
   'INSURANCE',
   'household contents insurance',
@@ -375,7 +375,7 @@ VALUES (
   TO_DATE('01.09.2024','DD.MM.YYYY'),
   TO_DATE('01.01.4000','DD.MM.YYYY')
 );
-INSERT INTO public.fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
+INSERT INTO fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
 VALUES (
   'SUPPLEMENTS_HEALTH',
   'Health Supplements',
@@ -385,7 +385,7 @@ VALUES (
   TO_DATE('01.09.2024','DD.MM.YYYY'),
   TO_DATE('01.01.4000','DD.MM.YYYY')
 );
-INSERT INTO public.fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
+INSERT INTO fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
 VALUES (
   'LEISURE_GAMING',
   'Abonnement: Steady - The Pod',
@@ -395,7 +395,7 @@ VALUES (
   TO_DATE('01.09.2024','DD.MM.YYYY'),
   TO_DATE('01.01.4000','DD.MM.YYYY')
 );
-INSERT INTO public.fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
+INSERT INTO fixed_costs (category, description, monthly_interval, billed_cost, monthly_cost, effective_date, expiration_date)
 VALUES (
   'LEISURE_TV_CINEMA',
   'Abonnement: Netflix',
@@ -413,7 +413,7 @@ VALUES (
  |_|   |___/_/\_\_____|____/    |___|_| \_|\____\___/|_|  |_|_____|
 */
 -- january - august
-INSERT INTO public.fixed_income (description, type, monthly_interval, value, effective_date, expiration_date)
+INSERT INTO fixed_income (description, type, monthly_interval, value, effective_date, expiration_date)
 VALUES (
   'Company Net Salary',
   'net salary',
@@ -422,7 +422,7 @@ VALUES (
   TO_DATE('01.01.2024','DD.MM.YYYY'),
   TO_DATE('31.08.2024','DD.MM.YYYY')
 );
-INSERT INTO public.fixed_income (description, type, monthly_interval, value, effective_date, expiration_date)
+INSERT INTO fixed_income (description, type, monthly_interval, value, effective_date, expiration_date)
 VALUES (
   'Yearly 10% Performance Bonus',
   'net salary',
@@ -431,7 +431,7 @@ VALUES (
   TO_DATE('01.01.2024','DD.MM.YYYY'),
   TO_DATE('31.08.2024','DD.MM.YYYY')
 );
-INSERT INTO public.fixed_income (description, type, monthly_interval, value, effective_date, expiration_date)
+INSERT INTO fixed_income (description, type, monthly_interval, value, effective_date, expiration_date)
 VALUES (
   'Company Gross Salary',
   'gross salary',
@@ -440,7 +440,7 @@ VALUES (
   TO_DATE('01.01.2024','DD.MM.YYYY'),
   TO_DATE('31.08.2024','DD.MM.YYYY')
 );
-INSERT INTO public.fixed_income (description, type, monthly_interval, value, effective_date, expiration_date)
+INSERT INTO fixed_income (description, type, monthly_interval, value, effective_date, expiration_date)
 VALUES (
   'Government Inflation Compensation',
   'gross salary',
@@ -451,7 +451,7 @@ VALUES (
 );
 
 -- september - current
-INSERT INTO public.fixed_income (description, type, monthly_interval, value, effective_date, expiration_date)
+INSERT INTO fixed_income (description, type, monthly_interval, value, effective_date, expiration_date)
 VALUES (
   'Company Net Salary',
   'net salary',
@@ -460,7 +460,7 @@ VALUES (
   TO_DATE('01.09.2024','DD.MM.YYYY'),
   TO_DATE('01.01.4000','DD.MM.YYYY')
 );
-INSERT INTO public.fixed_income (description, type, monthly_interval, value, effective_date, expiration_date)
+INSERT INTO fixed_income (description, type, monthly_interval, value, effective_date, expiration_date)
 VALUES (
   'Yearly 10% Performance Bonus',
   'net salary',
@@ -469,7 +469,7 @@ VALUES (
   TO_DATE('01.09.2024','DD.MM.YYYY'),
   TO_DATE('01.01.4000','DD.MM.YYYY')
 );
-INSERT INTO public.fixed_income (description, type, monthly_interval, value, effective_date, expiration_date)
+INSERT INTO fixed_income (description, type, monthly_interval, value, effective_date, expiration_date)
 VALUES (
   'Company Gross Salary',
   'gross salary',
@@ -488,7 +488,7 @@ VALUES (
 */
 
 -- year 2024
-INSERT INTO public.investments (execution_type,	description,	isin,	investment_type,	marketplace,	units,	price_per_unit,	total_price,	fees,	execution_date)
+INSERT INTO investments (execution_type,	description,	isin,	investment_type,	marketplace,	units,	price_per_unit,	total_price,	fees,	execution_date)
 VALUES (
   'buy',
   'SYNBIOTIC SE NA O.N.',
@@ -501,7 +501,7 @@ VALUES (
   11,
   TO_DATE('01.02.2024','DD.MM.YYYY')
 );
-INSERT INTO public.investments (execution_type,	description,	isin,	investment_type,	marketplace,	units,	price_per_unit,	total_price,	fees,	execution_date)
+INSERT INTO investments (execution_type,	description,	isin,	investment_type,	marketplace,	units,	price_per_unit,	total_price,	fees,	execution_date)
 VALUES (
   'sell',
   'SYNBIOTIC SE NA O.N.',
@@ -514,7 +514,7 @@ VALUES (
   10,
   TO_DATE('27.02.2024','DD.MM.YYYY')
 );
-INSERT INTO public.investments (execution_type,	description,	isin,	investment_type,	marketplace,	units,	price_per_unit,	total_price,	fees,	execution_date)
+INSERT INTO investments (execution_type,	description,	isin,	investment_type,	marketplace,	units,	price_per_unit,	total_price,	fees,	execution_date)
 VALUES (
   'buy',
   'CD PROJEKT S.A. C ZY 1',
@@ -528,7 +528,7 @@ VALUES (
   TO_DATE('18.04.2024','DD.MM.YYYY')
 );
 
-INSERT INTO public.investments (execution_type,	description,	isin,	investment_type,	marketplace,	units,	price_per_unit,	total_price,	fees,	execution_date)
+INSERT INTO investments (execution_type,	description,	isin,	investment_type,	marketplace,	units,	price_per_unit,	total_price,	fees,	execution_date)
 VALUES (
   'buy',
   'ZALANDO SE',
@@ -542,7 +542,7 @@ VALUES (
   TO_DATE('27.06.2024','DD.MM.YYYY')
 );
 
-INSERT INTO public.investments (execution_type,	description,	isin,	investment_type,	marketplace,	units,	price_per_unit,	total_price,	fees,	execution_date)
+INSERT INTO investments (execution_type,	description,	isin,	investment_type,	marketplace,	units,	price_per_unit,	total_price,	fees,	execution_date)
 VALUES (
   'buy',
   'BAYER AG NA O.N.',
@@ -556,7 +556,7 @@ VALUES (
   TO_DATE('14.09.2024','DD.MM.YYYY')
 );
 -- investment SELL tax
-INSERT INTO public.investment_taxes (investment_id, pct_of_profit_taxed, profit_amt, tax_paid, tax_year)
+INSERT INTO investment_taxes (investment_id, pct_of_profit_taxed, profit_amt, tax_paid, tax_year)
 (
   SELECT
     id,
@@ -564,16 +564,16 @@ INSERT INTO public.investment_taxes (investment_id, pct_of_profit_taxed, profit_
     977,
     0.00,
     extract( year FROM TO_DATE('27.02.2024','DD.MM.YYYY') )::int
-  FROM public.investments
+  FROM investments
   WHERE isin = 'DE000A3E5A59'
     AND execution_date = TO_DATE('27.02.2024','DD.MM.YYYY')
-    AND execution_type = 'sell' --unique key of public.investments
+    AND execution_type = 'sell' --unique key of investments
 );
 
 -- Dividend 1 and Tax
-INSERT INTO public.investment_dividends (isin, dividend_amount, dividend_date)
+INSERT INTO investment_dividends (isin, dividend_amount, dividend_date)
 VALUES('DE000A3E5A59', 24, TO_DATE('15.02.2024','DD.MM.YYYY'));
-INSERT INTO public.investment_taxes (dividend_id, pct_of_profit_taxed, profit_amt, tax_paid, tax_year)
+INSERT INTO investment_taxes (dividend_id, pct_of_profit_taxed, profit_amt, tax_paid, tax_year)
 (
   SELECT
   id,
@@ -581,17 +581,17 @@ INSERT INTO public.investment_taxes (dividend_id, pct_of_profit_taxed, profit_am
   24,
   0.00,
   2024
-  FROM public.investment_dividends
+  FROM investment_dividends
   WHERE isin = 'DE000A3E5A59'
-    AND dividend_date = TO_DATE('15.02.2024','DD.MM.YYYY') -- unique key of public.investment_dividends
+    AND dividend_date = TO_DATE('15.02.2024','DD.MM.YYYY') -- unique key of investment_dividends
     );
-INSERT INTO public.bridge_investment_dividends (investment_id, dividend_id, remaining_units)
+INSERT INTO bridge_investment_dividends (investment_id, dividend_id, remaining_units)
 VALUES (1,1,150);
 
 -- Dividend 2 and Tax
-INSERT INTO public.investment_dividends (isin, dividend_amount, dividend_date)
+INSERT INTO investment_dividends (isin, dividend_amount, dividend_date)
 VALUES('PLOPTTC00011', 35, TO_DATE('16.07.2024','DD.MM.YYYY'));
-INSERT INTO public.investment_taxes (dividend_id, pct_of_profit_taxed, profit_amt, tax_paid, tax_year)
+INSERT INTO investment_taxes (dividend_id, pct_of_profit_taxed, profit_amt, tax_paid, tax_year)
 (
   SELECT
     id,
@@ -599,11 +599,11 @@ INSERT INTO public.investment_taxes (dividend_id, pct_of_profit_taxed, profit_am
     35,
     9.23,
     extract( year FROM TO_DATE('16.07.2024','DD.MM.YYYY') )::int
-  FROM public.investment_dividends
+  FROM investment_dividends
   WHERE isin = 'PLOPTTC00011'
-    AND dividend_date = TO_DATE('16.07.2024','DD.MM.YYYY') -- unique key of public.investment_dividends
+    AND dividend_date = TO_DATE('16.07.2024','DD.MM.YYYY') -- unique key of investment_dividends
 );
-INSERT INTO public.bridge_investment_dividends (investment_id, dividend_id, remaining_units)
+INSERT INTO bridge_investment_dividends (investment_id, dividend_id, remaining_units)
 VALUES (3,2,42);
 
 /**
@@ -613,7 +613,7 @@ VALUES (3,2,42);
   ___) | |_| |  __/| |___|  _ <| |  | |/ ___ \|  _ <| . \| |___  | |     |  _|| |_| | |_| | |_| |   |  __/|  _ < | | |___| |___ ___) |
  |____/ \___/|_|   |_____|_| \_\_|  |_/_/   \_\_| \_\_|\_\_____| |_|     |_|   \___/ \___/|____/    |_|   |_| \_\___\____|_____|____/
 */
-INSERT INTO public.table_food_prices (dimension_key, food_item, brand, store, main_macro, kcal_amount, weight, price, last_update, effective_date, expiration_date)
+INSERT INTO table_food_prices (dimension_key, food_item, brand, store, main_macro, kcal_amount, weight, price, last_update, effective_date, expiration_date)
 VALUES (
   nextval('table_food_prices_seq'),
   'MCT Oil C-8, Organic',
@@ -627,7 +627,7 @@ VALUES (
   TO_DATE('01.01.2024','DD.MM.YYYY'),
   TO_DATE('01.01.4000','DD.MM.YYYY')
 );
-INSERT INTO public.table_food_prices (dimension_key, food_item, brand, store, main_macro, kcal_amount, weight, price, last_update, effective_date, expiration_date)
+INSERT INTO table_food_prices (dimension_key, food_item, brand, store, main_macro, kcal_amount, weight, price, last_update, effective_date, expiration_date)
 VALUES (
   nextval('table_food_prices_seq'),
   'Black Olives, no stones',
@@ -641,7 +641,7 @@ VALUES (
   TO_DATE('01.01.2024','DD.MM.YYYY'),
   TO_DATE('01.01.4000','DD.MM.YYYY')
 );
-INSERT INTO public.table_food_prices (dimension_key, food_item, brand, store, main_macro, kcal_amount, weight, price, last_update, effective_date, expiration_date)
+INSERT INTO table_food_prices (dimension_key, food_item, brand, store, main_macro, kcal_amount, weight, price, last_update, effective_date, expiration_date)
 VALUES (
   nextval('table_food_prices_seq'),
   'Basmati Rice',
@@ -655,7 +655,7 @@ VALUES (
   TO_DATE('01.01.2024','DD.MM.YYYY'),
   TO_DATE('01.01.4000','DD.MM.YYYY')
 );
-INSERT INTO public.table_food_prices (dimension_key, food_item, brand, store, main_macro, kcal_amount, weight, price, last_update, effective_date, expiration_date)
+INSERT INTO table_food_prices (dimension_key, food_item, brand, store, main_macro, kcal_amount, weight, price, last_update, effective_date, expiration_date)
 VALUES (
   nextval('table_food_prices_seq'),
   'Salmon filet, frozen',
@@ -669,9 +669,9 @@ VALUES (
   TO_DATE('01.01.2024','DD.MM.YYYY'),
   TO_DATE('01.01.4000','DD.MM.YYYY')
 );
-INSERT INTO public.food_price_discounts(
+INSERT INTO food_price_discounts(
 	food_prices_dimension_key, discount_price, discount_start_date, discount_end_date)
-	VALUES ((SELECT dimension_key FROM public.table_food_prices WHERE food_item = 'Salmon filet, frozen' AND brand = 'Paulus'), 16.99, current_date-1, current_date+7);
+	VALUES ((SELECT dimension_key FROM table_food_prices WHERE food_item = 'Salmon filet, frozen' AND brand = 'Paulus'), 16.99, current_date-1, current_date+7);
 
 /**
  __     ___    ____  ___    _    ____  _     _____       _______  ______  _____ _   _ ____  _____ ____
@@ -680,7 +680,7 @@ INSERT INTO public.food_price_discounts(
    \ V / ___ \|  _ < | | / ___ \| |_) | |___| |___      | |___ /  \|  __/| |___| |\  |___) | |___ ___) |
     \_/_/   \_\_| \_\___/_/   \_\____/|_____|_____|     |_____/_/\_\_|   |_____|_| \_|____/|_____|____/
 */
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Cola Zero, Energy Zero',
 INITCAP('Groceries'),
@@ -691,7 +691,7 @@ TO_DATE('01.01.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine, aspartame/saccharin')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Chicken, Carrots, Broccoli, Coconut Milk',
 INITCAP('Groceries'),
@@ -702,7 +702,7 @@ TO_DATE('05.01.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Riesling Wine, Dry',
 INITCAP('Leisure'),
@@ -713,7 +713,7 @@ TO_DATE('03.01.2024','DD.MM.YYYY'),
 'J',
 LOWER('alcohol')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Grandma Birthday Present',
 INITCAP('Gift'),
@@ -724,7 +724,7 @@ TO_DATE('21.01.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Face Wash, Tooth Paste',
 INITCAP('Hygiene'),
@@ -735,7 +735,7 @@ TO_DATE('02.01.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Olives, Coke Zero, Mirinda Zero',
 INITCAP('Groceries'),
@@ -746,7 +746,7 @@ TO_DATE('02.01.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine, aspartame/saccharin')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Face Cream, Hyaluron Face Serum, Toothpaste',
 INITCAP('Hygiene'),
@@ -757,7 +757,7 @@ TO_DATE('02.01.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Resident Evil 4 Remake',
 INITCAP('Leisure'),
@@ -768,7 +768,7 @@ TO_DATE('01.01.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Almond flour defatted',
 INITCAP('Groceries'),
@@ -779,7 +779,7 @@ TO_DATE('02.01.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Döner plate rice veal salad, Adana skewer',
 INITCAP('Leisure'),
@@ -790,7 +790,7 @@ TO_DATE('02.01.2024','DD.MM.YYYY'),
 'J',
 LOWER('Processed meat, rice, cow''s milk product')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Dark chocolate, iced tea zero',
 INITCAP('Groceries'),
@@ -801,7 +801,7 @@ TO_DATE('03.01.2024','DD.MM.YYYY'),
 'J',
 LOWER('sucralose, chocolate, sugar')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Arctic shrimp frozen, coconut milk, organic eggs, salmon frozen',
 INITCAP('Groceries'),
@@ -812,7 +812,7 @@ TO_DATE('03.01.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Tea, Cola Zero',
 INITCAP('Groceries'),
@@ -823,7 +823,7 @@ TO_DATE('04.01.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine, aspartame/saccharin')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Day cream',
 INITCAP('Hygiene'),
@@ -834,7 +834,7 @@ TO_DATE('04.01.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'White mulberry tea, vanilla rooibos tea',
 INITCAP('Leisure'),
@@ -845,7 +845,7 @@ TO_DATE('04.01.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Black tea decaffeinated',
 INITCAP('Leisure'),
@@ -856,7 +856,7 @@ TO_DATE('04.01.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Düsseldorf day trip meals',
 INITCAP('Vacation'),
@@ -867,7 +867,7 @@ TO_DATE('05.01.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Salmon frozen, olives, Cola Zero, salad',
 INITCAP('Groceries'),
@@ -878,7 +878,7 @@ TO_DATE('06.01.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine, aspartame/saccharin')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Salmon frozen, olives, Cola Zero, organic eggs, salad, avocado, fennel, red onions',
 INITCAP('Groceries'),
@@ -889,7 +889,7 @@ TO_DATE('09.01.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine, aspartame/saccharin')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Embroidery thread',
 INITCAP('Leisure'),
@@ -900,7 +900,7 @@ TO_DATE('09.01.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Organic eggs, soft drink, iced tea zero, vegan cheese, mustard, dark chocolate',
 INITCAP('Groceries'),
@@ -911,7 +911,7 @@ TO_DATE('09.01.2024','DD.MM.YYYY'),
 'J',
 LOWER('sucralose, sugar, starch')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Tea, Energy Zero',
 INITCAP('Groceries'),
@@ -922,7 +922,7 @@ TO_DATE('10.01.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine, aspartame/saccharin')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Basil candle, beeswax candle',
 INITCAP('Leisure'),
@@ -933,7 +933,7 @@ TO_DATE('10.01.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Green tea',
 INITCAP('Leisure'),
@@ -944,7 +944,7 @@ TO_DATE('10.01.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Cetirizine 100pcs',
 INITCAP('Medical Expenses'),
@@ -955,7 +955,7 @@ TO_DATE('11.01.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Chocolate bun',
 INITCAP('Gift'),
@@ -966,7 +966,7 @@ TO_DATE('11.01.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Olive oil',
 INITCAP('Groceries'),
@@ -977,7 +977,7 @@ TO_DATE('11.01.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Brazil nuts, walnut kernels, hazelnuts',
 INITCAP('Groceries'),
@@ -988,7 +988,7 @@ TO_DATE('11.01.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Chocolate bun',
 INITCAP('Gift'),
@@ -999,7 +999,7 @@ TO_DATE('14.01.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Chocolate bun',
 INITCAP('Gift'),
@@ -1010,7 +1010,7 @@ TO_DATE('18.01.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Chocolate bun',
 INITCAP('Gift'),
@@ -1021,7 +1021,7 @@ TO_DATE('19.01.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Chocolate bun',
 INITCAP('Gift'),
@@ -1032,7 +1032,7 @@ TO_DATE('22.01.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Chocolate bun',
 INITCAP('Gift'),
@@ -1043,7 +1043,7 @@ TO_DATE('24.01.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Snacks for Girlfriend',
 INITCAP('Gift'),
@@ -1054,7 +1054,7 @@ TO_DATE('12.01.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Snacks for Girlfriend',
 INITCAP('Gift'),
@@ -1065,7 +1065,7 @@ TO_DATE('02.01.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Snacks for Girlfriend',
 INITCAP('Gift'),
@@ -1076,7 +1076,7 @@ TO_DATE('12.01.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Food for Girlfriend',
 INITCAP('Groceries'),
@@ -1087,7 +1087,7 @@ TO_DATE('12.01.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Food for Girlfriend',
 INITCAP('Groceries'),
@@ -1098,7 +1098,7 @@ TO_DATE('19.01.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Food for Girlfriend',
 INITCAP('Groceries'),
@@ -1109,7 +1109,7 @@ TO_DATE('28.01.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Cola Zero, Energy Zero, Dark Chocolate',
 INITCAP('Leisure'),
@@ -1120,7 +1120,7 @@ TO_DATE('01.01.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine, aspartame/saccharin, sugar, chocolate')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Cola Zero, Energy Zero, Dark Chocolate',
 INITCAP('Leisure'),
@@ -1131,7 +1131,7 @@ TO_DATE('26.01.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine, aspartame/saccharin, sugar, chocolate')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Cola Zero, Energy Zero, Dark Chocolate',
 INITCAP('Leisure'),
@@ -1142,7 +1142,7 @@ TO_DATE('07.01.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine, aspartame/saccharin, sugar, chocolate')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Cola Zero, Energy Zero, Dark Chocolate',
 INITCAP('Leisure'),
@@ -1153,7 +1153,7 @@ TO_DATE('28.01.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine, aspartame/saccharin, sugar, chocolate')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Cola Zero, Energy Zero, Dark Chocolate',
 INITCAP('Leisure'),
@@ -1164,7 +1164,7 @@ TO_DATE('12.01.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine, aspartame/saccharin, sugar, chocolate')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Cola Zero, Energy Zero, Dark Chocolate',
 INITCAP('Leisure'),
@@ -1175,7 +1175,7 @@ TO_DATE('18.01.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine, aspartame/saccharin, sugar, chocolate')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Cola Zero, Energy Zero, Dark Chocolate',
 INITCAP('Leisure'),
@@ -1186,7 +1186,7 @@ TO_DATE('24.01.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine, aspartame/saccharin, sugar, chocolate')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Haircut & Shave',
 INITCAP('Hygiene'),
@@ -1197,7 +1197,7 @@ TO_DATE('17.01.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Cappucino, Iced Latte, Black Tea with Oatmilk',
 INITCAP('Work'),
@@ -1208,7 +1208,7 @@ TO_DATE('16.01.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Cappucino, Iced Latte, Black Tea with Oatmilk',
 INITCAP('Work'),
@@ -1219,7 +1219,7 @@ TO_DATE('11.01.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Cappucino, Iced Latte, Black Tea with Oatmilk',
 INITCAP('Work'),
@@ -1230,7 +1230,7 @@ TO_DATE('07.01.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Cappucino, Iced Latte, Black Tea with Oatmilk',
 INITCAP('Work'),
@@ -1241,7 +1241,7 @@ TO_DATE('22.01.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Steak, Salmon, Vegetables, Cola Zero',
 INITCAP('Groceries'),
@@ -1252,7 +1252,7 @@ TO_DATE('13.01.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine, aspartame/saccharin')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Steak, Salmon, Vegetables',
 INITCAP('Groceries'),
@@ -1263,7 +1263,7 @@ TO_DATE('19.01.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Steak, Salmon, Vegetables',
 INITCAP('Groceries'),
@@ -1276,7 +1276,7 @@ LOWER('')
 );
 --FEBRUARY
 
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Cola Zero, Energy Zero',
 INITCAP('Groceries'),
@@ -1287,7 +1287,7 @@ TO_DATE('01.02.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine, aspartame/saccharin')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Chicken, Carrots, Broccoli, Coconut Milk',
 INITCAP('Groceries'),
@@ -1298,7 +1298,7 @@ TO_DATE('05.02.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Riesling Wine, Dry, Beer',
 INITCAP('Leisure'),
@@ -1309,7 +1309,7 @@ TO_DATE('03.02.2024','DD.MM.YYYY'),
 'J',
 LOWER('alcohol')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Beer',
 INITCAP('Leisure'),
@@ -1320,7 +1320,7 @@ TO_DATE('15.02.2024','DD.MM.YYYY'),
 'J',
 LOWER('alcohol')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Mom Birthday Present',
 INITCAP('Gift'),
@@ -1331,7 +1331,7 @@ TO_DATE('21.02.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Face Wash, Tooth Paste',
 INITCAP('Hygiene'),
@@ -1342,7 +1342,7 @@ TO_DATE('02.02.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Olives, Coke Zero, Mirinda Zero',
 INITCAP('Groceries'),
@@ -1353,7 +1353,7 @@ TO_DATE('02.02.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine, aspartame/saccharin')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Face Cream, Hyaluron Face Serum, Toothpaste',
 INITCAP('Hygiene'),
@@ -1364,7 +1364,7 @@ TO_DATE('02.02.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Almond flour defatted',
 INITCAP('Groceries'),
@@ -1375,7 +1375,7 @@ TO_DATE('02.02.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Döner plate rice veal salad, Adana skewer',
 INITCAP('Leisure'),
@@ -1386,7 +1386,7 @@ TO_DATE('02.02.2024','DD.MM.YYYY'),
 'J',
 LOWER('Processed meat, rice, cow''s milk product')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Dark chocolate, iced tea zero',
 INITCAP('Groceries'),
@@ -1397,7 +1397,7 @@ TO_DATE('03.02.2024','DD.MM.YYYY'),
 'J',
 LOWER('sucralose, chocolate, sugar')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Arctic shrimp frozen, coconut milk, organic eggs, salmon frozen',
 INITCAP('Groceries'),
@@ -1408,7 +1408,7 @@ TO_DATE('03.02.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Tea, Cola Zero',
 INITCAP('Groceries'),
@@ -1419,7 +1419,7 @@ TO_DATE('04.02.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine, aspartame/saccharin')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Day cream',
 INITCAP('Hygiene'),
@@ -1430,7 +1430,7 @@ TO_DATE('04.02.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'White mulberry tea, vanilla rooibos tea',
 INITCAP('Leisure'),
@@ -1441,7 +1441,7 @@ TO_DATE('04.02.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Black tea decaffeinated',
 INITCAP('Leisure'),
@@ -1452,7 +1452,7 @@ TO_DATE('04.02.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Heidelberg day trip meals',
 INITCAP('Vacation'),
@@ -1463,7 +1463,7 @@ TO_DATE('05.02.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Salmon frozen, olives, Cola Zero, salad',
 INITCAP('Groceries'),
@@ -1474,7 +1474,7 @@ TO_DATE('06.02.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine, aspartame/saccharin')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Salmon frozen, olives, Cola Zero, organic eggs, salad, avocado, fennel, red onions',
 INITCAP('Groceries'),
@@ -1485,7 +1485,7 @@ TO_DATE('09.02.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine, aspartame/saccharin')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Embroidery thread',
 INITCAP('Leisure'),
@@ -1496,7 +1496,7 @@ TO_DATE('09.02.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Organic eggs, soft drink, iced tea zero, vegan cheese, mustard, dark chocolate',
 INITCAP('Groceries'),
@@ -1507,7 +1507,7 @@ TO_DATE('09.02.2024','DD.MM.YYYY'),
 'J',
 LOWER('sucralose, sugar, starch')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Tea, Energy Zero',
 INITCAP('Groceries'),
@@ -1518,7 +1518,7 @@ TO_DATE('10.02.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine, aspartame/saccharin')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Basil candle, beeswax candle',
 INITCAP('Leisure'),
@@ -1529,7 +1529,7 @@ TO_DATE('10.02.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Green tea',
 INITCAP('Leisure'),
@@ -1540,7 +1540,7 @@ TO_DATE('10.02.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Cetirizine 100pcs',
 INITCAP('Medical Expenses'),
@@ -1551,7 +1551,7 @@ TO_DATE('11.02.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Chocolate bun',
 INITCAP('Gift'),
@@ -1562,7 +1562,7 @@ TO_DATE('11.02.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Olive oil',
 INITCAP('Groceries'),
@@ -1573,7 +1573,7 @@ TO_DATE('11.02.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Brazil nuts, walnut kernels, hazelnuts',
 INITCAP('Groceries'),
@@ -1584,7 +1584,7 @@ TO_DATE('11.02.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Chocolate bun',
 INITCAP('Gift'),
@@ -1595,7 +1595,7 @@ TO_DATE('14.02.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Chocolate bun',
 INITCAP('Gift'),
@@ -1606,7 +1606,7 @@ TO_DATE('18.02.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Chocolate bun, Croissant',
 INITCAP('Gift'),
@@ -1617,7 +1617,7 @@ TO_DATE('19.02.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Chocolate bun, Cake',
 INITCAP('Gift'),
@@ -1628,7 +1628,7 @@ TO_DATE('22.02.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Chocolate bun',
 INITCAP('Gift'),
@@ -1639,7 +1639,7 @@ TO_DATE('24.02.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Snacks for Girlfriend',
 INITCAP('Gift'),
@@ -1650,7 +1650,7 @@ TO_DATE('12.02.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Snacks for Girlfriend',
 INITCAP('Gift'),
@@ -1661,7 +1661,7 @@ TO_DATE('02.02.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Snacks for Girlfriend',
 INITCAP('Gift'),
@@ -1672,7 +1672,7 @@ TO_DATE('12.02.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Food for Girlfriend',
 INITCAP('Groceries'),
@@ -1683,7 +1683,7 @@ TO_DATE('12.02.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Food for Girlfriend',
 INITCAP('Groceries'),
@@ -1694,7 +1694,7 @@ TO_DATE('19.02.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Food for Girlfriend',
 INITCAP('Groceries'),
@@ -1705,7 +1705,7 @@ TO_DATE('28.02.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Cola Zero, Energy Zero, Dark Chocolate',
 INITCAP('Leisure'),
@@ -1716,7 +1716,7 @@ TO_DATE('07.02.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine, aspartame/saccharin, sugar, chocolate')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Cola Zero, Energy Zero, Dark Chocolate',
 INITCAP('Leisure'),
@@ -1727,7 +1727,7 @@ TO_DATE('28.02.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine, aspartame/saccharin, sugar, chocolate')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Cola Zero, Energy Zero, Dark Chocolate',
 INITCAP('Leisure'),
@@ -1738,7 +1738,7 @@ TO_DATE('12.02.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine, aspartame/saccharin, sugar, chocolate')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Cola Zero, Energy Zero, Dark Chocolate',
 INITCAP('Leisure'),
@@ -1749,7 +1749,7 @@ TO_DATE('18.02.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine, aspartame/saccharin, sugar, chocolate')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Cola Zero, Energy Zero, Dark Chocolate',
 INITCAP('Leisure'),
@@ -1760,7 +1760,7 @@ TO_DATE('24.02.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine, aspartame/saccharin, sugar, chocolate')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Haircut & Shave',
 INITCAP('Hygiene'),
@@ -1771,7 +1771,7 @@ TO_DATE('17.02.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Cappucino, Iced Latte, Black Tea with Oatmilk',
 INITCAP('Work'),
@@ -1782,7 +1782,7 @@ TO_DATE('16.02.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Cappucino, Iced Latte, Black Tea with Oatmilk',
 INITCAP('Work'),
@@ -1793,7 +1793,7 @@ TO_DATE('11.02.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Cappucino, Iced Latte, Black Tea with Oatmilk',
 INITCAP('Work'),
@@ -1804,7 +1804,7 @@ TO_DATE('07.02.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Cappucino, Iced Latte, Black Tea with Oatmilk',
 INITCAP('Work'),
@@ -1815,7 +1815,7 @@ TO_DATE('22.02.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Steak, Salmon, Vegetables, Cola Zero',
 INITCAP('Groceries'),
@@ -1826,7 +1826,7 @@ TO_DATE('13.02.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine, aspartame/saccharin')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Steak, Salmon, Vegetables',
 INITCAP('Groceries'),
@@ -1837,7 +1837,7 @@ TO_DATE('19.02.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Steak, Salmon, Vegetables',
 INITCAP('Groceries'),
@@ -1850,7 +1850,7 @@ LOWER('')
 );
 
 --MARCH
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
   'Factorio',
   INITCAP('Leisure'),
@@ -1861,7 +1861,7 @@ VALUES (
   'N',
   LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Cola Zero, Energy Zero',
 INITCAP('Groceries'),
@@ -1872,7 +1872,7 @@ TO_DATE('01.03.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine, aspartame/saccharin')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Chicken, Carrots, Broccoli, Coconut Milk',
 INITCAP('Groceries'),
@@ -1883,7 +1883,7 @@ TO_DATE('05.03.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Riesling Wine, Dry, Beer',
 INITCAP('Leisure'),
@@ -1894,7 +1894,7 @@ TO_DATE('03.03.2024','DD.MM.YYYY'),
 'J',
 LOWER('alcohol')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Beer',
 INITCAP('Leisure'),
@@ -1905,7 +1905,7 @@ TO_DATE('15.03.2024','DD.MM.YYYY'),
 'J',
 LOWER('alcohol')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Friend Birthday Present',
 INITCAP('Gift'),
@@ -1916,7 +1916,7 @@ TO_DATE('21.03.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Face Wash, Tooth Paste',
 INITCAP('Hygiene'),
@@ -1927,7 +1927,7 @@ TO_DATE('02.03.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Olives, Coke Zero, Mirinda Zero',
 INITCAP('Groceries'),
@@ -1938,7 +1938,7 @@ TO_DATE('02.03.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine, aspartame/saccharin')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Face Cream, Hyaluron Face Serum, Toothpaste',
 INITCAP('Hygiene'),
@@ -1949,7 +1949,7 @@ TO_DATE('02.03.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Almond flour defatted',
 INITCAP('Groceries'),
@@ -1960,7 +1960,7 @@ TO_DATE('02.03.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Döner plate rice veal salad, Adana skewer',
 INITCAP('Leisure'),
@@ -1971,7 +1971,7 @@ TO_DATE('02.03.2024','DD.MM.YYYY'),
 'J',
 LOWER('Processed meat, rice, cow''s milk product')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Dark chocolate, iced tea zero',
 INITCAP('Groceries'),
@@ -1982,7 +1982,7 @@ TO_DATE('03.03.2024','DD.MM.YYYY'),
 'J',
 LOWER('sucralose, chocolate, sugar')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Arctic shrimp frozen, coconut milk, organic eggs, salmon frozen',
 INITCAP('Groceries'),
@@ -1993,7 +1993,7 @@ TO_DATE('03.03.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Tea, Cola Zero',
 INITCAP('Groceries'),
@@ -2004,7 +2004,7 @@ TO_DATE('04.03.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine, aspartame/saccharin')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Day cream',
 INITCAP('Hygiene'),
@@ -2015,7 +2015,7 @@ TO_DATE('04.03.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'White mulberry tea, vanilla rooibos tea',
 INITCAP('Leisure'),
@@ -2026,7 +2026,7 @@ TO_DATE('04.03.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Black tea decaffeinated',
 INITCAP('Leisure'),
@@ -2037,7 +2037,7 @@ TO_DATE('04.03.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Salmon frozen, olives, Cola Zero, salad',
 INITCAP('Groceries'),
@@ -2048,7 +2048,7 @@ TO_DATE('06.03.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine, aspartame/saccharin')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Salmon frozen, olives, Cola Zero, organic eggs, salad, avocado, fennel, red onions',
 INITCAP('Groceries'),
@@ -2059,7 +2059,7 @@ TO_DATE('09.03.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine, aspartame/saccharin')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Embroidery thread',
 INITCAP('Leisure'),
@@ -2070,7 +2070,7 @@ TO_DATE('09.03.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Organic eggs, soft drink, iced tea zero, vegan cheese, mustard, dark chocolate',
 INITCAP('Groceries'),
@@ -2081,7 +2081,7 @@ TO_DATE('09.03.2024','DD.MM.YYYY'),
 'J',
 LOWER('sucralose, sugar, starch')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Tea, Energy Zero',
 INITCAP('Groceries'),
@@ -2092,7 +2092,7 @@ TO_DATE('10.03.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine, aspartame/saccharin')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Tea, Energy Zero',
 INITCAP('Groceries'),
@@ -2104,7 +2104,7 @@ TO_DATE('05.03.2024','DD.MM.YYYY'),
 LOWER('caffeine, aspartame/saccharin')
 );
 
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Tea, Energy Zero',
 INITCAP('Groceries'),
@@ -2116,7 +2116,7 @@ TO_DATE('17.03.2024','DD.MM.YYYY'),
 LOWER('caffeine, aspartame/saccharin')
 );
 
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Tea, Energy Zero',
 INITCAP('Groceries'),
@@ -2127,7 +2127,7 @@ TO_DATE('22.03.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine, aspartame/saccharin')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Basil candle, beeswax candle',
 INITCAP('Leisure'),
@@ -2138,7 +2138,7 @@ TO_DATE('10.03.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Green tea',
 INITCAP('Leisure'),
@@ -2149,7 +2149,7 @@ TO_DATE('10.03.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Ibuprofen 600mg, Aspirin Complex',
 INITCAP('Medical Expenses'),
@@ -2160,7 +2160,7 @@ TO_DATE('11.03.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Buscopan Plus',
 INITCAP('Medical Expenses'),
@@ -2171,7 +2171,7 @@ TO_DATE('11.03.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Cetirizine 100pcs',
 INITCAP('Medical Expenses'),
@@ -2182,7 +2182,7 @@ TO_DATE('11.03.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Chocolate bun',
 INITCAP('Gift'),
@@ -2193,7 +2193,7 @@ TO_DATE('11.03.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Olive oil',
 INITCAP('Groceries'),
@@ -2204,7 +2204,7 @@ TO_DATE('11.03.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Brazil nuts, walnut kernels, hazelnuts',
 INITCAP('Groceries'),
@@ -2215,7 +2215,7 @@ TO_DATE('11.03.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Chocolate bun',
 INITCAP('Gift'),
@@ -2226,7 +2226,7 @@ TO_DATE('14.03.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Chocolate bun',
 INITCAP('Gift'),
@@ -2237,7 +2237,7 @@ TO_DATE('18.03.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Chocolate bun, Croissant',
 INITCAP('Gift'),
@@ -2248,7 +2248,7 @@ TO_DATE('19.03.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Chocolate bun, Cake',
 INITCAP('Gift'),
@@ -2259,7 +2259,7 @@ TO_DATE('22.03.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Chocolate bun',
 INITCAP('Gift'),
@@ -2270,7 +2270,7 @@ TO_DATE('24.03.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Snacks for Girlfriend',
 INITCAP('Gift'),
@@ -2281,7 +2281,7 @@ TO_DATE('12.03.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Snacks for Girlfriend',
 INITCAP('Gift'),
@@ -2292,7 +2292,7 @@ TO_DATE('02.03.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Snacks for Girlfriend',
 INITCAP('Gift'),
@@ -2303,7 +2303,7 @@ TO_DATE('12.03.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Food for Girlfriend',
 INITCAP('Groceries'),
@@ -2314,7 +2314,7 @@ TO_DATE('12.03.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Food for Girlfriend',
 INITCAP('Groceries'),
@@ -2325,7 +2325,7 @@ TO_DATE('19.03.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Food for Girlfriend',
 INITCAP('Groceries'),
@@ -2336,7 +2336,7 @@ TO_DATE('28.03.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Cola Zero, Energy Zero, Dark Chocolate',
 INITCAP('Leisure'),
@@ -2347,7 +2347,7 @@ TO_DATE('07.03.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine, aspartame/saccharin, sugar, chocolate')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Cola Zero, Energy Zero, Dark Chocolate',
 INITCAP('Leisure'),
@@ -2358,7 +2358,7 @@ TO_DATE('28.03.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine, aspartame/saccharin, sugar, chocolate')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Cola Zero, Energy Zero, Dark Chocolate',
 INITCAP('Leisure'),
@@ -2369,7 +2369,7 @@ TO_DATE('12.03.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine, aspartame/saccharin, sugar, chocolate')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Cola Zero, Energy Zero, Dark Chocolate',
 INITCAP('Leisure'),
@@ -2380,7 +2380,7 @@ TO_DATE('18.03.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine, aspartame/saccharin, sugar, chocolate')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Cola Zero, Energy Zero, Dark Chocolate',
 INITCAP('Leisure'),
@@ -2391,7 +2391,7 @@ TO_DATE('24.03.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine, aspartame/saccharin, sugar, chocolate')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Haircut & Shave',
 INITCAP('Hygiene'),
@@ -2402,7 +2402,7 @@ TO_DATE('17.03.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Cappucino, Iced Latte, Black Tea with Oatmilk',
 INITCAP('Work'),
@@ -2413,7 +2413,7 @@ TO_DATE('16.03.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Cappucino, Iced Latte, Black Tea with Oatmilk',
 INITCAP('Work'),
@@ -2424,7 +2424,7 @@ TO_DATE('11.03.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Cappucino, Iced Latte, Black Tea with Oatmilk',
 INITCAP('Work'),
@@ -2435,7 +2435,7 @@ TO_DATE('07.03.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Cappucino, Iced Latte, Black Tea with Oatmilk',
 INITCAP('Work'),
@@ -2446,7 +2446,7 @@ TO_DATE('22.03.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Steak, Salmon, Vegetables, Cola Zero',
 INITCAP('Groceries'),
@@ -2457,7 +2457,7 @@ TO_DATE('13.03.2024','DD.MM.YYYY'),
 'J',
 LOWER('caffeine, aspartame/saccharin')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Steak, Salmon, Vegetables',
 INITCAP('Groceries'),
@@ -2468,7 +2468,7 @@ TO_DATE('19.03.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Steak, Salmon, Vegetables',
 INITCAP('Groceries'),
@@ -2481,7 +2481,7 @@ LOWER('')
 );
 
 -- SALES
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Ibanez Xiphos XPT700 E-Guitar',
 INITCAP('Sale'),
@@ -2492,7 +2492,7 @@ TO_DATE('13.01.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 '140kg Cast Iron Homegym Weights',
 INITCAP('Sale'),
@@ -2503,7 +2503,7 @@ TO_DATE('13.03.2024','DD.MM.YYYY'),
 'N',
 LOWER('')
 );
-INSERT INTO staging.staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
+INSERT INTO staging_variable_bills (description, category, store, cost, purchasing_date, is_planned, contains_indulgence, sensitivities)
 VALUES (
 'Monitor 32 Inch OLED WQHD',
 INITCAP('Sale'),
@@ -2516,4 +2516,4 @@ LOWER('')
 );
 
 SELECT ETL_VARIABLE_EXPENSES();
-TRUNCATE TABLE staging.staging_variable_bills;
+TRUNCATE TABLE staging_variable_bills;

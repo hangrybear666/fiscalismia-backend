@@ -15,3 +15,4 @@
 ### Before Deploying
 - Rethink public folder storage for production env -> Persistence with backup / HA
 - reenable snyk static code analysis & dependency analysis and fix blatant security errors
+- - Replace all SQL interpolation code with parameterized queries which automatically sanitize for SQL Injection

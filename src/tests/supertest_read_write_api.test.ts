@@ -933,7 +933,7 @@ describe('supertest REST API testing entire REST functionality', () => {
       });
   });
 
-  // THIS ALSO DELETES FOOD ITEM DISCOUNTS VIA delete_food_item_discount_trigger ON public.table_food_prices
+  // THIS ALSO DELETES FOOD ITEM DISCOUNTS VIA delete_food_item_discount_trigger ON table_food_prices
   // so to test food item discount deletion, we have to call it before
   test('DB_PERSIST DELETE prior created food_items from db expecting ids returned', (done) => {
     const deleteRequests = insertedFoodItemDimensionKeys.map((insertedDimensionKey: number) => {

@@ -96,7 +96,7 @@ const getFoodItemImg = asyncHandler(async (request: Request, response: Response,
 
 /**
  * @description 0) receives food item id to delete in REST call
- * 1 ) Deletes filepath row from db table public.food_price_image_location
+ * 1 ) Deletes filepath row from db table food_price_image_location
  * 2) on Success unlinks (deletes) file from server file system
  * 3) returns filepath succesfully deleted for user notification
  * @method HTTP DELETE
@@ -105,7 +105,7 @@ const getFoodItemImg = asyncHandler(async (request: Request, response: Response,
  */
 const deleteFoodItemImg = asyncHandler(async (request: Request, response: Response) => {
   logger.http('multerController received DELETE to /api/fiscalismia/public/img/uploads/' + request.params.id);
-  const sql = 'DELETE FROM public.food_price_image_location WHERE food_prices_dimension_key = $1 RETURNING filepath';
+  const sql = 'DELETE FROM food_price_image_location WHERE food_prices_dimension_key = $1 RETURNING filepath';
   const parameters = [request.params.id];
   const client = await pool.connect();
   try {
@@ -126,7 +126,7 @@ const deleteFoodItemImg = asyncHandler(async (request: Request, response: Respon
     await client.query('ROLLBACK');
     response.status(400);
     if (error instanceof Error) {
-      error.message = `Transaction ROLLBACK. Row could not be deleted from public.food_price_image_location. ${error.message}`;
+      error.message = `Transaction ROLLBACK. Row could not be deleted from food_price_image_location. ${error.message}`;
     }
     throw error;
   } finally {
