@@ -14,11 +14,10 @@ psql $PG_CONNECTION -c "$SEARCH_PATH_CMD" -f initialize/pgsql-global-ddl.sql
 
 # inserts initial admin credentials and user settings for development
 psql $PG_CONNECTION <<-EOSQL
-    $SEARCH_PATH_CMD
     SET client_encoding TO 'UTF8';
 
     INSERT INTO public.um_users (username, email, password, schema) VALUES
-    ( 'admin',
+    ('admin',
     'herp_derp@hotmail.com',
     crypt( 'changeit', gen_salt('bf',12)),
     'private_admin'

@@ -74,10 +74,51 @@ jobs:
         PGPASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
       run: |
           PG_CONNECTION="-h localhost -U fiscalismia_api -d fiscalismia"
-          psql $PG_CONNECTION -c "CREATE SCHEMA IF NOT EXISTS supertest AUTHORIZATION fiscalismia_api;"
-          psql $PG_CONNECTION -c "GRANT ALL ON SCHEMA supertest TO fiscalismia_api;"
-          psql $PG_CONNECTION -c "SET search_path TO supertest;\c fiscalismia" -f database/pgsql-global-ddl.sql
-          psql $PG_CONNECTION -c "SET search_path TO supertest;\c fiscalismia" -f database/pgsql-global-dml.sql
+          USER_SCHEMA="private_admin"
+          SEARCH_PATH_CMD="SET search_path TO $USER_SCHEMA, public"
+
+          psql $PG_CONNECTION <<-EOSQL
+            CREATE SCHEMA IF NOT EXISTS $USER_SCHEMA AUTHORIZATION fiscalismia_api;
+            GRANT ALL ON SCHEMA $USER_SCHEMA TO fiscalismia_api;
+          EOSQL
+
+          psql $PG_CONNECTION -c "$SEARCH_PATH_CMD; \c fiscalismia" -f database/pgsql-global-ddl.sql
+
+          psql $PG_CONNECTION <<-EOSQL
+            SET client_encoding TO 'UTF8';
+
+            INSERT INTO public.um_users (username, email, password, schema) VALUES
+            ('admin',
+            'herp_derp@hotmail.com',
+            crypt( 'changeit', gen_salt('bf',12)),
+            'private_admin'
+            );
+
+            INSERT INTO public.um_user_settings(
+            user_id, setting_key, setting_value, setting_description)
+            VALUES (
+                (SELECT id FROM public.um_users WHERE username = 'admin'),
+                'selected_mode',
+                'light',
+                null);
+
+            INSERT INTO public.um_user_settings(
+            user_id, setting_key, setting_value, setting_description)
+            VALUES (
+                (SELECT id FROM public.um_users WHERE username = 'admin'),
+                'selected_palette',
+                'default',
+                null);
+
+            INSERT INTO public.um_user_settings(
+            user_id, setting_key, setting_value, setting_description)
+            VALUES (
+                (SELECT id FROM public.um_users WHERE username = 'admin'),
+                'selected_language',
+                'en_US',
+                null);
+          EOSQL
+          psql $PG_CONNECTION -c "$SEARCH_PATH_CMD; \c fiscalismia" -f database/pgsql-global-dml.sql
 
     - name: REST API tests /w supertest
       env:
