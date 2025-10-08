@@ -14,8 +14,8 @@ import { Request, Response } from 'express';
  * 4) the request is assigned the variables userName, userEmail and userId and next() called
  */
 const authenticateUser = asyncHandler(async (request: Request, response: Response, next: any) => {
-  logger.info(
-    'authentication.js received request to verify jsonwebtoken and set request header values [userName] [userEmail] and [userId]'
+  logger.debug(
+    'authentication.ts received request to verify jsonwebtoken and set request header values [userName] [userEmail] and [userId]'
   );
   let token;
   if (request.headers.authorization && request.headers.authorization.startsWith('Bearer')) {

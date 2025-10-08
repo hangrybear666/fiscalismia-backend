@@ -6,12 +6,16 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 
 // Routes
-const postgresRouter = require('./routes/postgresRoutes');
+const loginRouter = require('./routes/loginRoutes');
+const publicRouter = require('./routes/publicRoutes');
+const userSchemaRouter = require('./routes/userSchemaRoutes');
 const multerRouter = require('./routes/multerRoutes');
 
 // Local Dependencies
 const config = require('./utils/config');
 const errorHandler = require('./middleware/errorHandler');
+const { authenticateUser } = require('./middleware/authentication');
+const { addUserSchemaToSearchPath } = require('./middleware/userSchemaInit');
 
 const app = express();
 
@@ -114,7 +118,9 @@ app.use(bodyParser.json({ limit: '4194304' }));
 /**
  * Add Express Router Endpoints for REST API Access
  */
-app.use(config.API_ADDRESS, postgresRouter);
+app.use(config.API_ADDRESS, loginRouter);
+app.use(config.API_ADDRESS, authenticateUser, publicRouter);
+app.use(config.API_ADDRESS, authenticateUser, addUserSchemaToSearchPath, userSchemaRouter);
 app.use(config.API_ADDRESS, multerRouter);
 
 /**
