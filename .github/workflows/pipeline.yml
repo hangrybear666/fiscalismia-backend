@@ -76,8 +76,8 @@ jobs:
           PG_CONNECTION="-h localhost -U fiscalismia_api -d fiscalismia"
           psql $PG_CONNECTION -c "CREATE SCHEMA IF NOT EXISTS supertest AUTHORIZATION fiscalismia_api;"
           psql $PG_CONNECTION -c "GRANT ALL ON SCHEMA supertest TO fiscalismia_api;"
-          psql $PG_CONNECTION -c "SET search_path TO supertest;\c fiscalismia" -f database/pgsql-ddl.sql
-          psql $PG_CONNECTION -c "SET search_path TO supertest;\c fiscalismia" -f database/pgsql-dml.sql
+          psql $PG_CONNECTION -c "SET search_path TO supertest;\c fiscalismia" -f database/pgsql-global-ddl.sql
+          psql $PG_CONNECTION -c "SET search_path TO supertest;\c fiscalismia" -f database/pgsql-global-dml.sql
 
     - name: REST API tests /w supertest
       env:

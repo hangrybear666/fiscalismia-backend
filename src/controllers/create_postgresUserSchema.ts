@@ -53,8 +53,8 @@ const createUserCredentialsAndSchema = asyncHandler(async (request: Request, res
   const sqlInsertCredentials = buildInsertUmUsers(credentials);
   const sqlVerifyCredentials = buildVerifyUsername(credentials);
   const sqlInsertSettingsForNewUser = buildInitializeUserSettings(credentials);
-  const ddlTemplate = fs.readFileSync(path.join(__dirname, '../../database/pgsql-ddl.sql'), 'utf8');
-  const dmlTemplate = fs.readFileSync(path.join(__dirname, '../../database/pgsql-dml.sql'), 'utf8');
+  const ddlTemplate = fs.readFileSync(path.join(__dirname, '../../database/pgsql-global-ddl.sql'), 'utf8');
+  const dmlTemplate = fs.readFileSync(path.join(__dirname, '../../database/pgsql-global-dml.sql'), 'utf8');
   const parameters = '';
   try {
     await client.query('BEGIN');

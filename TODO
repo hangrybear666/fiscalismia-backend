@@ -6,6 +6,7 @@
 - Rate limit API requests, currently DDOS is possible.
 - Add POST Route for Variable Expenses Staging and think about how to trigger and evaluate ETL process
 - Add Supertest for evaluation of this post route and the ETL process
+- Add Supertest to test user schema creation on posting new user by comparing tables in supertest schema to tables in private_username schema
 
 ### Medium Prio
 - Add rate limiting middleware for express, specifically limiting requests to the login auth routes. get routes should be more lenient.

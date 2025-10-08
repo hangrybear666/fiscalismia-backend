@@ -22,8 +22,9 @@ DECRYPT: crypt('ENTERED_PW', password_from_table)
 
 >CITEXT<
 Extension for Case Sensitive Text field for e.g. emails */
-CREATE EXTENSION pgcrypto;
-CREATE EXTENSION citext;
+-- pg_catalog is automatically added silently to the search_path and thus available in all schemas
+CREATE EXTENSION pgcrypto SCHEMA "public";
+CREATE EXTENSION citext SCHEMA "public";
 
 /* __   __   ___      ___  ___    ___       __        ___     __  ___      ___  ___        ___      ___  __
   /  ` |__) |__   /\   |  |__      |   /\  |__) |    |__     /__`  |   /\   |  |__   |\/| |__  |\ |  |  /__`

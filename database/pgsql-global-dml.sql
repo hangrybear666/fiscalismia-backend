@@ -4,37 +4,6 @@
  */
 -- connect as fiscalismia by e.g. calling psql -c "\c fiscalismia"
 SET client_encoding TO 'UTF8';
-
-INSERT INTO public.um_users (username, email, password, schema) VALUES
-( 'admin',
-  'herp_derp@hotmail.com',
-  crypt( 'changeit', gen_salt('bf',12)),
-  'private_admin'
-);
-
-INSERT INTO public.um_user_settings(
-user_id, setting_key, setting_value, setting_description)
-VALUES (
-    (SELECT id FROM public.um_users WHERE username = 'admin'),
-    'selected_mode',
-    'light',
-    null);
-
-INSERT INTO public.um_user_settings(
-user_id, setting_key, setting_value, setting_description)
-VALUES (
-    (SELECT id FROM public.um_users WHERE username = 'admin'),
-    'selected_palette',
-    'default',
-    null);
-INSERT INTO public.um_user_settings(
-user_id, setting_key, setting_value, setting_description)
-VALUES (
-    (SELECT id FROM public.um_users WHERE username = 'admin'),
-    'selected_language',
-    'en_US',
-    null);
-
 INSERT INTO test_table(description) VALUES('Hello from pgsql-dml.sql');
 INSERT INTO test_table(description) VALUES('Initialized Docker-Dev-DB successfully');
 

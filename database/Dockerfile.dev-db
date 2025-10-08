@@ -1,0 +1,9 @@
+# This Dockerfile is used for local development providing a freshly populated database
+FROM postgres:16.3-alpine3.20
+# DDL (Data Definition Language) is used to define the structure of the database, such as creating tables, sequences, constraints.
+COPY database/pgsql-global-ddl.sql /initialize/pgsql-global-ddl.sql
+# DML (Data Manipulation Language) is used to populate the db with INSERT UPDATE DELETE and Scripts.
+COPY database/pgsql-global-dml.sql /initialize/pgsql-global-dml.sql
+# set user schema and set search_path to initial admin credentials for development, then call DDL
+# inserts initial admin credentials and user settings for development and call DML
+COPY database/pgsql-local-initdb.sh /docker-entrypoint-initdb.d/01_pgsql-local-initdb.sh
