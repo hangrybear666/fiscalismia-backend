@@ -200,21 +200,48 @@ describe('supertest REST API testing entire REST functionality', () => {
       });
   });
 
-  // test('AUTH create new user with valid input returns 201 CREATED ', (done) => {
-  //   request(app)
-  //     .post(`${ROOT_URL}/um/credentials`)
-  //     .send({
-  //       username: newDbUser,
-  //       email: 'hangrybear@maildomain.com',
-  //       password: 'changeit123'
-  //     })
-  //     .expect('Content-Type', /json/)
-  //     .expect(201)
-  //     .end((err: unknown, _res: request.Response) => {
-  //       if (err instanceof Error) return done(err);
-  //       return done();
-  //     });
-  // });
+  test('AUTH create new user with valid input returns 201 CREATED', async () => {
+    const client = await pool.connect();
+    try {
+      const sql = `SELECT id, username FROM public.um_users WHERE username = '${newDbUser}'`;
+      await client.query('BEGIN');
+      const result = await client.query(sql);
+      if (result.rows && result.rows.length > 0 && result.rows[0].username === newDbUser) {
+        console.log(`User ${newDbUser} already exists. Skipping creation test.`);
+      } else {
+        await request(app)
+          .post(`${ROOT_URL}/um/credentials`)
+          .send({
+            username: newDbUser,
+            email: 'hangrybear@maildomain.com',
+            password: 'changeit123'
+          })
+          .expect('Content-Type', /json/)
+          .expect(201);
+      }
+    } catch (error: unknown) {
+      await client.query('ROLLBACK');
+      throw error;
+    } finally {
+      client.release();
+    }
+  });
+
+  test('AUTH create duplicate user with valid input returns 409 CONFLICT ', (done) => {
+    request(app)
+      .post(`${ROOT_URL}/um/credentials`)
+      .send({
+        username: newDbUser,
+        email: 'hangrybear@maildomain.com',
+        password: 'changeit123'
+      })
+      .expect('Content-Type', /json/)
+      .expect(409)
+      .end((err: unknown, _res: request.Response) => {
+        if (err instanceof Error) return done(err);
+        return done();
+      });
+  });
 
   test('AUTH login /w correct credentials succeeds', (done) => {
     request(app)
@@ -248,16 +275,16 @@ describe('supertest REST API testing entire REST functionality', () => {
       expect(result.rows.length).toBeGreaterThan(0);
       expect(result.rows[0].schemaname).toBeDefined();
       let userSchemaTableCount = 0;
-      // const newDbUserSchemaTableCount = 0;
+      let newDbUserSchemaTableCount = 0;
       let publicSchemaTableCount = 0;
       result.rows.forEach((e: any) => {
         switch (e.schemaname) {
           case userSchema:
             userSchemaTableCount = e.cnt;
             break;
-          // case newDbUserSchema:
-          //   newDbUserSchemaTableCount = e.cnt;
-          //   break;
+          case newDbUserSchema:
+            newDbUserSchemaTableCount = e.cnt;
+            break;
           case 'public':
             publicSchemaTableCount = e.cnt;
             break;
@@ -266,7 +293,7 @@ describe('supertest REST API testing entire REST functionality', () => {
         }
       });
       expect(userSchemaTableCount).toBeGreaterThan(0);
-      // expect(newDbUserSchemaTableCount).toBeGreaterThan(0);
+      expect(newDbUserSchemaTableCount).toBeGreaterThan(0);
       expect(publicSchemaTableCount).toBeGreaterThan(0);
     } catch (error: unknown) {
       await client.query('ROLLBACK');

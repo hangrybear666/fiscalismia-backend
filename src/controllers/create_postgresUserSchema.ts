@@ -6,6 +6,7 @@ const format = require('pg-format');
 const { pool } = require('../utils/pgDbService');
 import { Request, Response } from 'express';
 import { regExAlphaNumeric, regExEmail, usernameRegExp } from '../utils/sharedFunctions';
+import { PostgresError } from '../utils/customTypes';
 const {
   buildInsertUmUsers,
   buildVerifyUsername,
@@ -95,7 +96,21 @@ const createUserCredentialsAndSchema = asyncHandler(async (request: Request, res
     logger.info('User ' + credentials.username + ' successfully created');
   } catch (error: unknown) {
     await client.query('ROLLBACK');
-    response.status(400);
+
+    // Type guard to check if it's a PostgresError with the FK code
+    const isUniqueConstraintViolation = (e: any): e is PostgresError => {
+      return e && e.code === '23505';
+    };
+
+    if (isUniqueConstraintViolation(error)) {
+      const errorMsg = `Unique constraint violation: ${error.detail}.`;
+      logger.warn(errorMsg);
+      response.status(409).json({
+        errorMsg: errorMsg
+      });
+    } else {
+      response.status(500);
+    }
     if (error instanceof Error) {
       error.message = `Transaction ROLLBACK: user credentials could not be stored in the database. ${error.message}`;
     }

@@ -721,11 +721,13 @@ const loginWithUserCredentials = asyncHandler(async (request: Request, response:
     response.status(400);
     throw new Error('username and/or password not provided in request.body');
   }
+  const client = await pool.connect();
+  const sqlSetSearchPathToPublic = 'SET search_path TO "public"';
   const sql = buildVerifyUsername(credentials);
   const parameters = '';
-  const client = await pool.connect();
   try {
     logSqlStatement(sql, parameters);
+    await client.query(sqlSetSearchPathToPublic);
     const result = await client.query(sql, parameters);
     if (result.rowCount != 1) {
       response.status(400);
