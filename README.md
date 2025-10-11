@@ -388,11 +388,7 @@ Once the server is up and running, it will be ready to handle API requests from 
 
 6. **Configure and Initialize Database**
 
-   The development database initialization script can be used for this purpose, specifically `database/pgsql-ddl.sql`.
-
-   Bulk data insertion is handled via TSV files in a specific format in the admin area.
-   The essentials can be gathered from the first lines of `database/pgsql-dml.sql` especially the username, email, password in the `um_` tables.
-
+   Todo
 
 ## License
 

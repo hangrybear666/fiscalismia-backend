@@ -75,14 +75,15 @@ jobs:
       run: |
           PG_CONNECTION="-h localhost -U fiscalismia_api -d fiscalismia"
           USER_SCHEMA="private_admin"
-          SEARCH_PATH_CMD="SET search_path TO public, $USER_SCHEMA;"
+          SEARCH_PATH_CMD="SET search_path TO $USER_SCHEMA"
 
           psql $PG_CONNECTION <<-EOSQL
             CREATE SCHEMA IF NOT EXISTS $USER_SCHEMA AUTHORIZATION fiscalismia_api;
             GRANT ALL ON SCHEMA $USER_SCHEMA TO fiscalismia_api;
           EOSQL
 
-          psql $PG_CONNECTION -c "$SEARCH_PATH_CMD \c fiscalismia" -f database/pgsql-global-ddl.sql
+          psql $PG_CONNECTION -c "\c fiscalismia" -f database/pgsql-public-ddl.sql
+          psql $PG_CONNECTION -c "$SEARCH_PATH_CMD; \c fiscalismia" -f database/pgsql-user-ddl.sql
 
           psql $PG_CONNECTION <<-EOSQL
             SET client_encoding TO 'UTF8';
@@ -118,7 +119,7 @@ jobs:
                 'en_US',
                 null);
           EOSQL
-          psql $PG_CONNECTION -c "$SEARCH_PATH_CMD \c fiscalismia" -f database/pgsql-global-dml.sql
+          psql $PG_CONNECTION -c "$SEARCH_PATH_CMD, public; \c fiscalismia" -f database/pgsql-demo-dml.sql
 
     - name: REST API tests /w supertest
       env:

@@ -2,8 +2,9 @@ FROM node:20.12.2-alpine3.19
 WORKDIR /fiscalismia-backend/
 COPY LICENSE package-lock.json package.json tsconfig.json ./
 # COPY DB INIT SCRIPTS FOR ON-DEMAND USER SCHEMA CREATION
-COPY database/pgsql-global-ddl.sql ./database/pgsql-global-ddl.sql
-COPY database/pgsql-global-dml.sql ./database/pgsql-global-dml.sql
+COPY database/pgsql-public-ddl.sql ./database/pgsql-public-ddl.sql
+COPY database/pgsql-user-ddl.sql ./database/pgsql-user-ddl.sql
+COPY database/pgsql-demo-dml.sql ./database/pgsql-demo-dml.sql
 RUN npm install
 # if nodemon consumes too much cpu, try adding --polling-interval to nodemon in package.json
 ENTRYPOINT ["npm", "run", "docker-dev"]

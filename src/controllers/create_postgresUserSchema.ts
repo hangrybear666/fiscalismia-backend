@@ -53,8 +53,10 @@ const createUserCredentialsAndSchema = asyncHandler(async (request: Request, res
   const sqlInsertCredentials = buildInsertUmUsers(credentials);
   const sqlVerifyCredentials = buildVerifyUsername(credentials);
   const sqlInsertSettingsForNewUser = buildInitializeUserSettings(credentials);
-  const ddlTemplate = fs.readFileSync(path.join(__dirname, '../../database/pgsql-global-ddl.sql'), 'utf8');
-  const dmlTemplate = fs.readFileSync(path.join(__dirname, '../../database/pgsql-global-dml.sql'), 'utf8');
+  // we do not call the public ddl script, as this should only run once on database initialization
+  // const ddlPublicTemplate = fs.readFileSync(path.join(__dirname, '../../database/pgsql-public-ddl.sql'), 'utf8');
+  const ddlUserTemplate = fs.readFileSync(path.join(__dirname, '../../database/pgsql-user-ddl.sql'), 'utf8');
+  const dmlTemplate = fs.readFileSync(path.join(__dirname, '../../database/pgsql-demo-dml.sql'), 'utf8');
   const parameters = '';
   try {
     await client.query('BEGIN');
@@ -79,11 +81,11 @@ const createUserCredentialsAndSchema = asyncHandler(async (request: Request, res
     // CREATE USER SCHEMA
     await client.query(format('CREATE SCHEMA IF NOT EXISTS %I AUTHORIZATION fiscalismia_api', userSchema));
     await client.query(format('GRANT ALL ON SCHEMA %I TO fiscalismia_api', userSchema));
-    await client.query(format('SET search_path TO "public", "%I" ', userSchema));
+    await client.query(format('SET search_path TO "%I" ', userSchema));
     logger.info(`User Schema ${userSchema} created and set as search_path for user [${userName}]`);
 
     // EXECUTE DDL STATEMENTS TO INIT DB
-    await client.query(ddlTemplate);
+    await client.query(ddlUserTemplate);
     if (process.env.NODE_ENV !== 'production') {
       // INIT WITH DEMO DATA FOR NONPROD
       await client.query(dmlTemplate);

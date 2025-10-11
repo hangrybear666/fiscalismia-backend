@@ -1,7 +1,7 @@
 #!/bin/bash
 PG_CONNECTION="-U fiscalismia_api -d fiscalismia -v ON_ERROR_STOP=1"
 USER_SCHEMA="private_admin"
-SEARCH_PATH_CMD="SET search_path TO public, $USER_SCHEMA;"
+SEARCH_PATH_CMD="SET search_path TO $USER_SCHEMA"
 
 # set user schema and set search_path to initial admin credentials for development, then call DDL
 psql $PG_CONNECTION <<-EOSQL
@@ -10,7 +10,8 @@ psql $PG_CONNECTION <<-EOSQL
 EOSQL
 
 # DDL (Data Definition Language) is used to define the structure of the database, such as creating tables, sequences, constraints.
-psql $PG_CONNECTION -c "$SEARCH_PATH_CMD" -f initialize/pgsql-global-ddl.sql
+psql $PG_CONNECTION -f initialize/pgsql-public-ddl.sql
+psql $PG_CONNECTION -c "$SEARCH_PATH_CMD;" -f initialize/pgsql-user-ddl.sql
 
 # inserts initial admin credentials and user settings for development
 psql $PG_CONNECTION <<-EOSQL
@@ -48,4 +49,4 @@ psql $PG_CONNECTION <<-EOSQL
         null);
 EOSQL
 # DML (Data Manipulation Language) is used to populate the db with INSERT UPDATE DELETE and Scripts.
-psql $PG_CONNECTION -c "$SEARCH_PATH_CMD" -f initialize/pgsql-global-dml.sql
+psql $PG_CONNECTION -c "$SEARCH_PATH_CMD, public;" -f initialize/pgsql-demo-dml.sql

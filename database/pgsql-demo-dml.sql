@@ -1,7 +1,3 @@
-/*            __   ___  __  ___          __   ___  __           __   __
- *    | |\ | /__` |__  |__)  |     |  | /__` |__  |__)    |    /  \ / _` | |\ |
- *    | | \| .__/ |___ |  \  |     \__/ .__/ |___ |  \    |___ \__/ \__> | | \|
- */
 -- connect as fiscalismia by e.g. calling psql -c "\c fiscalismia"
 SET client_encoding TO 'UTF8';
 INSERT INTO test_table(description) VALUES('Hello from pgsql-dml.sql');

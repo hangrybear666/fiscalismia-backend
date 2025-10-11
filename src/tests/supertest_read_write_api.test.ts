@@ -245,7 +245,7 @@ describe('supertest REST API testing entire REST functionality', () => {
       group by schemaname`;
       await client.query('BEGIN');
       const result = await client.query(sql);
-      expect(result.rows.length).toBeGreaterThan(1);
+      expect(result.rows.length).toBeGreaterThan(0);
       expect(result.rows[0].schemaname).toBeDefined();
       let userSchemaTableCount = 0;
       // const newDbUserSchemaTableCount = 0;

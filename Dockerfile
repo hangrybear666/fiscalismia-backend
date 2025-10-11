@@ -13,7 +13,8 @@ COPY package-lock.json package.json ./
 RUN npm install --omit=dev
 COPY --from=build build-dir/build ./build
 # COPY DB INIT SCRIPTS FOR ON-DEMAND USER SCHEMA CREATION
-COPY database/pgsql-global-ddl.sql ./database/pgsql-global-ddl.sql
-COPY database/pgsql-global-dml.sql ./database/pgsql-global-dml.sql
+COPY database/pgsql-public-ddl.sql ./database/pgsql-public-ddl.sql
+COPY database/pgsql-user-ddl.sql ./database/pgsql-user-ddl.sql
+COPY database/pgsql-demo-dml.sql ./database/pgsql-demo-dml.sql
 COPY LICENSE README.md ./
 ENTRYPOINT ["npm", "run", "prod"]
