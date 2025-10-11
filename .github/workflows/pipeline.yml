@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - main
+      - pipeline_testing
   pull_request:
     branches:
       - main
+      - pipeline_testing
 
 jobs:
   test:
@@ -82,8 +84,8 @@ jobs:
             GRANT ALL ON SCHEMA $USER_SCHEMA TO fiscalismia_api;
           EOSQL
 
-          psql $PG_CONNECTION -c "\c fiscalismia" -f database/pgsql-public-ddl.sql
-          psql $PG_CONNECTION -c "$SEARCH_PATH_CMD; \c fiscalismia" -f database/pgsql-user-ddl.sql
+          psql $PG_CONNECTION -f database/pgsql-public-ddl.sql
+          psql $PG_CONNECTION -c "$SEARCH_PATH_CMD;" -f database/pgsql-user-ddl.sql
 
           psql $PG_CONNECTION <<-EOSQL
             SET client_encoding TO 'UTF8';
@@ -119,7 +121,7 @@ jobs:
                 'en_US',
                 null);
           EOSQL
-          psql $PG_CONNECTION -c "$SEARCH_PATH_CMD, public; \c fiscalismia" -f database/pgsql-demo-dml.sql
+          psql $PG_CONNECTION -c "$SEARCH_PATH_CMD, public;" -f database/pgsql-demo-dml.sql
 
     - name: REST API tests /w supertest
       env:
