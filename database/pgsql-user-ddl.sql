@@ -546,3 +546,31 @@ BEGIN
     ('bridge_var_exp_sensitivity inserted rows: ', insert_count_bridge_sensitivities);
 end;
 $$ LANGUAGE plpgsql;
+
+--          ___  __     ___         __   __           __       ___  __       ___
+--    \  / |__  |__) | |__  \ /    |  \ |  \ |       /  \ |  |  |  |__) |  |  |
+--     \/  |___ |  \ | |     |     |__/ |__/ |___    \__/ \__/  |  |    \__/  |
+
+select '###################################################' as begin_verification;
+-- search path
+show search_path;
+-- tables
+SELECT
+    schemaname, COUNT(tablename) as table_count
+FROM pg_catalog.pg_tables
+group by schemaname;
+-- triggers
+SELECT
+    trigger_schema as schema,
+    trigger_name as trigger,
+    event_object_table as table
+FROM
+    information_schema.triggers;
+-- functions
+SELECT
+    routine_catalog, specific_schema as schema, specific_name as function
+FROM
+    information_schema.routines
+where routine_type = 'FUNCTION'
+and specific_schema like 'private_%';
+select '###################################################' as end_verification;
