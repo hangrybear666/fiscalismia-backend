@@ -1,4 +1,4 @@
-const publicRoutes = require('express').Router();
+const publicSchemaRoutes = require('express').Router();
 const { getUserSpecificSettings } = require('../controllers/read_postgresController');
 const { postUpdatedUserSettings } = require('../controllers/create_postgresController');
 
@@ -7,7 +7,7 @@ const { postUpdatedUserSettings } = require('../controllers/create_postgresContr
  * The public database schema is shared between all users of the database.
  */
 
-publicRoutes.post('/um/settings', postUpdatedUserSettings);
-publicRoutes.get('/um/settings/:username', getUserSpecificSettings);
+publicSchemaRoutes.post('/um/settings', postUpdatedUserSettings);
+publicSchemaRoutes.get('/um/settings/:username', getUserSpecificSettings);
 
-module.exports = publicRoutes;
+module.exports = publicSchemaRoutes;

@@ -33,3 +33,6 @@ reports/snyk-dependency-analysis.txt
 #Snyk
 .dccache
 database/reset-variable-expenses.sql
+
+# Image upload local only
+/public/img/uploads/

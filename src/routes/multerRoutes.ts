@@ -1,7 +1,6 @@
 import { FileFilterCallback } from 'multer';
-const { authenticateUser } = require('../middleware/authentication');
 const multerRoutes = require('express').Router();
-const { postFoodItemImg, getFoodItemImg, deleteFoodItemImg } = require('../controllers/multerController');
+const { postFoodItemImg, deleteFoodItemImg } = require('../controllers/multerController');
 const logger = require('../utils/logger');
 const multer = require('multer');
 
@@ -53,22 +52,7 @@ const uploadFoodItemImg = multer({
   }
 });
 
-/*     __   __   __  ___
- *    |__) /  \ /__`  |
- *    |    \__/ .__/  |
- */
-multerRoutes.post('/upload/food_item_img', authenticateUser, uploadFoodItemImg.single('foodItemImg'), postFoodItemImg);
-
-/*     __   ___ ___
- *    / _` |__   |
- *    \__> |___  |
- */
-multerRoutes.get('/public/img/uploads/:filepath', getFoodItemImg);
-
-/*     __   ___       ___ ___  ___
- *    |  \ |__  |    |__   |  |__
- *    |__/ |___ |___ |___  |  |___
- */
+multerRoutes.post('/upload/food_item_img', uploadFoodItemImg.single('foodItemImg'), postFoodItemImg);
 multerRoutes.delete('/public/img/uploads/:id', deleteFoodItemImg);
 
 module.exports = multerRoutes;

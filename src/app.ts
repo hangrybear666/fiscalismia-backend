@@ -3,11 +3,10 @@ const cors = require('cors');
 const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
-const helmet = require('helmet');
 
 // Routes
-const loginRouter = require('./routes/loginRoutes');
-const publicRouter = require('./routes/publicRoutes');
+const unauthenticatedRoutes = require('./routes/unauthenticatedRoutes');
+const publicSchemaRouter = require('./routes/publicSchemaRoutes');
 const userSchemaRouter = require('./routes/userSchemaRoutes');
 const multerRouter = require('./routes/multerRoutes');
 
@@ -16,6 +15,7 @@ const config = require('./utils/config');
 const errorHandler = require('./middleware/errorHandler');
 const { authenticateUser } = require('./middleware/authentication');
 const { addUserSchemaToSearchPath } = require('./middleware/userSchemaInit');
+const logger = require('./utils/logger');
 
 const app = express();
 
@@ -35,6 +35,7 @@ const corsOptions = {
     if (origin && allowedOrigins.includes(origin)) {
       callback(null, true); // Enforce allowlist and deny others
     } else if (!origin && isNonProd) {
+      logger.warn('#####################');
       callback(null, true); // Allow no-origin for development and supertest
     } else {
       callback(new Error(`Origin ${origin} not allowed by CORS. Must be in allowedOrigins in backend.`));
@@ -52,46 +53,6 @@ app.use(cors(corsOptions));
  * These limit the attack vector by e.g. enforcing TLS and preventing XSS
  * See: https://helmetjs.github.io/ https://github.com/helmetjs/helmet/blob/main/README.md
  */
-app.use(
-  helmet({
-    // Set 'Content-Security-Policy' to a custom value.
-    contentSecurityPolicy: {
-      directives: {
-        // By default, allow loading resources from the same origin.
-        defaultSrc: ['\'self\''],
-        // Allow scripts from the same origin and inline scripts.
-        scriptSrc: ['\'self\'', '\'unsafe-inline\''],
-        // Allow styles from the same origin and inline styles.
-        styleSrc: ['\'self\'', '\'unsafe-inline\''],
-        // Allow images from the same origin, data uris and the backend-server
-        imgSrc: ['\'self\'', 'data:'],
-        // Allow fonts from the same origin.
-        fontSrc: ['\'self\''],
-        // Specify the valid sources for objects.
-        objectSrc: ['\'none\''],
-        // Instructs the browser to upgrade all insecure HTTP requests to HTTPS.
-        upgradeInsecureRequests: []
-      }
-    },
-    // Set 'Referrer-Policy' to a value that balances security and usability.
-    referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
-    // Enable 'Strict-Transport-Security' (HSTS) to enforce HTTPS.
-    hsts: {
-      // Set the max-age to 1 year (a common recommendation).
-      maxAge: 31536000,
-      // Apply HSTS to all subdomains as well.
-      includeSubDomains: true,
-      // Preload HSTS in browsers.
-      preload: true
-    },
-    // Set 'X-Content-Type-Options' to 'nosniff' to prevent MIME-sniffing.
-    noSniff: true,
-    // Set 'X-Frame-Options' to 'deny' to prevent clickjacking.
-    frameguard: { action: 'deny' },
-    // Hide the 'X-Powered-By' header to make it harder for attackers to identify the server technology.
-    hidePoweredBy: true
-  })
-);
 
 /**
  * static is a middleware for returning files
@@ -118,10 +79,10 @@ app.use(bodyParser.json({ limit: '4194304' }));
 /**
  * Add Express Router Endpoints for REST API Access
  */
-app.use(config.API_ADDRESS, loginRouter);
-app.use(config.API_ADDRESS, authenticateUser, publicRouter);
+app.use(config.API_ADDRESS, unauthenticatedRoutes);
+app.use(config.API_ADDRESS, authenticateUser, publicSchemaRouter);
 app.use(config.API_ADDRESS, authenticateUser, addUserSchemaToSearchPath, userSchemaRouter);
-app.use(config.API_ADDRESS, multerRouter);
+app.use(config.API_ADDRESS, authenticateUser, addUserSchemaToSearchPath, multerRouter);
 
 /**
  * Adds custom Error handling
