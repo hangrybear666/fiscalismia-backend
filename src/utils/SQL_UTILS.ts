@@ -54,6 +54,14 @@ const buildVerifyUsername = ({ username, password }: UserCredentials) => {
     AND password = crypt('${password}', password);`;
 };
 
+const buildVerifyUserSchemaTableCount = ({ username }: UserCredentials) => {
+  return `SELECT
+    schemaname, COUNT(tablename) as table_count
+FROM pg_catalog.pg_tables
+where schemaname = 'private_${username}'
+group by schemaname`;
+};
+
 /**
  * inserts default values for various user settings after new account creation
  * @param {*} param0 json object containing username, email and password keys
@@ -479,6 +487,7 @@ module.exports = {
   buildInsertUmUsers,
   buildInitializeUserSettings,
   buildVerifyUsername,
+  buildVerifyUserSchemaTableCount,
   buildFindUserById,
   logSqlStatement,
   insertIntoTestTable,

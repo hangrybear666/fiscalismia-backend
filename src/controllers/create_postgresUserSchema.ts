@@ -11,7 +11,8 @@ const {
   buildInsertUmUsers,
   buildVerifyUsername,
   buildInitializeUserSettings,
-  logSqlStatement
+  logSqlStatement,
+  buildVerifyUserSchemaTableCount
 } = require('../utils/SQL_UTILS');
 
 /**
@@ -53,6 +54,7 @@ const createUserCredentialsAndSchema = asyncHandler(async (request: Request, res
   const client = await pool.connect();
   const sqlInsertCredentials = buildInsertUmUsers(credentials);
   const sqlVerifyCredentials = buildVerifyUsername(credentials);
+  const sqlReceiveUserSchemaTableCount = buildVerifyUserSchemaTableCount(credentials);
   const sqlInsertSettingsForNewUser = buildInitializeUserSettings(credentials);
   // we do not call the public ddl script, as this should only run once on database initialization
   // const ddlPublicTemplate = fs.readFileSync(path.join(__dirname, '../../database/pgsql-public-ddl.sql'), 'utf8');
@@ -87,13 +89,22 @@ const createUserCredentialsAndSchema = asyncHandler(async (request: Request, res
 
     // EXECUTE DDL STATEMENTS TO INIT DB
     await client.query(ddlUserTemplate);
+
     if (process.env.NODE_ENV !== 'production') {
       // INIT WITH DEMO DATA FOR NONPROD
       await client.query(dmlTemplate);
+      logger.info(`Populated schema [${userSchema}] for user [${credentials.username}] with demo data.`);
+    }
+    logSqlStatement(sqlReceiveUserSchemaTableCount, parameters);
+    const userSchemaTableCount = await client.query(sqlReceiveUserSchemaTableCount);
+    if (userSchemaTableCount.rows && userSchemaTableCount.rows.length > 0 && userSchemaTableCount.rows[0].table_count) {
+      logger.info(
+        `Created #${userSchemaTableCount.rows[0].table_count} tables in [${userSchema}] for user [${credentials.username}]`
+      );
     }
     await client.query('COMMIT');
     response.status(201).send(results);
-    logger.info('User ' + credentials.username + ' successfully created');
+    logger.info(`User [${credentials.username}] successfully created`);
   } catch (error: unknown) {
     await client.query('ROLLBACK');
 
