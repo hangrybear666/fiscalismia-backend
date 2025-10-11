@@ -3,6 +3,7 @@ const asyncHandler = require('express-async-handler');
 const logger = require('../utils/logger');
 require('dotenv').config();
 const { pool } = require('../utils/pgDbService');
+const format = require('pg-format');
 import { Request, Response } from 'express';
 
 /**
@@ -24,9 +25,7 @@ const addUserSchemaToSearchPath = asyncHandler(async (request: Request, response
         response.status(500);
         throw new Error('UserSchema could not be extracted from authenticated jwt token payload.');
       }
-      const sql = `SET search_path TO ${userSchema}, public`;
-      const parameters = '';
-      await client.query(sql, parameters);
+      await client.query(format('SET search_path TO "public", "%I" ', userSchema));
       logger.info(`PostgreSQL search_path set to [${userSchema}] for User [${userName}]'`);
       next();
     } catch (error: unknown) {

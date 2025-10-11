@@ -79,7 +79,7 @@ const createUserCredentialsAndSchema = asyncHandler(async (request: Request, res
     // CREATE USER SCHEMA
     await client.query(format('CREATE SCHEMA IF NOT EXISTS %I AUTHORIZATION fiscalismia_api', userSchema));
     await client.query(format('GRANT ALL ON SCHEMA %I TO fiscalismia_api', userSchema));
-    await client.query(format('SET search_path TO %I ', userSchema));
+    await client.query(format('SET search_path TO "public", "%I" ', userSchema));
     logger.info(`User Schema ${userSchema} created and set as search_path for user [${userName}]`);
 
     // EXECUTE DDL STATEMENTS TO INIT DB

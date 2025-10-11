@@ -3,6 +3,7 @@ import request from 'supertest';
 require('dotenv').config();
 import { app } from '../app';
 import { InvestmentAndTaxes, UserSettingObject } from '../utils/customTypes';
+const { pool } = require('../utils/pgDbService');
 
 /*    __   __                          __          __        ___  __
 |    /  \ /  `  /\  |       \  /  /\  |__) |  /\  |__) |    |__  /__`
@@ -25,6 +26,10 @@ describe('supertest REST API testing entire REST functionality', () => {
   let soldInvestmentId: number;
   let addedDividendId: number;
   const username = 'admin';
+  const password = 'changeit';
+  const userSchema = `private_${username}`;
+  const newDbUser = 'hangrybear';
+  const newDbUserSchema = `private_${newDbUser}`;
 
   //              ___          __   ___  __        ___  __  ___  __
   //     /\  |  |  |  |__|    |__) |__  /  \ |  | |__  /__`  |  /__`
@@ -43,7 +48,7 @@ describe('supertest REST API testing entire REST functionality', () => {
     request(app)
       .post(`${ROOT_URL}/um/login`)
       .send({
-        username: 'admin',
+        username: username,
         email: 'herpderp@gmail.com'
       })
       .expect('Content-Type', /json/)
@@ -58,32 +63,13 @@ describe('supertest REST API testing entire REST functionality', () => {
     request(app)
       .post(`${ROOT_URL}/um/login`)
       .send({
-        username: 'admin',
+        username: username,
         password: 'kjlfaeijoawfe'
       })
       .expect('Content-Type', /json/)
       .expect(400)
       .end((err: unknown, _res: request.Response) => {
         if (err instanceof Error) return done(err);
-        return done();
-      });
-  });
-
-  test('AUTH login /w correct credentials succeeds', (done) => {
-    request(app)
-      .post(`${ROOT_URL}/um/login`)
-      .send({
-        username: 'admin',
-        password: 'changeit'
-      })
-      .expect('Content-Type', /html/)
-      .expect(200)
-      .end((err: unknown, res: request.Response) => {
-        if (err instanceof Error) {
-          return done(err);
-        }
-        // set local authentication token variable to text of login response
-        authToken = res.text;
         return done();
       });
   });
@@ -213,6 +199,83 @@ describe('supertest REST API testing entire REST functionality', () => {
         return done();
       });
   });
+
+  // test('AUTH create new user with valid input returns 201 CREATED ', (done) => {
+  //   request(app)
+  //     .post(`${ROOT_URL}/um/credentials`)
+  //     .send({
+  //       username: newDbUser,
+  //       email: 'hangrybear@maildomain.com',
+  //       password: 'changeit123'
+  //     })
+  //     .expect('Content-Type', /json/)
+  //     .expect(201)
+  //     .end((err: unknown, _res: request.Response) => {
+  //       if (err instanceof Error) return done(err);
+  //       return done();
+  //     });
+  // });
+
+  test('AUTH login /w correct credentials succeeds', (done) => {
+    request(app)
+      .post(`${ROOT_URL}/um/login`)
+      .send({
+        username: username,
+        password: password
+      })
+      .expect('Content-Type', /html/)
+      .expect(200)
+      .end((err: unknown, res: request.Response) => {
+        if (err instanceof Error) {
+          return done(err);
+        }
+        // set local authentication token variable to text of login response
+        authToken = res.text;
+        return done();
+      });
+  });
+
+  test('AUTH UserSchemas for all db users have positive tablecount', async () => {
+    const client = await pool.connect();
+    try {
+      const sql = `SELECT
+        schemaname, COUNT(tablename) as cnt
+      FROM pg_catalog.pg_tables
+      where schemaname in ('${userSchema}','${newDbUserSchema}','public')
+      group by schemaname`;
+      await client.query('BEGIN');
+      const result = await client.query(sql);
+      expect(result.rows.length).toBeGreaterThan(1);
+      expect(result.rows[0].schemaname).toBeDefined();
+      let userSchemaTableCount = 0;
+      // const newDbUserSchemaTableCount = 0;
+      let publicSchemaTableCount = 0;
+      result.rows.forEach((e: any) => {
+        switch (e.schemaname) {
+          case userSchema:
+            userSchemaTableCount = e.cnt;
+            break;
+          // case newDbUserSchema:
+          //   newDbUserSchemaTableCount = e.cnt;
+          //   break;
+          case 'public':
+            publicSchemaTableCount = e.cnt;
+            break;
+          default:
+            break;
+        }
+      });
+      expect(userSchemaTableCount).toBeGreaterThan(0);
+      // expect(newDbUserSchemaTableCount).toBeGreaterThan(0);
+      expect(publicSchemaTableCount).toBeGreaterThan(0);
+    } catch (error: unknown) {
+      await client.query('ROLLBACK');
+      throw error;
+    } finally {
+      client.release();
+    }
+  });
+
   //    ___  ___  __  ___    ___       __        ___
   //     |  |__  /__`  |      |   /\  |__) |    |__
   //     |  |___ .__/  |      |  /~~\ |__) |___ |___
@@ -290,6 +353,7 @@ describe('supertest REST API testing entire REST functionality', () => {
         return done();
       });
   });
+
   //     __   ___  ___     __   ___  __        ___  __  ___  __
   //    / _` |__    |     |__) |__  /  \ |  | |__  /__`  |  /__`
   //    \__> |___   |     |  \ |___ \__X \__/ |___ .__/  |  .__/
@@ -520,7 +584,7 @@ describe('supertest REST API testing entire REST functionality', () => {
 
   test('POST user_settings: providing wrong setting_key fails', (done) => {
     const userSettings: UserSettingObject = {
-      username: 'admin',
+      username: username,
       settingKey: 'not_defined',
       settingValue: 'dark'
     };
@@ -935,7 +999,7 @@ describe('supertest REST API testing entire REST functionality', () => {
 
   // THIS ALSO DELETES FOOD ITEM DISCOUNTS VIA delete_food_item_discount_trigger ON table_food_prices
   // so to test food item discount deletion, we have to call it before
-  test('DB_PERSIST DELETE prior created food_items from db expecting ids returned', (done) => {
+  test('DB_PERSIST DELETE prior created food_items from db expecting ids returned', () => {
     const deleteRequests = insertedFoodItemDimensionKeys.map((insertedDimensionKey: number) => {
       return request(app)
         .delete(`${ROOT_URL}/food_item/${insertedDimensionKey}`)
@@ -950,9 +1014,7 @@ describe('supertest REST API testing entire REST functionality', () => {
         });
     });
     // wait for all delete requests to terminate before calling done on the test instance
-    Promise.all(deleteRequests)
-      .then(() => done())
-      .catch((err) => done(err));
+    Promise.all(deleteRequests);
   });
 
   test('DB_PERSIST DELETE prior created dividend of investment, expecting id returned', (done) => {

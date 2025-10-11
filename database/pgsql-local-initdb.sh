@@ -1,7 +1,7 @@
 #!/bin/bash
 PG_CONNECTION="-U fiscalismia_api -d fiscalismia -v ON_ERROR_STOP=1"
 USER_SCHEMA="private_admin"
-SEARCH_PATH_CMD="SET search_path TO $USER_SCHEMA, public;"
+SEARCH_PATH_CMD="SET search_path TO public, $USER_SCHEMA;"
 
 # set user schema and set search_path to initial admin credentials for development, then call DDL
 psql $PG_CONNECTION <<-EOSQL
