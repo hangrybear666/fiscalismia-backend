@@ -16,8 +16,12 @@ const config = require('./utils/config');
 const errorHandler = require('./middleware/errorHandler');
 const { authenticateUser } = require('./middleware/authentication');
 const { addUserSchemaToSearchPath } = require('./middleware/userSchemaInit');
+const { genericFallbackRateLimiter, authenticatedRateLimiter } = require('./middleware/rateLimiter');
 
 const app = express();
+
+// hit /api/fiscalismia/ip endpoint to find out of the ip address of the X-Forwarded-For header matches the actual ip address or that of a reverse proxy or load balancer
+app.set('trust proxy', 0);
 
 /**
  * Cross-origin resource sharing - access control from outide domains
@@ -102,6 +106,9 @@ app.use(
  */
 // app.use(express.static('build'))
 
+// Generic Rate Limiter applied only if none more specific have been applied
+app.use(genericFallbackRateLimiter);
+
 app.use(
   morgan(
     ':method request to ":url" with length [:req[content-length]] bytes and status [:status] from [:remote-addr] :remote-user - :response-time ms'
@@ -119,9 +126,9 @@ app.use(bodyParser.json({ limit: '4194304' }));
  * Add Express Router Endpoints for REST API Access
  */
 app.use(config.API_ADDRESS, unauthenticatedRoutes);
-app.use(config.API_ADDRESS, authenticateUser, publicSchemaRouter);
-app.use(config.API_ADDRESS, authenticateUser, addUserSchemaToSearchPath, userSchemaRouter);
-app.use(config.API_ADDRESS, authenticateUser, addUserSchemaToSearchPath, multerRouter);
+app.use(config.API_ADDRESS, authenticatedRateLimiter, authenticateUser, publicSchemaRouter);
+app.use(config.API_ADDRESS, authenticatedRateLimiter, authenticateUser, addUserSchemaToSearchPath, userSchemaRouter);
+app.use(config.API_ADDRESS, authenticatedRateLimiter, authenticateUser, addUserSchemaToSearchPath, multerRouter);
 
 /**
  * Adds custom Error handling

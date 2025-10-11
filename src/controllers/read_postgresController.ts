@@ -28,6 +28,17 @@ const getTestData = asyncHandler(async (_request: Request, response: Response) =
 });
 
 /**
+ * @description query to retrieve ip address behind proxies to help debug the correct value for
+ * app.set('trust proxy', 1) in the server configuration for express-rate-limit
+ * @method HTTP GET
+ * @async asyncHandler passes exceptions within routes to errorHandler middleware
+ * @route /api/fiscalismia/ip
+ */
+const getIpAddress = asyncHandler(async (request: Request, response: Response) => {
+  logger.http('read_postgresController received GET to /api/fiscalismia/ip');
+  response.json({ ip: request.ip });
+});
+/**
  * @description query fetching all data from fixed_costs table
  * @method HTTP GET
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
@@ -463,6 +474,7 @@ const getSensitivitiesOfPurchaseyByVarExpenseId = asyncHandler(async (request: R
 
 module.exports = {
   getTestData,
+  getIpAddress,
 
   getUserSpecificSettings,
 

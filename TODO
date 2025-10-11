@@ -6,7 +6,6 @@
 - Rate limit API requests, currently DDOS is possible.
 - Add POST Route for Variable Expenses Staging and think about how to trigger and evaluate ETL process
 - Add Supertest for evaluation of this post route and the ETL process
-- Add Supertest to test user schema creation on posting new user by comparing tables in supertest schema to tables in private_username schema
 
 ### Medium Prio
 - Add rate limiting middleware for express, specifically limiting requests to the login auth routes. get routes should be more lenient.
@@ -17,3 +16,6 @@
 - Rethink public folder storage for production env -> Persistence with backup / HA
 - reenable snyk static code analysis & dependency analysis and fix blatant security errors
 - - Replace all SQL interpolation code with parameterized queries which automatically sanitize for SQL Injection
+
+### Post Deployment
+- check the `app.set('trust proxy', 1) setting` in production by hitting the api/ip endpoint to find out of the ip address of the X-Forwarded-For header matches the actual ip address or that of a reverse proxy or load balancer
