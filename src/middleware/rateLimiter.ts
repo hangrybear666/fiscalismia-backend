@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
+const config = require('../utils/config');
 
 const rateLimit = require('express-rate-limit');
+const isProdEnvironment = process.env.NODE_ENV === 'production';
 
 /**
  * A standard configuration to apply to all limiters to reduce code duplication.
@@ -20,7 +22,7 @@ const standardOptions = {
  */
 const unauthenticatedRateLimiter = rateLimit({
   ...standardOptions,
-  max: 10,
+  max: 10 * config.RATE_LIMIT_MULTIPLICATOR,
   message: 'Too many login or account creation attempts. Please try again in 15 minutes.'
 });
 
@@ -29,7 +31,7 @@ const unauthenticatedRateLimiter = rateLimit({
  */
 const genericFallbackRateLimiter = rateLimit({
   ...standardOptions,
-  max: 90,
+  max: 90 * config.RATE_LIMIT_MULTIPLICATOR,
   message: 'Exceeded generic rate limit. Try again after 15 minutes or contact your administrator to raise limit.'
 });
 
@@ -38,7 +40,7 @@ const genericFallbackRateLimiter = rateLimit({
  */
 const imageRetrievalRateLimiter = rateLimit({
   ...standardOptions,
-  max: 1800,
+  max: 1800 * config.RATE_LIMIT_MULTIPLICATOR,
   message: 'Image retrieval rate exceeded. Try again in 15 minutes or ask your administrator to increase this limit.'
 });
 
@@ -51,10 +53,12 @@ const imageRetrievalRateLimiter = rateLimit({
 const authenticatedRateLimiter = rateLimit({
   ...standardOptions,
   max: (req: Request, _res: Response) => {
-    if (req.method === 'GET') {
-      return 450;
+    if (req.method === 'GET' && isProdEnvironment) {
+      return 600 * config.RATE_LIMIT_MULTIPLICATOR;
+    } else if (req.method === 'GET' && !isProdEnvironment) {
+      return 1200 * config.RATE_LIMIT_MULTIPLICATOR;
     }
-    return 90;
+    return 90 * config.RATE_LIMIT_MULTIPLICATOR;
   },
   message:
     'Authenticated route rate limit exceeded. Try again in 15 minutes or ask your administrator to increase this limit.'
