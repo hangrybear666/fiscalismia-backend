@@ -40,7 +40,7 @@ COPY database/pgsql-public-ddl.sql ./database/pgsql-public-ddl.sql
 COPY database/pgsql-user-ddl.sql ./database/pgsql-user-ddl.sql
 COPY database/pgsql-demo-dml.sql ./database/pgsql-demo-dml.sql
 
-# Install Nginx and Supervisor
+# Install Nginx (which adds nginx user) and Supervisor
 RUN apk add --no-cache nginx supervisor
 
 # Create Logging and Process ID File Directories
@@ -55,8 +55,8 @@ RUN chown -R root:root /var/log/supervisor
 RUN chown -R nginx:nginx /run/nginx /var/log/nginx
 RUN chown -R nodejs:nodejs /fiscalismia-backend
 
-# Container available at port 80
-EXPOSE 80
+# Port 80 would require root priviliges
+EXPOSE 8080
 
 # Start Supervisor to manage Nginx and Uvicorn
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
