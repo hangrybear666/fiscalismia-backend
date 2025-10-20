@@ -1,5 +1,6 @@
 # dependencies
 /node_modules
+npm-debug.log
 
 # production
 /build
@@ -20,6 +21,9 @@ npm-debug.log*
 
 # Optional npm cache directory
 .npm
+
+.git
+.vscode
 
 # Optional eslint cache
 .eslintcache
