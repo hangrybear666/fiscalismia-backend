@@ -4,7 +4,7 @@ Fiscalismia is a Web Service for visualizing, analyzing, aggregating, importing 
 
 ## Technical Overview
 
-fiscalismia-backend consists of an express server running a REST API. Requests from the frontend are handled by the backend's REST API querying data from a postgres db. The database runs within a docker container for development. JWT tokens are used for authentication. Local Browser Storage for Session Cookies. The REST API is designed with full CRUD operations in mind, allowing for dynamic user input, sanitized before being commited to the db. In production, we use a cloud-hosted scale-to-zero PostgreSQL database on Neon.tech with a generous free tier. The backend is built in a continuous integration pipeline, tested, scanned for vulnerabilities and published as a docker image to a public docker registry for later deployment on Hetzner VM's, orchestrated via an Ansible Control Node and OpenSSH.
+fiscalismia-backend consists of an express server running a REST API. Requests from the frontend are handled by the backend's REST API querying data from a postgres db. The database runs within a docker container for development. JWT tokens are used for authentication. Local Browser Storage for Session Cookies. The REST API is designed with full CRUD operations in mind, allowing for dynamic user input, sanitized before being commited to the db. In production, we use a cloud-hosted scale-to-zero PostgreSQL database on Neon.tech with a generous free tier. The backend is built in a continuous integration pipeline, tested, scanned for vulnerabilities and published as a docker image to a public docker registry for later deployment on Hetzner VM's, orchestrated via an Ansible Control Node running in Github Actions and OpenSSH via Bastion Host for access to Instances in private subnets.
 
 
 ## Table of Contents
@@ -74,7 +74,7 @@ fiscalismia-backend consists of an express server running a REST API. Requests f
    <summary><b>On Linux:</b></summary>
 
    ```bash
-   sudo dnf install podman podman-docker
+   sudo dnf install -y podman podman-docker
    sudo dnf -y install dnf-plugins-core
    sudo dnf-3 config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
    sudo dnf install -y docker-compose-plugin # docker compose V2
