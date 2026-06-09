@@ -344,7 +344,7 @@ npm i && npm run typeCheck && npm run eslintAnalysis
 
 ## Usage
 
-Once the server is up and running, it will be ready to handle API requests from your frontend application or REST API Client at http://127.0.0.1:3002/api/fiscalismia
+Once the server is up and running, it will be ready to handle API requests from your frontend application or REST API Client at http://127.0.0.1:3002/api
 
 **Accessing the Database via CLI**
 
@@ -366,7 +366,7 @@ Once the server is up and running, it will be ready to handle API requests from 
    Default credentials are
    ```admin changeit```
 
-   Alternatively use a POST request to http://127.0.0.1:3002/api/fiscalismia/um/credentials carrying a user object.
+   Alternatively use a POST request to http://127.0.0.1:3002/api/um/credentials carrying a user object.
 
    ```json
    { "username": "yourUser", "email": "user@mailserver.domain", "password": "yourPassword" }
@@ -374,13 +374,13 @@ Once the server is up and running, it will be ready to handle API requests from 
 
    User can also be created easily via the **frontend login mask**.
 
-   All important routes are protected and require an Authorization header reading 'Bearer token' where token is a jwt-token received after posting valid user credentials to http://127.0.0.1:3002/api/fiscalismia/um/login
+   All important routes are protected and require an Authorization header reading 'Bearer token' where token is a jwt-token received after posting valid user credentials to http://127.0.0.1:3002/api/um/login
 
    result:
    `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwidXNlck5hbWUiOiJhZG1pbiIsInVzZXJFbWFpbCI6ImhlcnBfZGVycEBnbWFpbC5pbyJ9LCJpYXQiOjE3MDczMDk4MTgsImV4cCI6MTcwNzM5NjIxOH0.RkxSnXZZAwHIi-QPR57KtLiVdeRn3FybfPtCosM4rqY`
 
    ```bash
-   GET http://127.0.0.1:3002/api/fiscalismia/ HTTP/1.1
+   GET http://127.0.0.1:3002/api/ HTTP/1.1
    Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6MSwidXNlck5hbWUiOiJhZG1pbiIsInVzZXJFbWFpbCI6ImhlcnBfZGVycEBnbWFpbC5pbyJ9LCJpYXQiOjE3MDczMDk4MTgsImV4cCI6MTcwNzM5NjIxOH0.RkxSnXZZAwHIi-QPR57KtLiVdeRn3FybfPtCosM4rqY
    ```
 

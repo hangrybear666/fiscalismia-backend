@@ -9,7 +9,7 @@ INSERT INTO test_table(description) VALUES('Initialized Docker-Dev-DB successful
  *    | | __ |  __|  | |       | | | . ` | `--. \  __||    /  | |  `--. \   |  _| |    /| | | | |\/| |    `--. \| | | | | | |    / | |    |  __|    | | | |  _  || ||  _  |
  *    | |_\ \| |___  | |      _| |_| |\  |/\__/ / |___| |\ \  | | /\__/ /   | |   | |\ \\ \_/ / |  | |   /\__/ /\ \_/ / |_| | |\ \ | \__/\| |___    | |/ /| | | || || | | |
  *     \____/\____/  \_/      \___/\_| \_/\____/\____/\_| \_| \_/ \____/    \_|   \_| \_|\___/\_|  |_/   \____/  \___/ \___/\_| \_| \____/\____/    |___/ \_| |_/\_/\_| |_/
- *    VIA POST REQUEST TO /api/fiscalismia/tsv/variable_expenses using
+ *    VIA POST REQUEST TO /api/tsv/variable_expenses using
  *       fixedCostsTsv.tsv
  *       incomeTsv.tsv
  *       newFoodItemsTsv.tsv

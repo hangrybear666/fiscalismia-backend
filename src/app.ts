@@ -29,7 +29,7 @@ const isDemo = process.env.NODE_ENV === 'demo';
 // serve favicon mounted into oci container
 app.use(favicon(path.join(__dirname, '../public', 'favicon.ico')));
 
-// hit /api/fiscalismia/ip endpoint to find out of the ip address of the X-Forwarded-For header matches the actual ip address or that of a reverse proxy or load balancer
+// hit /api/ip endpoint to find out of the ip address of the X-Forwarded-For header matches the actual ip address or that of a reverse proxy or load balancer
 app.set('trust proxy', isDemo ? 1 : isProd ? 1 : 0);
 
 /**

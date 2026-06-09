@@ -118,11 +118,11 @@ export type TsvRouteMap = Record<TsvFilenames['filenames'], string>;
 export type TsvTableInsertData = Record<TsvFilenames['filenames'], string>;
 
 export const tsvRouteMap: TsvRouteMap = {
-  variable_expenses: '/api/fiscalismia/texttsv/variable_expenses',
-  fixed_costs: '/api/fiscalismia/texttsv/fixed_costs',
-  investments: '/api/fiscalismia/texttsv/investments',
-  income: '/api/fiscalismia/texttsv/fixed_income',
-  food_items: '/api/fiscalismia/texttsv/new_food_items'
+  variable_expenses: '/api/texttsv/variable_expenses',
+  fixed_costs: '/api/texttsv/fixed_costs',
+  investments: '/api/texttsv/investments',
+  income: '/api/texttsv/fixed_income',
+  food_items: '/api/texttsv/new_food_items'
 };
 /**
  * Map containing table category keys and insert statements populated dynamically via backend logic

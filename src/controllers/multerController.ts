@@ -14,10 +14,10 @@ const { buildInsertFoodItemImgFilePath, logSqlStatement } = require('../utils/SQ
  * <input type="text" name="imgMetaData" /> in request.body.imgMetaData
  * @method HTTP POST
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
- * @route /api/fiscalismia/upload/food_item_img
+ * @route /api/upload/food_item_img
  */
 const postFoodItemImg = asyncHandler(async (request: Request, response: Response) => {
-  logger.http('multerController received POST to /api/fiscalismia/upload/food_item_img');
+  logger.http('multerController received POST to /api/upload/food_item_img');
   try {
     if (request.file?.path) {
       const id: number = request.body?.id;
@@ -56,7 +56,7 @@ const postFoodItemImg = asyncHandler(async (request: Request, response: Response
   } catch (error: unknown) {
     response.status(409);
     if (error instanceof Error) {
-      error.message = `Image upload to /api/fiscalismia/upload/food_item_img has encountered an error: \n ${error.message}`;
+      error.message = `Image upload to /api/upload/food_item_img has encountered an error: \n ${error.message}`;
     }
     throw error;
   }
@@ -66,11 +66,11 @@ const postFoodItemImg = asyncHandler(async (request: Request, response: Response
  * @description fetching food item image from server's filesystem
  * @method HTTP GET
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
- * @route /api/fiscalismia/public/img/uploads/:filepath
+ * @route /api/public/img/uploads/:filepath
  */
 const getFoodItemImg = asyncHandler(async (request: Request, response: Response, next: any) => {
   const filepath = request.params['filepath'];
-  logger.http(`multerController received GET to /api/fiscalismia/public/img/uploads/${filepath}`);
+  logger.http(`multerController received GET to /api/public/img/uploads/${filepath}`);
   if (filepath.includes('/')) {
     const errorMsg = 'Array filepath received instead of string';
     logger.error(errorMsg);
@@ -106,10 +106,10 @@ const getFoodItemImg = asyncHandler(async (request: Request, response: Response,
  * 3) returns filepath succesfully deleted for user notification
  * @method HTTP DELETE
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
- * @route /api/fiscalismia/public/img/uploads/:id
+ * @route /api/public/img/uploads/:id
  */
 const deleteFoodItemImg = asyncHandler(async (request: Request, response: Response) => {
-  logger.http('multerController received DELETE to /api/fiscalismia/public/img/uploads/' + request.params.id);
+  logger.http('multerController received DELETE to /api/public/img/uploads/' + request.params.id);
   if (!request.params.id || !Number.isInteger(Number(request.params.id)) || Number(request.params.id) <= 0) {
     response.status(422); // Unprocessable Content
     throw new Error('id request param should be a positive integer.');

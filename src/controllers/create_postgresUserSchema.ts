@@ -20,10 +20,10 @@ const {
  * destined for INSERTION into encrypted credential storage within database
  * @method HTTP POST
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
- * @route /api/fiscalismia/um/credentials
+ * @route /api/um/credentials
  */
 const createUserCredentialsAndSchema = asyncHandler(async (request: Request, response: Response) => {
-  logger.http('create_postgresController received POST to /api/fiscalismia/um/credentials');
+  logger.http('create_postgresController received POST to /api/um/credentials');
   if (
     typeof request.body.username !== 'string' ||
     typeof request.body.email !== 'string' ||

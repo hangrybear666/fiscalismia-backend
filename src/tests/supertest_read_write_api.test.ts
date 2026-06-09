@@ -10,7 +10,7 @@ const { pool } = require('../utils/pgDbService');
 |    /  \ /  `  /\  |       \  /  /\  |__) |  /\  |__) |    |__  /__`
 |___ \__/ \__, /~~\ |___     \/  /~~\ |  \ | /~~\ |__) |___ |___ .__/*/
 
-const API_ENDPOINT = '/api/fiscalismia';
+const API_ENDPOINT = '/api';
 let authToken: string = '';
 const currentDate = new Date();
 const currentTime = currentDate.getHours() + ':' + currentDate.getMinutes() + 'and ' + currentDate.getSeconds() + 's';

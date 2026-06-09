@@ -30,10 +30,10 @@ const { pool } = require('../utils/pgDbService');
  * @description test request using DELETE to delete the row with :id from test_table
  * @method HTTP DELETE
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
- * @route /api/fiscalismia/:id
+ * @route /api/:id
  */
 const deleteTestData = asyncHandler(async (request: Request, response: Response) => {
-  logger.http('delete_postgresController received DELETE to /api/fiscalismia/' + request.params.id);
+  logger.http('delete_postgresController received DELETE to /api/' + request.params.id);
   const sql = 'DELETE FROM test_table  WHERE id = $1 RETURNING id';
   const parameters = [request.params.id];
   const client = await pool.connect();
@@ -61,12 +61,10 @@ const deleteTestData = asyncHandler(async (request: Request, response: Response)
  * IS CASCADED TO DISCOUNTS VIA TRIGGER FUNCTION delete_food_item_discount_trigger_function()
  * @method HTTP DELETE
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
- * @route /api/fiscalismia/food_item/:dimension_key
+ * @route /api/food_item/:dimension_key
  */
 const deleteFoodItem = asyncHandler(async (request: Request, response: Response) => {
-  logger.http(
-    'delete_postgresController received DELETE to /api/fiscalismia/food_item/' + request.params.dimension_key
-  );
+  logger.http('delete_postgresController received DELETE to /api/food_item/' + request.params.dimension_key);
   const parameters = [request.params.dimension_key];
   const client = await pool.connect();
   try {
@@ -99,11 +97,11 @@ const deleteFoodItem = asyncHandler(async (request: Request, response: Response)
  * @description DELETE request to delete the row with supplied food_prices_dimension_key discount_start_date from food_price_discounts
  * @method HTTP DELETE
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
- * @route /api/fiscalismia/food_item_discount/:food_prices_dimension_key/:discount_start_date
+ * @route /api/food_item_discount/:food_prices_dimension_key/:discount_start_date
  */
 const deleteFoodItemDiscount = asyncHandler(async (request: Request, response: Response) => {
   logger.http(
-    'delete_postgresController received DELETE to /api/fiscalismia/food_item_discount/' +
+    'delete_postgresController received DELETE to /api/food_item_discount/' +
       request.params.food_prices_dimension_key +
       '/' +
       request.params.discount_start_date
@@ -141,10 +139,10 @@ const deleteFoodItemDiscount = asyncHandler(async (request: Request, response: R
  * and conditionally delete single row from investment_taxes if execution_type is "sell"
  * @method HTTP DELETE
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
- * @route /api/fiscalismia/investment/:id
+ * @route /api/investment/:id
  */
 const deleteInvestment = asyncHandler(async (request: Request, response: Response) => {
-  logger.http('delete_postgresController received DELETE to /api/fiscalismia/investment/' + request.params.id);
+  logger.http('delete_postgresController received DELETE to /api/investment/' + request.params.id);
   const parameters = [request.params.id];
   const deleteInvestmentTaxSql = deleteInvestmentTaxById('investment');
   const client = await pool.connect();
@@ -208,10 +206,10 @@ const deleteInvestment = asyncHandler(async (request: Request, response: Respons
  * 3) single row with id from investment_dividends
  * @method HTTP DELETE
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
- * @route /api/fiscalismia/investment_dividend/:id
+ * @route /api/investment_dividend/:id
  */
 const deleteInvestmentDividend = asyncHandler(async (request: Request, response: Response) => {
-  logger.http('delete_postgresController received DELETE to /api/fiscalismia/investment_dividend/' + request.params.id);
+  logger.http('delete_postgresController received DELETE to /api/investment_dividend/' + request.params.id);
   const parameters = [request.params.id];
   const deleteInvestmentTaxSql = deleteInvestmentTaxById('dividend');
   const client = await pool.connect();

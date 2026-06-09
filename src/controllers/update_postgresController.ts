@@ -17,10 +17,10 @@ const { pool } = require('../utils/pgDbService');
  * @description test request using PUT to update the description field of test_table returning the new name
  * @method HTTP PUT
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
- * @route /api/fiscalismia/:id
+ * @route /api/:id
  */
 const updateTestData = asyncHandler(async (request: Request, response: Response) => {
-  logger.http('update_postgresController received PUT to /api/fiscalismia/' + request.params.id);
+  logger.http('update_postgresController received PUT to /api/' + request.params.id);
   const sql = 'UPDATE test_table SET description = $1 WHERE id = $2 RETURNING description';
   const parameters = [request.body.description, request.params.id];
   const client = await pool.connect();
@@ -51,10 +51,10 @@ const updateTestData = asyncHandler(async (request: Request, response: Response)
  * @description PUT to update the price and last_update field of table_food_prices returning
  * @method HTTP PUT
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
- * @route /api/fiscalismia/food_item/price/:id
+ * @route /api/food_item/price/:id
  */
 const updateFoodItemPrice = asyncHandler(async (request: Request, response: Response) => {
-  logger.http('update_postgresController received PUT to /api/fiscalismia/food_item/price/' + request.params.id);
+  logger.http('update_postgresController received PUT to /api/food_item/price/' + request.params.id);
   const query =
     'UPDATE table_food_prices SET price = $1, last_update = $2 WHERE dimension_key = $3 RETURNING dimension_key as id, price::double precision';
   const parameters = [request.body.price, request.body.lastUpdate, request.params.id];

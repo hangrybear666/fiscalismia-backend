@@ -20,7 +20,7 @@ const DOMAIN = isProd
     : process.env.HOST_ADDRESS
       ? process.env.HOST_ADDRESS
       : 'localhost';
-const API_ADDRESS = '/api/fiscalismia';
+const API_ADDRESS = '/api';
 const SERVER_ADDRESS = `${PROTOCOL}://${DOMAIN}${API_ADDRESS}`;
 const ROOT_URL = `${PROTOCOL}://${DOMAIN}`;
 const RATE_LIMIT_MULTIPLICATOR = process.env.NODE_ENV === 'test' ? 1000 : 1; // GLOBAL MODIFIER INCREASING RATE LIMIT REQUESTS

@@ -54,10 +54,10 @@ const { generateToken } = require('../utils/security');
  * @description test query posting data into test_table
  * @method HTTP POST
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
- * @route /api/fiscalismia/
+ * @route /api/
  */
 const postTestData = asyncHandler(async (request: Request, response: Response) => {
-  logger.http('create_postgresController received POST to /api/fiscalismia/');
+  logger.http('create_postgresController received POST to /api/');
   const parameters = [request.body.description];
   const client = await pool.connect();
   try {
@@ -83,10 +83,10 @@ const postTestData = asyncHandler(async (request: Request, response: Response) =
  * @description user settings for UPSERT statement of public.um_user_settings
  * @method HTTP POST
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
- * @route /api/fiscalismia/um/settings
+ * @route /api/um/settings
  */
 const postUpdatedUserSettings = asyncHandler(async (request: Request, response: Response) => {
-  logger.http('create_postgresController received POST to /api/fiscalismia/upload/um/settings');
+  logger.http('create_postgresController received POST to /api/upload/um/settings');
 
   const userSettingObj: UserSettingObject = request.body;
   const parameters = [userSettingObj.username, userSettingObj.settingKey, userSettingObj.settingValue];
@@ -133,10 +133,10 @@ const postUpdatedUserSettings = asyncHandler(async (request: Request, response: 
  * id | price | startDate | endDate
  * @method HTTP POST
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
- * @route /api/fiscalismia/food_item_discount
+ * @route /api/food_item_discount
  */
 const postFoodItemDiscount = asyncHandler(async (request: Request, response: Response) => {
-  logger.http('create_postgresController received POST to /api/fiscalismia/food_item_discount');
+  logger.http('create_postgresController received POST to /api/food_item_discount');
   const discountInfo = request.body;
   const parameters = [discountInfo.id, discountInfo.price, discountInfo.startDate, discountInfo.endDate];
   const client = await pool.connect();
@@ -165,10 +165,10 @@ const postFoodItemDiscount = asyncHandler(async (request: Request, response: Res
  * food_item | brand | store | main_macro | kcal_amount | weight | price | last_update
  * @method HTTP POST
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
- * @route /api/fiscalismia/food_item
+ * @route /api/food_item
  */
 const postNewFoodItem = asyncHandler(async (request: Request, response: Response) => {
-  logger.http('create_postgresController received POST to /api/fiscalismia/food_item');
+  logger.http('create_postgresController received POST to /api/food_item');
   const newFoodItem = request.body;
   const parameters = [
     newFoodItem.food_item,
@@ -206,10 +206,10 @@ const postNewFoodItem = asyncHandler(async (request: Request, response: Response
  * execution_type, description, isin, investment_type, marketplace, units, price_per_unit, total_price, fees, execution_date, pct_of_profit_taxed, profit_amt
  * @method HTTP POST
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
- * @route /api/fiscalismia/investments
+ * @route /api/investments
  */
 const postInvestmentAndTaxes = asyncHandler(async (request: Request, response: Response) => {
-  logger.http('create_postgresController received POST to /api/fiscalismia/investments');
+  logger.http('create_postgresController received POST to /api/investments');
   const sqlTaxes = insertIntoInvestmentTaxes('investment');
   const investmentAndTaxesObject = request.body;
   const parametersInvestments = [
@@ -281,10 +281,10 @@ const postInvestmentAndTaxes = asyncHandler(async (request: Request, response: R
  * isin, dividendAmount, dividendDate, pctOfProfitTaxed, profitAmount
  * @method HTTP POST
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
- * @route /api/fiscalismia/investment_dividends
+ * @route /api/investment_dividends
  */
 const postDividendsAndTaxes = asyncHandler(async (request: Request, response: Response) => {
-  logger.http('create_postgresController received POST to /api/fiscalismia/investment_dividends');
+  logger.http('create_postgresController received POST to /api/investment_dividends');
   const dividendObject = request.body;
   const parametersDividends = [dividendObject.isin, dividendObject.dividendAmount, dividendObject.dividendDate];
   const sqlTaxes = insertIntoInvestmentTaxes('dividend');
@@ -390,10 +390,10 @@ const postDividendsAndTaxes = asyncHandler(async (request: Request, response: Re
  * description,  category,  store, cost,  purchasing_date,  is_planned,  contains_indulgence, sensitivities
  * @method HTTP POST
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
- * @route /api/fiscalismia/texttsv/variable_expenses
+ * @route /api/texttsv/variable_expenses
  */
 const postVariableExpensesTextTsv = asyncHandler(async (request: Request, response: Response) => {
-  logger.http('create_postgresController received POST to /api/fiscalismia/texttsv/variable_expenses');
+  logger.http('create_postgresController received POST to /api/texttsv/variable_expenses');
   try {
     const expectedColumns = [
       'description',
@@ -450,11 +450,11 @@ const postVariableExpensesTextTsv = asyncHandler(async (request: Request, respon
  * category, description,  monthly_interval,  billed_cost, monthly_cost,  effective_date,  expiration_date
  * @method HTTP POST
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
- * @route /api/fiscalismia/texttsv/fixed_costs
+ * @route /api/texttsv/fixed_costs
  * @returns INSERT INTO statements in response
  */
 const postFixedCostsTextTsv = asyncHandler(async (request: Request, response: Response) => {
-  logger.http('create_postgresController received POST to /api/fiscalismia/texttsv/fixed_costs');
+  logger.http('create_postgresController received POST to /api/texttsv/fixed_costs');
   try {
     const expectedColumns = [
       'category',
@@ -514,11 +514,11 @@ const postFixedCostsTextTsv = asyncHandler(async (request: Request, response: Re
  * description,	type,	monthly_interval,	value,	effective_date,	expiration_date
  * @method HTTP POST
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
- * @route /api/fiscalismia/texttsv/fixed_income
+ * @route /api/texttsv/fixed_income
  * @returns INSERT INTO statements in response
  */
 const postIncomeTextTsv = asyncHandler(async (request: Request, response: Response) => {
-  logger.http('create_postgresController received POST to /api/fiscalismia/texttsv/fixed_income');
+  logger.http('create_postgresController received POST to /api/texttsv/fixed_income');
   try {
     const expectedColumns = ['description', 'type', 'monthly_interval', 'value', 'effective_date', 'expiration_date'];
     const result = parse(request.body, {
@@ -567,11 +567,11 @@ const postIncomeTextTsv = asyncHandler(async (request: Request, response: Respon
  * execution_type,	description,	isin,	investment_type,	marketplace,	units,	price_per_unit,	total_price,	fees,	execution_date, pct_of_profit_taxed, profit_amt
  * @method HTTP POST
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
- * @route /api/fiscalismia/texttsv/investments
+ * @route /api/texttsv/investments
  * @returns INSERT INTO statements in response
  */
 const postInvestmentsTextTsv = asyncHandler(async (request: Request, response: Response) => {
-  logger.http('create_postgresController received POST to /api/fiscalismia/texttsv/investments');
+  logger.http('create_postgresController received POST to /api/texttsv/investments');
   try {
     const expectedColumns = [
       'execution_type',
@@ -649,11 +649,11 @@ const postInvestmentsTextTsv = asyncHandler(async (request: Request, response: R
  * food_item, brand, store,  main_macro, kcal_amount, weight, price, last_update
  * @method HTTP POST
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
- * @route /api/fiscalismia/texttsv/new_food_items
+ * @route /api/texttsv/new_food_items
  * @returns INSERT INTO statements in response
  */
 const postNewFoodItemsTextTsv = asyncHandler(async (request: Request, response: Response) => {
-  logger.http('create_postgresController received POST to /api/fiscalismia/texttsv/new_food_items');
+  logger.http('create_postgresController received POST to /api/texttsv/new_food_items');
   try {
     const expectedColumns = [
       'food_item',
@@ -710,10 +710,10 @@ const postNewFoodItemsTextTsv = asyncHandler(async (request: Request, response: 
  * @description expects a application/json request.body containing username and password keys
  * @method HTTP POST
  * @async asyncHandler passes exceptions within routes to errorHandler middleware
- * @route /api/fiscalismia/um/login
+ * @route /api/um/login
  */
 const loginWithUserCredentials = asyncHandler(async (request: Request, response: Response) => {
-  logger.http('create_postgresController received POST to /api/fiscalismia/um/login');
+  logger.http('create_postgresController received POST to /api/um/login');
   const credentials = {
     username: request.body.username,
     password: request.body.password
