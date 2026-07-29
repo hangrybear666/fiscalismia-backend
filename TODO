@@ -12,6 +12,7 @@
 - Switch to assymettric key encryption JWT encoding not static password due to forgery on jwt secret leak
 - Add POST Route for Variable Expenses Staging
 - Add Supertest for evaluation of this post route and the ETL process
+- consider moving AWS_API_GATEWAY_ENDPOINT to env var to not leak it publicly
 
 ### Post DEMO Deployment
 - check the `app.set('trust proxy', 1) setting` in production by hitting the api/ip endpoint to find out of the ip address of the X-Forwarded-For header matches the actual ip address or that of a reverse proxy or load balancer

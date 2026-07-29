@@ -9,7 +9,7 @@ const PUBLIC_BACKEND_DOMAIN = 'backend.fiscalismia.com';
 const PUBLIC_DEMO_BACKEND_DOMAIN = 'backend.demo.fiscalismia.com';
 const S3_PRESIGNED_URL_TIMEOUT = 5000; // milliseconds
 const LOCAL_INVOCATION_BASE_URL = `http://${process.env.HOST_ADDRESS}:${process.env.BACKEND_PORT}`;
-const AWS_API_GATEWAY_ENDPOINT = 'https://4c9puhe7j8.execute-api.eu-central-1.amazonaws.com';
+const AWS_API_GATEWAY_ENDPOINT = 'https://q510t0yg8i.execute-api.eu-central-1.amazonaws.com';
 // port is either defined in .env file, or overwritten as podman build argument
 // in production it is hardcoded to be https
 const PROTOCOL = `${isProd ? 'https' : isDemo ? 'https' : 'http'}`;
